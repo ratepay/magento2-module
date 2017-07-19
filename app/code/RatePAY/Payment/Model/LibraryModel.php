@@ -33,6 +33,47 @@ class LibraryModel
     }
 
     /**
+     * Add adjustment items to the article list
+     *
+     * @param $creditmemo
+     * @return array
+     */
+    public function addAdjustments($creditmemo)
+    {
+        $articles = [];
+
+        if ($creditmemo->getAdjustmentPositive() > 0) {
+            array_push($articles, ['Item' => $this->addAdjustment((float) $creditmemo->getAdjustmentPositive() * -1, 'Adjustment Refund', 'adj-ref')]);
+        }
+
+        if ($creditmemo->getAdjustmentNegative() > 0) {
+            array_push($articles, ['Item' => $this->addAdjustment((float) $creditmemo->getAdjustmentNegative(), 'Adjustment Fee', 'adj-fee')]);
+        }
+
+        return $articles;
+    }
+
+    /**
+     * Add merchant credit to artcile list
+     *
+     * @param $amount
+     * @param $description
+     * @param $articleNumber
+     * @return array
+     */
+    public function addAdjustment($amount, $description, $articleNumber)
+    {
+        $tempVoucherItem = [];
+        $tempVoucherItem['Description'] = $description;
+        $tempVoucherItem['ArticleNumber'] = $articleNumber;
+        $tempVoucherItem['Quantity'] = 1;
+        $tempVoucherItem['UnitPriceGross'] = $amount;
+        $tempVoucherItem['TaxRate'] = 0;
+
+        return $tempVoucherItem;
+    }
+
+    /**
      * Build requests head section
      *
      * @param $quoteOrOrder

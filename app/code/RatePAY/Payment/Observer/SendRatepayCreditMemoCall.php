@@ -112,4 +112,25 @@ class SendRatepayCreditMemoCall implements ObserverInterface
             }
         }
     }
+
+    /**
+     * @param $order
+     * @param $creditMemo
+     * @param $paymentMethod
+     * @return bool
+     */
+    public function callRatepayCredit($order, $creditMemo, $paymentMethod)
+    {
+        $sandbox = (bool)$this->rpDataHelper->getRpConfigData($order, $paymentMethod, 'sandbox', $this->storeManager->getStore()->getId());
+        $head = $this->rpLibraryModel->getRequestHead($order, 'PAYMENT_CHANGE');
+        $content = $this->rpLibraryModel->getRequestContent($order, 'PAYMENT_CHANGE', $this->rpLibraryModel->addAdjustments($creditMemo));
+
+        $creditRequest = $this->rpLibraryController->callPaymentChange($head, $content, 'credit', $sandbox);
+
+        if (!$creditRequest->isSuccessful()) {
+            throw new $this->paymentException(__('Credit was not successfull'));
+        } else {
+            return true;
+        }
+    }
 }
