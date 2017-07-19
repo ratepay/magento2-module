@@ -1,0 +1,1107 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="payment">
+            <group id="ratepay" translate="label" type="text" sortOrder="999" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Ratepay</label>
+                <group id="de" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Germany</label>
+                    <group id="invoice" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1"
+                           showInStore="1">
+                        <label>Invoice</label>
+                        <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="0">
+                            <label>Enabled</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/ratepay_de_invoice/active</config_path>
+                        </field>
+                        <field id="profileId" translate="label" type="text" sortOrder="10" showInDefault="1"
+                               showInWebsite="1" showInStore="1">
+                            <label>ProfileID</label>
+                            <config_path>payment/ratepay_de_invoice/profileId</config_path>
+                        </field>
+                        <field id="securityCode" translate="label" type="text" sortOrder="20" showInDefault="1"
+                               showInWebsite="1" showInStore="1">
+                            <label>Security Code</label>
+                            <config_path>payment/ratepay_de_invoice/securityCode</config_path>
+                        </field>
+                        <field id="sandbox" translate="label" type="select" sortOrder="30" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="0">
+                            <label>Activate Sandbox</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/ratepay_de_invoice/sandbox</config_path>
+                        </field>
+                        <field id="profilerequest" translate="label" type="button" sortOrder="35" showInDefault="1" showInStore="0" showInWebsite="1">
+                            <frontend_model>RatePAY\Payment\Block\System\Config\ProfileRequest</frontend_model>
+                        </field>
+                        <field id="status" translate="label" type="label" sortOrder="36" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Status RatePAY</label>
+                            <frontend_model>RatePAY\Payment\Block\System\Config\Label\Active</frontend_model>
+                            <config_path>payment/ratepay_de_invoice/status</config_path>
+                        </field>
+                        <field id="title" translate="label" type="text" sortOrder="40" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Title</label>
+                            <config_path>payment/ratepay_de_invoice/title</config_path>
+                        </field>
+                        <field id="specificcountry_billing" translate="label" type="label" sortOrder="50"
+                               showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Specific Countries Billing</label>
+                            <config_path>payment/ratepay_de_invoice/specificcountry_billing</config_path>
+                        </field>
+                        <field id="specificcountry_delivery" translate="label" type="label" sortOrder="60"
+                               showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Specific Countries Delivery</label>
+                            <config_path>payment/ratepay_de_invoice/specificcountry_delivery</config_path>
+                        </field>
+                        <field id="currency" translate="label" type="label" sortOrder="70" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Currency</label>
+                            <config_path>payment/ratepay_de_invoice/currency</config_path>
+                        </field>
+                        <field id="min_order_total" translate="label" type="label" sortOrder="80" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Minimum Order Total</label>
+                            <config_path>payment/ratepay_de_invoice/min_order_total</config_path>
+                        </field>
+                        <field id="max_order_total" translate="label" type="label" sortOrder="90" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Maximum Order Total</label>
+                            <config_path>payment/ratepay_de_invoice/max_order_total</config_path>
+                        </field>
+                        <field id="dynamicDueDate" translate="label" type="text" sortOrder="100" showInDefault="1"
+                               showInWebsite="1" showInStore="1">
+                            <label>Due Days</label>
+                            <config_path>payment/ratepay_de_invoice/dynamicDueDate</config_path>
+                        </field>
+                        <field id="b2b" translate="label" type="label" sortOrder="110" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>B2B</label>
+                            <frontend_model>RatePAY\Payment\Block\System\Config\Label\On</frontend_model>
+                            <config_path>payment/ratepay_de_invoice/b2b</config_path>
+                        </field>
+                        <field id="limit_max_b2b" translate="label" type="label" sortOrder="120" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Maximum Order Total B2B</label>
+                            <config_path>payment/ratepay_de_invoice/limit_max_b2b</config_path>
+                        </field>
+                        <field id="delivery_address" translate="label" type="label" sortOrder="130" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Delivery Address</label>
+                            <frontend_model>RatePAY\Payment\Block\System\Config\Label\On</frontend_model>
+                            <config_path>payment/ratepay_de_invoice/delivery_address</config_path>
+                        </field>
+                        <field id="payment_fee" translate="label" type="text" sortOrder="140" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Payment Fee</label>
+                            <config_path>payment/ratepay_de_invoice/payment_fee</config_path>
+                        </field>
+                        <field id="order_status" translate="label" type="select" sortOrder="999" showInDefault="1"
+                               showInWebsite="1" showInStore="0">
+                            <label>New Order Status</label>
+                            <source_model>Magento\Sales\Model\Config\Source\Order\Status\NewStatus</source_model>
+                            <config_path>payment/ratepay_de_invoice/order_status</config_path>
+                        </field>
+                        <field id="sort_order" translate="label" type="text" sortOrder="1000" showInDefault="1"
+                               showInWebsite="1" showInStore="0">
+                            <label>Sort Order</label>
+                            <frontend_class>validate-number</frontend_class>
+                            <config_path>payment/ratepay_de_invoice/sort_order</config_path>
+                        </field>
+                    </group>
+                    <group id="directdebit" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1"
+                           showInStore="1">
+                        <label>Direct Debit</label>
+                        <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="0">
+                            <label>Enabled</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/ratepay_de_directdebit/active</config_path>
+                        </field>
+                        <field id="profileId" translate="label" type="text" sortOrder="10" showInDefault="1"
+                               showInWebsite="1" showInStore="1">
+                            <label>ProfileID</label>
+                            <config_path>payment/ratepay_de_directdebit/profileId</config_path>
+                        </field>
+                        <field id="securityCode" translate="label" type="text" sortOrder="20" showInDefault="1"
+                               showInWebsite="1" showInStore="1">
+                            <label>Security Code</label>
+                            <config_path>payment/ratepay_de_directdebit/securityCode</config_path>
+                        </field>
+                        <field id="sandbox" translate="label" type="select" sortOrder="30" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="0">
+                            <label>Activate Sandbox</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/ratepay_de_directdebit/sandbox</config_path>
+                        </field>
+                        <field id="profilerequest" translate="label" type="button" sortOrder="35" showInDefault="1" showInStore="0" showInWebsite="1">
+                            <frontend_model>RatePAY\Payment\Block\System\Config\ProfileRequest</frontend_model>
+                        </field>
+                        <field id="status" translate="label" type="label" sortOrder="36" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Status RatePAY</label>
+                            <frontend_model>RatePAY\Payment\Block\System\Config\Label\Active</frontend_model>
+                            <config_path>payment/ratepay_de_directdebit/status</config_path>
+                        </field>
+                        <field id="title" translate="label" type="text" sortOrder="40" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Title</label>
+                            <config_path>payment/ratepay_de_directdebit/title</config_path>
+                        </field>
+                        <field id="specificcountry_billing" translate="label" type="label" sortOrder="50" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Specific Countries Billing</label>
+                            <config_path>payment/ratepay_de_directdebit/specificcountry_billing</config_path>
+                        </field>
+                        <field id="specificcountry_delivery" translate="label" type="label" sortOrder="60" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Specific Countries Delivery</label>
+                            <config_path>payment/ratepay_de_directdebit/specificcountry_delivery</config_path>
+                        </field>
+                        <field id="currency" translate="label" type="label" sortOrder="70" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Currency</label>
+                            <config_path>payment/ratepay_de_directdebit/currency</config_path>
+                        </field>
+                        <field id="min_order_total" translate="label" type="label" sortOrder="80" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Minimum Order Total</label>
+                            <config_path>payment/ratepay_de_directdebit/min_order_total</config_path>
+                        </field>
+                        <field id="max_order_total" translate="label" type="label" sortOrder="90" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Maximum Oder Total</label>
+                            <config_path>payment/ratepay_de_directdebit/max_order_total</config_path>
+                        </field>
+                        <field id="dynamicDueDate" translate="label" type="text" sortOrder="100" showInDefault="1"
+                               showInWebsite="1" showInStore="1">
+                            <label>Due Days</label>
+                            <config_path>payment/ratepay_de_directdebit/dynamicDueDate</config_path>
+                        </field>
+                        <field id="b2b" translate="label" type="label" sortOrder="110" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>B2B</label>
+                            <frontend_model>RatePAY\Payment\Block\System\Config\Label\On</frontend_model>
+                            <config_path>payment/ratepay_de_directdebit/b2b</config_path>
+                        </field>
+                        <field id="limit_max_b2b" translate="label" type="label" sortOrder="120" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Maximum Order Total B2B</label>
+                            <config_path>payment/ratepay_de_directdebit/limit_max_b2b</config_path>
+                        </field>
+                        <field id="delivery_address" translate="label" type="label" sortOrder="130" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Delivery Address</label>
+                            <frontend_model>RatePAY\Payment\Block\System\Config\Label\On</frontend_model>
+                            <config_path>payment/ratepay_de_directdebit/delivery_address</config_path>
+                        </field>
+                        <field id="iban_only" translate="label" type="select" sortOrder="150" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Nur SEPA/IBAN Kontodaten</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/ratepay_de_directdebit/iban_only</config_path>
+                        </field>
+                        <field id="order_status" translate="label" type="select" sortOrder="999" showInDefault="1"
+                               showInWebsite="1" showInStore="0">
+                            <label>New Order Status</label>
+                            <source_model>Magento\Sales\Model\Config\Source\Order\Status\NewStatus</source_model>
+                            <config_path>payment/ratepay_de_directdebit/order_status</config_path>
+                        </field>
+                        <field id="sort_order" translate="label" type="text" sortOrder="1000" showInDefault="1"
+                               showInWebsite="1" showInStore="0">
+                            <label>Sort Order</label>
+                            <frontend_class>validate-number</frontend_class>
+                            <config_path>payment/ratepay_de_directdebit/sort_order</config_path>
+                        </field>
+                        <field id="privacy_policy" translate="label" type="text" sortOrder="1000" showInDefault="1"
+                               showInWebsite="1" showInStore="0">
+                            <label>RatePAY-Datenschutzerklärung Url</label>
+                            <config_path>payment/ratepay_de_directdebit/privacy_policy</config_path>
+                        </field>
+                    </group>
+                    <!--group id="installment" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1"
+                           showInStore="1">
+                        <label>Installment</label>
+                        <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="0">
+                            <label>Enabled</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/ratepay_de_installment/active</config_path>
+                        </field>
+                        <field id="profileId" translate="label" type="text" sortOrder="10" showInDefault="1"
+                               showInWebsite="1" showInStore="1">
+                            <label>ProfileID</label>
+                            <config_path>payment/ratepay_de_installment/profileId</config_path>
+                        </field>
+                        <field id="securityCode" translate="label" type="text" sortOrder="20" showInDefault="1"
+                               showInWebsite="1" showInStore="1">
+                            <label>Security Code</label>
+                            <config_path>payment/ratepay_de_installment/securityCode</config_path>
+                        </field>
+                        <field id="sandbox" translate="label" type="select" sortOrder="30" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="0">
+                            <label>Activate Sandbox</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/ratepay_de_installment/sandbox</config_path>
+                        </field>
+                        <field id="profilerequest" translate="label" type="button" sortOrder="35" showInDefault="1" showInStore="0" showInWebsite="1">
+                            <frontend_model>RatePAY\Payment\Block\System\Config\ProfileRequest</frontend_model>
+                        </field>
+                        <field id="status" translate="label" type="label" sortOrder="36" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Status RatePAY</label>
+                            <frontend_model>RatePAY\Payment\Block\System\Config\Label\Active</frontend_model>
+                            <config_path>payment/ratepay_de_installment/status</config_path>
+                        </field>
+                        <field id="title" translate="label" type="text" sortOrder="40" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Title</label>
+                            <config_path>payment/ratepay_de_installment/title</config_path>
+                        </field>
+                        <field id="specificcountry_billing" translate="label" type="label" sortOrder="50" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Specific Countries Billing</label>
+                            <config_path>payment/ratepay_de_installment/specificcountry_billing</config_path>
+                        </field>
+                        <field id="specificcountry_delivery" translate="label" type="label" sortOrder="60" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Specific Countries Delivery</label>
+                            <config_path>payment/ratepay_de_installment/specificcountry_delivery</config_path>
+                        </field>
+                        <field id="currency" translate="label" type="label" sortOrder="70" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Currency</label>
+                            <config_path>payment/ratepay_de_installment/currency</config_path>
+                        </field>
+                        <field id="min_order_total" translate="label" type="label" sortOrder="80" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Minimum Order Total</label>
+                            <config_path>payment/ratepay_de_installment/min_order_total</config_path>
+                        </field>
+                        <field id="max_order_total" translate="label" type="label" sortOrder="90" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Maximum Oder Total</label>
+                            <config_path>payment/ratepay_de_installment/max_order_total</config_path>
+                        </field>
+                        <field id="rate_min" translate="label" type="label" sortOrder="100" showInDefault="1"
+                               showInWebsite="1" showInStore="1">
+                            <label>Rate min</label>
+                            <config_path>payment/ratepay_de_installment/rate_min</config_path>
+                        </field>
+                        <field id="month_allowed" translate="label" type="label" sortOrder="110" showInDefault="1"
+                               showInWebsite="1" showInStore="1">
+                            <label>Month Allowed</label>
+                            <config_path>payment/ratepay_de_installment/month_allowed</config_path>
+                        </field>
+                        <field id="b2b" translate="label" type="label" sortOrder="120" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>B2B</label>
+                            <frontend_model>RatePAY\Payment\Block\System\Config\Label\On</frontend_model>
+                            <config_path>payment/ratepay_de_installment/b2b</config_path>
+                        </field>
+                        <field id="limit_max_b2b" translate="label" type="label" sortOrder="130" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Maximum Order Total B2B</label>
+                            <config_path>payment/ratepay_de_installment/limit_max_b2b</config_path>
+                        </field>
+                        <field id="delivery_address" translate="label" type="label" sortOrder="140" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Delivery Address</label>
+                            <frontend_model>RatePAY\Payment\Block\System\Config\Label\On</frontend_model>
+                            <config_path>payment/ratepay_de_installment/delivery_address</config_path>
+                        </field>
+                        <field id="payment_fee" translate="label" type="text" sortOrder="150" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Payment Fee</label>
+                            <config_path>payment/ratepay_de_installment/payment_fee</config_path>
+                        </field>
+                        <field id="order_status" translate="label" type="select" sortOrder="999" showInDefault="1"
+                               showInWebsite="1" showInStore="0">
+                            <label>New Order Status</label>
+                            <source_model>Magento\Sales\Model\Config\Source\Order\Status\NewStatus</source_model>
+                            <config_path>payment/ratepay_de_installment/order_status</config_path>
+                        </field>
+                        <field id="sort_order" translate="label" type="text" sortOrder="1000" showInDefault="1"
+                               showInWebsite="1" showInStore="0">
+                            <label>Sort Order</label>
+                            <frontend_class>validate-number</frontend_class>
+                            <config_path>payment/ratepay_de_installment/sort_order</config_path>
+                        </field>
+                    </group>
+                    <group id="installment0" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1"
+                           showInStore="1">
+                        <label>0% Financing</label>
+                        <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="0">
+                            <label>Enabled</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/ratepay_de_installment0/active</config_path>
+                        </field>
+                        <field id="profileId" translate="label" type="text" sortOrder="10" showInDefault="1"
+                               showInWebsite="1" showInStore="1">
+                            <label>ProfileID</label>
+                            <config_path>payment/ratepay_de_installment0/profileId</config_path>
+                        </field>
+                        <field id="securityCode" translate="label" type="text" sortOrder="20" showInDefault="1"
+                               showInWebsite="1" showInStore="1">
+                            <label>Security Code</label>
+                            <config_path>payment/ratepay_de_installment0/securityCode</config_path>
+                        </field>
+                        <field id="sandbox" translate="label" type="select" sortOrder="30" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="0">
+                            <label>Activate Sandbox</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/ratepay_de_installment0/sandbox</config_path>
+                        </field>
+                        <field id="profilerequest" translate="label" type="button" sortOrder="35" showInDefault="1" showInStore="0" showInWebsite="1">
+                            <frontend_model>RatePAY\Payment\Block\System\Config\ProfileRequest</frontend_model>
+                        </field>
+                        <field id="status" translate="label" type="label" sortOrder="36" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Status RatePAY</label>
+                            <frontend_model>RatePAY\Payment\Block\System\Config\Label\Active</frontend_model>
+                            <config_path>payment/ratepay_de_installment0/status</config_path>
+                        </field>
+                        <field id="title" translate="label" type="text" sortOrder="40" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Title</label>
+                            <config_path>payment/ratepay_de_installment0/title</config_path>
+                        </field>
+                        <field id="specificcountry_billing" translate="label" type="label" sortOrder="50" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Specific Countries Billing</label>
+                            <config_path>payment/ratepay_de_installment0/specificcountry_billing</config_path>
+                        </field>
+                        <field id="specificcountry_delivery" translate="label" type="label" sortOrder="60" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Specific Countries Delivery</label>
+                            <config_path>payment/ratepay_de_installment0/specificcountry_delivery</config_path>
+                        </field>
+                        <field id="currency" translate="label" type="label" sortOrder="70" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Currency</label>
+                            <config_path>payment/ratepay_de_installment0/currency</config_path>
+                        </field>
+                        <field id="min_order_total" translate="label" type="label" sortOrder="80" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Minimum Order Total</label>
+                            <config_path>payment/ratepay_de_installment0/min_order_total</config_path>
+                        </field>
+                        <field id="max_order_total" translate="label" type="label" sortOrder="90" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Maximum Oder Total</label>
+                            <config_path>payment/ratepay_de_installment0/max_order_total</config_path>
+                        </field>
+                        <field id="rate_min" translate="label" type="label" sortOrder="100" showInDefault="1"
+                               showInWebsite="1" showInStore="1">
+                            <label>Rate min</label>
+                            <config_path>payment/ratepay_de_installment0/rate_min</config_path>
+                        </field>
+                        <field id="month_allowed" translate="label" type="label" sortOrder="110" showInDefault="1"
+                               showInWebsite="1" showInStore="1">
+                            <label>Month Allowed</label>
+                            <config_path>payment/ratepay_de_installment0/month_allowed</config_path>
+                        </field>
+                        <field id="b2b" translate="label" type="label" sortOrder="120" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>B2B</label>
+                            <frontend_model>RatePAY\Payment\Block\System\Config\Label\On</frontend_model>
+                            <config_path>payment/ratepay_de_installment0/b2b</config_path>
+                        </field>
+                        <field id="limit_max_b2b" translate="label" type="label" sortOrder="130" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Maximum Order Total B2B</label>
+                            <config_path>payment/ratepay_de_installment0/limit_max_b2b</config_path>
+                        </field>
+                        <field id="delivery_address" translate="label" type="label" sortOrder="140" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Delivery Address</label>
+                            <frontend_model>RatePAY\Payment\Block\System\Config\Label\On</frontend_model>
+                            <config_path>payment/ratepay_de_installment0/delivery_address</config_path>
+                        </field>
+                        <field id="payment_fee" translate="label" type="text" sortOrder="150" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Payment Fee</label>
+                            <config_path>payment/ratepay_de_installment0/payment_fee</config_path>
+                        </field>
+                        <field id="order_status" translate="label" type="select" sortOrder="999" showInDefault="1"
+                               showInWebsite="1" showInStore="0">
+                            <label>New Order Status</label>
+                            <source_model>Magento\Sales\Model\Config\Source\Order\Status\NewStatus</source_model>
+                            <config_path>payment/ratepay_de_installment0/order_status</config_path>
+                        </field>
+                        <field id="sort_order" translate="label" type="text" sortOrder="1000" showInDefault="1"
+                               showInWebsite="1" showInStore="0">
+                            <label>Sort Order</label>
+                            <frontend_class>validate-number</frontend_class>
+                            <config_path>payment/ratepay_de_installment0/sort_order</config_path>
+                        </field>
+                    </group-->
+                </group>
+                <group id="at" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Austria</label>
+                    <group id="invoice" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1"
+                           showInStore="1">
+                        <label>Invoice</label>
+                        <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="0">
+                            <label>Enabled</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/ratepay_at_invoice/active</config_path>
+                        </field>
+                        <field id="profileId" translate="label" type="text" sortOrder="10" showInDefault="1"
+                               showInWebsite="1" showInStore="1">
+                            <label>ProfileID</label>
+                            <config_path>payment/ratepay_at_invoice/profileId</config_path>
+                        </field>
+                        <field id="securityCode" translate="label" type="text" sortOrder="20" showInDefault="1"
+                               showInWebsite="1" showInStore="1">
+                            <label>Security Code</label>
+                            <config_path>payment/ratepay_at_invoice/securityCode</config_path>
+                        </field>
+                        <field id="sandbox" translate="label" type="select" sortOrder="30" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="0">
+                            <label>Activate Sandbox</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/ratepay_at_invoice/sandbox</config_path>
+                        </field>
+                        <field id="profilerequest" translate="label" type="button" sortOrder="35" showInDefault="1" showInStore="0" showInWebsite="1">
+                            <frontend_model>RatePAY\Payment\Block\System\Config\ProfileRequest</frontend_model>
+                        </field>
+                        <field id="status" translate="label" type="label" sortOrder="36" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Status RatePAY</label>
+                            <frontend_model>RatePAY\Payment\Block\System\Config\Label\Active</frontend_model>
+                            <config_path>payment/ratepay_at_invoice/status</config_path>
+                        </field>
+                        <field id="title" translate="label" type="text" sortOrder="40" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Title</label>
+                            <config_path>payment/ratepay_at_invoice/title</config_path>
+                        </field>
+                        <field id="specificcountry_billing" translate="label" type="label" sortOrder="50"
+                               showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Specific Countries Billing</label>
+                            <config_path>payment/ratepay_at_invoice/specificcountry_billing</config_path>
+                        </field>
+                        <field id="specificcountry_delivery" translate="label" type="label" sortOrder="60"
+                               showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Specific Countries Delivery</label>
+                            <config_path>payment/ratepay_at_invoice/specificcountry_delivery</config_path>
+                        </field>
+                        <field id="currency" translate="label" type="label" sortOrder="70" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Currency</label>
+                            <config_path>payment/ratepay_at_invoice/currency</config_path>
+                        </field>
+                        <field id="min_order_total" translate="label" type="label" sortOrder="80" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Minimum Order Total</label>
+                            <config_path>payment/ratepay_at_invoice/min_order_total</config_path>
+                        </field>
+                        <field id="max_order_total" translate="label" type="label" sortOrder="90" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Maximum Oder Total</label>
+                            <config_path>payment/ratepay_at_invoice/max_order_total</config_path>
+                        </field>
+                        <field id="dynamicDueDate" translate="label" type="text" sortOrder="100" showInDefault="1"
+                               showInWebsite="1" showInStore="1">
+                            <label>Due Days</label>
+                            <config_path>payment/ratepay_at_invoice/dynamicDueDate</config_path>
+                        </field>
+                        <field id="b2b" translate="label" type="select" sortOrder="110" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>B2B</label>
+                            <frontend_model>RatePAY\Payment\Block\System\Config\Label\On</frontend_model>
+                            <config_path>payment/ratepay_at_invoice/b2b</config_path>
+                        </field>
+                        <field id="limit_max_b2b" translate="label" type="label" sortOrder="120" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Maximum Order Total B2B</label>
+                            <config_path>payment/ratepay_at_invoice/limit_max_b2b</config_path>
+                        </field>
+                        <field id="delivery_address" translate="label" type="label" sortOrder="130" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Delivery Address</label>
+                            <frontend_model>RatePAY\Payment\Block\System\Config\Label\On</frontend_model>
+                            <config_path>payment/ratepay_at_invoice/delivery_address</config_path>
+                        </field>
+                        <field id="payment_fee" translate="label" type="text" sortOrder="140" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Payment Fee</label>
+                            <config_path>payment/ratepay_at_invoice/payment_fee</config_path>
+                        </field>
+                        <field id="order_status" translate="label" type="select" sortOrder="999" showInDefault="1"
+                               showInWebsite="1" showInStore="0">
+                            <label>New Order Status</label>
+                            <source_model>Magento\Sales\Model\Config\Source\Order\Status\NewStatus</source_model>
+                            <config_path>payment/ratepay_at_invoice/order_status</config_path>
+                        </field>
+                        <field id="sort_order" translate="label" type="text" sortOrder="1000" showInDefault="1"
+                               showInWebsite="1" showInStore="0">
+                            <label>Sort Order</label>
+                            <frontend_class>validate-number</frontend_class>
+                            <config_path>payment/ratepay_at_invoice/sort_order</config_path>
+                        </field>
+                    </group>
+                    <group id="directdebit" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1"
+                           showInStore="1">
+                        <label>Direct Debit</label>
+                        <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="0">
+                            <label>Enabled</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/ratepay_at_directdebit/active</config_path>
+                        </field>
+                        <field id="profileId" translate="label" type="text" sortOrder="10" showInDefault="1"
+                               showInWebsite="1" showInStore="1">
+                            <label>ProfileID</label>
+                            <config_path>payment/ratepay_at_directdebit/profileId</config_path>
+                        </field>
+                        <field id="securityCode" translate="label" type="text" sortOrder="20" showInDefault="1"
+                               showInWebsite="1" showInStore="1">
+                            <label>Security Code</label>
+                            <config_path>payment/ratepay_at_directdebit/securityCode</config_path>
+                        </field>
+                        <field id="sandbox" translate="label" type="select" sortOrder="30" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="0">
+                            <label>Activate Sandbox</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/ratepay_at_directdebit/sandbox</config_path>
+                        </field>
+                        <field id="profilerequest" translate="label" type="button" sortOrder="35" showInDefault="1" showInStore="0" showInWebsite="1">
+                            <frontend_model>RatePAY\Payment\Block\System\Config\ProfileRequest</frontend_model>
+                        </field>
+                        <field id="status" translate="label" type="label" sortOrder="36" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Status RatePAY</label>
+                            <frontend_model>RatePAY\Payment\Block\System\Config\Label\Active</frontend_model>
+                            <config_path>payment/ratepay_at_directdebit/status</config_path>
+                        </field>
+                        <field id="title" translate="label" type="text" sortOrder="40" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Title</label>
+                            <config_path>payment/ratepay_at_directdebit/title</config_path>
+                        </field>
+                        <field id="specificcountry_billing" translate="label" type="label" sortOrder="50" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Specific Countries Billing</label>
+                            <config_path>payment/ratepay_at_directdebit/specificcountry_billing</config_path>
+                        </field>
+                        <field id="specificcountry_delivery" translate="label" type="label" sortOrder="60" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Specific Countries Delivery</label>
+                            <config_path>payment/ratepay_at_directdebit/specificcountry_delivery</config_path>
+                        </field>
+                        <field id="currency" translate="label" type="label" sortOrder="70" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Currency</label>
+                            <config_path>payment/ratepay_at_directdebit/currency</config_path>
+                        </field>
+                        <field id="min_order_total" translate="label" type="label" sortOrder="80" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Minimum Order Total</label>
+                            <config_path>payment/ratepay_at_directdebit/min_order_total</config_path>
+                        </field>
+                        <field id="max_order_total" translate="label" type="label" sortOrder="90" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Maximum Oder Total</label>
+                            <config_path>payment/ratepay_at_directdebit/max_order_total</config_path>
+                        </field>
+                        <field id="dynamicDueDate" translate="label" type="text" sortOrder="100" showInDefault="1"
+                               showInWebsite="1" showInStore="1">
+                            <label>Due Days</label>
+                            <config_path>payment/ratepay_at_directdebit/dynamicDueDate</config_path>
+                        </field>
+                        <field id="b2b" translate="label" type="label" sortOrder="110" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>B2B</label>
+                            <frontend_model>RatePAY\Payment\Block\System\Config\Label\On</frontend_model>
+                            <config_path>payment/ratepay_at_directdebit/b2b</config_path>
+                        </field>
+                        <field id="limit_max_b2b" translate="label" type="label" sortOrder="120" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Maximum Order Total B2B</label>
+                            <config_path>payment/ratepay_at_directdebit/limit_max_b2b</config_path>
+                        </field>
+                        <field id="delivery_address" translate="label" type="label" sortOrder="130" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Delivery Address</label>
+                            <frontend_model>RatePAY\Payment\Block\System\Config\Label\On</frontend_model>
+                            <config_path>payment/ratepay_at_directdebit/delivery_address</config_path>
+                        </field>
+                        <field id="order_status" translate="label" type="select" sortOrder="999" showInDefault="1"
+                               showInWebsite="1" showInStore="0">
+                            <label>New Order Status</label>
+                            <source_model>Magento\Sales\Model\Config\Source\Order\Status\NewStatus</source_model>
+                            <config_path>payment/ratepay_at_directdebit/order_status</config_path>
+                        </field>
+                        <field id="sort_order" translate="label" type="text" sortOrder="1000" showInDefault="1"
+                               showInWebsite="1" showInStore="0">
+                            <label>Sort Order</label>
+                            <frontend_class>validate-number</frontend_class>
+                            <config_path>payment/ratepay_at_directdebit/sort_order</config_path>
+                        </field>
+                        <field id="privacy_policy" translate="label" type="text" sortOrder="1000" showInDefault="1"
+                               showInWebsite="1" showInStore="0">
+                            <label>RatePAY-Datenschutzerklärung Url</label>
+                            <config_path>payment/ratepay_at_directdebit/privacy_policy</config_path>
+                        </field>
+                    </group>
+                    <!--group id="installment" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1"
+                           showInStore="1">
+                        <label>Installment</label>
+                        <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="0">
+                            <label>Enabled</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/ratepay_at_installment/active</config_path>
+                        </field>
+                        <field id="profileId" translate="label" type="text" sortOrder="10" showInDefault="1"
+                               showInWebsite="1" showInStore="1">
+                            <label>ProfileID</label>
+                            <config_path>payment/ratepay_at_installment/profileId</config_path>
+                        </field>
+                        <field id="securityCode" translate="label" type="text" sortOrder="20" showInDefault="1"
+                               showInWebsite="1" showInStore="1">
+                            <label>Security Code</label>
+                            <config_path>payment/ratepay_at_installment/securityCode</config_path>
+                        </field>
+                        <field id="sandbox" translate="label" type="select" sortOrder="30" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="0">
+                            <label>Activate Sandbox</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/ratepay_at_installment/sandbox</config_path>
+                        </field>
+                        <field id="profilerequest" translate="label" type="button" sortOrder="35" showInDefault="1" showInStore="0" showInWebsite="1">
+                            <frontend_model>RatePAY\Payment\Block\System\Config\ProfileRequest</frontend_model>
+                        </field>
+                        <field id="status" translate="label" type="label" sortOrder="36" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Status RatePAY</label>
+                            <frontend_model>RatePAY\Payment\Block\System\Config\Label\Active</frontend_model>
+                            <config_path>payment/ratepay_at_installment/status</config_path>
+                        </field>
+                        <field id="title" translate="label" type="text" sortOrder="40" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Title</label>
+                            <config_path>payment/ratepay_at_installment/title</config_path>
+                        </field>
+                        <field id="specificcountry_billing" translate="label" type="label" sortOrder="50" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Specific Countries Billing</label>
+                            <config_path>payment/ratepay_at_installment/specificcountry_billing</config_path>
+                        </field>
+                        <field id="specificcountry_delivery" translate="label" type="label" sortOrder="60" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Specific Countries Delivery</label>
+                            <config_path>payment/ratepay_at_installment/specificcountry_delivery</config_path>
+                        </field>
+                        <field id="currency" translate="label" type="label" sortOrder="70" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Currency</label>
+                            <config_path>payment/ratepay_at_installment/currency</config_path>
+                        </field>
+                        <field id="min_order_total" translate="label" type="label" sortOrder="80" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Minimum Order Total</label>
+                            <config_path>payment/ratepay_at_installment/min_order_total</config_path>
+                        </field>
+                        <field id="max_order_total" translate="label" type="label" sortOrder="90" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Maximum Oder Total</label>
+                            <config_path>payment/ratepay_at_installment/max_order_total</config_path>
+                        </field>
+                        <field id="rate_min" translate="label" type="label" sortOrder="100" showInDefault="1"
+                               showInWebsite="1" showInStore="1">
+                            <label>Rate min</label>
+                            <config_path>payment/ratepay_at_installment/rate_min</config_path>
+                        </field>
+                        <field id="month_allowed" translate="label" type="label" sortOrder="110" showInDefault="1"
+                               showInWebsite="1" showInStore="1">
+                            <label>Month Allowed</label>
+                            <config_path>payment/ratepay_at_installment/month_allowed</config_path>
+                        </field>
+                        <field id="b2b" translate="label" type="label" sortOrder="120" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>B2B</label>
+                            <frontend_model>RatePAY\Payment\Block\System\Config\Label\On</frontend_model>
+                            <config_path>payment/ratepay_at_installment/b2b</config_path>
+                        </field>
+                        <field id="limit_max_b2b" translate="label" type="label" sortOrder="130" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Maximum Order Total B2B</label>
+                            <config_path>payment/ratepay_at_installment/limit_max_b2b</config_path>
+                        </field>
+                        <field id="delivery_address" translate="label" type="label" sortOrder="140" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Delivery Address</label>
+                            <frontend_model>RatePAY\Payment\Block\System\Config\Label\On</frontend_model>
+                            <config_path>payment/ratepay_at_installment/delivery_address</config_path>
+                        </field>
+                        <field id="payment_fee" translate="label" type="text" sortOrder="150" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Payment Fee</label>
+                            <config_path>payment/ratepay_at_installment/payment_fee</config_path>
+                        </field>
+                        <field id="order_status" translate="label" type="select" sortOrder="999" showInDefault="1"
+                               showInWebsite="1" showInStore="0">
+                            <label>New Order Status</label>
+                            <source_model>Magento\Sales\Model\Config\Source\Order\Status\NewStatus</source_model>
+                            <config_path>payment/ratepay_at_installment/order_status</config_path>
+                        </field>
+                        <field id="sort_order" translate="label" type="text" sortOrder="1000" showInDefault="1"
+                               showInWebsite="1" showInStore="0">
+                            <label>Sort Order</label>
+                            <frontend_class>validate-number</frontend_class>
+                            <config_path>payment/ratepay_at_installment/sort_order</config_path>
+                        </field>
+                    </group>
+                    <group id="installment0" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1"
+                           showInStore="1">
+                        <label>0% Financing</label>
+                        <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="0">
+                            <label>Enabled</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/ratepay_at_installment0/active</config_path>
+                        </field>
+                        <field id="profileId" translate="label" type="text" sortOrder="10" showInDefault="1"
+                               showInWebsite="1" showInStore="1">
+                            <label>ProfileID</label>
+                            <config_path>payment/ratepay_at_installment0/profileId</config_path>
+                        </field>
+                        <field id="securityCode" translate="label" type="text" sortOrder="20" showInDefault="1"
+                               showInWebsite="1" showInStore="1">
+                            <label>Security Code</label>
+                            <config_path>payment/ratepay_at_installment0/securityCode</config_path>
+                        </field>
+                        <field id="sandbox" translate="label" type="select" sortOrder="30" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="0">
+                            <label>Activate Sandbox</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/ratepay_at_installment0/sandbox</config_path>
+                        </field>
+                        <field id="profilerequest" translate="label" type="button" sortOrder="35" showInDefault="1" showInStore="0" showInWebsite="1">
+                            <frontend_model>RatePAY\Payment\Block\System\Config\ProfileRequest</frontend_model>
+                        </field>
+                        <field id="status" translate="label" type="label" sortOrder="36" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Status RatePAY</label>
+                            <frontend_model>RatePAY\Payment\Block\System\Config\Label\Active</frontend_model>
+                            <config_path>payment/ratepay_at_installment0/status</config_path>
+                        </field>
+                        <field id="title" translate="label" type="text" sortOrder="40" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Title</label>
+                            <config_path>payment/ratepay_at_installment0/title</config_path>
+                        </field>
+                        <field id="specificcountry_billing" translate="label" type="label" sortOrder="50" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Specific Countries Billing</label>
+                            <config_path>payment/ratepay_at_installment0/specificcountry_billing</config_path>
+                        </field>
+                        <field id="specificcountry_delivery" translate="label" type="label" sortOrder="60" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Specific Countries Delivery</label>
+                            <config_path>payment/ratepay_at_installment0/specificcountry_delivery</config_path>
+                        </field>
+                        <field id="currency" translate="label" type="label" sortOrder="70" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Currency</label>
+                            <config_path>payment/ratepay_at_installment0/currency</config_path>
+                        </field>
+                        <field id="min_order_total" translate="label" type="label" sortOrder="80" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Minimum Order Total</label>
+                            <config_path>payment/ratepay_at_installment0/min_order_total</config_path>
+                        </field>
+                        <field id="max_order_total" translate="label" type="label" sortOrder="90" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Maximum Oder Total</label>
+                            <config_path>payment/ratepay_at_installment0/max_order_total</config_path>
+                        </field>
+                        <field id="rate_min" translate="label" type="label" sortOrder="100" showInDefault="1"
+                               showInWebsite="1" showInStore="1">
+                            <label>Rate min</label>
+                            <config_path>payment/ratepay_at_installment0/rate_min</config_path>
+                        </field>
+                        <field id="month_allowed" translate="label" type="label" sortOrder="110" showInDefault="1"
+                               showInWebsite="1" showInStore="1">
+                            <label>Month Allowed</label>
+                            <config_path>payment/ratepay_at_installment0/month_allowed</config_path>
+                        </field>
+                        <field id="b2b" translate="label" type="label" sortOrder="120" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>B2B</label>
+                            <frontend_model>RatePAY\Payment\Block\System\Config\Label\On</frontend_model>
+                            <config_path>payment/ratepay_at_installment0/b2b</config_path>
+                        </field>
+                        <field id="limit_max_b2b" translate="label" type="label" sortOrder="130" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Maximum Order Total B2B</label>
+                            <config_path>payment/ratepay_at_installment0/limit_max_b2b</config_path>
+                        </field>
+                        <field id="delivery_address" translate="label" type="label" sortOrder="140" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Delivery Address</label>
+                            <frontend_model>RatePAY\Payment\Block\System\Config\Label\On</frontend_model>
+                            <config_path>payment/ratepay_at_installment0/delivery_address</config_path>
+                        </field>
+                        <field id="payment_fee" translate="label" type="text" sortOrder="150" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Payment Fee</label>
+                            <config_path>payment/ratepay_at_installment0/payment_fee</config_path>
+                        </field>
+                        <field id="order_status" translate="label" type="select" sortOrder="999" showInDefault="1"
+                               showInWebsite="1" showInStore="0">
+                            <label>New Order Status</label>
+                            <source_model>Magento\Sales\Model\Config\Source\Order\Status\NewStatus</source_model>
+                            <config_path>payment/ratepay_at_installment0/order_status</config_path>
+                        </field>
+                        <field id="sort_order" translate="label" type="text" sortOrder="1000" showInDefault="1"
+                               showInWebsite="1" showInStore="0">
+                            <label>Sort Order</label>
+                            <frontend_class>validate-number</frontend_class>
+                            <config_path>payment/ratepay_at_installment0/sort_order</config_path>
+                        </field>
+                    </group-->
+                </group>
+                <group id="ch" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Switzerland</label>
+                    <group id="invoice" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1"
+                           showInStore="1">
+                        <label>Invoice</label>
+                        <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="0">
+                            <label>Enabled</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/ratepay_ch_invoice/active</config_path>
+                        </field>
+                        <field id="profileId" translate="label" type="text" sortOrder="10" showInDefault="1"
+                               showInWebsite="1" showInStore="1">
+                            <label>ProfileID</label>
+                            <config_path>payment/ratepay_ch_invoice/profileId</config_path>
+                        </field>
+                        <field id="securityCode" translate="label" type="text" sortOrder="20" showInDefault="1"
+                               showInWebsite="1" showInStore="1">
+                            <label>Security Code</label>
+                            <config_path>payment/ratepay_ch_invoice/securityCode</config_path>
+                        </field>
+                        <field id="sandbox" translate="label" type="select" sortOrder="30" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="0">
+                            <label>Activate Sandbox</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/ratepay_ch_invoice/sandbox</config_path>
+                        </field>
+                        <field id="profilerequest" translate="label" type="button" sortOrder="35" showInDefault="1" showInStore="0" showInWebsite="1">
+                            <frontend_model>RatePAY\Payment\Block\System\Config\ProfileRequest</frontend_model>
+                        </field>
+                        <field id="status" translate="label" type="label" sortOrder="36" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Status RatePAY</label>
+                            <frontend_model>RatePAY\Payment\Block\System\Config\Label\Active</frontend_model>
+                            <config_path>payment/ratepay_ch_invoice/status</config_path>
+                        </field>
+                        <field id="title" translate="label" type="text" sortOrder="40" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Title</label>
+                            <config_path>payment/ratepay_ch_invoice/title</config_path>
+                        </field>
+                        <field id="specificcountry_billing" translate="label" type="label" sortOrder="50" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Specific Countries Billing</label>
+                            <config_path>payment/ratepay_ch_invoice/specificcountry_billing</config_path>
+                        </field>
+                        <field id="specificcountry_delivery" translate="label" type="label" sortOrder="60" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Specific Countries Delivery</label>
+                            <config_path>payment/ratepay_ch_invoice/specificcountry_delivery</config_path>
+                        </field>
+                        <field id="currency" translate="label" type="label" sortOrder="70" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Currency</label>
+                            <config_path>payment/ratepay_ch_invoice/currency</config_path>
+                        </field>
+                        <field id="min_order_total" translate="label" type="label" sortOrder="80" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Minimum Order Total</label>
+                            <config_path>payment/ratepay_ch_invoice/min_order_total</config_path>
+                        </field>
+                        <field id="max_order_total" translate="label" type="label" sortOrder="90" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Maximum Oder Total</label>
+                            <config_path>payment/ratepay_ch_invoice/max_order_total</config_path>
+                        </field>
+                        <field id="dynamicDueDate" translate="label" type="text" sortOrder="100" showInDefault="1"
+                               showInWebsite="1" showInStore="1">
+                            <label>Due Days</label>
+                            <config_path>payment/ratepay_ch_invoice/dynamicDueDate</config_path>
+                        </field>
+                        <field id="b2b" translate="label" type="label" sortOrder="110" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>B2B</label>
+                            <frontend_model>RatePAY\Payment\Block\System\Config\Label\On</frontend_model>
+                            <config_path>payment/ratepay_ch_invoice/b2b</config_path>
+                        </field>
+                        <field id="limit_max_b2b" translate="label" type="label" sortOrder="120" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Maximum Order Total B2B</label>
+                            <config_path>payment/ratepay_ch_invoice/limit_max_b2b</config_path>
+                        </field>
+                        <field id="delivery_address" translate="label" type="label" sortOrder="130" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Delivery Address</label>
+                            <frontend_model>RatePAY\Payment\Block\System\Config\Label\On</frontend_model>
+                            <config_path>payment/ratepay_ch_invoice/delivery_address</config_path>
+                        </field>
+                        <field id="payment_fee" translate="label" type="text" sortOrder="140" showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="1">
+                            <label>Payment Fee</label>
+                            <config_path>payment/ratepay_ch_invoice/payment_fee</config_path>
+                        </field>
+                        <field id="order_status" translate="label" type="select" sortOrder="999" showInDefault="1"
+                               showInWebsite="1" showInStore="0">
+                            <label>New Order Status</label>
+                            <source_model>Magento\Sales\Model\Config\Source\Order\Status\NewStatus</source_model>
+                            <config_path>payment/ratepay_ch_invoice/order_status</config_path>
+                        </field>
+                        <field id="sort_order" translate="label" type="text" sortOrder="1000" showInDefault="1"
+                               showInWebsite="1" showInStore="0">
+                            <label>Sort Order</label>
+                            <frontend_class>validate-number</frontend_class>
+                            <config_path>payment/ratepay_ch_invoice/sort_order</config_path>
+                        </field>
+                    </group>
+                </group>
+            </group>
+        </section>
+    </system>
+</config>

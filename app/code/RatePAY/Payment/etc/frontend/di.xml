@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <type name="RatePAY\Payment\Model\Session">
+        <arguments>
+            <argument name="storage" xsi:type="object">RatePAY\Payment\Model\Session\Storage</argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Checkout\Model\CompositeConfigProvider">
+        <arguments>
+            <argument name="configProviders" xsi:type="array">
+                <item name="offline_payment_rechnung_config_provider" xsi:type="object">RatePAY\Payment\Model\RechnungConfigProvider</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

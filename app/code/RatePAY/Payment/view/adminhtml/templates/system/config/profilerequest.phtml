@@ -1,0 +1,57 @@
+<?php
+/**
+ * Copyright © 2016 MageWorx. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+?>
+<?php /* @var $block \RatePAY\Payment\Block\System\Config\ProfileRequest */ ?>
+
+    <script type="text/javascript">
+        require([
+                'jquery',
+                'prototype'
+            ],
+            function (jQuery) {
+
+                jQuery('#<?php echo $this->getPaymentMethod();?>_profilerequest_button').click(function () {
+                    var id = '<?php echo $this->getPaymentMethod();?>';
+                    if (document.getElementById(id + '_sandbox').value == 1 && document.getElementById(id + '_profileId').value.search(/_PR_.+/) != -1) {
+                        if (!confirm('<?php echo __('PROD credentials in sandbox mode') ?>')) {
+                            return;
+                        }
+                    }
+
+                    if (document.getElementById(id + '_sandbox').value == 0 && document.getElementById(id + '_profileId').value.search(/_TE_.+/) != -1) {
+                        if (!confirm('<?php echo __('INT credentials in live mode') ?>')) {
+                            return;
+                        }
+                    }
+
+                    jQuery.ajax({
+                        url: "<?php echo $this->getAjaxUrl() ?>",
+                        type: 'POST',
+                        contentType: "application/x-www-form-urlencoded",
+                        dataType: "text",
+                        data: {
+                            profile_id: document.getElementById(id + '_profileId').value,
+                            security_code: document.getElementById(id + '_securityCode').value,
+                            sandbox: document.getElementById(id + '_sandbox').value,
+                            method: id
+                        }
+                    })
+                        .done(function (data) {
+                            var json = JSON.parse(data);
+                            if (json.status == "success") {
+                                configForm.submit();
+                            } else {
+                                alert(json.message);
+                            }
+                        })
+                        .fail(function () {
+                            alert("<?php __('No Ajax Connection')?>");
+                        });
+                });
+            });
+    </script>
+
+<?php echo $block->getButtonHtml() ?>
