@@ -34,6 +34,14 @@ class Validator extends \Magento\Framework\App\Helper\AbstractHelper
      */
     protected $customerSession;
 
+    /**
+     * Validator constructor.
+     * @param Context $context
+     * @param \Magento\Framework\Exception\PaymentException $paymentException
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param CustomerRepositoryInterface $customerRepository
+     * @param \Magento\Customer\Model\Session $customerSession
+     */
     public function __construct(Context $context,
                                 \Magento\Framework\Exception\PaymentException $paymentException,
                                 \Magento\Checkout\Model\Session $checkoutSession,
@@ -48,6 +56,9 @@ class Validator extends \Magento\Framework\App\Helper\AbstractHelper
         $this->customerSession = $customerSession;
     }
 
+    /**
+     * @param $additionalData
+     */
     public function validateDob($additionalData)
     {
         if (!$additionalData->getRpDobDay() ||
@@ -84,6 +95,12 @@ class Validator extends \Magento\Framework\App\Helper\AbstractHelper
         }
     }
 
+    /**
+     * @param $dobDay
+     * @param $dobMonth
+     * @param $dobYear
+     * @return bool|string
+     */
     private function _isValidAge($dobDay, $dobMonth, $dobYear)
     {
         $minAge = 18;
@@ -109,6 +126,9 @@ class Validator extends \Magento\Framework\App\Helper\AbstractHelper
         }
     }
 
+    /**
+     * @param $additionalData
+     */
     public function validateIban($additionalData)
     {
         if (empty($additionalData->getRpIban())) {
@@ -118,6 +138,9 @@ class Validator extends \Magento\Framework\App\Helper\AbstractHelper
         $this->checkoutSession->setRatepayIban($additionalData->getRpIban());
     }
 
+    /**
+     * @param $additionalData
+     */
     public function validatePhone($additionalData)
     {
         if (!$additionalData->getRpPhone()) {
@@ -131,6 +154,10 @@ class Validator extends \Magento\Framework\App\Helper\AbstractHelper
         $this->checkoutSession->setRatepayPhone($additionalData->getRpPhone());
     }
 
+    /**
+     * @param $phone
+     * @return bool
+     */
     public function isValidPhone($phone)
     {
         $valid = "/^[\d\s\/\(\)-+]/";

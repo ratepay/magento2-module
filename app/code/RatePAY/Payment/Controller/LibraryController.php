@@ -27,7 +27,11 @@ class LibraryController
         // Initiation of generic RequestBuilder object.
         $rb = new RequestBuilder($sandbox); // true == Sandbox mode
 
-        $paymentInit = $rb->callPaymentInit($head); // Initializes transaction
+        try {
+            $paymentInit = $rb->callPaymentInit($head); // Initializes transaction
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
         return $paymentInit;
     }
 
@@ -44,7 +48,7 @@ class LibraryController
         $rb = new RequestBuilder($sandbox); // Sandbox mode = true
         try {
             $paymentRequest = $rb->callPaymentRequest($head, $content);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             echo $e->getMessage();
         }
 
@@ -73,7 +77,7 @@ class LibraryController
             } else {
                 $installmentConfiguration = $ib->getInstallmentConfigByTemplate($orderAmount, $template);
             }
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             echo $e->getMessage();
         }
 
@@ -104,7 +108,7 @@ class LibraryController
             } else {
                 $installmentPlan = $ib->getInstallmentPlanByTemplate($calculationAmount, $calculationType, $calculationValue, $template);
             }
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             echo $e->getMessage();
         }
 
@@ -124,7 +128,7 @@ class LibraryController
 
         try{
             $profilerequest = $rb->callProfileRequest($head);
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             echo $e->getMessage();
         }
 

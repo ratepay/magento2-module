@@ -16,8 +16,16 @@ class RatepayErrorProcessor
      */
     protected $session;
 
+    /**
+     * @var \Magento\Quote\Api\CartManagementInterface
+     */
     protected $cartManagement;
 
+    /**
+     * RatepayErrorProcessor constructor.
+     * @param \Magento\Checkout\Model\Session $session
+     * @param \Magento\Quote\Api\CartManagementInterface $cartManagement
+     */
     public function __construct(
         \Magento\Checkout\Model\Session $session,
         \Magento\Quote\Api\CartManagementInterface $cartManagement
@@ -27,6 +35,15 @@ class RatepayErrorProcessor
         $this->cartManagement = $cartManagement;
     }
 
+    /**
+     * @param \Magento\Checkout\Model\PaymentInformationManagement $subject
+     * @param \Closure $proceed
+     * @param $cartId
+     * @param \Magento\Quote\Api\Data\PaymentInterface $paymentMethod
+     * @param \Magento\Quote\Api\Data\AddressInterface $billingAddress
+     * @return int
+     * @throws PaymentException
+     */
     public function aroundSavePaymentInformationAndPlaceOrder(
         \Magento\Checkout\Model\PaymentInformationManagement $subject,
         \Closure $proceed,
