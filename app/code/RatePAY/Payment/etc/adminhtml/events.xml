@@ -6,4 +6,7 @@
     <event name="order_cancel_after">
         <observer name="ratepay_order_cancel_observer" instance="RatePAY\Payment\Observer\SendRatepayCancelCall"/>
     </event>
+    <event name="sales_order_creditmemo_refund">
+        <observer name="ratepay_order_creditmemo_refund_observer" instance="RatePAY\Payment\Observer\SendRatepayCreditMemoCall"/>
+    </event>
 </config>
