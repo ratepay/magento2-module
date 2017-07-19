@@ -175,8 +175,8 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         $resultInit = LibraryController::callPaymentInit($head, $sandbox);
         if ($resultInit->isSuccessful()) {
             $payment->setAdditionalInformation('transactionId', $resultInit->getTransactionId());
-            $head = $this->_rpLibraryModel->getRequestHead($order, $resultInit);
-            $content = $this->_rpLibraryModel->getRequestContent($order);
+            $head = $this->_rpLibraryModel->getRequestHead($order, 'PAYMENT_REQUEST', $resultInit);
+            $content = $this->_rpLibraryModel->getRequestContent($order, 'PAYMENT_REQUEST');
             $resultRequest = LibraryController::callPaymentRequest($head, $content, $sandbox);
             if (!$resultRequest->isSuccessful()) {
                 if(!$resultRequest->isRetryAdmitted()){

@@ -130,4 +130,22 @@ class LibraryController
 
         return $profilerequest;
     }
-}
+
+    /**
+     * @param $head
+     * @param $content
+     * @param $sandbox
+     * @return mixed
+     */
+    public function  callConfirmationDeliver($head, $content, $sandbox)
+    {
+        $rb = new RequestBuilder($sandbox);
+
+        try {
+            $confirmationDeliver = $rb->callConfirmationDeliver($head, $content);
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
+
+        return $confirmationDeliver;
+    }

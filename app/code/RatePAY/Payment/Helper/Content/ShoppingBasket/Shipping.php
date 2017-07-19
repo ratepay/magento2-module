@@ -32,7 +32,7 @@ class Shipping extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $content = [
                 'Description' => $quoteOrOrder->getShippingDescription(),
-                'UnitPriceGross' => $quoteOrOrder->getShippingInclTax(),
+                'UnitPriceGross' => round($quoteOrOrder->getShippingInclTax(),2),
                 'TaxRate' => ($quoteOrOrder->getShippingTaxAmount() / $quoteOrOrder->getShippingAmount()) * 100,
                 //'DescriptionAddition' => "Additional information about the shipping"
             ];

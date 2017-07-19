@@ -51,15 +51,40 @@ class ContentBuilder extends \Magento\Framework\App\Helper\AbstractHelper
      * Collect all Data for Content Block of Payment Request and assembles them to one array
      *
      * @param $quoteOrOrder
+     * @param $operation
+     * @param null $articleList
+     * @param null $amount
+     * @param null $fixedPaymentMethod
      * @return array
      */
-    public function setContent($quoteOrOrder, $fixedPaymentMethod = null)
+    public function setContent($quoteOrOrder, $operation, $articleList = null, $amount = null, $fixedPaymentMethod = null)
     {
-        $contentArr = [
-          'Customer' => $this->rpContentCustomerHelper->setCustomer($quoteOrOrder),
-          'ShoppingBasket' => $this->rpContentBasketHelper->setShoppingBasket($quoteOrOrder),
-          'Payment' => $this->rpContentPaymentHelper->setPayment($quoteOrOrder, $fixedPaymentMethod)
-        ];
+        $contentArr = [];
+
+        switch($operation) {
+            case 'CALCULATION_REQUEST' :
+                /*$contentArr = [
+                    'InstallmentCalculation' => $this->getRequest($quoteOrOrder),
+                ];*/
+                break;
+            case 'PAYMENT_REQUEST' :
+                $contentArr = [
+                    'Customer' => $this->rpContentCustomerHelper->setCustomer($quoteOrOrder),
+                    'ShoppingBasket' => $this->rpContentBasketHelper->setShoppingBasket($quoteOrOrder),
+                    'Payment' => $this->rpContentPaymentHelper->setPayment($quoteOrOrder, $fixedPaymentMethod)
+                ];
+                break;
+            case "PAYMENT_CHANGE" :
+                $contentArr = [
+                    'ShoppingBasket' => $this->rpContentBasketHelper->setShoppingBasket($quoteOrOrder, $articleList, $amount)
+                ];
+                break;
+            case "CONFIRMATION_DELIVER" :
+                $contentArr = [
+                    'ShoppingBasket' => $this->rpContentBasketHelper->setShoppingBasket($quoteOrOrder)
+                ];
+                break;
+        }
 
         return $contentArr;
     }

@@ -39,14 +39,30 @@ class LibraryModel
      * @param null $resultInit
      * @return /app/code/RatePAY/Payment/Model/Library/src/ModelBuilder mixed|ModelBuilder
      */
-    public function getRequestHead($quoteOrOrder, $resultInit = null, $fixedPaymentMethod = null, $profileId = null, $securityCode = null)
+    public function getRequestHead($quoteOrOrder, $operation = null, $resultInit = null, $fixedPaymentMethod = null, $profileId = null, $securityCode = null)
     {
         $headModel = new ModelBuilder('Head');
 
         $headModel = $this->rpHeadHelper->setHead($quoteOrOrder, $headModel, $fixedPaymentMethod, $profileId, $securityCode);
-        if (!$resultInit == null) {
-            $headModel = $this->rpHeadAdditionalHelper->setHeadAdditional($resultInit, $headModel);
-            $headModel = $this->rpHeadExternalHelper->setHeadExternal($quoteOrOrder, $headModel);
+        switch($operation){
+            case 'CALCULATION_REQUEST' :
+                break;
+
+            case 'PAYMENT_REQUEST' :
+                $headModel->setTransactionId($resultInit->getTransactionId());
+                $headModel->setCustomerDevice(
+                    $headModel->CustomerDevice()->setDeviceToken("1234567890")
+                );
+                $headModel = $this->rpHeadExternalHelper->setHeadExternal($quoteOrOrder, $headModel);
+                break;
+
+            case "PAYMENT_CHANGE" :
+                $headModel->setTransactionId($quoteOrOrder->getPayment()->getAdditionalInformation('transactionId'));
+                break;
+
+            case "CONFIRMATION_DELIVER" :
+                $headModel->setTransactionId($quoteOrOrder->getPayment()->getAdditionalInformation('transactionId'));
+                break;
         }
 
         return $headModel;
@@ -58,11 +74,11 @@ class LibraryModel
      * @param $quoteOrOrder
      * @return ModelBuilder
      */
-    public function getRequestContent($quoteOrOrder, $fixedPaymentMethod = null)
+    public function getRequestContent($quoteOrOrder, $operation, $articleList = null, $amount = null, $fixedPaymentMethod = null)
     {
         $content = new ModelBuilder('Content');
 
-        $contentArr = $this->rpContentBuilder->setContent($quoteOrOrder, $fixedPaymentMethod);
+        $contentArr = $this->rpContentBuilder->setContent($quoteOrOrder, $operation, $articleList, $amount, $fixedPaymentMethod);
         try{
             $content->setArray($contentArr);
         } catch (\Exception $e){

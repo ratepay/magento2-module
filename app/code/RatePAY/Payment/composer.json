@@ -1,0 +1,14 @@
+{
+  "name": "ratepay/payment",
+  "description": "Official RatePAY Payments Extension for Magento2",
+  "type": "magento2-module",
+  "version": "0.9.0",
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "RatePAY\\Payment\\": ""
+    }
+  }
+}

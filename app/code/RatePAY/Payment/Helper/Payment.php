@@ -14,6 +14,15 @@ use Magento\Framework\App\Helper\Context;
 class Payment extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
+     * Payment constructor.
+     * @param Context $context
+     */
+    public function __construct(Context $context)
+    {
+        parent::__construct($context);
+    }
+
+    /**
      * @var array
      */
     private $_productsToMethods = array(
@@ -30,20 +39,24 @@ class Payment extends \Magento\Framework\App\Helper\AbstractHelper
     );
 
     /**
-     * Payment constructor.
-     * @param Context $context
-     */
-    public function __construct(Context $context)
-    {
-        parent::__construct($context);
-    }
-
-    /**
      * @param $id
      * @return mixed
      */
     public function convertMethodToProduct($id)
     {
         return $this->_productsToMethods[$id];
+    }
+
+    /**
+     * @param $code
+     * @return bool
+     */
+    public function isRatepayPayment($code)
+    {
+        if(strstr($code,'ratepay')){
+            return true;
+        } else {
+            return false;
+        }
     }
 }
