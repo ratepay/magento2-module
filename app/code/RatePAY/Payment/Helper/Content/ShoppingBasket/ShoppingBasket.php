@@ -47,6 +47,7 @@ class ShoppingBasket extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function setShoppingBasket($quoteOrOrder)
     {
+        $content = [];
         $content = [
                 'Amount' => round($quoteOrOrder->getBaseGrandTotal(), 2),
                 'Items' => $this->rpContentBasketItemsHelper->setItems($quoteOrOrder),
@@ -54,6 +55,10 @@ class ShoppingBasket extends \Magento\Framework\App\Helper\AbstractHelper
         if (!empty($quoteOrOrder->getShippingAmount())) {
             $content['Shipping'] = $this->rpContentBasketShippingHelper->setShipping($quoteOrOrder);
         }
+        if (!is_null($amount)) {
+            $content['Amount'] = $amount;
+        }
+
         return $content;
     }
 }

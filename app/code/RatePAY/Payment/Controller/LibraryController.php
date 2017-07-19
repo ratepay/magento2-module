@@ -149,3 +149,25 @@ class LibraryController
 
         return $confirmationDeliver;
     }
+
+    /**
+     * @param $head
+     * @param $content
+     * @param $operation
+     * @param $sandbox
+     * @return mixed
+     */
+    public function callPaymentChange($head, $content, $operation, $sandbox)
+    {
+        $rb = new RequestBuilder($sandbox);
+
+        try {
+            $paymentChange = $rb->callPaymentChange($head, $content)->subtype($operation);
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
+
+        return $paymentChange;
+    }
+
+}
