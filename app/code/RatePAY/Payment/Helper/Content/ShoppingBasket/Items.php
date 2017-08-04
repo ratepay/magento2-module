@@ -35,17 +35,19 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
 
         foreach (($quoteOrOrder instanceof \Magento\Sales\Model\Order\Invoice) ? $quoteOrOrder->getItems()->getItems() : $quoteOrOrder->getItems() as $item) {
 
-            if ($item->getProductType() === \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE && $item->getParentItem()) {
-                continue;
-            }
-
             if($item instanceof \Magento\Sales\Model\Order\Invoice\Item || $item instanceof \Magento\Sales\Model\Order\Creditmemo\Item){
+                if ($item->getOrderItem()->getProductType() === \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE && $item->getOrderItem()->getParentItem()) {
+                    continue;
+                }
                 $quantity = (int)$item->getQty();
                 if($quantity == 0){
                     continue;
                 }
                 $taxRate = round($item->getOrderItem()->getTaxPercent(),2);
             } else{
+                if ($item->getProductType() === \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE && $item->getParentItem()) {
+                    continue;
+                }
                 $quantity = (int)$item->getQtyOrdered();
                 $taxRate = round($item->getTaxPercent(), 2);
             }
