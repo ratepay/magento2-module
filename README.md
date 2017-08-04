@@ -25,11 +25,11 @@ For further information and prerequisites depending on module installation from 
 
 ## Changelog
 
-###Version 0.9.1 - Released 2017-08-04
+### Version 0.9.1 - Released 2017-08-04
 * implement Payment Change Credit on credit memo 
 * implement Payment Change Return on credit memo
 * implement Payment Change Cancellation on cancel
 * implement Confirmation Deliver on invoice event
 
-###Version 0.9.0 - Released 2017-07-19
+### Version 0.9.0 - Released 2017-07-19
 * initial Release
