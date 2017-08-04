@@ -4,7 +4,7 @@
 |Repository | RatePAY Module for Magento 2
 |------|----------
 |Author | Sebastian Neumann
-|Version | `0.9.0`
+|Version | `0.9.1`
 |Link | http://www.ratepay.com
 |Mail | integration@ratepay.com
 
@@ -22,3 +22,14 @@ php bin/magento cache:flush
 ### Option 2 (Web Setup Wizard):
 Navigate to the component manager in adminarea of the Shop. Choose the RatePAY Payment Module and activate it.
 For further information and prerequisites depending on module installation from adminarea please follow the official Magento 2 documentation : http://devdocs.magento.com/guides/v2.1/comp-mgr/module-man/compman-checklist.html
+
+## Changelog
+
+###Version 0.9.1 - Released 2017-08-04
+* implement Payment Change Credit on credit memo 
+* implement Payment Change Return on credit memo
+* implement Payment Change Cancellation on cancel
+* implement Confirmation Deliver on invoice event
+
+###Version 0.9.0 - Released 2017-07-19
+* initial Release
