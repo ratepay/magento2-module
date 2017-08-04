@@ -2,6 +2,7 @@
 
 namespace RatePAY;
 
+use RatePAY\Model\Request\SubModel\Content\ShoppingBasket;
 use RatePAY\Service\Util;
 use RatePAY\Service\XmlBuilder;
 use RatePAY\Service\CommunicationService;
@@ -160,58 +161,91 @@ class RequestBuilder
     public function __call($name, $arguments)
     {
         if (substr($name, 0, 4) == "call") {
-            $this->clearAttributes(); // Clearing all former attributes in case of reuse of current instance of RequestBuilder
-
-            $requestModelName = substr($name, 4);
-            $requestModelWithPath = ModelMapper::getFullPathRequestModel($requestModelName);
-
-            if (!class_exists($requestModelWithPath)) {
-                throw new RequestException("operation '" . $requestModelName . "' not valid");
-            }
-
-            $this->requestModel = new $requestModelWithPath;
-
-            if (get_class($arguments[0]) == "RatePAY\\ModelBuilder") {
-                $arguments[0] = $arguments[0]->getModel();
-            }
-
-            if (!key_exists(0, $arguments) || get_class($arguments[0]) != ModelMapper::getFullPathRequestSubModel("Head")) {
-                throw new RequestException("" . $requestModelName . " requires Head model");
-            }
-
-            $this->requestType = $requestModelName;
-            $this->head = $arguments[0];
-
-            if (key_exists(1, $arguments)) {
-                if (get_class($arguments[1]) == "RatePAY\\ModelBuilder") {
-                    $arguments[1] = $arguments[1]->getModel();
-                }
-
-                if (get_class($arguments[1]) != ModelMapper::getFullPathRequestSubModel("Content")) {
-                    throw new RequestException("" . $requestModelName . " requires Content model");
-                }
-
-                $this->content = $arguments[1];
-            }
-
-            // If no subtype needed or already set, call request immediately. Else subtype method has to trigger the call.
-            if (!$this->requestModel->isSubtypeRequired() || $this->head->isSubtypeSet()) {
-                $this->callRequest();
-            }
-
-            return $this;
-
+            return $this->callMethod($name, $arguments);
         } elseif (substr($name, 0, 3) == "get" || substr($name, 0, 2) == "is") {
+            return $this->getMethod($name, $arguments);
+        } else {
+            throw new RequestException("Action '" . $name . "' not valid");
+        }
+    }
 
-            if (method_exists($this->responseModel, $name)) {
-                if (count($arguments) > 0) {
-                    return $this->responseModel->$name(current($arguments));
-                } else {
-                    return $this->responseModel->$name();
-                }
+    private function callMethod($name, $arguments)
+    {
+        $this->clearAttributes(); // Clearing all former attributes in case of reuse of current instance of RequestBuilder
 
+        $requestModelName = substr($name, 4);
+        $requestModelWithPath = ModelMapper::getFullPathRequestModel($requestModelName);
+
+        if (!class_exists($requestModelWithPath)) {
+            throw new RequestException("operation '" . $requestModelName . "' not valid");
+        }
+
+        $this->requestModel = new $requestModelWithPath;
+
+        if (get_class($arguments[0]) == "RatePAY\\ModelBuilder") {
+            $arguments[0] = $arguments[0]->getModel();
+        }
+
+        if (!key_exists(0, $arguments) || get_class($arguments[0]) != ModelMapper::getFullPathRequestSubModel("Head")) {
+            throw new RequestException("" . $requestModelName . " requires Head model");
+        }
+
+        $this->requestType = $requestModelName;
+        $this->head = $arguments[0];
+
+        if (key_exists(1, $arguments)) {
+            if (get_class($arguments[1]) == "RatePAY\\ModelBuilder") {
+                $arguments[1] = $arguments[1]->getModel();
+            }
+
+            if (get_class($arguments[1]) != ModelMapper::getFullPathRequestSubModel("Content")) {
+                throw new RequestException("" . $requestModelName . " requires Content model");
+            }
+
+            $this->content = $arguments[1];
+        }
+
+        /*
+         * If Payment Request is called without transaction id,
+         * Payment Init will called automatically before sending Payment Request.
+         */
+        if ($requestModelName == "PaymentRequest" && is_null($this->head->getTransactionId())) {
+            $autoPI = $this->callAutomaticPaymentInit();
+            // callAutomaticPaymentInit returns true if call was successful. Just on failure it returns PI response model.
+            if ($autoPI !== true) {
+                return $autoPI;
+            }
+        }
+
+        /*
+         * Call main request
+         * If no subtype needed or already set, call request immediately. Otherwise subtype method calls the request.
+         */
+        if (!$this->requestModel->isSubtypeRequired() || $this->head->isSubtypeSet()) {
+            $this->callRequest();
+        }
+
+        /*
+         * Call automatic Confirmation Deliver if AutoDelivery is set
+         */
+        if ($requestModelName == "PaymentRequest" && $this->isSuccessful()) {
+            $autoCD = $this->callAutomaticConfirmationDeliver();
+            // callAutomaticConfirmationDeliver returns true if call is not necessary or was successful. Just on failure it returns CD response model.
+            if ($autoCD !== true) {
+                return $autoCD;
+            }
+        }
+
+        return $this;
+    }
+
+    private function getMethod($name, $arguments)
+    {
+        if (method_exists($this->responseModel, $name)) {
+            if (count($arguments) > 0) {
+                return $this->responseModel->$name(current($arguments));
             } else {
-                throw new RequestException("Action '" . $name . "' not valid");
+                return $this->responseModel->$name();
             }
 
         } else {
@@ -224,19 +258,6 @@ class RequestBuilder
      */
     private function callRequest()
     {
-        /*
-         * If Payment Request is called without transaction id,
-         * Payment Init will called automatically before sending Payment Request.
-         */
-        /*if ('PaymentRequest' == $requestModelName && !$head->isTransactionSet()) {
-            $rB = new RequestBuilder($this->sandbox);
-            $paymentInit = $rB->callPaymentInit($arguments[0]);
-            if (!$paymentInit->isSuccessful()) {
-                return $paymentInit;
-            }
-            $head->setTransactionId($paymentInit->getTransactionId());
-        }*/
-
         $this->head->setOperation(Util::changeCamelCaseToUnderscore($this->requestType));
         if (!is_null($this->subtype)) {
             $this->head->setSubtype($this->subtype);
@@ -252,8 +273,6 @@ class RequestBuilder
 
         // Get request model as XML object (type of SimpleXmlElement)
         $this->requestXmlElement = XmlBuilder::getXmlElement($this->requestModel->toArray());
-
-        //if ($requestModelName == "PaymentRequest") die(var_dump($this->requestModel->toArray(), $this->requestXmlElement, $this->requestXmlElement->asXML()));
 
         // Get raw XML string
         $this->requestRaw = $this->requestXmlElement->asXML();
@@ -437,6 +456,80 @@ class RequestBuilder
                     $this->$attribute = null;
             }
         }
+    }
+
+    /**
+     * Calls an automated PaymentInit request
+     *
+     * @return bool|RequestBuilder
+     */
+    private function callAutomaticPaymentInit()
+    {
+        $thisClone = clone $this; // Using clone to keep connection settings
+        $paymentInit = $thisClone->callPaymentInit($this->head);
+
+        if (!$paymentInit->isSuccessful()) {
+            return $paymentInit;
+        }
+
+        $this->head->setTransactionId($paymentInit->getTransactionId());
+
+        return true;
+    }
+
+
+    /**
+     * Checks if shopping basket contains auto-deliver items and calls an automated ConfirmationDeliver request
+     *
+     * @return bool|RequestBuilder
+     */
+    private function callAutomaticConfirmationDeliver()
+    {
+        $shoppingBasket = $this->content->getShoppingBasket();
+        $shoppingItems = $shoppingBasket->getItems()->getItem();
+
+        $autoDelivery = false;
+        $deliveryBasket = new ShoppingBasket;
+        $deliveryItems = new ShoppingBasket\Items;
+
+        foreach ($shoppingItems as $shoppingItem) {
+            if ($shoppingItem->getAutoDelivery() || $shoppingBasket->getAutoDelivery()) {
+                $deliveryItems->setItem($shoppingItem);
+                $autoDelivery = true;
+            }
+        }
+        if ($autoDelivery) {
+            $deliveryBasket->setItems($deliveryItems);
+        }
+
+        if (!is_null($shoppingBasket->getDiscount()) && ($shoppingBasket->getDiscount()->getAutoDelivery() || $shoppingBasket->getAutoDelivery())) {
+            $deliveryBasket->setDiscount($shoppingBasket->getDiscount());
+            $autoDelivery = true;
+        }
+
+        if (!is_null($shoppingBasket->getShipping()) && ($shoppingBasket->getShipping()->getAutoDelivery() || $shoppingBasket->getAutoDelivery())) {
+            $deliveryBasket->setShipping($shoppingBasket->getShipping());
+            $autoDelivery = true;
+        }
+
+        if ($autoDelivery) {
+            $mbContent = new ModelBuilder('Content');
+            $mbContent->setShoppingBasket($deliveryBasket);
+
+            // Commit invoicing block if set
+            if (!is_null($this->content->getInvoicing())) {
+                $mbContent->setInvoicing($this->content->getInvoicing());
+            }
+
+            $thisClone = clone $this; // Using clone to keep connection settings
+            $confirmationDeliver = $thisClone->callConfirmationDeliver($this->head, $mbContent);
+
+            if (!$confirmationDeliver->isSuccessful()) {
+                return $confirmationDeliver;
+            }
+        }
+
+        return true;
     }
 
 }

@@ -3,7 +3,6 @@
 namespace RatePAY\Model\Request\SubModel\Content;
 
 use RatePAY\Model\Request\SubModel\AbstractModel;
-use RatePAY\Model\Request\SubModel\Constants as CONSTANTS;
 
 class Payment extends AbstractModel
 {
@@ -38,11 +37,22 @@ class Payment extends AbstractModel
         ],
         'InstallmentDetails' => [
             'mandatoryByRule' => true,
-            'instanceOf' => __NAMESPACE__ . "\\Payment\\InstallmentDetails"
+            'instanceOf' => "Content\\Payment\\InstallmentDetails"
         ],
         'DebitPayType' => [
             'mandatoryByRule' => true
         ]
+    ];
+
+    /*
+     *  All available RatePAY payment methods
+     *  @ToDo: find better place to save (but stay compatible with PHP 5.4 (now array within constant))
+     */
+    private $ratepayPaymentMethods = [
+        "INVOICE",
+        "INSTALLMENT",
+        "ELV",
+        "PREPAYMENT"
     ];
 
     /**
@@ -53,7 +63,7 @@ class Payment extends AbstractModel
     protected function rule()
     {
 
-        if (!in_array(strtoupper($this->admittedFields['Method']['value']), CONSTANTS::RATEPAY_PAYMENT_METHODS)) {
+        if (!in_array(strtoupper($this->admittedFields['Method']['value']), $this->ratepayPaymentMethods)) {
             $this->setErrorMsg("Payment method invalid");
             return false;
         }
