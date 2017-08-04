@@ -62,7 +62,7 @@ class ShoppingBasket extends \Magento\Framework\App\Helper\AbstractHelper
                     'Items' => $this->rpContentBasketItemsHelper->setItems($quoteOrOrder),
                 ];
             }
-            if (!empty($quoteOrOrder->getShippingAmount())) {
+            if ($quoteOrOrder->getShippingAmount() > 0) {
                 $content['Shipping'] = $this->rpContentBasketShippingHelper->setShipping($quoteOrOrder);
             }
         } elseif (count($articleList) > 0) {
