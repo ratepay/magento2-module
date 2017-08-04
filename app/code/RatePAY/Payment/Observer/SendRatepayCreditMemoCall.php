@@ -100,13 +100,18 @@ class SendRatepayCreditMemoCall implements ObserverInterface
             throw new $this->paymentException(__('Processing failed'));
         }
 
-        $returnRequest = $this->rpLibraryController->callPaymentChange($head, $content, 'return', $sandbox);
-
-        if (!$returnRequest->isSuccessful()) {
-            throw new $this->paymentException(__('Refund was not successfull'));
+        if ($creditMemo->getAdjustmentPositive() > 0 || $creditMemo->getAdjustmentNegative() > 0) {
+            $this->callRatepayCredit($order, $creditMemo, $paymentMethod);
+            $returnRequest = $this->rpLibraryController->callPaymentChange($head, $content, 'return', $sandbox);
+            if (!$returnRequest->isSuccessful()) {
+                throw new $this->paymentException(__('Refund was not successfull'));
+            } else {
+                return true;
+            }
         } else {
-            if ($creditMemo->getAdjustmentPositive() > 0 || $creditMemo->getAdjustmentNegative() > 0) {
-                $this->callRatepayCredit($order, $creditMemo, $paymentMethod);
+            $returnRequest = $this->rpLibraryController->callPaymentChange($head, $content, 'return', $sandbox);
+            if (!$returnRequest->isSuccessful()) {
+                throw new $this->paymentException(__('Refund was not successfull'));
             } else {
                 return true;
             }
