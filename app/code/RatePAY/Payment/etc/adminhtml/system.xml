@@ -85,11 +85,6 @@
                             <label>Maximum Order Total</label>
                             <config_path>payment/ratepay_de_invoice/max_order_total</config_path>
                         </field>
-                        <field id="dynamicDueDate" translate="label" type="text" sortOrder="100" showInDefault="1"
-                               showInWebsite="1" showInStore="1">
-                            <label>Due Days</label>
-                            <config_path>payment/ratepay_de_invoice/dynamicDueDate</config_path>
-                        </field>
                         <field id="b2b" translate="label" type="label" sortOrder="110" showInDefault="1"
                                showInWebsite="1"
                                showInStore="1">
@@ -202,11 +197,6 @@
                             <label>Maximum Oder Total</label>
                             <config_path>payment/ratepay_de_directdebit/max_order_total</config_path>
                         </field>
-                        <field id="dynamicDueDate" translate="label" type="text" sortOrder="100" showInDefault="1"
-                               showInWebsite="1" showInStore="1">
-                            <label>Due Days</label>
-                            <config_path>payment/ratepay_de_directdebit/dynamicDueDate</config_path>
-                        </field>
                         <field id="b2b" translate="label" type="label" sortOrder="110" showInDefault="1"
                                showInWebsite="1"
                                showInStore="1">
@@ -226,13 +216,6 @@
                             <label>Delivery Address</label>
                             <frontend_model>RatePAY\Payment\Block\System\Config\Label\On</frontend_model>
                             <config_path>payment/ratepay_de_directdebit/delivery_address</config_path>
-                        </field>
-                        <field id="iban_only" translate="label" type="select" sortOrder="150" showInDefault="1"
-                               showInWebsite="1"
-                               showInStore="1">
-                            <label>Nur SEPA/IBAN Kontodaten</label>
-                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                            <config_path>payment/ratepay_de_directdebit/iban_only</config_path>
                         </field>
                         <field id="order_status" translate="label" type="select" sortOrder="999" showInDefault="1"
                                showInWebsite="1" showInStore="0">
@@ -575,11 +558,6 @@
                             <label>Maximum Oder Total</label>
                             <config_path>payment/ratepay_at_invoice/max_order_total</config_path>
                         </field>
-                        <field id="dynamicDueDate" translate="label" type="text" sortOrder="100" showInDefault="1"
-                               showInWebsite="1" showInStore="1">
-                            <label>Due Days</label>
-                            <config_path>payment/ratepay_at_invoice/dynamicDueDate</config_path>
-                        </field>
                         <field id="b2b" translate="label" type="select" sortOrder="110" showInDefault="1"
                                showInWebsite="1"
                                showInStore="1">
@@ -691,11 +669,6 @@
                                showInStore="1">
                             <label>Maximum Oder Total</label>
                             <config_path>payment/ratepay_at_directdebit/max_order_total</config_path>
-                        </field>
-                        <field id="dynamicDueDate" translate="label" type="text" sortOrder="100" showInDefault="1"
-                               showInWebsite="1" showInStore="1">
-                            <label>Due Days</label>
-                            <config_path>payment/ratepay_at_directdebit/dynamicDueDate</config_path>
                         </field>
                         <field id="b2b" translate="label" type="label" sortOrder="110" showInDefault="1"
                                showInWebsite="1"
@@ -1055,11 +1028,6 @@
                                showInStore="1">
                             <label>Maximum Oder Total</label>
                             <config_path>payment/ratepay_ch_invoice/max_order_total</config_path>
-                        </field>
-                        <field id="dynamicDueDate" translate="label" type="text" sortOrder="100" showInDefault="1"
-                               showInWebsite="1" showInStore="1">
-                            <label>Due Days</label>
-                            <config_path>payment/ratepay_ch_invoice/dynamicDueDate</config_path>
                         </field>
                         <field id="b2b" translate="label" type="label" sortOrder="110" showInDefault="1"
                                showInWebsite="1"
