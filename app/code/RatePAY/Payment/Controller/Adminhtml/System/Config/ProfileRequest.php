@@ -35,6 +35,7 @@ class ProfileRequest extends \Magento\Framework\App\Action\Action
 
     /**
      * @var \RatePAY\Payment\Controller\LibraryController
+     */
     protected $_rpLibraryController;
 
     /**
@@ -156,7 +157,7 @@ class ProfileRequest extends \Magento\Framework\App\Action\Action
     public function getHead($profileId, $securityCode){
         $quote = $this->_checkoutSession->getQuote();
 
-        return $this->_rpLibraryModel->getRequestHead($quote, null, null, $profileId, $securityCode);
+        return $this->_rpLibraryModel->getRequestHead($quote, null, null, null, $profileId, $securityCode);
     }
 
     /**
