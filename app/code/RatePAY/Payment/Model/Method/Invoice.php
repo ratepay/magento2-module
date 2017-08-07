@@ -8,5 +8,10 @@ class Invoice extends AbstractMethod
 
     protected $_code = self::METHOD_CODE;
 
+    /**
+     * @var string
+     */
+    protected $_infoBlockType = 'RatePAY\Payment\Block\Info\Info';
+
 }
 

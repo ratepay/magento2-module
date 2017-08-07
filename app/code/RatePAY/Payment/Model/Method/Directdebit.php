@@ -14,4 +14,9 @@ class Directdebit extends AbstractMethod
     const METHOD_CODE = 'ratepay_directdebit';
 
     protected $_code = self::METHOD_CODE;
+
+    /**
+     * @var string
+     */
+    protected $_infoBlockType = 'RatePAY\Payment\Block\Info\Info';
 }
