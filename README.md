@@ -4,7 +4,7 @@
 |Repository | RatePAY Module for Magento 2
 |------|----------
 |Author | Sebastian Neumann
-|Version | `0.9.1`
+|Version | `0.9.2`
 |Link | http://www.ratepay.com
 |Mail | integration@ratepay.com
 
@@ -24,6 +24,11 @@ Navigate to the component manager in adminarea of the Shop. Choose the RatePAY P
 For further information and prerequisites depending on module installation from adminarea please follow the official Magento 2 documentation : http://devdocs.magento.com/guides/v2.1/comp-mgr/module-man/compman-checklist.html
 
 ## Changelog
+
+### Version 0.9.2 - Released 2017-08-07
+* add TrxId and Descriptor to payment information in order view
+* fix profile request issue
+* remove dynamic due date and iban only options
 
 ### Version 0.9.1 - Released 2017-08-04
 * implement Payment Change Credit on credit memo 
