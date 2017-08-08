@@ -38,3 +38,7 @@ For further information and prerequisites depending on module installation from 
 
 ### Version 0.9.0 - Released 2017-07-19
 * initial Release
+
+## Nutzungsbedingungen
+Bitte beachten Sie die Nutzungsbedingungen unter http://www.ratepay.com/nutzungsbedingungen/
+
