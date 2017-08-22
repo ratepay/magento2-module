@@ -92,7 +92,7 @@ class SendRatepayDeliverCallOnInvoice implements ObserverInterface
      */
     private function sendRatepayDeliverCall($order, $inv, $paymentMethod)
     {
-        $sandbox = (bool)$this->rpDataHelper->getRpConfigData($order, $paymentMethod, 'sandbox', $this->storeManager->getStore()->getId());
+        $sandbox = (bool)$this->rpDataHelper->getRpConfigData($paymentMethod, 'sandbox', $this->storeManager->getStore()->getId());
         $head = $this->rpLibraryModel->getRequestHead($order, 'CONFIRMATION_DELIVER');
         $content = $this->rpLibraryModel->getRequestContent($inv, 'CONFIRMATION_DELIVER');
         $resultConfirmationDeliver = $this->rpLibraryController->callConfirmationDeliver($head, $content, $sandbox);

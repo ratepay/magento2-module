@@ -33,6 +33,9 @@ class Head extends \Magento\Framework\App\Helper\AbstractHelper
      */
     protected $productMetadata;
 
+    /**
+     * @var \Magento\Framework\Module\ModuleListInterface
+     */
     protected $moduleList;
 
 
@@ -41,6 +44,8 @@ class Head extends \Magento\Framework\App\Helper\AbstractHelper
      * @param Context $context
      * @param \RatePAY\Payment\Helper\Data $rpHelper
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\ProductMetadataInterface $productMetadata
+     * @param \Magento\Framework\Module\ModuleListInterface $moduleList
      */
     public function __construct(Context $context,
                                 \RatePAY\Payment\Helper\Data $rpHelper,

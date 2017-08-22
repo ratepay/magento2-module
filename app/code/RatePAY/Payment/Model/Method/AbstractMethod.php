@@ -158,9 +158,9 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
     {
         $order = $this->getQuoteOrOrder();
         $head = $this->_rpLibraryModel->getRequestHead($order);
-        $sandbox = (bool)$this->rpDataHelper->getRpConfigData($order, $this->_code, 'sandbox', $this->storeManager->getStore()->getId());
+        $sandbox = (bool)$this->rpDataHelper->getRpConfigData($this->_code, 'sandbox', $this->storeManager->getStore()->getId());
         $company = $order->getBillingAddress()->getCompany();
-        if (!$this->rpDataHelper->getRpConfigData($order, $this->_code, 'b2b', $this->storeManager->getStore()->getId()) && !empty($company)) {
+        if (!$this->rpDataHelper->getRpConfigData($this->_code, 'b2b', $this->storeManager->getStore()->getId()) && !empty($company)) {
             throw new $this->paymentException(__('b2b not allowed'));
         }
 
@@ -168,7 +168,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         $shippingAddress = $order->getShippingAddress();
         $diff = array_diff($this->rpDataHelper->getImportantAddressData($shippingAddress), $this->rpDataHelper->getImportantAddressData($billingAddress));
 
-        if (!$this->rpDataHelper->getRpConfigData($order, $this->_code, 'delivery_address', $this->storeManager->getStore()->getId()) && count($diff)) {
+        if (!$this->rpDataHelper->getRpConfigData($this->_code, 'delivery_address', $this->storeManager->getStore()->getId()) && count($diff)) {
             throw new $this->paymentException(__('ala not allowed'));
         }
 
@@ -179,13 +179,13 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
             $content = $this->_rpLibraryModel->getRequestContent($order, 'PAYMENT_REQUEST');
             $resultRequest = LibraryController::callPaymentRequest($head, $content, $sandbox);
             if (!$resultRequest->isSuccessful()) {
-                if(!$resultRequest->isRetryAdmitted()){
+                if (!$resultRequest->isRetryAdmitted()){
                     $this->checkoutSession->setRatepayMethodHide(true);
                     $message = $this->formatMessage($resultRequest->getCustomerMessage());
                     $this->customerSession->setRatePayDeviceIdentToken(null);
                     throw new $this->paymentException(__($message)); // RatePAY Error Message
-                }else {
-                    $message = $this->formatMessage($resultRequest->getCustomerMessage(), $order);
+                } else {
+                    $message = $this->formatMessage($resultRequest->getCustomerMessage());
                     throw new $this->paymentException(__($message)); // RatePAY Error Message
                 }
             }
@@ -223,13 +223,13 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
             return false;
         }
 
-        if (!$this->rpDataHelper->getRpConfigData($quote, $this->_code, 'active', $this->storeManager->getStore()->getId())) {
+        if (!$this->rpDataHelper->getRpConfigData($this->_code, 'active', $this->storeManager->getStore()->getId())) {
             return false;
         }
 
         $totalAmount = $quote->getGrandTotal();
-        $minAmount = $this->rpDataHelper->getRpConfigData($quote, $this->_code, 'min_order_total', $this->storeManager->getStore()->getId());
-        $maxAmount = $this->rpDataHelper->getRpConfigData($quote, $this->_code, 'max_order_total', $this->storeManager->getStore()->getId());
+        $minAmount = $this->rpDataHelper->getRpConfigData($this->_code, 'min_order_total', $this->storeManager->getStore()->getId());
+        $maxAmount = $this->rpDataHelper->getRpConfigData($this->_code, 'max_order_total', $this->storeManager->getStore()->getId());
 
         if ($totalAmount < $minAmount || $totalAmount > $maxAmount) {
             return false;
@@ -251,9 +251,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
      */
     public function canUseForCountryDelivery($country)
     {
-        $quote = $this->checkoutSession->getQuote();
-
-        $availableCountries = explode(',', $this->rpDataHelper->getRpConfigData($quote, $this->_code, 'specificcountry_delivery', $this->storeManager->getStore()->getId()));
+        $availableCountries = explode(',', $this->rpDataHelper->getRpConfigData($this->_code, 'specificcountry_delivery', $this->storeManager->getStore()->getId()));
         if(!in_array($country, $availableCountries)){
             return false;
         }
@@ -300,14 +298,14 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
      * @param $order
      * @return string
      */
-    public function formatMessage($message, $order)
+    public function formatMessage($message)
     {
         if(!$message){
             $message = __('Automated Data Procedure Error');
         }
 
         if(strpos($message, 'zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis') !== false){
-            $message = $message . "\n\n" . $this->rpDataHelper->getRpConfigData($order, $this->_code, 'privacy_policy', $this->storeManager->getStore()->getId());
+            $message = $message . "\n\n" . $this->rpDataHelper->getRpConfigData($this->_code, 'privacy_policy', $this->storeManager->getStore()->getId());
         }
 
         return strip_tags($message);

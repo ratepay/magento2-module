@@ -90,7 +90,7 @@ class SendRatepayCancelCall implements ObserverInterface
      */
     public function sendRatepayCancelCall($order, $paymentMethod)
     {
-        $sandbox = (bool)$this->rpDataHelper->getRpConfigData($order, $paymentMethod, 'sandbox', $this->storeManager->getStore()->getId());
+        $sandbox = (bool)$this->rpDataHelper->getRpConfigData($paymentMethod, 'sandbox', $this->storeManager->getStore()->getId());
         $head = $this->rpLibraryModel->getRequestHead($order, 'PAYMENT_CHANGE');
         $content = $this->rpLibraryModel->getRequestContent($order, 'PAYMENT_CHANGE', [], 0);
         $cancellationRequest = $this->rpLibraryController->callPaymentChange($head, $content, 'cancellation', $sandbox);

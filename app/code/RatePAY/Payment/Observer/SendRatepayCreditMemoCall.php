@@ -92,11 +92,11 @@ class SendRatepayCreditMemoCall implements ObserverInterface
      */
     public function callRatepayReturn($order, $creditMemo, $paymentMethod)
     {
-        $sandbox = (bool)$this->rpDataHelper->getRpConfigData($order, $paymentMethod, 'sandbox', $this->storeManager->getStore()->getId());
+        $sandbox = (bool)$this->rpDataHelper->getRpConfigData($paymentMethod, 'sandbox', $this->storeManager->getStore()->getId());
         $head = $this->rpLibraryModel->getRequestHead($order, 'PAYMENT_CHANGE');
         $content = $this->rpLibraryModel->getRequestContent($creditMemo, "PAYMENT_CHANGE");
 
-        if ($this->rpDataHelper->getRpConfigData($order, $paymentMethod, 'status', $this->storeManager->getStore()->getId()) == 1) {
+        if ($this->rpDataHelper->getRpConfigData($paymentMethod, 'status', $this->storeManager->getStore()->getId()) == 1) {
             throw new $this->paymentException(__('Processing failed'));
         }
 
@@ -126,7 +126,7 @@ class SendRatepayCreditMemoCall implements ObserverInterface
      */
     public function callRatepayCredit($order, $creditMemo, $paymentMethod)
     {
-        $sandbox = (bool)$this->rpDataHelper->getRpConfigData($order, $paymentMethod, 'sandbox', $this->storeManager->getStore()->getId());
+        $sandbox = (bool)$this->rpDataHelper->getRpConfigData($paymentMethod, 'sandbox', $this->storeManager->getStore()->getId());
         $head = $this->rpLibraryModel->getRequestHead($order, 'PAYMENT_CHANGE');
         $content = $this->rpLibraryModel->getRequestContent($order, 'PAYMENT_CHANGE', $this->rpLibraryModel->addAdjustments($creditMemo));
 

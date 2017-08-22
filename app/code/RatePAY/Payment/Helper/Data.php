@@ -17,6 +17,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     protected $_scopeConfig;
 
+    /**
+     * @var \Magento\Framework\App\Filesystem\DirectoryList
+     */
     protected $directoryList;
 
     /**
@@ -40,7 +43,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param bool $noCountry
      * @return mixed
      */
-    public function getRpConfigData($quoteOrOrder, $method, $field, $storeId, $advanced = false, $noCountry = false)
+    public function getRpConfigData($method, $field, $storeId)
     {
         $dataset = $method;
         $path = 'payment/'. $dataset . '/' . $field;
@@ -70,6 +73,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         return $result;
     }
 
+    /**
+     * @return string
+     */
     public function getEdition()
     {
         $edition = 'CE';
