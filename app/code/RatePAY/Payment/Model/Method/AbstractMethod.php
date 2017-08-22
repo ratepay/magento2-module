@@ -181,7 +181,8 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
             if (!$resultRequest->isSuccessful()) {
                 if(!$resultRequest->isRetryAdmitted()){
                     $this->checkoutSession->setRatepayMethodHide(true);
-                    $message = $this->formatMessage($resultRequest->getCustomerMessage(), $order);
+                    $message = $this->formatMessage($resultRequest->getCustomerMessage());
+                    $this->customerSession->setRatePayDeviceIdentToken(null);
                     throw new $this->paymentException(__($message)); // RatePAY Error Message
                 }else {
                     $message = $this->formatMessage($resultRequest->getCustomerMessage(), $order);
@@ -190,9 +191,11 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
             }
             $payment->setAdditionalInformation('descriptor', $resultRequest->getDescriptor());
             $this->checkoutSession->setRatepayMethodHide(false);
+            $this->customerSession->setRatePayDeviceIdentToken(null);
             return $this;
         } else {
-            $message = $this->formatMessage($resultInit->getReasonMessage(), $order);
+            $message = $this->formatMessage($resultInit->getReasonMessage());
+            $this->customerSession->setRatePayDeviceIdentToken(null);
             throw new $this->paymentException(__($message)); // RatePAY Error Message
         }
     }

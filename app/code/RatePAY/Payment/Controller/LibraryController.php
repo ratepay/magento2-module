@@ -12,6 +12,7 @@ require_once __DIR__ . '/../Model/Library/vendor/autoload.php';
 
 use RatePAY\RequestBuilder;
 use RatePAY\InstallmentBuilder;
+use RatePAY\Frontend\DeviceFingerprintBuilder;
 
 class LibraryController
 {
@@ -172,6 +173,13 @@ class LibraryController
         }
 
         return $paymentChange;
+    }
+
+    public function getDfpCode($snippetId, $orderId)
+    {
+        $dfp = new DeviceFingerprintBuilder($snippetId, $orderId);
+
+        return $dfp;
     }
 
 }

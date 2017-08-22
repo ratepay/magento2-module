@@ -90,10 +90,11 @@ class LibraryModel
                 break;
 
             case 'PAYMENT_REQUEST' :
-                $headModel->setTransactionId($resultInit->getTransactionId());
+                $this->rpHeadAdditionalHelper->setHeadAdditional($resultInit, $headModel);
+                /*$headModel->setTransactionId($resultInit->getTransactionId());
                 $headModel->setCustomerDevice(
-                    $headModel->CustomerDevice()->setDeviceToken("1234567890")
-                );
+                    $headModel->CustomerDevice()->setDeviceToken($this->customerSession->getRatepayDeviceIdentToken())
+                );*/
                 $headModel = $this->rpHeadExternalHelper->setHeadExternal($quoteOrOrder, $headModel);
                 break;
 

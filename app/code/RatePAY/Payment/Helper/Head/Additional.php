@@ -14,12 +14,20 @@ use Magento\Framework\App\Helper\Context;
 class Additional extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $customerSession;
+
+    /**
      * Additional constructor.
      * @param Context $context
      */
-    public function __construct(Context $context)
+    public function __construct(Context $context,
+                                \Magento\Customer\Model\Session $customerSession)
     {
         parent::__construct($context);
+
+        $this->customerSession = $customerSession;
     }
 
     /**
@@ -33,7 +41,7 @@ class Additional extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $headModel->setTransactionId($resultInit->getTransactionId());
         $headModel->setCustomerDevice(
-            $headModel->CustomerDevice()->setDeviceToken("1234567890")
+            $headModel->CustomerDevice()->setDeviceToken($this->customerSession->getRatePayDeviceIdentToken())
         );
 
         return $headModel;

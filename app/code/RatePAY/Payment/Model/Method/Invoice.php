@@ -11,6 +11,11 @@ class Invoice extends AbstractMethod
     /**
      * @var string
      */
+    protected $_formBlockType = 'RatePAY\Payment\Block\Form\Dfp';
+
+    /**
+     * @var string
+     */
     protected $_infoBlockType = 'RatePAY\Payment\Block\Info\Info';
 
 }
