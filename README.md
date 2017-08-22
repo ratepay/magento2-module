@@ -4,7 +4,7 @@
 |Repository | RatePAY Module for Magento 2
 |------|----------
 |Author | Sebastian Neumann
-|Version | `0.9.2`
+|Version | `1.0.0`
 |Link | http://www.ratepay.com
 |Mail | integration@ratepay.com
 
@@ -24,6 +24,9 @@ Navigate to the component manager in adminarea of the Shop. Choose the RatePAY P
 For further information and prerequisites depending on module installation from adminarea please follow the official Magento 2 documentation : http://devdocs.magento.com/guides/v2.1/comp-mgr/module-man/compman-checklist.html
 
 ## Changelog
+
+### Version 1.0.0 - Released 2017-08-22
+* add device fingerprint 
 
 ### Version 0.9.2 - Released 2017-08-07
 * add TrxId and Descriptor to payment information in order view
