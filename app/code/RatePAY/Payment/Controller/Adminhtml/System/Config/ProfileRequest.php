@@ -182,6 +182,7 @@ class ProfileRequest extends \Magento\Framework\App\Action\Action
         $id = str_replace('_at', '', $id);
         $id = str_replace('_ch', '', $id);
         $id = str_replace('_nl', '', $id);
+        $id = str_replace('_be', '', $id);
 
         return $id;
     }
@@ -201,6 +202,9 @@ class ProfileRequest extends \Magento\Framework\App\Action\Action
         }
         if(strstr($id, '_nl_')) {
             return 'nl';
+        }
+        if(strstr($id, '_be_')) {
+            return 'be';
         }
         return 'de';
     }

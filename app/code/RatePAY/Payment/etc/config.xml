@@ -112,6 +112,28 @@
                 <group>offline</group>
                 <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
             </ratepay_ch_invoice>
+            <ratepay_be_invoice>
+                <payment_action>authorize</payment_action>
+                <active>0</active>
+                <sandbox>1</sandbox>
+                <model>RatePAY\Payment\Model\Method\BE\Invoice</model>
+                <order_status>pending</order_status>
+                <title>RatePAY Invoice</title>
+                <allowspecific>0</allowspecific>
+                <group>offline</group>
+                <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
+            </ratepay_be_invoice>
+            <ratepay_be_directdebit>
+                <payment_action>authorize</payment_action>
+                <active>0</active>
+                <sandbox>1</sandbox>
+                <model>RatePAY\Payment\Model\Method\BE\Directdebit</model>
+                <order_status>pending</order_status>
+                <title>RatePAY Directdebit</title>
+                <allowspecific>0</allowspecific>
+                <group>offline</group>
+                <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
+            </ratepay_be_directdebit>
         </payment>
     </default>
 </config>
