@@ -43,6 +43,12 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
      * @var \Magento\Customer\Model\Session
      */
     protected $customerSession;
+
+    /**
+     * @var \Magento\Store\Api\Data\StoreInterface
+     */
+    protected $store;
+
     /**
      * Customer constructor.
      * @param Context $context
@@ -55,7 +61,8 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
                                 \RatePAY\Payment\Helper\Content\Customer\BankAccount $rpContentCustomerBankAccountHelper,
                                 \Magento\Checkout\Model\Session $checkoutSession,
                                 CustomerRepositoryInterface $customerRepository,
-                                \Magento\Customer\Model\Session $customerSession)
+                                \Magento\Customer\Model\Session $customerSession,
+                                \Magento\Framework\Locale\Resolver $resolver)
     {
         parent::__construct($context);
         $this->_remoteAddress = $context->getRemoteAddress();
@@ -65,6 +72,7 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
         $this->checkoutSession = $checkoutSession;
         $this->customerRepository = $customerRepository;
         $this->customerSession = $customerSession;
+        $this->store = $resolver;
     }
 
     /**
@@ -84,6 +92,11 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
             $dob = $this->checkoutSession->getRatepayDob();
         }
 
+        $locale = substr($this->store->getLocale(),0,2);
+        if (empty($locale)) {
+            $locale = substr($this->store->getDefaultLocale(),0,2);
+        }
+
         $content = [
                 'Gender' => "U",
                 //'Salutation' => "Mrs.",
@@ -93,6 +106,7 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
                 'LastName' => $quoteOrOrder->getBillingAddress()->getLastname(),
                 //'NameSuffix' => "Sen.",
                 'DateOfBirth' => $dob,
+                'Language' => $locale,
                 //'Nationality' => "DE",
                 'IpAddress' => $this->_remoteAddress->getRemoteAddress(),
                 'Addresses'=> $this->rpContentCustomerAddressesHelper->setAddresses($quoteOrOrder),
@@ -117,6 +131,7 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
         $id = str_replace('_at', '', $id);
         $id = str_replace('_ch', '', $id);
         $id = str_replace('_nl', '', $id);
+        $id = str_replace('_be', '', $id);
 
         return $id;
     }
