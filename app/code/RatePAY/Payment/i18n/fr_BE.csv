@@ -1,0 +1,73 @@
+"Get Config","Get Config",module,RatePAY_Payment
+"Request Failed","Request Failed",module,RatePAY_Payment
+"Country not supported by credentials","Country not supported by credentials",module,RatePAY_Payment
+"dob data invalid","Veuillez vérifier les informations fournies. Pour utiliser le moyen de paiement sélectionné, vous devez être âgé de plus de 18 ans et la date de naissance doit être renseignée selon le format TT.MM.JJJJ.",module,RatePAY_Payment
+"iban data invalid","Please enter an Iban",module,RatePAY_Payment
+"phone data invalid","Veuillez fournir un numéro de téléphone valide pour le moyen de paiement choisi.",module,RatePAY_Payment
+"phone not valid","Veuillez fournir un numéro de téléphone valide pour le moyen de paiement choisi.",module,RatePAY_Payment
+"b2b not allowed","This Payment method is not available for Buisness Customers.",module,RatePAY_Payment
+"ala not allowed","The delivery address must match the billing address.",module,RatePAY_Payment
+"PROD credentials in sandbox mode","PROD credentials in sandbox mode",module,RatePAY_Payment
+"INT credentials in live mode","INT credentials in live mode",module,RatePAY_Payment
+"No Ajax Connection","No Ajax Connection",module,RatePAY_Payment
+"Sandbox Notifcation","Sandbox Notifcation",module,RatePAY_Payment
+"Missing contact informations","Afin de procéder à l'achat, veuillez indiquer le moyen de paiement et fournir les informations suivantes :",module,RatePAY_Payment
+"Tax/VAT number","Numéro de TVA",module,RatePAY_Payment
+Alter,Alter,module,RatePAY_Payment
+Phone,Numéro de téléphone,module,RatePAY_Payment
+"Date of Birth","Date de naissance",module,RatePAY_Payment
+Day,Jour,module,RatePAY_Payment
+Month,Mois,module,RatePAY_Payment
+Year,Année,module,RatePAY_Payment
+DD,jj,module,RatePAY_Payment
+MM,mm,module,RatePAY_Payment
+YYYY,aaaa,module,RatePAY_Payment
+"Ratepay address","Ratepay address",module,RatePAY_Payment
+Creditor,Creditor,module,RatePAY_Payment
+"Ratepay Creditor ID","Ratepay Creditor ID",module,RatePAY_Payment
+Mandate,Mandate,module,RatePAY_Payment
+"Mandate Ref","Mandate Ref",module,RatePAY_Payment
+"insert bankdata","insert bankdata",module,RatePAY_Payment
+"Account holder","Account holder",module,RatePAY_Payment
+IBAN,IBAN,module,RatePAY_Payment
+"Mandate","Mandate reference: ",module,RatePAY_Payment
+"Mandate Ref","(is transmitted after sale)",module,RatePAY_Payment
+ratepay_directdebit_sepa_link,Einwilligungserklärung zum SEPA-Mandat lesen,module,RatePAY_Payment
+ratepay_directdebit_sepa_terms_block_1,Ich willige hiermit in die Weiterleitung meiner Daten an ,module,RatePAY_Payment
+"Ratepay address","RatePAY GmbH, Schlüterstr. 39, 10629 Berlin",module,RatePAY_Payment
+ratepay_directdebit_sepa_terms_block_2,gemäß ,module,RatePAY_Payment
+ratepay_directdebit_sepa_terms_block_3,"ein und ermächtige diese, mit diesem Kaufvertrag in Zusammenhang stehende Zahlungen von meinem o.a. Konto mittels Lastschrift einzuziehen. Zugleich weise ich mein Kreditinstitut an, die von RatePAY GmbH auf mein Konto gezogenen Lastschriften einzulösen.",module,RatePAY_Payment
+ratepay_directdebit_sepa_notice_block_1,Hinweis:,module,RatePAY_Payment
+ratepay_directdebit_sepa_notice_block_2,Nach Zustandekommen des Vertrags wird mir die Mandatsreferenz von RatePAY mitgeteilt.,module,RatePAY_Payment
+ratepay_directdebit_sepa_notice_block_3,"Ich kann innerhalb von acht Wochen, beginnend mit dem Belastungsdatum, die Erstattung des belasteten Betrages verlangen. Es gelten dabei die mit meinem Kreditinstitut vereinbarten Bedingungen.",module,RatePAY_Payment
+"Place Order","Place Order",module,RatePAY_Payment
+"Vat ID","Numéro de TVA",module,RatePAY_Payment
+"Phone Number","Numéro de téléphone",module,RatePAY_Payment
+Ratepay,Ratepay,module,RatePAY_Payment
+Germany,Germany,module,RatePAY_Payment
+Invoice,Invoice,module,RatePAY_Payment
+Enabled,Enabled,module,RatePAY_Payment
+ProfileID,ProfileID,module,RatePAY_Payment
+"Security Code","Security Code",module,RatePAY_Payment
+"Activate Sandbox","Activate Sandbox",module,RatePAY_Payment
+"Status RatePAY","Status RatePAY",module,RatePAY_Payment
+Title,Title,module,RatePAY_Payment
+"Specific Countries Billing","Specific Countries Billing",module,RatePAY_Payment
+"Specific Countries Delivery","Specific Countries Delivery",module,RatePAY_Payment
+Currency,Currency,module,RatePAY_Payment
+"Minimum Order Total","Minimum Order Total",module,RatePAY_Payment
+"Maximum Order Total","Maximum Order Total",module,RatePAY_Payment
+"Due Days","Due Days",module,RatePAY_Payment
+B2B,B2B,module,RatePAY_Payment
+"Maximum Order Total B2B","Maximum Order Total B2B",module,RatePAY_Payment
+"Delivery Address","Delivery Address",module,RatePAY_Payment
+"Payment Fee","Payment Fee",module,RatePAY_Payment
+"New Order Status","New Order Status",module,RatePAY_Payment
+"Sort Order","Sort Order",module,RatePAY_Payment
+"Direct Debit","Direct Debit",module,RatePAY_Payment
+"Maximum Oder Total","Maximum Oder Total",module,RatePAY_Payment
+"Nur SEPA/IBAN Kontodaten","Nur SEPA/IBAN Kontodaten",module,RatePAY_Payment
+"RatePAY-Datenschutzerklärung Url","RatePAY-Privacypolicy Url",module,RatePAY_Payment
+Austria,Austria,module,RatePAY_Payment
+Switzerland,Switzerland,module,RatePAY_Payment
+"Automated Data Procedure Error","Votre paiement via RatePAY a malheureusement été refusé. Cette décision est le résultat d'un traitement automatique des données. Pour plus de renseignements, veuillez consulter les Conditions Générales de Ventes ainsi que la déclaration de confidentialité des données concernant les méthodes de paiement de RatePAY.",module,RatePAY_Payment
