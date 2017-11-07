@@ -8,8 +8,6 @@
 
 namespace RatePAY\Payment\Model;
 
-require_once __DIR__ . '/../Model/Library/vendor/autoload.php';
-
 use RatePAY\ModelBuilder;
 class LibraryModel
 {
