@@ -24,7 +24,7 @@ class SendRatepayCreditMemoCall implements ObserverInterface
     protected $rpPaymentHelper;
 
     /**
-     * @var \Ratepay\Payment\Model\LibraryModel
+     * @var \RatePAY\Payment\Model\LibraryModel
      */
     protected $rpLibraryModel;
 
@@ -47,7 +47,7 @@ class SendRatepayCreditMemoCall implements ObserverInterface
      * SendRatepayCreditMemoCall constructor.
      * @param \RatePAY\Payment\Helper\Data $rpDataHelper
      * @param \RatePAY\Payment\Helper\Payment $rpPaymentHelper
-     * @param \Ratepay\Payment\Model\LibraryModel $rpLibraryModel
+     * @param \RatePAY\Payment\Model\LibraryModel $rpLibraryModel
      * @param \RatePAY\Payment\Controller\LibraryController $rpLibraryController
      * @param \Magento\Framework\Exception\PaymentException $paymentException
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -55,7 +55,7 @@ class SendRatepayCreditMemoCall implements ObserverInterface
     function __construct(
         \RatePAY\Payment\Helper\Data $rpDataHelper,
         \RatePAY\Payment\Helper\Payment $rpPaymentHelper,
-        \Ratepay\Payment\Model\LibraryModel $rpLibraryModel,
+        \RatePAY\Payment\Model\LibraryModel $rpLibraryModel,
         \RatePAY\Payment\Controller\LibraryController $rpLibraryController,
         \Magento\Framework\Exception\PaymentException $paymentException,
         \Magento\Store\Model\StoreManagerInterface $storeManager

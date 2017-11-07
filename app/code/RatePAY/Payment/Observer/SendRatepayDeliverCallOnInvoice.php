@@ -24,7 +24,7 @@ class SendRatepayDeliverCallOnInvoice implements ObserverInterface
     protected $rpPaymentHelper;
 
     /**
-     * @var \Ratepay\Payment\Model\LibraryModel
+     * @var \RatePAY\Payment\Model\LibraryModel
      */
     protected $rpLibraryModel;
 
@@ -45,7 +45,7 @@ class SendRatepayDeliverCallOnInvoice implements ObserverInterface
 
     /**
      * SendRatepayDeliverCallOnInvoice constructor.
-     * @param \Ratepay\Payment\Model\LibraryModel $rpLibraryModel
+     * @param \RatePAY\Payment\Model\LibraryModel $rpLibraryModel
      * @param \RatePAY\Payment\Helper\Data $rpDataHelper
      * @param \RatePAY\Payment\Helper\Payment $rpPaymentHelper
      * @param LibraryController $rpLibraryController
@@ -53,7 +53,7 @@ class SendRatepayDeliverCallOnInvoice implements ObserverInterface
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Ratepay\Payment\Model\LibraryModel $rpLibraryModel,
+        \RatePAY\Payment\Model\LibraryModel $rpLibraryModel,
         \RatePAY\Payment\Helper\Data $rpDataHelper,
         \RatePAY\Payment\Helper\Payment $rpPaymentHelper,
         \RatePAY\Payment\Controller\LibraryController $rpLibraryController,

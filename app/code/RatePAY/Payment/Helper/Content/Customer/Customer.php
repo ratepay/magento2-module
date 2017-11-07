@@ -56,7 +56,7 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
      * @param Contacts $rpContentCustomerContactsHelper
      */
     public function __construct(Context $context,
-                                \RatePay\Payment\Helper\Content\Customer\Addresses $rpContentCustomerAddressesHelper,
+                                \RatePAY\Payment\Helper\Content\Customer\Addresses $rpContentCustomerAddressesHelper,
                                 \RatePAY\Payment\Helper\Content\Customer\Contacts $rpContentCustomerContactsHelper,
                                 \RatePAY\Payment\Helper\Content\Customer\BankAccount $rpContentCustomerBankAccountHelper,
                                 \Magento\Checkout\Model\Session $checkoutSession,

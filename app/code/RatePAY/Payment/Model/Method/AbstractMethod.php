@@ -34,7 +34,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
     protected $_canAuthorize = false;
 
     /**
-     * @var \Ratepay\Payment\Model\LibraryModel
+     * @var \RatePAY\Payment\Model\LibraryModel
      */
     protected $_rpLibraryModel;
 
@@ -88,7 +88,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Payment\Model\Method\Logger $logger
-     * @param \Ratepay\Payment\Model\LibraryModel $rpLibraryModel
+     * @param \RatePAY\Payment\Model\LibraryModel $rpLibraryModel
      * @param \RatePAY\Payment\Model\Session $rpSession
      * @param \RatePAY\Payment\Helper\Data $rpDataHelper
      * @param Validator $rpValidator
@@ -109,10 +109,10 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Payment\Model\Method\Logger $logger,
-        \Ratepay\Payment\Model\LibraryModel $rpLibraryModel,
+        \RatePAY\Payment\Model\LibraryModel $rpLibraryModel,
         \RatePAY\Payment\Model\Session $rpSession,
         \RatePAY\Payment\Helper\Data $rpDataHelper,
-        \Ratepay\Payment\Helper\Validator $rpValidator,
+        \RatePAY\Payment\Helper\Validator $rpValidator,
         \Magento\Checkout\Model\Session $checkoutSession,
         CustomerRepositoryInterface $customerRepository,
         \Magento\Customer\Model\Session $customerSession,

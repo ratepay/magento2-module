@@ -24,7 +24,7 @@ class SendRatepayCancelCall implements ObserverInterface
     protected $rpPaymentHelper;
 
     /**
-     * @var \Ratepay\Payment\Model\LibraryModel
+     * @var \RatePAY\Payment\Model\LibraryModel
      */
     protected $rpLibraryModel;
 
@@ -55,7 +55,7 @@ class SendRatepayCancelCall implements ObserverInterface
     function __construct(
         \RatePAY\Payment\Helper\Data $rpDataHelper,
         \RatePAY\Payment\Helper\Payment $rpPaymentHelper,
-        \Ratepay\Payment\Model\LibraryModel $rpLibraryModel,
+        \RatePAY\Payment\Model\LibraryModel $rpLibraryModel,
         \RatePAY\Payment\Controller\LibraryController $rpLibraryController,
         \Magento\Framework\Exception\PaymentException $paymentException,
         \Magento\Store\Model\StoreManagerInterface $storeManager)
