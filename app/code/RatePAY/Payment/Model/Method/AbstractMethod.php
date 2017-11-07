@@ -286,7 +286,10 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
             $this->rpValidator->validatePhone($additionalData);
         }
 
-        if($this->getQuoteOrOrder()->getPayment()->getMethod() == 'ratepay_de_directdebit') {
+        if ($this->getQuoteOrOrder()->getPayment()->getMethod() == 'ratepay_de_directdebit' ||
+            $this->getQuoteOrOrder()->getPayment()->getMethod() == 'ratepay_at_directdebit' ||
+            $this->getQuoteOrOrder()->getPayment()->getMethod() == 'ratepay_nl_directdebit' ||
+            $this->getQuoteOrOrder()->getPayment()->getMethod() == 'ratepay_be_directdebit') {
             $this->rpValidator->validateIban($additionalData);
         }
 
