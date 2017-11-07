@@ -300,7 +300,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
      */
     public function formatMessage($message)
     {
-        if(!$message){
+        if(empty($message)) {
             $message = __('Automated Data Procedure Error');
         }
 
