@@ -8,8 +8,6 @@
 
 namespace RatePAY\Payment\Controller;
 
-require_once __DIR__ . '/../Model/Library/vendor/autoload.php';
-
 use RatePAY\RequestBuilder;
 use RatePAY\InstallmentBuilder;
 use RatePAY\Frontend\DeviceFingerprintBuilder;
