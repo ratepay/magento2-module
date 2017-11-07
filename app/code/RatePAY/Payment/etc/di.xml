@@ -3,4 +3,7 @@
     <type name="Magento\Checkout\Model\PaymentInformationManagement">
         <plugin name="RatepayErrorProcessor" type="\RatePAY\Payment\Plugin\RatepayErrorProcessor"/>
     </type>
+    <type name="Magento\Checkout\Model\GuestPaymentInformationManagement">
+        <plugin name="RatepayGuestErrorProcessor" type="\RatePAY\Payment\Plugin\RatepayGuestErrorProcessor"/>
+    </type>
 </config>
