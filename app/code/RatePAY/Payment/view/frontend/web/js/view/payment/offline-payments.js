@@ -22,11 +22,27 @@ define(
                 component:'RatePAY_Payment/js/view/payment/method-renderer/invoice'
             },
             {
+                type:'ratepay_nl_invoice',
+                component:'RatePAY_Payment/js/view/payment/method-renderer/invoice'
+            },
+            {
+                type:'ratepay_be_invoice',
+                component:'RatePAY_Payment/js/view/payment/method-renderer/invoice'
+            },
+            {
                 type:'ratepay_de_directdebit',
                 component:'RatePAY_Payment/js/view/payment/method-renderer/directdebit'
             },
             {
                 type:'ratepay_at_directdebit',
+                component:'RatePAY_Payment/js/view/payment/method-renderer/directdebit'
+            },
+            {
+                type:'ratepay_nl_directdebit',
+                component:'RatePAY_Payment/js/view/payment/method-renderer/directdebit'
+            },
+            {
+                type:'ratepay_be_directdebit',
                 component:'RatePAY_Payment/js/view/payment/method-renderer/directdebit'
             },
             {
