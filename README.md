@@ -3,8 +3,8 @@
 
 |Repository | RatePAY Module for Magento 2
 |------|----------
-|Author | Sebastian Neumann
-|Version | `1.0.0`
+|Author | Aarne Welschlau
+|Version | `1.1.0`
 |Link | http://www.ratepay.com
 |Mail | integration@ratepay.com
 
