@@ -61,14 +61,14 @@ class Validator extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function validateDob($additionalData)
     {
-        if (!$additionalData->getRpDobDay() ||
-            !$additionalData->getRpDobMonth() ||
-            !$additionalData->getRpDobYear()) {
+        if (!$this->_isNumericBetter($additionalData->getRpDobDay()) ||
+            !$this->_isNumericBetter($additionalData->getRpDobMonth()) ||
+            !$this->_isNumericBetter($additionalData->getRpDobYear())) {
             throw new $this->paymentException(__("dob data invalid"));
         }
 
-        if ($this->_isValidAge($additionalData->getRpDobDay(), $additionalData->getRpDobMonth(), $additionalData->getRpDobYear()) !== true) {
-            $response = $this->_isValidAge($additionalData->getRpDobDay(), $additionalData->getRpDobMonth(), $additionalData->getRpDobYear());
+        $response = $this->_isValidAge($additionalData->getRpDobDay(), $additionalData->getRpDobMonth(), $additionalData->getRpDobYear());
+        if ($response !== true) {
             throw new $this->paymentException(__($response));
         }
 
@@ -124,6 +124,16 @@ class Validator extends \Magento\Framework\App\Helper\AbstractHelper
         } else {
             return true;
         }
+    }
+
+    /**
+     * Checks if value is set and numeric
+     *
+     * @param $str
+     * @return bool
+     */
+    private function _isNumericBetter($str) {
+        return (!empty($str) && is_numeric($str));
     }
 
     /**
