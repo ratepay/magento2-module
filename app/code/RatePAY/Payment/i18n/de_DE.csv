@@ -31,7 +31,7 @@ IBAN,IBAN,module,RatePAY_Payment
 "Mandate Ref","(wird nach Kaufabschluss übermittelt)",module,RatePAY_Payment
 ratepay_directdebit_sepa_link,Einwilligungserklärung zum SEPA-Mandat lesen,module,RatePAY_Payment
 ratepay_directdebit_sepa_terms_block_1,Ich willige hiermit in die Weiterleitung meiner Daten an ,module,RatePAY_Payment
-"Ratepay address","RatePAY GmbH, Schlüterstr. 39, 10629 Berlin",module,RatePAY_Payment
+"Ratepay address","RatePAY GmbH, Franklinstraße 28-29, 10587 Berlin",module,RatePAY_Payment
 ratepay_directdebit_sepa_terms_block_2,gemäß ,module,RatePAY_Payment
 ratepay_directdebit_sepa_terms_block_3,"ein und ermächtige diese, mit diesem Kaufvertrag in Zusammenhang stehende Zahlungen von meinem o.a. Konto mittels Lastschrift einzuziehen. Zugleich weise ich mein Kreditinstitut an, die von RatePAY GmbH auf mein Konto gezogenen Lastschriften einzulösen.",module,RatePAY_Payment
 ratepay_directdebit_sepa_notice_block_1,Hinweis:,module,RatePAY_Payment

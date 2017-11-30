@@ -34,7 +34,7 @@ IBAN,IBAN,module,RatePAY_Payment
 "Mandate Ref","(is transmitted after sale)",module,RatePAY_Payment
 "ratepay_directdebit_sepa_link","Lire le formulaire de consentement concernant le mandat SEPA",module,RatePAY_Payment
 "ratepay_directdebit_sepa_terms_block_1","Je consens par la présente à ce que mes données soient transmises à ",module,RatePAY_Payment
-"Ratepay address","RatePAY GmbH, Schlüterstr. 39, 10629 Berlin",module,RatePAY_Payment
+"Ratepay address","RatePAY GmbH, Franklinstraße 28-29, 10587 Berlin",module,RatePAY_Payment
 "ratepay_directdebit_sepa_terms_block_2","conformément à ",module,RatePAY_Payment
 "ratepay_directdebit_sepa_terms_block_3","et autorise ainsi le prélèvement automatique depuis mon compte mentionné ci-dessus des paiements relatifs au présent contrat. J’enjoins également mon établissement de crédit à acquitter les prélèvements automatiques depuis mon compte par RatePAY GmbH.",module,RatePAY_Payment
 "ratepay_directdebit_sepa_notice_block_1","Indication:",module,RatePAY_Payment
