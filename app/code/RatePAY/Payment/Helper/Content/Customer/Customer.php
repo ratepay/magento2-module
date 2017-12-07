@@ -116,9 +116,10 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
         if($id == 'ratepay_directdebit'){
             $content['BankAccount'] = $this->rpContentCustomerBankAccountHelper->setBankAccount($quoteOrOrder);
         }
-        if(!empty($this->checkoutSession->getRatepayVatId())){
-            $content['VatId'] = $this->checkoutSession->getRatepayVatId();
+        if (!empty($quoteOrOrder->getBillingAddress()->getCompany())) {
+            $content['CompanyName'] = $quoteOrOrder->getBillingAddress()->getCompany();
         }
+
         return $content;
     }
 
