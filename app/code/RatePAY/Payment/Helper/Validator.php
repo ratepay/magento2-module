@@ -107,7 +107,7 @@ class Validator extends \Magento\Framework\App\Helper\AbstractHelper
         $maxAge = 120;
 
         try{
-            $dob = new \DateTime($dobDay . "-" . $dobMonth . "-" . $dobYear);
+            $dob = new \DateTime(trim($dobDay) . "-" . trim($dobMonth) . "-" . trim($dobYear));
         } catch (\Exception $e){
             throw new $this->paymentException(__('dob data invalid'));
         }
