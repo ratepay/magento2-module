@@ -38,6 +38,7 @@ define(
                 return {
                     'method': this.getCode(),
                     'additional_data': {
+                        'rp_phone': this.rp_phone,
                         'rp_dob_day': this.rp_dob_day,
                         'rp_dob_month': this.rp_dob_month,
                         'rp_dob_year': this.rp_dob_year,

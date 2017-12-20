@@ -39,14 +39,14 @@ class Contacts extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $content = [
             'Email' => $quoteOrOrder->getCustomerEmail(),
-            //'Mobile' => "0123 4567890",
-            //'Fax' => "012 3456777",
         ];
-        if(!empty($quoteOrOrder->getBillingAddress()->getTelephone())){
-            $content['Phone']['DirectDial'] = $quoteOrOrder->getBillingAddress()->getTelephone();
-        } else{
+
+        if (!empty($this->_checkoutSession->getRatepayPhone())) {
             $content['Phone']['DirectDial'] = $this->_checkoutSession->getRatepayPhone();
+        } else {
+            $content['Phone']['DirectDial'] = $quoteOrOrder->getBillingAddress()->getTelephone();
         }
+
         return $content;
     }
 }
