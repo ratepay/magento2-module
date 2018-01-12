@@ -153,7 +153,7 @@ class Validator extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function validatePhone($additionalData)
     {
-        if (!$additionalData->getRpPhone()) {
+        /*if (!$additionalData->getRpPhone()) {
             throw new $this->paymentException(__("phone data invalid"));
         }
 
@@ -161,7 +161,7 @@ class Validator extends \Magento\Framework\App\Helper\AbstractHelper
             throw new $this->paymentException(__("phone not valid"));
         }
 
-        $this->checkoutSession->setRatepayPhone($additionalData->getRpPhone());
+        $this->checkoutSession->setRatepayPhone($additionalData->getRpPhone());*/
     }
 
     /**

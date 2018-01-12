@@ -41,10 +41,19 @@ class Contacts extends \Magento\Framework\App\Helper\AbstractHelper
             'Email' => $quoteOrOrder->getCustomerEmail(),
         ];
 
-        if (!empty($this->_checkoutSession->getRatepayPhone())) {
+        /*if (!empty($this->_checkoutSession->getRatepayPhone())) {
             $content['Phone']['DirectDial'] = $this->_checkoutSession->getRatepayPhone();
         } else {
             $content['Phone']['DirectDial'] = $quoteOrOrder->getBillingAddress()->getTelephone();
+        }*/
+
+        if (!empty($this->_checkoutSession->getRatepayPhone())) {
+            $content['Phone']['DirectDial'] = $this->_checkoutSession->getRatepayPhone();
+        } elseif (!empty($quoteOrOrder->getBillingAddress()->getTelephone())) {
+            $content['Phone']['DirectDial'] = $quoteOrOrder->getBillingAddress()->getTelephone();
+        } else { // Mock of RatePAY phone number in case of missing customer phone number
+            $content['Phone']['AreaCode'] = "030";
+            $content['Phone']['DirectDial'] = "33988560";
         }
 
         return $content;

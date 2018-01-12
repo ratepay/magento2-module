@@ -15,7 +15,7 @@
             <!-- ko template: getTemplate() --><!-- /ko -->
             <!--/ko-->
                 <fieldset data-bind="attr: {class: 'fieldset payment items ' + getCode(), id: 'additionalInformation_' + getCode()}">
-                    <div class="field _required"><!-- data-bind="if: isPhoneVisible()" -->
+                    <div class="field _required" data-bind="if: isPhoneVisible()">
                         <label data-bind="attr: {for: getCode() + '_phone'}" class="label">
                             <span><!-- ko i18n: 'Phone'--><!-- /ko --></span>
                         </label>
