@@ -3,8 +3,8 @@
 
 |Repository | RatePAY Module for Magento 2
 |------|----------
-|Author | Aarne Welschlau
-|Version | `1.1.0.1`
+|Author | Annegret Seufert
+|Version | `1.1.1`
 |Link | http://www.ratepay.com
 |Mail | integration@ratepay.com
 
@@ -24,6 +24,9 @@ Navigate to the component manager in adminarea of the Shop. Choose the RatePAY P
 For further information and prerequisites depending on module installation from adminarea please follow the official Magento 2 documentation : http://devdocs.magento.com/guides/v2.1/comp-mgr/module-man/compman-checklist.html
 
 ## Changelog
+
+### Version 1.1.1 - Released 2018-01-11
+* mock phone number if customer phone is missing
 
 ### Version 1.1.0.1 - Released 2017-11-30
 * change ratepay company address
