@@ -4,7 +4,7 @@
     <body>
         <referenceContainer name="columns.top">
             <container name="page.messages" htmlTag="div" htmlClass="page messages">
-                <block class="Magento\Framework\View\Element \Messages" name="messages" as="messages" template="Magento_Theme::messages.phtml"/>
+                <block class="Magento\Framework\View\Element\Messages" name="messages" as="messages" template="Magento_Theme::messages.phtml"/>
             </container>
         </referenceContainer>
         <referenceBlock name="checkout.root">
