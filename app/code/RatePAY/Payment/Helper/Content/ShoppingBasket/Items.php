@@ -75,7 +75,7 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
                 $items[$sku]['TaxRate'] = round($taxRate, 2);
             }
             if ($item->getDiscountAmount() > 0) {
-                if (!isset($items[$sku]['Discount'])) {
+                if (!isset($items[$sku]['Discount']) || $items[$sku]['Discount'] == 0) {
                     $items[$sku]['Discount'] = round($item->getDiscountAmount() / $quantity, 2);
                 } else {
                     $items[$sku]['Discount'] += round($item->getDiscountAmount() / $quantity, 2);
