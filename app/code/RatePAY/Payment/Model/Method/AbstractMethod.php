@@ -218,6 +218,10 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
             return false;
         }
 
+        if (parent::isAvailable($quote) == false) {
+            return false;
+        }
+
         $ratepayMethodHide = $this->checkoutSession->getRatepayMethodHide();
         if ($ratepayMethodHide == true) {
             return false;
