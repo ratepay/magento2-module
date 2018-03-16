@@ -9,8 +9,17 @@
 |Mail | integration@ratepay.com
 
 ## Installation
+Add the Ratepay Library in the composer.json file
+````bash
+"require": {
+    ...,
+	   "ratepay/php-library": "*"
+},
+````
+Update Composer
 Copy all files into app/code/ of you shopdirectory.
 Afterwords you follow one of the following options.
+
 ### Option 1 (terminal):
 Enter the following commands in your terminal from the root of you shopdirectory.
 ````bash
