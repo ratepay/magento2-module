@@ -16,8 +16,10 @@ Add the Ratepay Library in the composer.json file
 	   "ratepay/php-library": "*"
 },
 ````
-Update Composer
-Copy all files into app/code/ of you shopdirectory.
+````bash
+composer update
+````
+Copy all files into app/code/ of you shopdirectory. 
 Afterwords you follow one of the following options.
 
 ### Option 1 (terminal):
@@ -29,7 +31,7 @@ php bin/magento cache:flush
 ````
 
 ### Option 2 (Web Setup Wizard):
-Navigate to the component manager in adminarea of the Shop. Choose the RatePAY Payment Module and activate it.
+Navigate to the component manager in adminarea of the Shop. Choose the RatePAY Payment Module and activate it. 
 For further information and prerequisites depending on module installation from adminarea please follow the official Magento 2 documentation : http://devdocs.magento.com/guides/v2.1/comp-mgr/module-man/compman-checklist.html
 
 ## Changelog
