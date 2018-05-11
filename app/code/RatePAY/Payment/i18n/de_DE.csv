@@ -79,3 +79,6 @@ Active,Aktiv,module,RatePAY_Payment
 Inactive,Inaktiv,module,RatePAY_Payment
 Phased Out,Abgelaufen,module,RatePAY_Payment
 "Automated Data Procedure Error","Leider ist eine Bezahlung mit RatePAY nicht möglich. Diese Entscheidung ist auf Grundlage einer automatisierten Datenverarbeitung getroffen worden. Einzelheiten finden sie in den zusätzlichen Allgemeinen Geschäftsbedingungen und dem Datenschutzhinweis für RatePAY-Zahlungsarten.",module,RatePAY_Payment
+ratepay_terms_block_1, "Es gelten die" ,module,RatePAY_Payment
+ratepay_terms_block_2, "zusätzlichen Geschäftsbedingungen und der Datenschutzhinweis" ,module,RatePAY_Payment
+ratepay_terms_block_3, "der RatePAY GmbH" ,module,RatePAY_Payment

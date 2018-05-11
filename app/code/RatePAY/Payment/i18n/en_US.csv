@@ -72,3 +72,6 @@ B2B,B2B,module,RatePAY_Payment
 Austria,Austria,module,RatePAY_Payment
 Switzerland,Switzerland,module,RatePAY_Payment
 "Automated Data Procedure Error","Unfortunately, it is not possible to use RatePAY. This decision is based on an automated data processing procedure. For details see additional terms and conditions and privacy policy for RatePAY payment methods.",module,RatePAY_Payment
+ratepay_terms_block_1, "The Additional" ,module,RatePAY_Payment
+ratepay_terms_block_2, "General Terms and Conditions and Data Protection Notice" ,module,RatePAY_Payment
+ratepay_terms_block_3, "of the RatePAY GmbH apply" ,module,RatePAY_Payment
