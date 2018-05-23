@@ -4,7 +4,7 @@
 |Repository | RatePAY Module for Magento 2
 |------|----------
 |Author | Annegret Seufert
-|Version | `1.1.1`
+|Version | `1.1.2`
 |Link | http://www.ratepay.com
 |Mail | integration@ratepay.com
 
@@ -35,6 +35,16 @@ Navigate to the component manager in adminarea of the Shop. Choose the RatePAY P
 For further information and prerequisites depending on module installation from adminarea please follow the official Magento 2 documentation : http://devdocs.magento.com/guides/v2.1/comp-mgr/module-man/compman-checklist.html
 
 ## Changelog
+
+### Version 1.1.2 - Released 2018-05-23
+* change path of block class messages
+* show profile request error message
+* fix bundle article discount problem
+* add magento payment available check
+* fix invalid template error
+* add ratepay terms and conditions
+* handle multiple (bundle) items with same sku and qty = 1
+* support gift card amounts
 
 ### Version 1.1.1 - Released 2018-01-11
 * mock phone number if customer phone is missing
