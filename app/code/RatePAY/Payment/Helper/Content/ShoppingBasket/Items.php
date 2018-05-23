@@ -34,14 +34,18 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
 
         foreach (($quoteOrOrder instanceof \Magento\Sales\Model\Order\Invoice) ? $quoteOrOrder->getItems()->getItems() : $quoteOrOrder->getItems() as $item) {
 
+            $parentItem = false;
+
             if ($item instanceof \Magento\Sales\Model\Order\Invoice\Item || $item instanceof \Magento\Sales\Model\Order\Creditmemo\Item) {
                 if ($item->getOrderItem()->getProductType() === \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE && $item->getOrderItem()->getParentItem()) {
-                    $sku = $item->getOrderItem()->getParentItem()->getSku(); //continue;
+                    $sku = $item->getOrderItem()->getParentItem()->getSku();
+                    $quantity = (int) $item->getOrderItem()->getParentItem()->getQty();
+                    $parentItem = true;
                 } else {
                     $sku = $item->getSku();
+                    $quantity = (int) $item->getQty();
                 }
 
-                $quantity = (int) $item->getQty();
                 if($quantity == 0){
                     continue;
                 }
@@ -51,11 +55,13 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
 
                 if ($item->getProductType() === \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE && $item->getParentItem()) {
                     $sku = $item->getParentItem()->getSku();
+                    $quantity = (int) $item->getParentItem()->getQtyOrdered();
+                    $parentItem = true;
                 } else {
                     $sku = $item->getSku();
+                    $quantity = (int) $item->getQtyOrdered();
                 }
 
-                $quantity = (int) $item->getQtyOrdered();
                 $taxRate = $item->getTaxPercent();
             }
 
@@ -68,9 +74,13 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
             if (!isset($items[$sku]['UnitPriceGross']) || $items[$sku]['UnitPriceGross'] < $item->getPriceInclTax()) {
                 $items[$sku]['UnitPriceGross'] =  $items[$sku]['UnitPriceGross'] = round($item->getPriceInclTax(), 2);
             }
+
             if (!isset($items[$sku]['Quantity'])) {
-                $items[$sku]['Quantity'] =  $quantity;
+                $items[$sku]['Quantity'] = $quantity;
+            } elseif (!$parentItem) {
+                $items[$sku]['Quantity'] += $quantity;
             }
+
             if (!isset($items[$sku]['TaxRate']) || $items[$sku]['TaxRate'] < $taxRate) {
                 $items[$sku]['TaxRate'] = round($taxRate, 2);
             }
