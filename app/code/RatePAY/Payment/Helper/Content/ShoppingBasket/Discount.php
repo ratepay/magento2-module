@@ -11,10 +11,10 @@ namespace RatePAY\Payment\Helper\Content\ShoppingBasket;
 
 use Magento\Framework\App\Helper\Context;
 
-class Shipping extends \Magento\Framework\App\Helper\AbstractHelper
+class Discount extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
-     * Shipping constructor.
+     * Discount constructor.
      * @param Context $context
      */
     public function __construct(Context $context)
@@ -23,17 +23,17 @@ class Shipping extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
-     * Build Shipping-Items Block of Payment Request
+     * Build Discount-Items Block of Payment Request
      *
      * @param $quoteOrOrder
      * @return array
      */
-    public function setShipping($quoteOrOrder)
+    public function setDiscount($quoteOrOrder)
     {
         $content = [
-            'Description' => $quoteOrOrder->getShippingDescription(),
-            'UnitPriceGross' => round($quoteOrOrder->getShippingInclTax(),2),
-            'TaxRate' => round(($quoteOrOrder->getShippingTaxAmount() / $quoteOrOrder->getShippingAmount()) * 100)
+            'Description' => "GiftCard",
+            'UnitPriceGross' => round($quoteOrOrder->getGiftCardsAmount(),2),
+            'TaxRate' => 0
             //'DescriptionAddition' => "Additional information about the shipping"
         ];
         return $content;
