@@ -1,0 +1,84 @@
+"Get Config","Load Config",module,RatePAY_Payment
+"Request Failed","Request Failed",module,RatePAY_Payment
+"Country not supported by credentials","The current country is not supported by credentials",module,RatePAY_Payment
+"Interest Rate not supported by payment method","Payment method only supports 0% financing",module,RatePAY_Payment
+"dob data invalid","Please check your input. You must be at least 18 years old for the selected payment method. The format of the date must be 'dd.mm.yyyy'.",module,RatePAY_Payment
+"dob too low","You must be at least 18 years old for the selected payment method",module,RatePAY_Payment
+"dob too high","Please check your input. You must be at least 18 years old for the selected payment method. The format of the date must be 'dd.mm.yyyy'.",module,RatePAY_Payment
+"iban data invalid","Please enter an valid IBAN.",module,RatePAY_Payment
+"phone data invalid","Please enter your phone number.",module,RatePAY_Payment
+"phone not valid","Please enter a val/Rateid telephone number for the selected payment method.",module,RatePAY_Payment
+"PROD credentials in sandbox mode","You have selected production credentials for sandbox mode. Continue?",module,RatePAY_Payment
+"INT credentials in live mode","You have selected test credentials for live mode. Continue?",module,RatePAY_Payment
+"No Ajax Connection","No Ajax Connection",module,RatePAY_Payment
+"Sandbox Notifcation","Sandbox Notification",module,RatePAY_Payment
+"Tax/VAT number","Tax/VAT number",module,RatePAY_Payment
+Alter,change,module,RatePAY_Payment
+Phone,phone,module,RatePAY_Payment
+"Date of Birth","Date of Birth",module,RatePAY_Payment
+Day,Day,module,RatePAY_Payment
+Month,Month,module,RatePAY_Payment
+Year,Year,module,RatePAY_Payment
+DD,DD,module,RatePAY_Payment
+MM,MM,module,RatePAY_Payment
+YYYY,YYYY,module,RatePAY_Payment
+"Creditor","Creditor ID",module,RatePAY_Payment
+"Ratepay Creditor ID","RatePAY Creditor ID",module,RatePAY_Payment
+"insert bankdata","Please enter your bank account information.",module,RatePAY_Payment
+"Account holder","Account holder:",module,RatePAY_Payment
+"Mandate","Mandate reference number:",module,RatePAY_Payment
+"Mandate Ref","(provided after purchase)",module,RatePAY_Payment
+IBAN,IBAN,module,RatePAY_Payment
+ratepay_directdebit_sepa_link,Read agreement to the SEPA mandate,module,RatePAY_Payment
+ratepay_directdebit_sepa_terms_block_1,I hereby agree to the forwarding of my data to ,module,RatePAY_Payment
+"Ratepay address","RatePAY GmbH, Franklinstraße 28-29, 10587 Berlin",module,RatePAY_Payment
+ratepay_directdebit_sepa_terms_block_2, "according to" ,module,RatePAY_Payment
+ratepay_directdebit_sepa_terms_block_3, "and allow this company to withdraw all costs associated with this contract of purchase, by means of direct debit, from the account entered above. I also instruct my credit institute to honour the direct debit requests made by RatePAY GmbH on my account.",module,RatePAY_Payment
+ratepay_directdebit_sepa_notice_block_1,Note:,module,RatePAY_Payment
+ratepay_directdebit_sepa_notice_block_2,After the contract has been created, I will be informed of of RatePAY's mandate reference number.,module,RatePAY_Payment
+ratepay_directdebit_sepa_notice_block_3,"Within eight weeks of the debit I may request the reimbursement of my payment. The conditions of my credit institute apply.",module,RatePAY_Payment
+"Place Order","Place order",module,RatePAY_Payment
+"Vat ID","Vat ID",module,RatePAY_Payment
+"Phone Number","Phone number",module,RatePAY_Payment
+"b2b not allowed","This payment method is not available for business customers.",module,RatePAY_Payment
+"ala not allowed","This payment method requires the delivery address to match the billing address.",module,RatePAY_Payment
+Ratepay,Ratepay,module,RatePAY_Payment
+Germany,Germany,module,RatePAY_Payment
+Invoice,Invoice,module,RatePAY_Payment
+Enabled,Enabled,module,RatePAY_Payment
+"ProfileID","Profile ID",module,RatePAY_Payment
+"Security Code","Security code",module,RatePAY_Payment
+"Activate Sandbox","Activate sandbox",module,RatePAY_Payment
+"Status RatePAY","Status RatePAY",module,RatePAY_Payment
+Title,Title,module,RatePAY_Payment
+"Specific Countries Billing","Country selection, billing",module,RatePAY_Payment
+"Specific Countries Delivery","Country selection, delivery",module,RatePAY_Payment
+Currency,Currency,module,RatePAY_Payment
+"Minimum Order Total","Minimum order total",module,RatePAY_Payment
+"Maximum Order Total","Maximum order total",module,RatePAY_Payment
+"Due Days","Dynamic due date (in days)",module,RatePAY_Payment
+B2B,B2B,module,RatePAY_Payment
+"Maximum Order Total B2B","Maximum order total, B2B",module,RatePAY_Payment
+"Delivery Address","Delivery address",module,RatePAY_Payment
+"Payment Fee","Payment fee",module,RatePAY_Payment
+"New Order Status","New order status",module,RatePAY_Payment
+"Sort Order","Sort order",module,RatePAY_Payment
+"Direct Debit","SEPA direct debit",module,RatePAY_Payment
+"Maximum Oder Total","Maximum order total",module,RatePAY_Payment
+"Nur SEPA/IBAN Kontodaten","SEPA/IBAN account info only",module,RatePAY_Payment
+"RatePAY-Datenschutzerklärung Url","URL of the RatePAY privacy policy",module,RatePAY_Payment
+"Month Allowed","term (in months)",module,RatePAY_Payment
+"0% Financing","0% financing",module,RatePAY_Payment
+Austria,Austria,module,RatePAY_Payment
+Switzerland,Switzerland,module,RatePAY_Payment
+RatePAY Invoice,RatePAY invoice,module,RatePAY_Payment
+RatePAY Directdebit,RatePAY SEPA direct debit,module,RatePAY_Payment
+RatePAY Installment,RatePAY installment,module,RatePAY_Payment
+RatePAY 0% Financing,RatePAY 0% financing,module,RatePAY_Payment
+Active,active,module,RatePAY_Payment
+Inactive,deactivated,module,RatePAY_Payment
+"Phased Out","phased out",module,RatePAY_Payment
+"Automated Data Procedure Error","Unfortunately, you cannot use RatePAY to make your payment. This decision has been made through automated data processing. For details, see the additional general terms and conditions and privacy policy for RatePAY payment methods.",module,RatePAY_Payment
+ratepay_terms_block_1, "RatePAY GmbH's additional" ,module,RatePAY_Payment
+ratepay_terms_block_2, "general terms and conditions and data protection policy" ,module,RatePAY_Payment
+ratepay_terms_block_3, "apply.",module,RatePAY_Payment
