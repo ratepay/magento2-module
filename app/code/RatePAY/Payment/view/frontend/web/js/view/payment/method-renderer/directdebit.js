@@ -47,7 +47,7 @@ define(
                 }
             },
 
-            showAgreement: function(){
+            showAgreement: function() {
                 $('#ratepay_directdebit_sepa_agreement').show();
                 $('#ratepay_directdebit_sepa_agreement_link').hide();
             }

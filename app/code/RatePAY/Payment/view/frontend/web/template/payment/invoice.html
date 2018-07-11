@@ -38,7 +38,7 @@
                 <fieldset id="ratepay_dob-form" class="fieldset" data-bind="if: isDobSet()">
                     <div class="field _required" style="float:left; position: relative; width:60px; margin: 0 0 5px;">
                         <div class="control">
-                            <input type="text" name="payment[rp_dob_day]" class="input-text required-entry" value=""
+                            <input type="text" name="payment[rp_dob_day]" class="input-text required-entry" value="" maxlength="2"
                                    data-bind="attr: {
                                         id: getCode() + '_dob_day',
                                         autocomplete: off,
@@ -53,7 +53,7 @@
                     </div>
                     <div class="field _required" style="float:left; position: relative; width:60px; margin: 0 5px;">
                         <div class="control">
-                            <input type="text" name="payment[rp_dob_month]" class="input-text" value=""
+                            <input type="text" name="payment[rp_dob_month]" class="input-text" value="" maxlength="2"
                                    data-bind="attr: {
                                         id: getCode() + '_dob_month',
                                         autocomplete: off,
@@ -67,7 +67,7 @@
                     </div>
                     <div class="field _required" style="float:left; position: relative; width:60px; margin: 0 0 5px;">
                         <div class="control">
-                            <input type="text" name="payment[rp_dob_year]" class="input-text" value=""
+                            <input type="text" name="payment[rp_dob_year]" class="input-text" value="" maxlength="4"
                                    data-bind="attr: {
                                         id: getCode() + '_dob_year',
                                         autocomplete: off,
