@@ -88,7 +88,7 @@ class Head extends \Magento\Framework\App\Helper\AbstractHelper
                 'Systems' => [
                     'System' => [
                         'Name' => "Magento_" . $this->rpDataHelper->getEdition(),
-                        'Version' => $this->productMetadata->getVersion() . '_' . $this->moduleList->getOne('RatePAY_Payment')['setup_version']
+                        'Version' => $this->productMetadata->getVersion() . '/' . $this->moduleList->getOne('RatePAY_Payment')['setup_version']
                     ]
                 ]
             ]
