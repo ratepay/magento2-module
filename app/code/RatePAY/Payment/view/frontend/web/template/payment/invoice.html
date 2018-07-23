@@ -20,11 +20,12 @@
                         <span><!-- ko i18n: 'Phone'--><!-- /ko --></span>
                     </label>
                     <div class="control required">
-                        <input type="text" name="payment[rp_phone]" class="input-text required" value=""
+                        <input type="text" name="payment[rp_phone]" required="required" class="input-text required" value=""
                                data-bind="attr: {
                                      id: getCode() + '_phone',
                                      autocomplete: off,
                                      title: $t('Phone')},
+                                     'aria-required': required,
                                      value: currentBillingAddress().telephone"
                         />
                     </div>
@@ -38,7 +39,7 @@
                 <fieldset id="ratepay_dob-form" class="fieldset" data-bind="if: isDobSet()">
                     <div class="field _required" style="float:left; position: relative; width:60px; margin: 0 0 5px;">
                         <div class="control">
-                            <input type="text" name="payment[rp_dob_day]" class="input-text required-entry" value="" maxlength="2"
+                            <input type="text" name="payment[rp_dob_day]" class="input-text required-entry" value=""
                                    data-bind="attr: {
                                         id: getCode() + '_dob_day',
                                         autocomplete: off,
@@ -53,7 +54,7 @@
                     </div>
                     <div class="field _required" style="float:left; position: relative; width:60px; margin: 0 5px;">
                         <div class="control">
-                            <input type="text" name="payment[rp_dob_month]" class="input-text" value="" maxlength="2"
+                            <input type="text" name="payment[rp_dob_month]" class="input-text" value=""
                                    data-bind="attr: {
                                         id: getCode() + '_dob_month',
                                         autocomplete: off,
@@ -67,7 +68,7 @@
                     </div>
                     <div class="field _required" style="float:left; position: relative; width:60px; margin: 0 0 5px;">
                         <div class="control">
-                            <input type="text" name="payment[rp_dob_year]" class="input-text" value="" maxlength="4"
+                            <input type="text" name="payment[rp_dob_year]" class="input-text" value=""
                                    data-bind="attr: {
                                         id: getCode() + '_dob_year',
                                         autocomplete: off,
