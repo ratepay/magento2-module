@@ -28,7 +28,7 @@ define(
             initObservable: function () {
                 this._super()
                     .observe({
-                        isPhoneVisible: false,
+                        isPhoneVisible: quote.billingAddress().telephone == '',
                         isDobSet: customer.customerData.dob == null
                     });
                 return this;
@@ -47,7 +47,7 @@ define(
                 }
             },
 
-            showAgreement: function() {
+            showAgreement: function(){
                 $('#ratepay_directdebit_sepa_agreement').show();
                 $('#ratepay_directdebit_sepa_agreement_link').hide();
             }
