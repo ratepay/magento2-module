@@ -1,9 +1,17 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: SebastianN
- * Date: 14.06.17
- * Time: 15:04
+ * RatePAY Payments - Magento 2
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
  */
 
 namespace RatePAY\Payment\Plugin;
@@ -33,10 +41,10 @@ class RatepayGuestErrorProcessor
     protected $cartManagement;
 
     /**
-     * @param \Magento\Checkout\Model\Session $session
+     * @param \Magento\Checkout\Model\Session                           $session
      * @param \Magento\Quote\Api\GuestBillingAddressManagementInterface $billingAddressManagement
-     * @param \Magento\Quote\Api\GuestPaymentMethodManagementInterface $paymentMethodManagement
-     * @param \Magento\Quote\Api\GuestCartManagementInterface $cartManagement
+     * @param \Magento\Quote\Api\GuestPaymentMethodManagementInterface  $paymentMethodManagement
+     * @param \Magento\Quote\Api\GuestCartManagementInterface           $cartManagement
      * @codeCoverageIgnore
      */
     public function __construct(
@@ -53,13 +61,15 @@ class RatepayGuestErrorProcessor
 
     /**
      * @param \Magento\Checkout\Model\GuestPaymentInformationManagement $subject
-     * @param \Closure $proceed
+     * @param \Closure                                                  $proceed
      * @param $cartId
      * @param $email
      * @param \Magento\Quote\Api\Data\PaymentInterface $paymentMethod
      * @param \Magento\Quote\Api\Data\AddressInterface $billingAddress
-     * @return int
+     *
      * @throws PaymentException
+     *
+     * @return int
      */
     public function aroundSavePaymentInformationAndPlaceOrder(
         \Magento\Checkout\Model\GuestPaymentInformationManagement $subject,
@@ -68,9 +78,9 @@ class RatepayGuestErrorProcessor
         $email,
         \Magento\Quote\Api\Data\PaymentInterface $paymentMethod,
         \Magento\Quote\Api\Data\AddressInterface $billingAddress
-    )
-    {
+    ) {
         $subject->savePaymentInformation($cartId, $email, $paymentMethod, $billingAddress);
+
         try {
             $orderId = $this->cartManagement->placeOrder($cartId);
         } catch (\Exception $e) {

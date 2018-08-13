@@ -71,7 +71,7 @@ $config = PhpCsFixer\Config::create()
                 'curly_brace_block'
             ]
         ],
-        'no_null_property_initialization' => true,
+        // 'no_null_property_initialization' => true,
         'no_short_echo_tag' => true,
         'no_superfluous_elseif' => true,
         'no_unneeded_curly_braces' => true,
@@ -99,6 +99,7 @@ $config = PhpCsFixer\Config::create()
         'strict_comparison' => true,
         'strict_param' => true,
         'string_line_ending' => true,
+        'yoda_style' => false,
     ])
     ->setFinder($finder);
 

@@ -1,24 +1,33 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: SebastianN
- * Date: 07.02.17
- * Time: 14:23
+ * RatePAY Payments - Magento 2
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
  */
 
 namespace RatePAY\Payment\Controller;
 
-use RatePAY\RequestBuilder;
-use RatePAY\InstallmentBuilder;
 use RatePAY\Frontend\DeviceFingerprintBuilder;
+use RatePAY\InstallmentBuilder;
+use RatePAY\RequestBuilder;
 
 class LibraryController
 {
     /**
-     * Call Ratepay Payment Init
+     * Call Ratepay Payment Init.
      *
      * @param $head
      * @param $sandbox
+     *
      * @return mixed
      */
     public static function callPaymentInit($head, $sandbox)
@@ -31,15 +40,17 @@ class LibraryController
         } catch (\Exception $e) {
             echo $e->getMessage();
         }
+
         return $paymentInit;
     }
 
     /**
-     * Call Ratepay Payment Request
+     * Call Ratepay Payment Request.
      *
      * @param $head
      * @param $content
      * @param $sandbox
+     *
      * @return mixed
      */
     public static function callPaymentRequest($head, $content, $sandbox)
@@ -55,13 +66,14 @@ class LibraryController
     }
 
     /**
-     * Get Ratepay Installment Configuration
+     * Get Ratepay Installment Configuration.
      *
      * @param $profileId
      * @param $securityCode
      * @param $sandbox
      * @param $orderAmount
      * @param null $template
+     *
      * @return string
      */
     public static function getInstallmentConfiguration($profileId, $securityCode, $sandbox, $orderAmount, $template = null)
@@ -84,7 +96,7 @@ class LibraryController
     }
 
     /**
-     * Get RatePay installment plan
+     * Get RatePay installment plan.
      *
      * @param $profileId
      * @param $securityCode
@@ -93,6 +105,7 @@ class LibraryController
      * @param $calculationType
      * @param $calculationValue
      * @param null $template
+     *
      * @return string
      */
     public static function getInstallmentPlan($profileId, $securityCode, $sandbox, $calculationAmount, $calculationType, $calculationValue, $template = null)
@@ -115,17 +128,18 @@ class LibraryController
     }
 
     /**
-     * call RatePay profile request
+     * call RatePay profile request.
      *
      * @param $head
      * @param $sandbox
+     *
      * @return mixed
      */
     public function callProfileRequest($head, $sandbox)
     {
         $rb = new RequestBuilder($sandbox);
 
-        try{
+        try {
             $profilerequest = $rb->callProfileRequest($head);
         } catch (\Exception $e) {
             echo $e->getMessage();
@@ -138,9 +152,10 @@ class LibraryController
      * @param $head
      * @param $content
      * @param $sandbox
+     *
      * @return mixed
      */
-    public function  callConfirmationDeliver($head, $content, $sandbox)
+    public function callConfirmationDeliver($head, $content, $sandbox)
     {
         $rb = new RequestBuilder($sandbox);
 
@@ -158,6 +173,7 @@ class LibraryController
      * @param $content
      * @param $operation
      * @param $sandbox
+     *
      * @return mixed
      */
     public function callPaymentChange($head, $content, $operation, $sandbox)
@@ -175,9 +191,6 @@ class LibraryController
 
     public function getDfpCode($snippetId, $orderId)
     {
-        $dfp = new DeviceFingerprintBuilder($snippetId, $orderId);
-
-        return $dfp;
+        return new DeviceFingerprintBuilder($snippetId, $orderId);
     }
-
 }
