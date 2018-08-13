@@ -10,6 +10,7 @@ namespace RatePAY\Payment\Observer;
 
 use \Psr\Log\LoggerInterface;
 use Magento\Framework\Event\ObserverInterface;
+use Magento\Framework\Exception\PaymentException;
 
 class SendRatepayCancelCall implements ObserverInterface
 {
@@ -34,11 +35,6 @@ class SendRatepayCancelCall implements ObserverInterface
     protected $rpLibraryController;
 
     /**
-     * @var \Magento\Framework\Exception\PaymentException
-     */
-    protected $paymentException;
-
-    /**
      * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
@@ -49,7 +45,6 @@ class SendRatepayCancelCall implements ObserverInterface
      * @param \RatePAY\Payment\Helper\Payment $rpPaymentHelper
      * @param \Ratepay\Payment\Model\LibraryModel $rpLibraryModel
      * @param \RatePAY\Payment\Controller\LibraryController $rpLibraryController
-     * @param \Magento\Framework\Exception\PaymentException $paymentException
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     function __construct(
@@ -57,14 +52,12 @@ class SendRatepayCancelCall implements ObserverInterface
         \RatePAY\Payment\Helper\Payment $rpPaymentHelper,
         \RatePAY\Payment\Model\LibraryModel $rpLibraryModel,
         \RatePAY\Payment\Controller\LibraryController $rpLibraryController,
-        \Magento\Framework\Exception\PaymentException $paymentException,
         \Magento\Store\Model\StoreManagerInterface $storeManager)
     {
         $this->rpDataHelper = $rpDataHelper;
         $this->rpPaymentHelper = $rpPaymentHelper;
         $this->rpLibraryModel = $rpLibraryModel;
         $this->rpLibraryController = $rpLibraryController;
-        $this->paymentException = $paymentException;
         $this->storeManager = $storeManager;
 
     }
@@ -95,9 +88,9 @@ class SendRatepayCancelCall implements ObserverInterface
         $content = $this->rpLibraryModel->getRequestContent($order, 'PAYMENT_CHANGE', [], 0);
         $cancellationRequest = $this->rpLibraryController->callPaymentChange($head, $content, 'cancellation', $sandbox);
         if (!$cancellationRequest->isSuccessful()){
-            throw new $this->paymentException(__('Cancellation was not successsfull'));
+            throw new PaymentException(__('Cancellation was not successsfull'));
         } else {
-        return true;
+            return true;
         }
     }
 }

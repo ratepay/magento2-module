@@ -11,6 +11,7 @@ namespace RatePAY\Payment\Helper;
 
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Framework\App\Helper\Context;
+use Magento\Framework\Exception\PaymentException;
 
 class Validator extends \Magento\Framework\App\Helper\AbstractHelper
 {
@@ -18,11 +19,6 @@ class Validator extends \Magento\Framework\App\Helper\AbstractHelper
      * @var \Magento\Checkout\Model\Session
      */
     protected $checkoutSession;
-
-    /**
-     * @var \Magento\Framework\Exception\PaymentException
-     */
-    protected $paymentException;
 
     /**
      * @var CustomerRepositoryInterface
@@ -37,20 +33,17 @@ class Validator extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Validator constructor.
      * @param Context $context
-     * @param \Magento\Framework\Exception\PaymentException $paymentException
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param CustomerRepositoryInterface $customerRepository
      * @param \Magento\Customer\Model\Session $customerSession
      */
     public function __construct(Context $context,
-                                \Magento\Framework\Exception\PaymentException $paymentException,
                                 \Magento\Checkout\Model\Session $checkoutSession,
                                 CustomerRepositoryInterface $customerRepository,
                                 \Magento\Customer\Model\Session $customerSession)
     {
         parent::__construct($context);
 
-        $this->paymentException = $paymentException;
         $this->checkoutSession = $checkoutSession;
         $this->customerRepository = $customerRepository;
         $this->customerSession = $customerSession;
@@ -64,12 +57,12 @@ class Validator extends \Magento\Framework\App\Helper\AbstractHelper
         if (!$this->_isNumericBetter($additionalData->getRpDobDay()) ||
             !$this->_isNumericBetter($additionalData->getRpDobMonth()) ||
             !$this->_isNumericBetter($additionalData->getRpDobYear())) {
-            throw new $this->paymentException(__("dob data invalid"));
+            throw new PaymentException(__("dob data invalid"));
         }
 
         $response = $this->_isValidAge($additionalData->getRpDobDay(), $additionalData->getRpDobMonth(), $additionalData->getRpDobYear());
         if ($response !== true) {
-            throw new $this->paymentException(__($response));
+            throw new PaymentException(__($response));
         }
 
         if($this->customerSession->isLoggedIn()){
@@ -109,7 +102,7 @@ class Validator extends \Magento\Framework\App\Helper\AbstractHelper
         try{
             $dob = new \DateTime(trim($dobDay) . "-" . trim($dobMonth) . "-" . trim($dobYear));
         } catch (\Exception $e){
-            throw new $this->paymentException(__('dob data invalid'));
+            throw new PaymentException(__('dob data invalid'));
         }
 
         $today = new \DateTime(date("d-m-Y"));
@@ -142,7 +135,7 @@ class Validator extends \Magento\Framework\App\Helper\AbstractHelper
     public function validateIban($additionalData)
     {
         if (empty($additionalData->getRpIban())) {
-            throw new $this->paymentException(__("iban data invalid"));
+            throw new PaymentException(__("iban data invalid"));
         }
 
         $this->checkoutSession->setRatepayIban($additionalData->getRpIban());
@@ -154,11 +147,11 @@ class Validator extends \Magento\Framework\App\Helper\AbstractHelper
     public function validatePhone($additionalData)
     {
         if (!$additionalData->getRpPhone()) {
-            throw new $this->paymentException(__("phone data invalid"));
+            throw new PaymentException(__("phone data invalid"));
         }
 
         if (!$this->isValidPhone($additionalData->getRpPhone())) {
-            throw new $this->paymentException(__("phone not valid"));
+            throw new PaymentException(__("phone not valid"));
         }
 
         $this->checkoutSession->setRatepayPhone($additionalData->getRpPhone());

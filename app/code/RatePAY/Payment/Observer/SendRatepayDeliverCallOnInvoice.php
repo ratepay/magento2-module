@@ -10,6 +10,7 @@ namespace RatePAY\Payment\Observer;
 
 use Magento\Framework\Event\ObserverInterface;
 use RatePAY\Payment\Controller\LibraryController;
+use Magento\Framework\Exception\PaymentException;
 
 class SendRatepayDeliverCallOnInvoice implements ObserverInterface
 {
@@ -34,11 +35,6 @@ class SendRatepayDeliverCallOnInvoice implements ObserverInterface
     protected $rpLibraryController;
 
     /**
-     * @var \Magento\Framework\Exception\PaymentException
-     */
-    protected $paymentException;
-    
-    /**
      * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
@@ -49,7 +45,6 @@ class SendRatepayDeliverCallOnInvoice implements ObserverInterface
      * @param \RatePAY\Payment\Helper\Data $rpDataHelper
      * @param \RatePAY\Payment\Helper\Payment $rpPaymentHelper
      * @param LibraryController $rpLibraryController
-     * @param \Magento\Framework\Exception\PaymentException $paymentException
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
@@ -57,14 +52,12 @@ class SendRatepayDeliverCallOnInvoice implements ObserverInterface
         \RatePAY\Payment\Helper\Data $rpDataHelper,
         \RatePAY\Payment\Helper\Payment $rpPaymentHelper,
         \RatePAY\Payment\Controller\LibraryController $rpLibraryController,
-        \Magento\Framework\Exception\PaymentException $paymentException,
         \Magento\Store\Model\StoreManagerInterface $storeManager)
     {
         $this->rpLibraryModel = $rpLibraryModel;
         $this->rpDataHelper = $rpDataHelper;
         $this->rpPaymentHelper = $rpPaymentHelper;
         $this->rpLibraryController = $rpLibraryController;
-        $this->paymentException = $paymentException;
         $this->storeManager = $storeManager;
     }
 
@@ -99,7 +92,7 @@ class SendRatepayDeliverCallOnInvoice implements ObserverInterface
 
         if(!$resultConfirmationDeliver->isSuccessful())
         {
-            throw new $this->paymentException(__('Invoice not successful'));
+            throw new PaymentException(__('Invoice not successful'));
         } else {
             return true;
         }
