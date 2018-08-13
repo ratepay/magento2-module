@@ -1,13 +1,20 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: SebastianN
- * Date: 17.07.17
- * Time: 15:21
+ * RatePAY Payments - Magento 2
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
  */
 
 namespace RatePAY\Payment\Observer;
-
 
 use Magento\Framework\Event\ObserverInterface;
 
@@ -45,22 +52,22 @@ class SendRatepayCreditMemoCall implements ObserverInterface
 
     /**
      * SendRatepayCreditMemoCall constructor.
-     * @param \RatePAY\Payment\Helper\Data $rpDataHelper
-     * @param \RatePAY\Payment\Helper\Payment $rpPaymentHelper
-     * @param \RatePAY\Payment\Model\LibraryModel $rpLibraryModel
+     *
+     * @param \RatePAY\Payment\Helper\Data                  $rpDataHelper
+     * @param \RatePAY\Payment\Helper\Payment               $rpPaymentHelper
+     * @param \RatePAY\Payment\Model\LibraryModel           $rpLibraryModel
      * @param \RatePAY\Payment\Controller\LibraryController $rpLibraryController
      * @param \Magento\Framework\Exception\PaymentException $paymentException
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface    $storeManager
      */
-    function __construct(
+    public function __construct(
         \RatePAY\Payment\Helper\Data $rpDataHelper,
         \RatePAY\Payment\Helper\Payment $rpPaymentHelper,
         \RatePAY\Payment\Model\LibraryModel $rpLibraryModel,
         \RatePAY\Payment\Controller\LibraryController $rpLibraryController,
         \Magento\Framework\Exception\PaymentException $paymentException,
         \Magento\Store\Model\StoreManagerInterface $storeManager
-    )
-    {
+    ) {
         $this->rpDataHelper = $rpDataHelper;
         $this->rpPaymentHelper = $rpPaymentHelper;
         $this->rpLibraryModel = $rpLibraryModel;
@@ -71,14 +78,15 @@ class SendRatepayCreditMemoCall implements ObserverInterface
 
     /**
      * @param \Magento\Framework\Event\Observer $observer
+     *
      * @return $this
      */
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
-       $creditMemo = $observer->getEvent()->getCreditmemo();
-       $order = $creditMemo->getOrder();
-       $paymentMethod = $order->getPayment()->getMethod();
-        if(!$this->rpPaymentHelper->isRatepayPayment($paymentMethod)){
+        $creditMemo = $observer->getEvent()->getCreditmemo();
+        $order = $creditMemo->getOrder();
+        $paymentMethod = $order->getPayment()->getMethod();
+        if (!$this->rpPaymentHelper->isRatepayPayment($paymentMethod)) {
             return $this;
         }
         $this->callRatepayReturn($order, $creditMemo, $paymentMethod);
@@ -88,15 +96,16 @@ class SendRatepayCreditMemoCall implements ObserverInterface
      * @param $order
      * @param $creditMemo
      * @param $paymentMethod
+     *
      * @return bool
      */
     public function callRatepayReturn($order, $creditMemo, $paymentMethod)
     {
-        $sandbox = (bool)$this->rpDataHelper->getRpConfigData($paymentMethod, 'sandbox', $this->storeManager->getStore()->getId());
+        $sandbox = (bool) $this->rpDataHelper->getRpConfigData($paymentMethod, 'sandbox', $this->storeManager->getStore()->getId());
         $head = $this->rpLibraryModel->getRequestHead($order, 'PAYMENT_CHANGE');
-        $content = $this->rpLibraryModel->getRequestContent($creditMemo, "PAYMENT_CHANGE");
+        $content = $this->rpLibraryModel->getRequestContent($creditMemo, 'PAYMENT_CHANGE');
 
-        if ($this->rpDataHelper->getRpConfigData($paymentMethod, 'status', $this->storeManager->getStore()->getId()) == 1) {
+        if ($this->rpDataHelper->getRpConfigData($paymentMethod, 'status', $this->storeManager->getStore()->getId()) === 1) {
             throw new $this->paymentException(__('Processing failed'));
         }
 
@@ -122,11 +131,12 @@ class SendRatepayCreditMemoCall implements ObserverInterface
      * @param $order
      * @param $creditMemo
      * @param $paymentMethod
+     *
      * @return bool
      */
     public function callRatepayCredit($order, $creditMemo, $paymentMethod)
     {
-        $sandbox = (bool)$this->rpDataHelper->getRpConfigData($paymentMethod, 'sandbox', $this->storeManager->getStore()->getId());
+        $sandbox = (bool) $this->rpDataHelper->getRpConfigData($paymentMethod, 'sandbox', $this->storeManager->getStore()->getId());
         $head = $this->rpLibraryModel->getRequestHead($order, 'PAYMENT_CHANGE');
         $content = $this->rpLibraryModel->getRequestContent($order, 'PAYMENT_CHANGE', $this->rpLibraryModel->addAdjustments($creditMemo));
 

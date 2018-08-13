@@ -1,9 +1,17 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: SebastianN
- * Date: 20.02.17
- * Time: 14:59
+ * RatePAY Payments - Magento 2
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
  */
 
 namespace RatePAY\Payment\Model\Method;
@@ -15,14 +23,14 @@ use RatePAY\Payment\Helper\Validator;
 abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMethod
 {
     /**
-     * Payment method code
+     * Payment method code.
      *
      * @var string
      */
     protected $_code;
 
     /**
-     * Availability option
+     * Availability option.
      *
      * @var bool
      */
@@ -78,30 +86,30 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
      */
     protected $customerSession;
 
-
     /**
      * AbstractMethod constructor.
-     * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Framework\Api\ExtensionAttributesFactory $extensionFactory
-     * @param \Magento\Framework\Api\AttributeValueFactory $customAttributeFactory
-     * @param \Magento\Payment\Helper\Data $paymentData
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Payment\Model\Method\Logger $logger
-     * @param \RatePAY\Payment\Model\LibraryModel $rpLibraryModel
-     * @param \RatePAY\Payment\Model\Session $rpSession
-     * @param \RatePAY\Payment\Helper\Data $rpDataHelper
-     * @param Validator $rpValidator
-     * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param CustomerRepositoryInterface $customerRepository
-     * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Framework\Exception\PaymentException $paymentException
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Framework\Model\ResourceModel\AbstractResource|null $resource
-     * @param \Magento\Framework\Data\Collection\AbstractDb|null $resourceCollection
-     * @param array $data
+     *
+     * @param \Magento\Framework\Model\Context                             $context
+     * @param \Magento\Framework\Registry                                  $registry
+     * @param \Magento\Framework\Api\ExtensionAttributesFactory            $extensionFactory
+     * @param \Magento\Framework\Api\AttributeValueFactory                 $customAttributeFactory
+     * @param \Magento\Payment\Helper\Data                                 $paymentData
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface           $scopeConfig
+     * @param \Magento\Payment\Model\Method\Logger                         $logger
+     * @param \RatePAY\Payment\Model\LibraryModel                          $rpLibraryModel
+     * @param \RatePAY\Payment\Model\Session                               $rpSession
+     * @param \RatePAY\Payment\Helper\Data                                 $rpDataHelper
+     * @param Validator                                                    $rpValidator
+     * @param \Magento\Checkout\Model\Session                              $checkoutSession
+     * @param CustomerRepositoryInterface                                  $customerRepository
+     * @param \Magento\Customer\Model\Session                              $customerSession
+     * @param \Magento\Framework\Exception\PaymentException                $paymentException
+     * @param \Magento\Store\Model\StoreManagerInterface                   $storeManager
+     * @param null|\Magento\Framework\Model\ResourceModel\AbstractResource $resource
+     * @param null|\Magento\Framework\Data\Collection\AbstractDb           $resourceCollection
+     * @param array                                                        $data
      */
-    function __construct(
+    public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Api\ExtensionAttributesFactory $extensionFactory,
@@ -112,7 +120,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         \RatePAY\Payment\Model\LibraryModel $rpLibraryModel,
         \RatePAY\Payment\Model\Session $rpSession,
         \RatePAY\Payment\Helper\Data $rpDataHelper,
-        \RatePAY\Payment\Helper\Validator $rpValidator,
+        Validator $rpValidator,
         \Magento\Checkout\Model\Session $checkoutSession,
         CustomerRepositoryInterface $customerRepository,
         \Magento\Customer\Model\Session $customerSession,
@@ -120,8 +128,8 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
-        array $data = [])
-    {
+        array $data = []
+    ) {
         parent::__construct(
             $context,
             $registry,
@@ -132,7 +140,8 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
             $logger,
             $resource,
             $resourceCollection,
-            $data);
+            $data
+        );
 
         $this->_rpLibraryModel = $rpLibraryModel;
         $this->rpSession = $rpSession;
@@ -146,19 +155,20 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
     }
 
     /**
-     * call of ratepay requests moved to controller (Request.php)
+     * call of ratepay requests moved to controller (Request.php).
      *
      * Authorize the transaction by calling PAYMENT_INIT, PAYMENT_REQUEST.
      *
      * @param \Magento\Payment\Model\InfoInterface $payment
-     * @param float $amount
+     * @param float                                $amount
+     *
      * @throws \Magento\Framework\Exception\PaymentException
      */
     public function authorize(\Magento\Payment\Model\InfoInterface $payment, $amount)
     {
         $order = $this->getQuoteOrOrder();
         $head = $this->_rpLibraryModel->getRequestHead($order);
-        $sandbox = (bool)$this->rpDataHelper->getRpConfigData($this->_code, 'sandbox', $this->storeManager->getStore()->getId());
+        $sandbox = (bool) $this->rpDataHelper->getRpConfigData($this->_code, 'sandbox', $this->storeManager->getStore()->getId());
         $company = $order->getBillingAddress()->getCompany();
         if (!$this->rpDataHelper->getRpConfigData($this->_code, 'b2b', $this->storeManager->getStore()->getId()) && !empty($company)) {
             throw new $this->paymentException(__('b2b not allowed'));
@@ -179,29 +189,33 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
             $content = $this->_rpLibraryModel->getRequestContent($order, 'PAYMENT_REQUEST');
             $resultRequest = LibraryController::callPaymentRequest($head, $content, $sandbox);
             if (!$resultRequest->isSuccessful()) {
-                if (!$resultRequest->isRetryAdmitted()){
+                if (!$resultRequest->isRetryAdmitted()) {
                     $this->checkoutSession->setRatepayMethodHide(true);
                     $message = $this->formatMessage($resultRequest->getCustomerMessage());
                     $this->customerSession->setRatePayDeviceIdentToken(null);
+
                     throw new $this->paymentException(__($message)); // RatePAY Error Message
                 } else {
                     $message = $this->formatMessage($resultRequest->getCustomerMessage());
+
                     throw new $this->paymentException(__($message)); // RatePAY Error Message
                 }
             }
             $payment->setAdditionalInformation('descriptor', $resultRequest->getDescriptor());
             $this->checkoutSession->setRatepayMethodHide(false);
             $this->customerSession->setRatePayDeviceIdentToken(null);
+
             return $this;
         } else {
             $message = $this->formatMessage($resultInit->getReasonMessage());
             $this->customerSession->setRatePayDeviceIdentToken(null);
+
             throw new $this->paymentException(__($message)); // RatePAY Error Message
         }
     }
 
     /**
-     * Check if payment method is available
+     * Check if payment method is available.
      *
      * 1) If quote is not null
      * 2) If a session variable is set, which indicates that the customer was declined by RatePAY within the PAYMENT_REQUEST
@@ -209,21 +223,22 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
      * 4) If shipping address doesnt equals billing address
      * 5) If b2b is not allowed and billing address contains an company name
      *
-     * @param \Magento\Quote\Api\Data\CartInterface|null $quote
+     * @param null|\Magento\Quote\Api\Data\CartInterface $quote
+     *
      * @return bool
      */
     public function isAvailable(\Magento\Quote\Api\Data\CartInterface $quote = null)
     {
-        if(is_null($quote)){
+        if (is_null($quote)) {
             return false;
         }
 
-        if (parent::isAvailable($quote) == false) {
+        if (parent::isAvailable($quote) === false) {
             return false;
         }
 
         $ratepayMethodHide = $this->checkoutSession->getRatepayMethodHide();
-        if ($ratepayMethodHide == true) {
+        if ($ratepayMethodHide === true) {
             return false;
         }
 
@@ -248,22 +263,25 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
     }
 
     /**
-     * To check billing country is allowed for the payment method
+     * To check billing country is allowed for the payment method.
      *
      * @param $country
+     *
      * @return bool
      */
     public function canUseForCountryDelivery($country)
     {
         $availableCountries = explode(',', $this->rpDataHelper->getRpConfigData($this->_code, 'specificcountry_delivery', $this->storeManager->getStore()->getId()));
-        if(!in_array($country, $availableCountries)){
+        if (!in_array($country, $availableCountries, true)) {
             return false;
         }
+
         return true;
     }
 
     /**
      * @param \Magento\Framework\DataObject $data
+     *
      * @return $this
      */
     public function assignData(\Magento\Framework\DataObject $data)
@@ -278,22 +296,22 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         if (!is_object($additionalData)) {
             $additionalData = new \Magento\Framework\DataObject($additionalData ?: []);
         }
-        if(!$this->customerSession->isLoggedIn()){
+        if (!$this->customerSession->isLoggedIn()) {
             $this->rpValidator->validateDob($additionalData);
         } else {
-            if ($this->customerRepository->getById($this->customerSession->getCustomerId())->getDob() == null) {
+            if ($this->customerRepository->getById($this->customerSession->getCustomerId())->getDob() === null) {
                 $this->rpValidator->validateDob($additionalData);
             }
         }
 
-        if(!$order->getBillingAddress()->getTelephone()) {
+        if (!$order->getBillingAddress()->getTelephone()) {
             $this->rpValidator->validatePhone($additionalData);
         }
 
-        if ($this->getQuoteOrOrder()->getPayment()->getMethod() == 'ratepay_de_directdebit' ||
-            $this->getQuoteOrOrder()->getPayment()->getMethod() == 'ratepay_at_directdebit' ||
-            $this->getQuoteOrOrder()->getPayment()->getMethod() == 'ratepay_nl_directdebit' ||
-            $this->getQuoteOrOrder()->getPayment()->getMethod() == 'ratepay_be_directdebit') {
+        if ($this->getQuoteOrOrder()->getPayment()->getMethod() === 'ratepay_de_directdebit' ||
+            $this->getQuoteOrOrder()->getPayment()->getMethod() === 'ratepay_at_directdebit' ||
+            $this->getQuoteOrOrder()->getPayment()->getMethod() === 'ratepay_nl_directdebit' ||
+            $this->getQuoteOrOrder()->getPayment()->getMethod() === 'ratepay_be_directdebit') {
             $this->rpValidator->validateIban($additionalData);
         }
 
@@ -303,16 +321,17 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
     /**
      * @param $message
      * @param $order
+     *
      * @return string
      */
     public function formatMessage($message)
     {
-        if(empty($message)) {
+        if (empty($message)) {
             $message = __('Automated Data Procedure Error');
         }
 
-        if(strpos($message, 'zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis') !== false){
-            $message = $message . "\n\n" . $this->rpDataHelper->getRpConfigData($this->_code, 'privacy_policy', $this->storeManager->getStore()->getId());
+        if (strpos($message, 'zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis') !== false) {
+            $message = $message."\n\n".$this->rpDataHelper->getRpConfigData($this->_code, 'privacy_policy', $this->storeManager->getStore()->getId());
         }
 
         return strip_tags($message);

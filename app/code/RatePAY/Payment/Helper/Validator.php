@@ -1,13 +1,20 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: SebastianN
- * Date: 20.06.17
- * Time: 11:03
+ * RatePAY Payments - Magento 2
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
  */
 
 namespace RatePAY\Payment\Helper;
-
 
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Framework\App\Helper\Context;
@@ -36,18 +43,20 @@ class Validator extends \Magento\Framework\App\Helper\AbstractHelper
 
     /**
      * Validator constructor.
-     * @param Context $context
+     *
+     * @param Context                                       $context
      * @param \Magento\Framework\Exception\PaymentException $paymentException
-     * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param CustomerRepositoryInterface $customerRepository
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Checkout\Model\Session               $checkoutSession
+     * @param CustomerRepositoryInterface                   $customerRepository
+     * @param \Magento\Customer\Model\Session               $customerSession
      */
-    public function __construct(Context $context,
+    public function __construct(
+        Context $context,
                                 \Magento\Framework\Exception\PaymentException $paymentException,
                                 \Magento\Checkout\Model\Session $checkoutSession,
                                 CustomerRepositoryInterface $customerRepository,
-                                \Magento\Customer\Model\Session $customerSession)
-    {
+                                \Magento\Customer\Model\Session $customerSession
+    ) {
         parent::__construct($context);
 
         $this->paymentException = $paymentException;
@@ -64,7 +73,7 @@ class Validator extends \Magento\Framework\App\Helper\AbstractHelper
         if (!$this->_isNumericBetter($additionalData->getRpDobDay()) ||
             !$this->_isNumericBetter($additionalData->getRpDobMonth()) ||
             !$this->_isNumericBetter($additionalData->getRpDobYear())) {
-            throw new $this->paymentException(__("dob data invalid"));
+            throw new $this->paymentException(__('dob data invalid'));
         }
 
         $response = $this->_isValidAge($additionalData->getRpDobDay(), $additionalData->getRpDobMonth(), $additionalData->getRpDobYear());
@@ -72,11 +81,11 @@ class Validator extends \Magento\Framework\App\Helper\AbstractHelper
             throw new $this->paymentException(__($response));
         }
 
-        if($this->customerSession->isLoggedIn()){
+        if ($this->customerSession->isLoggedIn()) {
             $customer = $this->customerRepository->getById($this->customerSession->getCustomerId());
             $customer->setDob(
                 sprintf(
-                    "%s-%s-%s",
+                    '%s-%s-%s',
                     $additionalData->getRpDobYear(),
                     $additionalData->getRpDobMonth(),
                     $additionalData->getRpDobDay()
@@ -85,55 +94,14 @@ class Validator extends \Magento\Framework\App\Helper\AbstractHelper
             $this->customerRepository->save($customer);
         } else {
             $this->checkoutSession->setRatepayDob(
-                sprintf("%s-%s-%s",
+                sprintf(
+                    '%s-%s-%s',
                     $additionalData->getRpDobYear(),
                     $additionalData->getRpDobMonth(),
                     $additionalData->getRpDobDay()
-
                 )
             );
         }
-    }
-
-    /**
-     * @param $dobDay
-     * @param $dobMonth
-     * @param $dobYear
-     * @return bool|string
-     */
-    private function _isValidAge($dobDay, $dobMonth, $dobYear)
-    {
-        $minAge = 18;
-        $maxAge = 120;
-
-        try{
-            $dob = new \DateTime(trim($dobDay) . "-" . trim($dobMonth) . "-" . trim($dobYear));
-        } catch (\Exception $e){
-            throw new $this->paymentException(__('dob data invalid'));
-        }
-
-        $today = new \DateTime(date("d-m-Y"));
-
-        $interval = $dob->diff($today);
-        $age = $interval->y;
-
-        if ($age < $minAge) {
-            return "dob too low";
-        } elseif ($age > $maxAge) {
-            return "dob too high";
-        } else {
-            return true;
-        }
-    }
-
-    /**
-     * Checks if value is set and numeric
-     *
-     * @param $str
-     * @return bool
-     */
-    private function _isNumericBetter($str) {
-        return (!empty($str) && is_numeric($str));
     }
 
     /**
@@ -142,7 +110,7 @@ class Validator extends \Magento\Framework\App\Helper\AbstractHelper
     public function validateIban($additionalData)
     {
         if (empty($additionalData->getRpIban())) {
-            throw new $this->paymentException(__("iban data invalid"));
+            throw new $this->paymentException(__('iban data invalid'));
         }
 
         $this->checkoutSession->setRatepayIban($additionalData->getRpIban());
@@ -154,11 +122,11 @@ class Validator extends \Magento\Framework\App\Helper\AbstractHelper
     public function validatePhone($additionalData)
     {
         if (!$additionalData->getRpPhone()) {
-            throw new $this->paymentException(__("phone data invalid"));
+            throw new $this->paymentException(__('phone data invalid'));
         }
 
         if (!$this->isValidPhone($additionalData->getRpPhone())) {
-            throw new $this->paymentException(__("phone not valid"));
+            throw new $this->paymentException(__('phone not valid'));
         }
 
         $this->checkoutSession->setRatepayPhone($additionalData->getRpPhone());
@@ -166,14 +134,61 @@ class Validator extends \Magento\Framework\App\Helper\AbstractHelper
 
     /**
      * @param $phone
+     *
      * @return bool
      */
     public function isValidPhone($phone)
     {
-        $valid = "/^[\d\s\/\(\)-+]/";
+        $valid = '/^[\\d\\s\\/\\(\\)-+]/';
         if (strlen(trim($phone)) >= 6 && preg_match($valid, trim($phone))) {
             return true;
         }
+
         return false;
+    }
+
+    /**
+     * @param $dobDay
+     * @param $dobMonth
+     * @param $dobYear
+     *
+     * @return bool|string
+     */
+    private function _isValidAge($dobDay, $dobMonth, $dobYear)
+    {
+        $minAge = 18;
+        $maxAge = 120;
+
+        try {
+            $dob = new \DateTime(trim($dobDay).'-'.trim($dobMonth).'-'.trim($dobYear));
+        } catch (\Exception $e) {
+            throw new $this->paymentException(__('dob data invalid'));
+        }
+
+        $today = new \DateTime(date('d-m-Y'));
+
+        $interval = $dob->diff($today);
+        $age = $interval->y;
+
+        if ($age < $minAge) {
+            return 'dob too low';
+        }
+        if ($age > $maxAge) {
+            return 'dob too high';
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * Checks if value is set and numeric.
+     *
+     * @param $str
+     *
+     * @return bool
+     */
+    private function _isNumericBetter($str)
+    {
+        return !empty($str) && is_numeric($str);
     }
 }

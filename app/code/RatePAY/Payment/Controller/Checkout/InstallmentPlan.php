@@ -1,5 +1,19 @@
 <?php
 
+/**
+ * RatePAY Payments - Magento 2
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ */
+
 namespace RatePAY\Payment\Controller\Checkout;
 
 use Magento\Framework\App\Action\Context;
@@ -33,11 +47,12 @@ class InstallmentPlan extends \Magento\Framework\App\Action\Action
 
     /**
      * InstallmentPlan constructor.
-     * @param Context $context
-     * @param \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory
-     * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \RatePAY\Payment\Model\LibraryModel $rpLibraryModel
-     * @param \RatePAY\Payment\Controller\LibraryController $rpLibraryController
+     *
+     * @param Context                                            $context
+     * @param \Magento\Framework\Controller\Result\JsonFactory   $resultJsonFactory
+     * @param \Magento\Checkout\Model\Session                    $checkoutSession
+     * @param \RatePAY\Payment\Model\LibraryModel                $rpLibraryModel
+     * @param \RatePAY\Payment\Controller\LibraryController      $rpLibraryController
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
@@ -46,8 +61,8 @@ class InstallmentPlan extends \Magento\Framework\App\Action\Action
         \Magento\Checkout\Model\Session $checkoutSession,
         \RatePAY\Payment\Model\LibraryModel $rpLibraryModel,
         \RatePAY\Payment\Controller\LibraryController $rpLibraryController,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig)
-    {
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+    ) {
         $this->_resultJsonFactory = $resultJsonFactory;
         $this->_checkoutSession = $checkoutSession;
         $this->_rpLibraryModel = $rpLibraryModel;
@@ -57,7 +72,7 @@ class InstallmentPlan extends \Magento\Framework\App\Action\Action
     }
 
     /**
-     * evaluate ajax request for installment plan
+     * evaluate ajax request for installment plan.
      *
      * @return $this
      */
@@ -65,7 +80,7 @@ class InstallmentPlan extends \Magento\Framework\App\Action\Action
     {
         $response = [
             'status' => 'failure',
-            'message' => ''
+            'message' => '',
         ];
 
         $params = $this->getRequest()->getParams();
@@ -75,37 +90,41 @@ class InstallmentPlan extends \Magento\Framework\App\Action\Action
         if (!key_exists('order_amount', $params) ||
             !key_exists('calc_type', $params) ||
             !key_exists('calc_value', $params)) {
-            $response['message'] = "calc data invalid";
+            $response['message'] = 'calc data invalid';
+
             return $result->setData($response);
         }
 
         $installmentPlan = $this->getInstallmentPlan((float) $params['order-amount'], $params['calc-type'], (int) $params['calc-value']);
 
-        $response['status'] = "success";
+        $response['status'] = 'success';
         $response['response'] = json_decode($installmentPlan);
+
         return $result->setData($response);
     }
 
     /**
-     * get installment plan
+     * get installment plan.
      *
      * @param $orderAmount
      * @param $calculationType
      * @param $calculationValue
      * @param null $template
+     *
      * @return mixed
      */
-    private function getInstallmentPlan($orderAmount, $calculationType, $calculationValue, $template = null) {
+    private function getInstallmentPlan($orderAmount, $calculationType, $calculationValue, $template = null)
+    {
         $quote = $this->_checkoutSession->getQuote();
 
         $storeId = $quote->getStoreId();
         $scopeType = $quote->getStore()->getScopeType();
         $countryId = strtolower($quote->getBillingAddress()->getCountryId());
-        $basePath = "payment/ratepay_" . $countryId . "_installment/";
+        $basePath = 'payment/ratepay_'.$countryId.'_installment/';
 
-        $profileId = $this->_scopeConfig->getValue($basePath . "profileId", $scopeType, $storeId);
-        $securitycode = $this->_scopeConfig->getValue($basePath . "securityCode", $scopeType, $storeId);
-        $sandbox = $this->_scopeConfig->getValue($basePath . "sandbox", $scopeType, $storeId);
+        $profileId = $this->_scopeConfig->getValue($basePath.'profileId', $scopeType, $storeId);
+        $securitycode = $this->_scopeConfig->getValue($basePath.'securityCode', $scopeType, $storeId);
+        $sandbox = $this->_scopeConfig->getValue($basePath.'sandbox', $scopeType, $storeId);
 
         $configurationRequest = $this->_rpLibraryController->getInstallmentPlan($profileId, $securitycode, $sandbox, $orderAmount, $calculationType, $calculationValue, $template);
 
