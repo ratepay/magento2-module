@@ -1,8 +1,19 @@
 <?php
+
 /**
- * Copyright © 2013-2017 Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * RatePAY Payments - Magento 2
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
  */
+
 namespace RatePAY\Payment\Block\Form;
 
 use Magento\Framework\View\Element\Template;
@@ -10,7 +21,7 @@ use Magento\Framework\View\Element\Template;
 class Dfp extends \Magento\Payment\Block\Form
 {
     /**
-     * Checkmo template
+     * Checkmo template.
      *
      * @var string
      */
@@ -43,20 +54,22 @@ class Dfp extends \Magento\Payment\Block\Form
 
     /**
      * Dfp constructor.
-     * @param Template\Context $context
-     * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\Customer\Model\Session $customerSession
-     * @param \RatePAY\Payment\Helper\Data $rpDataHelper
+     *
+     * @param Template\Context                              $context
+     * @param \Magento\Checkout\Model\Session               $checkoutSession
+     * @param \Magento\Customer\Model\Session               $customerSession
+     * @param \RatePAY\Payment\Helper\Data                  $rpDataHelper
      * @param \RatePAY\Payment\Controller\LibraryController $rpLibraryController
-     * @param array $data
+     * @param array                                         $data
      */
-    public function __construct(Template\Context $context,
+    public function __construct(
+        Template\Context $context,
                                 \Magento\Checkout\Model\Session $checkoutSession,
                                 \Magento\Customer\Model\Session $customerSession,
                                 \RatePAY\Payment\Helper\Data $rpDataHelper,
                                 \RatePAY\Payment\Controller\LibraryController $rpLibraryController,
-                                array $data = [])
-    {
+                                array $data = []
+    ) {
         parent::__construct($context, $data);
 
         $this->checkoutSession = $checkoutSession;
@@ -71,7 +84,7 @@ class Dfp extends \Magento\Payment\Block\Form
      */
     public function getDeviceIdentCode()
     {
-        if(is_null($this->customerSession->getRatePayDeviceIdentToken())) {
+        if (is_null($this->customerSession->getRatePayDeviceIdentToken())) {
             $storeId = $this->storeManager->getStore()->getId();
             if (!(bool) $this->rpDataHelper->getRpConfigData('ratepay_general', 'device_ident', $storeId)) {
                 return;
@@ -83,6 +96,7 @@ class Dfp extends \Magento\Payment\Block\Form
                     $this->customerSession->getSessionId()
                 );
                 $this->customerSession->setRatePayDeviceIdentToken($dfp->getToken());
+
                 return $dfp->getDfpSnippetCode();
             }
         }

@@ -1,16 +1,24 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: SebastianN
- * Date: 02.03.17
- * Time: 15:39
+ * RatePAY Payments - Magento 2
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
  */
 
 namespace RatePAY\Payment\Block\System\Config;
 
 use Magento\Backend\Block\Template\Context;
 use Magento\Config\Block\System\Config\Form\Field;
-use Magento\Framework\Data\Form\Element\AbstractElement;;
+use Magento\Framework\Data\Form\Element\AbstractElement;
 
 class ProfileRequest extends Field
 {
@@ -26,7 +34,7 @@ class ProfileRequest extends Field
 
     /**
      * @param Context $context
-     * @param array $data
+     * @param array   $data
      */
     public function __construct(
         Context $context,
@@ -36,31 +44,21 @@ class ProfileRequest extends Field
     }
 
     /**
-     * Remove scope label
+     * Remove scope label.
      *
-     * @param  AbstractElement $element
+     * @param AbstractElement $element
+     *
      * @return string
      */
     public function render(AbstractElement $element)
     {
         $element->unsScope()->unsCanUseWebsiteValue()->unsCanUseDefaultValue();
+
         return parent::render($element);
     }
 
     /**
-     * Return element html
-     *
-     * @param  AbstractElement $element
-     * @return string
-     */
-    protected function _getElementHtml(AbstractElement $element)
-    {
-        $this->_element = $element;
-        return $this->_toHtml();
-    }
-
-    /**
-     * Return ajax url for collect button
+     * Return ajax url for collect button.
      *
      * @return string
      */
@@ -71,12 +69,11 @@ class ProfileRequest extends Field
 
     public function getPaymentMethod()
     {
-        $id = $this->_element->getContainer()->getId();
-        return $id;
+        return $this->_element->getContainer()->getId();
     }
 
     /**
-     * Generate collect button html
+     * Generate collect button html.
      *
      * @return string
      */
@@ -86,11 +83,25 @@ class ProfileRequest extends Field
             'Magento\Backend\Block\Widget\Button'
         )->setData(
             [
-                'id' => $this->_element->getContainer()->getId() . '_profilerequest_button',
+                'id' => $this->_element->getContainer()->getId().'_profilerequest_button',
                 'label' => __('Get Config'),
             ]
         );
 
         return $button->toHtml();
+    }
+
+    /**
+     * Return element html.
+     *
+     * @param AbstractElement $element
+     *
+     * @return string
+     */
+    protected function _getElementHtml(AbstractElement $element)
+    {
+        $this->_element = $element;
+
+        return $this->_toHtml();
     }
 }

@@ -1,13 +1,20 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: SebastianN
- * Date: 09.02.17
- * Time: 16:17
+ * RatePAY Payments - Magento 2
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
  */
 
 namespace RatePAY\Payment\Helper\Content\ShoppingBasket;
-
 
 use Magento\Framework\App\Helper\Context;
 
@@ -29,16 +36,18 @@ class ShoppingBasket extends \Magento\Framework\App\Helper\AbstractHelper
 
     /**
      * ShoppingBasket constructor.
-     * @param Context $context
-     * @param Items $rpContentBasketItemsHelper
+     *
+     * @param Context  $context
+     * @param Items    $rpContentBasketItemsHelper
      * @param Shipping $rpContentBasketShippingHelper
      * @param Discount $rpContentBasketDiscountHelper
      */
-    public function __construct(Context $context,
-                                \RatePAY\Payment\Helper\Content\ShoppingBasket\Items $rpContentBasketItemsHelper,
-                                \RatePAY\Payment\Helper\Content\ShoppingBasket\Shipping $rpContentBasketShippingHelper,
-                                \RatePAY\Payment\Helper\Content\ShoppingBasket\Discount $rpContentBasketDiscountHelper)
-    {
+    public function __construct(
+        Context $context,
+                                Items $rpContentBasketItemsHelper,
+                                Shipping $rpContentBasketShippingHelper,
+                                Discount $rpContentBasketDiscountHelper
+    ) {
         parent::__construct($context);
 
         $this->rpContentBasketItemsHelper = $rpContentBasketItemsHelper;
@@ -47,11 +56,12 @@ class ShoppingBasket extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
-     * Build Shopping Basket Block of Payment Request
+     * Build Shopping Basket Block of Payment Request.
      *
      * @param $quoteOrOrder
      * @param null $articleList
      * @param null $amount
+     *
      * @return array
      */
     public function setShoppingBasket($quoteOrOrder, $articleList = null, $amount = null)
@@ -61,7 +71,7 @@ class ShoppingBasket extends \Magento\Framework\App\Helper\AbstractHelper
         if (is_null($articleList)) {
             if ($quoteOrOrder->getAdjustmentPositive() > 0 || $quoteOrOrder->getAdjustmentNegative() > 0) {
                 $content = [
-                    'Items' => $this->rpContentBasketItemsHelper->setItems($quoteOrOrder)
+                    'Items' => $this->rpContentBasketItemsHelper->setItems($quoteOrOrder),
                 ];
             } else {
                 $content = [

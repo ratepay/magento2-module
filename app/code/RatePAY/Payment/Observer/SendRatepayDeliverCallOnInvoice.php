@@ -1,9 +1,17 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: SebastianN
- * Date: 26.06.17
- * Time: 17:25
+ * RatePAY Payments - Magento 2
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
  */
 
 namespace RatePAY\Payment\Observer;
@@ -61,9 +69,9 @@ class SendRatepayDeliverCallOnInvoice implements ObserverInterface
         $this->storeManager = $storeManager;
     }
 
-
     /**
      * @param \Magento\Framework\Event\Observer $observer
+     *
      * @return $this
      */
     public function execute(\Magento\Framework\Event\Observer $observer)
@@ -71,7 +79,7 @@ class SendRatepayDeliverCallOnInvoice implements ObserverInterface
         $inv = $observer->getEvent()->getData('invoice');
         $order = $observer->getEvent()->getData('invoice')->getOrder();
         $paymentMethod = $observer->getEvent()->getData('invoice')->getOrder()->getPayment()->getMethodInstance()->getCode();
-        if(!$this->rpPaymentHelper->isRatepayPayment($paymentMethod)){
+        if (!$this->rpPaymentHelper->isRatepayPayment($paymentMethod)) {
             return $this;
         }
         $this->sendRatepayDeliverCall($order, $inv, $paymentMethod);
@@ -81,11 +89,12 @@ class SendRatepayDeliverCallOnInvoice implements ObserverInterface
      * @param $order
      * @param $inv
      * @param $paymentMethod
+     *
      * @return bool
      */
     private function sendRatepayDeliverCall($order, $inv, $paymentMethod)
     {
-        $sandbox = (bool)$this->rpDataHelper->getRpConfigData($paymentMethod, 'sandbox', $this->storeManager->getStore()->getId());
+        $sandbox = (bool) $this->rpDataHelper->getRpConfigData($paymentMethod, 'sandbox', $this->storeManager->getStore()->getId());
         $head = $this->rpLibraryModel->getRequestHead($order, 'CONFIRMATION_DELIVER');
         $content = $this->rpLibraryModel->getRequestContent($inv, 'CONFIRMATION_DELIVER');
         $resultConfirmationDeliver = $this->rpLibraryController->callConfirmationDeliver($head, $content, $sandbox);

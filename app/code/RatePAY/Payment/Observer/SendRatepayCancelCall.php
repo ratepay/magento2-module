@@ -1,14 +1,21 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: SebastianN
- * Date: 13.07.17
- * Time: 10:03
+ * RatePAY Payments - Magento 2
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
  */
 
 namespace RatePAY\Payment\Observer;
 
-use \Psr\Log\LoggerInterface;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\PaymentException;
 
@@ -41,13 +48,14 @@ class SendRatepayCancelCall implements ObserverInterface
 
     /**
      * SendRatepayCancelCall constructor.
-     * @param \RatePAY\Payment\Helper\Data $rpDataHelper
-     * @param \RatePAY\Payment\Helper\Payment $rpPaymentHelper
-     * @param \Ratepay\Payment\Model\LibraryModel $rpLibraryModel
+     *
+     * @param \RatePAY\Payment\Helper\Data                  $rpDataHelper
+     * @param \RatePAY\Payment\Helper\Payment               $rpPaymentHelper
+     * @param \Ratepay\Payment\Model\LibraryModel           $rpLibraryModel
      * @param \RatePAY\Payment\Controller\LibraryController $rpLibraryController
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
-    function __construct(
+    public function __construct(
         \RatePAY\Payment\Helper\Data $rpDataHelper,
         \RatePAY\Payment\Helper\Payment $rpPaymentHelper,
         \RatePAY\Payment\Model\LibraryModel $rpLibraryModel,
@@ -59,18 +67,18 @@ class SendRatepayCancelCall implements ObserverInterface
         $this->rpLibraryModel = $rpLibraryModel;
         $this->rpLibraryController = $rpLibraryController;
         $this->storeManager = $storeManager;
-
     }
 
     /**
      * @param \Magento\Framework\Event\Observer $observer
+     *
      * @return $this
      */
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
         $order = $observer->getEvent()->getOrder();
         $paymentMethod = $order->getPayment()->getMethodInstance()->getCode();
-        if(!$this->rpPaymentHelper->isRatepayPayment($paymentMethod)){
+        if (!$this->rpPaymentHelper->isRatepayPayment($paymentMethod)) {
             return $this;
         }
         $this->sendRatepayCancelCall($order, $paymentMethod);
@@ -79,11 +87,12 @@ class SendRatepayCancelCall implements ObserverInterface
     /**
      * @param $order
      * @param $paymentMethod
+     *
      * @return bool
      */
     public function sendRatepayCancelCall($order, $paymentMethod)
     {
-        $sandbox = (bool)$this->rpDataHelper->getRpConfigData($paymentMethod, 'sandbox', $this->storeManager->getStore()->getId());
+        $sandbox = (bool) $this->rpDataHelper->getRpConfigData($paymentMethod, 'sandbox', $this->storeManager->getStore()->getId());
         $head = $this->rpLibraryModel->getRequestHead($order, 'PAYMENT_CHANGE');
         $content = $this->rpLibraryModel->getRequestContent($order, 'PAYMENT_CHANGE', [], 0);
         $cancellationRequest = $this->rpLibraryController->callPaymentChange($head, $content, 'cancellation', $sandbox);
