@@ -7,6 +7,7 @@
 |Version | `1.1.2`
 |Link | http://www.ratepay.com
 |Mail | integration@ratepay.com
+|Documentation | https://ratepay.gitbook.io/magento2/
 
 ## Installation
 Add the Ratepay Library in the composer.json file
