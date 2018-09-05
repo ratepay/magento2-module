@@ -32,7 +32,7 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $items = [];
 
-        foreach (($quoteOrOrder instanceof \Magento\Sales\Model\Order\Invoice) ? $quoteOrOrder->getItems()->getItems() : $quoteOrOrder->getItems() as $item) {
+        foreach ($quoteOrOrder->getItems() as $item) {
 
             $parentItem = false;
 
@@ -49,10 +49,20 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
                 if($quantity == 0){
                     continue;
                 }
+
+				if($item->getOrderItem()->getProductType() === \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
+					$discount = 0.00;
+					$children = $item->getOrderItem()->getChildrenItems();
+					foreach($children as $ch) {
+						$discount += $ch->getDiscountAmount();
+					}
+				} else {
+                    $discount = $item->getDiscountAmount();
+                }
+
                 $taxRate = $item->getOrderItem()->getTaxPercent();
 
             } else {
-
                 if ($item->getProductType() === \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE && $item->getParentItem()) {
                     $sku = $item->getParentItem()->getSku();
                     $quantity = (int) $item->getParentItem()->getQtyOrdered();
@@ -62,6 +72,7 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
                     $quantity = (int) $item->getQtyOrdered();
                 }
 
+                $discount = $item->getDiscountAmount();
                 $taxRate = $item->getTaxPercent();
             }
 
@@ -84,11 +95,11 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
             if (!isset($items[$sku]['TaxRate']) || $items[$sku]['TaxRate'] < $taxRate) {
                 $items[$sku]['TaxRate'] = round($taxRate, 2);
             }
-            if ($item->getDiscountAmount() > 0) {
+            if ($discount > 0) {
                 if (!isset($items[$sku]['Discount']) || $items[$sku]['Discount'] == 0) {
-                    $items[$sku]['Discount'] = round($item->getDiscountAmount() / $quantity, 2);
+                    $items[$sku]['Discount'] = round($discount / $quantity, 2);
                 } else {
-                    $items[$sku]['Discount'] += round($item->getDiscountAmount() / $quantity, 2);
+                    $items[$sku]['Discount'] += round($discount / $quantity, 2);
                 }
             }
 
