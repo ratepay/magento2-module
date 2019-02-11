@@ -43,7 +43,7 @@ class Validator extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Customer\Model\Session $customerSession
      */
     public function __construct(Context $context,
-                                \Magento\Framework\Exception\PaymentException $paymentException,
+                                \Magento\Framework\Exception\PaymentExceptionFactory $paymentException,
                                 \Magento\Checkout\Model\Session $checkoutSession,
                                 CustomerRepositoryInterface $customerRepository,
                                 \Magento\Customer\Model\Session $customerSession)
