@@ -4,7 +4,7 @@
 |Repository | RatePAY Module for Magento 2
 |------|----------
 |Author | Annegret Seufert
-|Version | `1.1.2`
+|Version | `1.1.3`
 |Link | http://www.ratepay.com
 |Mail | integration@ratepay.com
 |Documentation | https://ratepay.gitbook.io/magento2/
@@ -20,7 +20,7 @@ Add the Ratepay Library in the composer.json file
 ````bash
 composer update
 ````
-Copy all files into app/code/ of you shopdirectory. 
+Copy all files into app/code/ of you shopdirectory.
 Afterwords you follow one of the following options.
 
 ### Option 1 (terminal):
@@ -32,10 +32,13 @@ php bin/magento cache:flush
 ````
 
 ### Option 2 (Web Setup Wizard):
-Navigate to the component manager in adminarea of the Shop. Choose the RatePAY Payment Module and activate it. 
+Navigate to the component manager in adminarea of the Shop. Choose the RatePAY Payment Module and activate it.
 For further information and prerequisites depending on module installation from adminarea please follow the official Magento 2 documentation : http://devdocs.magento.com/guides/v2.1/comp-mgr/module-man/compman-checklist.html
 
 ## Changelog
+
+### Version 1.1.3 - Released 2019-02-11
+* Fix Validator Exception Import
 
 ### Version 1.1.2 - Released 2018-05-23
 * change path of block class messages
@@ -58,7 +61,7 @@ For further information and prerequisites depending on module installation from 
 * add country belgium
 
 ### Version 1.0.0 - Released 2017-08-22
-* add device fingerprint 
+* add device fingerprint
 
 ### Version 0.9.2 - Released 2017-08-07
 * add TrxId and Descriptor to payment information in order view
@@ -66,7 +69,7 @@ For further information and prerequisites depending on module installation from 
 * remove dynamic due date and iban only options
 
 ### Version 0.9.1 - Released 2017-08-04
-* implement Payment Change Credit on credit memo 
+* implement Payment Change Credit on credit memo
 * implement Payment Change Return on credit memo
 * implement Payment Change Cancellation on cancel
 * implement Confirmation Deliver on invoice event
