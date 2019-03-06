@@ -11,6 +11,7 @@ namespace RatePAY\Payment\Model\Method;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use RatePAY\Payment\Controller\LibraryController;
 use RatePAY\Payment\Helper\Validator;
+use Magento\Framework\Exception\PaymentException;
 
 abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMethod
 {
@@ -64,11 +65,6 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
     protected $storeManager;
 
     /**
-     * @var \Magento\Framework\Exception\PaymentException
-     */
-    protected $paymentException;
-
-    /**
      * @var CustomerRepositoryInterface
      */
     protected $customerRepository;
@@ -95,7 +91,6 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param CustomerRepositoryInterface $customerRepository
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Framework\Exception\PaymentException $paymentException
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Model\ResourceModel\AbstractResource|null $resource
      * @param \Magento\Framework\Data\Collection\AbstractDb|null $resourceCollection
@@ -116,7 +111,6 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         \Magento\Checkout\Model\Session $checkoutSession,
         CustomerRepositoryInterface $customerRepository,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Framework\Exception\PaymentException $paymentException,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
@@ -140,7 +134,6 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         $this->rpValidator = $rpValidator;
         $this->storeManager = $storeManager;
         $this->checkoutSession = $checkoutSession;
-        $this->paymentException = $paymentException;
         $this->customerRepository = $customerRepository;
         $this->customerSession = $customerSession;
     }
@@ -157,11 +150,12 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
     public function authorize(\Magento\Payment\Model\InfoInterface $payment, $amount)
     {
         $order = $this->getQuoteOrOrder();
+
         $head = $this->_rpLibraryModel->getRequestHead($order);
         $sandbox = (bool)$this->rpDataHelper->getRpConfigData($this->_code, 'sandbox', $this->storeManager->getStore()->getId());
         $company = $order->getBillingAddress()->getCompany();
         if (!$this->rpDataHelper->getRpConfigData($this->_code, 'b2b', $this->storeManager->getStore()->getId()) && !empty($company)) {
-            throw new $this->paymentException(__('b2b not allowed'));
+            throw new PaymentException(__('b2b not allowed'));
         }
 
         $billingAddress = $order->getBillingAddress();
@@ -169,7 +163,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         $diff = array_diff($this->rpDataHelper->getImportantAddressData($shippingAddress), $this->rpDataHelper->getImportantAddressData($billingAddress));
 
         if (!$this->rpDataHelper->getRpConfigData($this->_code, 'delivery_address', $this->storeManager->getStore()->getId()) && count($diff)) {
-            throw new $this->paymentException(__('ala not allowed'));
+            throw new PaymentException(__('ala not allowed'));
         }
 
         $resultInit = LibraryController::callPaymentInit($head, $sandbox);
@@ -183,10 +177,10 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
                     $this->checkoutSession->setRatepayMethodHide(true);
                     $message = $this->formatMessage($resultRequest->getCustomerMessage());
                     $this->customerSession->setRatePayDeviceIdentToken(null);
-                    throw new $this->paymentException(__($message)); // RatePAY Error Message
+                    throw new PaymentException(__($message)); // RatePAY Error Message
                 } else {
                     $message = $this->formatMessage($resultRequest->getCustomerMessage());
-                    throw new $this->paymentException(__($message)); // RatePAY Error Message
+                    throw new PaymentException(__($message)); // RatePAY Error Message
                 }
             }
             $payment->setAdditionalInformation('descriptor', $resultRequest->getDescriptor());
@@ -196,7 +190,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         } else {
             $message = $this->formatMessage($resultInit->getReasonMessage());
             $this->customerSession->setRatePayDeviceIdentToken(null);
-            throw new $this->paymentException(__($message)); // RatePAY Error Message
+            throw new PaymentException(__($message)); // RatePAY Error Message
         }
     }
 
