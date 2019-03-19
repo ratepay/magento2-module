@@ -6,4 +6,6 @@
     <type name="Magento\Checkout\Model\GuestPaymentInformationManagement">
         <plugin name="RatepayGuestErrorProcessor" type="\RatePAY\Payment\Plugin\RatepayGuestErrorProcessor"/>
     </type>
+    <preference for="RatePAY\Payment\Api\InstallmentPlanInterface" type="RatePAY\Payment\Service\V1\InstallmentPlan" />
+    <preference for="RatePAY\Payment\Api\Data\InstallmentPlanResponseInterface" type="RatePAY\Payment\Service\V1\Data\InstallmentPlanResponse" />
 </config>

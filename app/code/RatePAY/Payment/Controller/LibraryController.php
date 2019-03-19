@@ -9,7 +9,7 @@
 namespace RatePAY\Payment\Controller;
 
 use RatePAY\RequestBuilder;
-use RatePAY\InstallmentBuilder;
+use RatePAY\Frontend\InstallmentBuilder;
 use RatePAY\Frontend\DeviceFingerprintBuilder;
 
 class LibraryController
@@ -101,6 +101,7 @@ class LibraryController
         $ib->setProfileId($profileId);
         $ib->setSecuritycode($securityCode);
 
+        $installmentPlan = '';
         try {
             if (is_null($template)) {
                 $installmentPlan = $ib->getInstallmentPlanAsJson($calculationAmount, $calculationType, $calculationValue);

@@ -82,3 +82,39 @@ Phased Out,Abgelaufen,module,RatePAY_Payment
 ratepay_terms_block_1, "Es gelten die" ,module,RatePAY_Payment
 ratepay_terms_block_2, "zusätzlichen Geschäftsbedingungen und der Datenschutzhinweis" ,module,RatePAY_Payment
 ratepay_terms_block_3, "der RatePAY GmbH" ,module,RatePAY_Payment
+"rp_calculation_intro_part1","Im Folgenden können Sie entscheiden, wie Sie die Ratenzahlung gestalten möchten. Legen Sie bequem die Anzahl der Raten und somit ",module,RatePAY_Payment
+"rp_calculation_intro_part2","die Laufzeit",module,RatePAY_Payment
+"rp_calculation_intro_part3"," der Ratenzahlung fest. Oder bestimmen sie einfach die gewünschte ",module,RatePAY_Payment
+"rp_calculation_intro_part4","monatliche Ratenhöhe.",module,RatePAY_Payment
+"rp_runtime_title","Laufzeit",module,RatePAY_Payment
+"rp_runtime_description","Anzahl der monatlichen Raten",module,RatePAY_Payment
+"rp_rate_title","Ratenhöhe",module,RatePAY_Payment
+"rp_rate_description","Höhe der monatlichen Raten",module,RatePAY_Payment
+"rp_calculate_rate","Rate berechnen",module,RatePAY_Payment
+"please_choose","Bitte auswählen",module,RatePAY_Payment
+"rp_personal_calculation","Pers&ouml;nliche Ratenberechnung",module,RatePAY_Payment
+"rp_reason_code_translation_603","Die Wunschrate entspricht den vorgegebenen Bedingungen.",module,RatePAY_Payment
+"rp_reason_code_translation_671","Die letzte Rate war niedriger als erlaubt. Laufzeit und/oder Rate wurden angepasst.",module,RatePAY_Payment
+"rp_reason_code_translation_688","Die Rate war niedriger als f&uuml;r Ratenpl&auml;ne mit langer Laufzeit erlaubt. Die Laufzeit wurde angepasst.",module,RatePAY_Payment
+"rp_reason_code_translation_689","Die Rate war niedriger als f&uuml;r Ratenpl&auml;ne mit kurzer Laufzeit erlaubt. Die Laufzeit wurde angepasst.",module,RatePAY_Payment
+"rp_reason_code_translation_695","Die Rate ist zu hoch f&uuml;r die minimal verf&uuml;gbare Laufzeit. Die Rate wurde verringert.",module,RatePAY_Payment
+"rp_reason_code_translation_696","Die Wunschrate ist zu niedrig. Die Rate wurde erh&ouml;ht.",module,RatePAY_Payment
+"rp_reason_code_translation_697","F&uuml;r die gew&auml;hlte Ratenh&ouml;he ist keine entsprechende Laufzeit verf&uuml;gbar. Die Ratenh&ouml;he wurde angepasst.",module,RatePAY_Payment
+"rp_reason_code_translation_698","Die Rate war zu niedrig f&uuml;r die maximal verf&uuml;gbare Laufzeit. Die Rate wurde erh&ouml;ht.",module,RatePAY_Payment
+"rp_reason_code_translation_699","Die Rate ist zu hoch f&uuml;r die minimal verf&uuml;gbare Laufzeit. Die Rate wurde verringert.",module,RatePAY_Payment
+"rp_cash_payment_price","Warenwert",module,RatePAY_Payment
+"rp_mouseover_cash_payment_price","Summe aller Artikel Ihres Warenkorbs, incl. Versandkosten etc.",module,RatePAY_Payment
+"rp_service_charge","Vertragsabschlussgeb&uuml;hr",module,RatePAY_Payment
+"rp_mouseover_service_charge","Bei Ratenzahlung pro Bestellung anfallende, einmalige Bearbeitungsgeb&uuml;hr.",module,RatePAY_Payment
+"rp_effective_rate","Effektiver Jahreszins",module,RatePAY_Payment
+"rp_debit_rate","Sollzinssatz p.a. (gebunden)",module,RatePAY_Payment
+"rp_mouseover_debit_rate","Periodischer Prozentsatz, der auf das in Anspruch genommene Darlehen angewendet wird.",module,RatePAY_Payment
+"rp_interest_amount","Zinsbetrag",module,RatePAY_Payment
+"rp_mouseover_interest_amount","Konkreter Geldbetrag, der sich aus den Zinsen ergibt.",module,RatePAY_Payment
+"rp_duration_month"," monatliche Raten &agrave;",module,RatePAY_Payment
+"rp_mouseover_duration_month","Monatlich f&auml;lliger Teilbetrag.",module,RatePAY_Payment
+"rp_last_rate","zzgl. einer Abschlussrate &agrave;",module,RatePAY_Payment
+"rp_mouseover_last_rate","Im letzten Monat f&auml;lliger Teilbetrag.",module,RatePAY_Payment
+"rp_total_amount","Gesamtbetrag",module,RatePAY_Payment
+"rp_mouseover_total_amount","Summe der vom K&auml;ufer zu zahlenden Betr&auml;ge aus Warenwert, Vertragsabschlussgeb&uuml;hr und Zinsen.",module,RatePAY_Payment
+"Please enter a valid IBAN.","Bitte geben Sie eine korrekte IBAN ein.",module,RatePAY_Payment

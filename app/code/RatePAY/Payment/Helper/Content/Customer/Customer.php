@@ -113,8 +113,10 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
                 'Contacts' => $this->rpContentCustomerContactsHelper->setContacts($quoteOrOrder)
 
         ];
-        if($id == 'ratepay_directdebit'){
-            $content['BankAccount'] = $this->rpContentCustomerBankAccountHelper->setBankAccount($quoteOrOrder);
+
+        $bankAccount = $this->rpContentCustomerBankAccountHelper->getBankAccount($quoteOrOrder);
+        if(!empty($bankAccount)){
+            $content['BankAccount'] = $bankAccount;
         }
         if (!empty($quoteOrOrder->getBillingAddress()->getCompany())) {
             $content['CompanyName'] = $quoteOrOrder->getBillingAddress()->getCompany();

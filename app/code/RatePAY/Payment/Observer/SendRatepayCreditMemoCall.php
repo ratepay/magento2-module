@@ -10,6 +10,7 @@ namespace RatePAY\Payment\Observer;
 
 
 use Magento\Framework\Event\ObserverInterface;
+use Magento\Framework\Exception\PaymentException;
 
 class SendRatepayCreditMemoCall implements ObserverInterface
 {
@@ -34,11 +35,6 @@ class SendRatepayCreditMemoCall implements ObserverInterface
     protected $rpLibraryController;
 
     /**
-     * @var \Magento\Framework\Exception\PaymentException
-     */
-    protected $paymentException;
-
-    /**
      * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
@@ -49,7 +45,6 @@ class SendRatepayCreditMemoCall implements ObserverInterface
      * @param \RatePAY\Payment\Helper\Payment $rpPaymentHelper
      * @param \RatePAY\Payment\Model\LibraryModel $rpLibraryModel
      * @param \RatePAY\Payment\Controller\LibraryController $rpLibraryController
-     * @param \Magento\Framework\Exception\PaymentException $paymentException
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     function __construct(
@@ -57,7 +52,6 @@ class SendRatepayCreditMemoCall implements ObserverInterface
         \RatePAY\Payment\Helper\Payment $rpPaymentHelper,
         \RatePAY\Payment\Model\LibraryModel $rpLibraryModel,
         \RatePAY\Payment\Controller\LibraryController $rpLibraryController,
-        \Magento\Framework\Exception\PaymentException $paymentException,
         \Magento\Store\Model\StoreManagerInterface $storeManager
     )
     {
@@ -65,7 +59,6 @@ class SendRatepayCreditMemoCall implements ObserverInterface
         $this->rpPaymentHelper = $rpPaymentHelper;
         $this->rpLibraryModel = $rpLibraryModel;
         $this->rpLibraryController = $rpLibraryController;
-        $this->paymentException = $paymentException;
         $this->storeManager = $storeManager;
     }
 
@@ -97,21 +90,21 @@ class SendRatepayCreditMemoCall implements ObserverInterface
         $content = $this->rpLibraryModel->getRequestContent($creditMemo, "PAYMENT_CHANGE");
 
         if ($this->rpDataHelper->getRpConfigData($paymentMethod, 'status', $this->storeManager->getStore()->getId()) == 1) {
-            throw new $this->paymentException(__('Processing failed'));
+            throw new PaymentException(__('Processing failed'));
         }
 
         if ($creditMemo->getAdjustmentPositive() > 0 || $creditMemo->getAdjustmentNegative() > 0) {
             $this->callRatepayCredit($order, $creditMemo, $paymentMethod);
             $returnRequest = $this->rpLibraryController->callPaymentChange($head, $content, 'return', $sandbox);
             if (!$returnRequest->isSuccessful()) {
-                throw new $this->paymentException(__('Refund was not successfull'));
+                throw new PaymentException(__('Refund was not successfull'));
             } else {
                 return true;
             }
         } else {
             $returnRequest = $this->rpLibraryController->callPaymentChange($head, $content, 'return', $sandbox);
             if (!$returnRequest->isSuccessful()) {
-                throw new $this->paymentException(__('Refund was not successfull'));
+                throw new PaymentException(__('Refund was not successfull'));
             } else {
                 return true;
             }
@@ -133,7 +126,7 @@ class SendRatepayCreditMemoCall implements ObserverInterface
         $creditRequest = $this->rpLibraryController->callPaymentChange($head, $content, 'credit', $sandbox);
 
         if (!$creditRequest->isSuccessful()) {
-            throw new $this->paymentException(__('Credit was not successfull'));
+            throw new PaymentException(__('Credit was not successfull'));
         } else {
             return true;
         }

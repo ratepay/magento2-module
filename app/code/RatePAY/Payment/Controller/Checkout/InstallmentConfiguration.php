@@ -58,7 +58,7 @@ class InstallmentConfiguration extends \Magento\Framework\App\Action\Action
     /**
      * evaluate ajax request for installment configuration
      *
-     * @return $this
+     * @return \Magento\Framework\Controller\Result\Json
      */
     public function execute()
     {

@@ -11,6 +11,7 @@ namespace RatePAY\Payment\Model\Method;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use RatePAY\Payment\Controller\LibraryController;
 use RatePAY\Payment\Helper\Validator;
+use Magento\Framework\Exception\PaymentException;
 
 abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMethod
 {
@@ -59,16 +60,6 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
     protected $checkoutSession;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
-     */
-    protected $storeManager;
-
-    /**
-     * @var \Magento\Framework\Exception\PaymentException
-     */
-    protected $paymentException;
-
-    /**
      * @var CustomerRepositoryInterface
      */
     protected $customerRepository;
@@ -95,8 +86,6 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param CustomerRepositoryInterface $customerRepository
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Framework\Exception\PaymentException $paymentException
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Model\ResourceModel\AbstractResource|null $resource
      * @param \Magento\Framework\Data\Collection\AbstractDb|null $resourceCollection
      * @param array $data
@@ -116,8 +105,6 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         \Magento\Checkout\Model\Session $checkoutSession,
         CustomerRepositoryInterface $customerRepository,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Framework\Exception\PaymentException $paymentException,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
         array $data = [])
@@ -138,9 +125,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         $this->rpSession = $rpSession;
         $this->rpDataHelper = $rpDataHelper;
         $this->rpValidator = $rpValidator;
-        $this->storeManager = $storeManager;
         $this->checkoutSession = $checkoutSession;
-        $this->paymentException = $paymentException;
         $this->customerRepository = $customerRepository;
         $this->customerSession = $customerSession;
     }
@@ -152,24 +137,26 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
      *
      * @param \Magento\Payment\Model\InfoInterface $payment
      * @param float $amount
+     * @return $this
      * @throws \Magento\Framework\Exception\PaymentException
      */
     public function authorize(\Magento\Payment\Model\InfoInterface $payment, $amount)
     {
         $order = $this->getQuoteOrOrder();
+
         $head = $this->_rpLibraryModel->getRequestHead($order);
-        $sandbox = (bool)$this->rpDataHelper->getRpConfigData($this->_code, 'sandbox', $this->storeManager->getStore()->getId());
+        $sandbox = (bool)$this->rpDataHelper->getRpConfigData($this->_code, 'sandbox');
         $company = $order->getBillingAddress()->getCompany();
-        if (!$this->rpDataHelper->getRpConfigData($this->_code, 'b2b', $this->storeManager->getStore()->getId()) && !empty($company)) {
-            throw new $this->paymentException(__('b2b not allowed'));
+        if (!$this->rpDataHelper->getRpConfigData($this->_code, 'b2b') && !empty($company)) {
+            throw new PaymentException(__('b2b not allowed'));
         }
 
         $billingAddress = $order->getBillingAddress();
         $shippingAddress = $order->getShippingAddress();
         $diff = array_diff($this->rpDataHelper->getImportantAddressData($shippingAddress), $this->rpDataHelper->getImportantAddressData($billingAddress));
 
-        if (!$this->rpDataHelper->getRpConfigData($this->_code, 'delivery_address', $this->storeManager->getStore()->getId()) && count($diff)) {
-            throw new $this->paymentException(__('ala not allowed'));
+        if (!$this->rpDataHelper->getRpConfigData($this->_code, 'delivery_address') && count($diff)) {
+            throw new PaymentException(__('ala not allowed'));
         }
 
         $resultInit = LibraryController::callPaymentInit($head, $sandbox);
@@ -183,20 +170,21 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
                     $this->checkoutSession->setRatepayMethodHide(true);
                     $message = $this->formatMessage($resultRequest->getCustomerMessage());
                     $this->customerSession->setRatePayDeviceIdentToken(null);
-                    throw new $this->paymentException(__($message)); // RatePAY Error Message
+                    throw new PaymentException(__($message)); // RatePAY Error Message
                 } else {
                     $message = $this->formatMessage($resultRequest->getCustomerMessage());
-                    throw new $this->paymentException(__($message)); // RatePAY Error Message
+                    throw new PaymentException(__($message)); // RatePAY Error Message
                 }
             }
             $payment->setAdditionalInformation('descriptor', $resultRequest->getDescriptor());
             $this->checkoutSession->setRatepayMethodHide(false);
+            $this->checkoutSession->unsRatepayIban();
             $this->customerSession->setRatePayDeviceIdentToken(null);
             return $this;
         } else {
             $message = $this->formatMessage($resultInit->getReasonMessage());
             $this->customerSession->setRatePayDeviceIdentToken(null);
-            throw new $this->paymentException(__($message)); // RatePAY Error Message
+            throw new PaymentException(__($message)); // RatePAY Error Message
         }
     }
 
@@ -227,13 +215,13 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
             return false;
         }
 
-        if (!$this->rpDataHelper->getRpConfigData($this->_code, 'active', $this->storeManager->getStore()->getId())) {
+        if (!$this->rpDataHelper->getRpConfigData($this->_code, 'active')) {
             return false;
         }
 
         $totalAmount = $quote->getGrandTotal();
-        $minAmount = $this->rpDataHelper->getRpConfigData($this->_code, 'min_order_total', $this->storeManager->getStore()->getId());
-        $maxAmount = $this->rpDataHelper->getRpConfigData($this->_code, 'max_order_total', $this->storeManager->getStore()->getId());
+        $minAmount = $this->rpDataHelper->getRpConfigData($this->_code, 'min_order_total');
+        $maxAmount = $this->rpDataHelper->getRpConfigData($this->_code, 'max_order_total');
 
         if ($totalAmount < $minAmount || $totalAmount > $maxAmount) {
             return false;
@@ -255,7 +243,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
      */
     public function canUseForCountryDelivery($country)
     {
-        $availableCountries = explode(',', $this->rpDataHelper->getRpConfigData($this->_code, 'specificcountry_delivery', $this->storeManager->getStore()->getId()));
+        $availableCountries = explode(',', $this->rpDataHelper->getRpConfigData($this->_code, 'specificcountry_delivery'));
         if(!in_array($country, $availableCountries)){
             return false;
         }
@@ -293,7 +281,9 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         if ($this->getQuoteOrOrder()->getPayment()->getMethod() == 'ratepay_de_directdebit' ||
             $this->getQuoteOrOrder()->getPayment()->getMethod() == 'ratepay_at_directdebit' ||
             $this->getQuoteOrOrder()->getPayment()->getMethod() == 'ratepay_nl_directdebit' ||
-            $this->getQuoteOrOrder()->getPayment()->getMethod() == 'ratepay_be_directdebit') {
+            $this->getQuoteOrOrder()->getPayment()->getMethod() == 'ratepay_be_directdebit' ||
+            !empty($additionalData->getRpIban()) // used for installments
+        ) {
             $this->rpValidator->validateIban($additionalData);
         }
 
@@ -312,7 +302,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         }
 
         if(strpos($message, 'zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis') !== false){
-            $message = $message . "\n\n" . $this->rpDataHelper->getRpConfigData($this->_code, 'privacy_policy', $this->storeManager->getStore()->getId());
+            $message = $message . "\n\n" . $this->rpDataHelper->getRpConfigData($this->_code, 'privacy_policy');
         }
 
         return strip_tags($message);
@@ -332,5 +322,16 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         }
 
         return $quoteOrOrder;
+    }
+
+    /**
+     * Generates allowed months
+     *
+     * @param double $basketAmount
+     * @return array
+     */
+    public function getAllowedMonths($basketAmount)
+    {
+        return [];
     }
 }

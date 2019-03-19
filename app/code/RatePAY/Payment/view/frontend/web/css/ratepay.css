@@ -1,0 +1,243 @@
+.sp-methods select.ratepayday {
+    width:154px ; margin-right: 7px;
+}
+
+.sp-methods select.ratepaymonth {
+    width: 154px ; margin-right: 7px;
+}
+
+.sp-methods select.ratepayyear {
+    width: 154px ;
+}
+
+.sp-methods input.ratepayphone {
+    width: 147px;
+}
+
+.sp-methods div.ratepaybirthdate {
+    width: 476px;
+}
+
+/* RatePAY Calculator */
+.rpContainer {
+    width: 100%;
+    margin: 10px 0;
+}
+.row {
+    margin: 5px 0;
+}
+.col-md-5 {
+    width: 49%;
+    margin: 0 3px;
+    float: left;
+}
+.panel {
+    display: block;
+    background: #fff;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    box-sizing: border-box;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.05);
+}
+.panel-heading {
+    border-color: #ddd;
+    border-bottom: 1px solid #ddd;
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+    color: #333;
+    background-color: #f5f5f5;
+}
+.panel-default {
+    border-color: #ddd;
+}
+.text-center {
+    padding: 10px 0px;
+    border-top: 1px solid #ddd;
+    text-align: center;
+}
+.panel-body {
+    padding: 15px;
+    box-sizing: border-box;
+    min-height: 68px;
+}
+.rpClear {
+    clear: both;
+}
+.btn {
+    padding: 2px 10px 2px 10px;
+    padding: .125rem .625rem .125rem .625rem;
+    line-height: 32px;
+    line-height: 2rem;
+    border-radius: 3px;
+    background-clip: padding-box;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    font-size: 14px;
+    font-size: .875rem;
+    background-color: #fff;
+    -webkit-font-smoothing: inherit;
+    display: inline-block;
+    position: relative;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: left;
+    cursor: pointer;
+    border: 1px solid #dadae5;
+    color: #5f7285;
+}
+.btn-group {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    box-sizing: border-box;
+}
+.btn-group-justified {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: separate;
+}
+.btn-group-justified>.btn-group .btn {
+    width: 100%;
+    text-align: center;
+}
+.btn-group-justified>.btn, .btn-group-justified>.btn-group {
+    float: none;
+    display: table-cell;
+    width: 1%;
+    vertical-align: middle;
+    position: relative;
+}
+#ratepay_rate-rate {
+    width: auto;
+}
+.rp-link {
+    margin-left: 20px;
+    cursor: pointer;
+}
+.rp-details-icon {
+    float: right;
+    padding: 5px;
+    height: 20px;
+}
+
+
+/* RatePAY Calculator Result */
+.rp-table-striped {
+    width: 100%;
+}
+* {
+    box-sizing: border-box;
+}
+.text-uppercase {
+    text-transform: uppercase;
+}
+.text-center {
+    padding: 10px 0px;
+    border-top: 1px solid #ddd;
+    text-align: center;
+}
+.warning {
+    background-color: #fcf8e3;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding: 7px 0px;
+}
+.rp-menue, .rp-installment-plan-details, .rp-installment-plan-no-details {
+    border-bottom: 1px solid #ddd;
+    width: 100%;
+    margin: 0px 3px;
+    padding: 13px 6px;
+}
+#rp-installment-plan-details {
+    display: none;
+}
+#rp-installment-plan-no-details {
+    display: block;
+}
+.rp-installment-plan-details:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+.rp-installment-plan-title {
+    float: left;
+}
+.text-right {
+    text-align: right;
+}
+.rp-installment-plan-description {
+    display: none;
+    position: absolute;
+    margin-top: -5px;
+}
+.small {
+    font-size: 85%;
+}
+.rp-term-buttons {
+    display: inline-grid;
+    grid-template-columns: repeat(3, 33.3%);
+    width: 100%;
+}
+.rp-term-buttons>button {
+    padding: 3px 0;
+}
+.ratepay-input-button {
+    padding: 3px 5px;
+}
+.rp-input-rate {
+    width: 57%!important;
+}
+
+.sp-methods select.ratepayday {width:154px ; margin-right: 7px;}
+.sp-methods select.ratepaymonth {width: 154px ; margin-right: 7px;}
+.sp-methods select.ratepayyear {width: 154px ;}
+.sp-methods input.ratepayphone {width: 147px;}
+.sp-methods div.ratepaybirthdate {width: 476px;}
+.sp-methods .form-list .ratepayagreement {width: auto;float: none;}
+.ratepay-sandbox-notification {
+    border: 2px dashed #000000;
+    background-color: #ffff00;
+    font-weight: bold;
+    font-color: #000000;
+    text-align: center;
+}
+.btn {
+    -moz-user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857;
+    margin-bottom: 0;
+    padding: 6px 12px;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+.btn-default {
+    background-color: #fff;
+    border-color: #ccc;
+    color: #333;
+}
+
+div.ratepay-ContentSwitch {
+    margin: 0px 0 0;
+    padding: 5px;
+    background-color: #eee;
+}
+
+.ratepay-ContentSwitchDiv {
+    width: 190px;
+    padding: 2px 0 0 15px;
+    color: #263551;
+    display: none;
+}
+
+.ratepay-ContentSwitch div.ratepay-Active {
+    color: #B69767;
+}
