@@ -46,8 +46,8 @@ class InstallmentPlan extends \Magento\Framework\App\Action\Action
         \Magento\Checkout\Model\Session $checkoutSession,
         \RatePAY\Payment\Model\LibraryModel $rpLibraryModel,
         \RatePAY\Payment\Controller\LibraryController $rpLibraryController,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig)
-    {
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+    ) {
         $this->_resultJsonFactory = $resultJsonFactory;
         $this->_checkoutSession = $checkoutSession;
         $this->_rpLibraryModel = $rpLibraryModel;
@@ -59,7 +59,7 @@ class InstallmentPlan extends \Magento\Framework\App\Action\Action
     /**
      * evaluate ajax request for installment plan
      *
-     * @return $this
+     * @return \Magento\Framework\Controller\Result\Json
      */
     public function execute()
     {
@@ -79,10 +79,13 @@ class InstallmentPlan extends \Magento\Framework\App\Action\Action
             return $result->setData($response);
         }
 
-        $installmentPlan = $this->getInstallmentPlan((float) $params['order-amount'], $params['calc-type'], (int) $params['calc-value']);
-
-        $response['status'] = "success";
-        $response['response'] = json_decode($installmentPlan);
+        $installmentPlan = $this->getInstallmentPlan((float) $params['order_amount'], $params['calc_type'], (int) $params['calc_value']);
+        if ($installmentPlan !== false) {
+            $response['status'] = "success";
+            $response['response'] = json_decode($installmentPlan);
+        } else {
+            $response['message'] = "quote not found";
+        }
         return $result->setData($response);
     }
 
@@ -97,6 +100,9 @@ class InstallmentPlan extends \Magento\Framework\App\Action\Action
      */
     private function getInstallmentPlan($orderAmount, $calculationType, $calculationValue, $template = null) {
         $quote = $this->_checkoutSession->getQuote();
+        if (!$quote || !$quote->getId()) {
+            return false;
+        }
 
         $storeId = $quote->getStoreId();
         $scopeType = $quote->getStore()->getScopeType();

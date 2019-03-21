@@ -35,18 +35,23 @@ class BankAccount extends \Magento\Framework\App\Helper\AbstractHelper
      * Build Bank Account block of payment request in customer block
      *
      * @param $quoteOrOrder
-     * @return array
+     * @return array|false
      */
-    public function setBankAccount($quoteOrOrder)
+    public function getBankAccount($quoteOrOrder)
     {
-        $content =[
-            'Owner' => $quoteOrOrder->getBillingAddress()->getFirstname() . ' ' . $quoteOrOrder->getBillingAddress()->getLastname(),
-            //'BankName' =>
-            //'BankAccountNumber' => '1234567891',
-            //'BankCode' => '12345678',
-            'Iban' => $this->_checkoutSession->getRatepayIban(),
-            //'BicSwift' =>
-        ];
-        return $content;
+        $return = false;
+
+        $iban = $this->_checkoutSession->getRatepayIban();
+        if (!empty($iban)) {
+            $return =[
+                'Owner' => $quoteOrOrder->getBillingAddress()->getFirstname() . ' ' . $quoteOrOrder->getBillingAddress()->getLastname(),
+                //'BankName' =>
+                //'BankAccountNumber' => '1234567891',
+                //'BankCode' => '12345678',
+                'Iban' => $this->_checkoutSession->getRatepayIban(),
+                //'BicSwift' =>
+            ];
+        }
+        return $return;
     }
 }

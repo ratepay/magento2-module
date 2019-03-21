@@ -13,41 +13,45 @@ use Magento\Framework\App\Helper\Context;
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
-     * @var \Magento\Framework\App\Config\ScopeConfigInterface
-     */
-    protected $_scopeConfig;
-
-    /**
      * @var \Magento\Framework\App\Filesystem\DirectoryList
      */
     protected $directoryList;
 
     /**
-     * Data constructor.
-     * @param Context $context
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
-    public function __construct(Context $context,
-                                \Magento\Framework\App\Filesystem\DirectoryList $directoryList)
-    {
+    protected $storeManager;
+
+    /**
+     * Data constructor.
+     *
+     * @param Context $context
+     * @param \Magento\Framework\App\Filesystem\DirectoryList $directoryList
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     */
+    public function __construct(
+        Context $context,
+        \Magento\Framework\App\Filesystem\DirectoryList $directoryList,
+        \Magento\Store\Model\StoreManagerInterface $storeManager
+    ) {
         parent::__construct($context);
-        $this->_scopeConfig = $context->getScopeConfig();
         $this->directoryList = $directoryList;
+        $this->storeManager = $storeManager;
     }
 
     /**
-     * @param $quoteOrOrder
-     * @param $method
-     * @param $field
-     * @param $storeId
-     * @param bool $advanced
-     * @param bool $noCountry
+     * @param string $method
+     * @param string $field
+     * @param string $storeCode
      * @return mixed
      */
-    public function getRpConfigData($method, $field, $storeId)
+    public function getRpConfigData($method, $field, $storeCode = null)
     {
-        $dataset = $method;
-        $path = 'payment/'. $dataset . '/' . $field;
-        $result = $this->_scopeConfig->getValue($path,\Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
+        if (!$storeCode) {
+            $storeCode = $this->storeManager->getStore()->getCode();
+        }
+        $path = 'payment/'.$method.'/'.$field;
+        $result = $this->scopeConfig->getValue($path,\Magento\Store\Model\ScopeInterface::SCOPE_STORES, $storeCode);
         return $result;
     }
 
@@ -55,6 +59,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * We have to diff the addresses, because same_as_billing is sometimes wrong
      *
      * @param unknown_type $address
+     * @return array
      */
     public function getImportantAddressData($address)
     {

@@ -75,8 +75,8 @@ class Head extends \Magento\Framework\App\Helper\AbstractHelper
     public function setHead($quoteOrOrder, $headModel, $fixedPaymentMethod = null, $profileId = null, $securityCode = null)
     {
         $paymentMethod = (is_null($fixedPaymentMethod) ? $quoteOrOrder->getPayment()->getMethod() : $fixedPaymentMethod);
-        $profileId = (is_null($profileId) ? $this->rpDataHelper->getRpConfigData($paymentMethod, 'profileId', $this->storeManager->getStore()->getId()) : $profileId);
-        $securityCode = (is_null($securityCode) ? $this->rpDataHelper->getRpConfigData($paymentMethod, 'securityCode', $this->storeManager->getStore()->getId()) : $securityCode);
+        $profileId = (is_null($profileId) ? $this->rpDataHelper->getRpConfigData($paymentMethod, 'profileId') : $profileId);
+        $securityCode = (is_null($securityCode) ? $this->rpDataHelper->getRpConfigData($paymentMethod, 'securityCode') : $securityCode);
 
         $headModel->setArray([
             'SystemId' => $this->storeManager->getStore($this->storeManager->getStore()->getId())->getBaseUrl() . ' (' . $_SERVER['SERVER_ADDR'] . ')',

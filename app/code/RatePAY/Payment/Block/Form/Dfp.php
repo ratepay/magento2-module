@@ -22,11 +22,6 @@ class Dfp extends \Magento\Payment\Block\Form
     protected $checkoutSession;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
-     */
-    protected $storeManager;
-
-    /**
      * @var \Magento\Customer\Model\Session
      */
     protected $customerSession;
@@ -50,17 +45,16 @@ class Dfp extends \Magento\Payment\Block\Form
      * @param \RatePAY\Payment\Controller\LibraryController $rpLibraryController
      * @param array $data
      */
-    public function __construct(Template\Context $context,
-                                \Magento\Checkout\Model\Session $checkoutSession,
-                                \Magento\Customer\Model\Session $customerSession,
-                                \RatePAY\Payment\Helper\Data $rpDataHelper,
-                                \RatePAY\Payment\Controller\LibraryController $rpLibraryController,
-                                array $data = [])
-    {
+    public function __construct(
+        Template\Context $context,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Customer\Model\Session $customerSession,
+        \RatePAY\Payment\Helper\Data $rpDataHelper,
+        \RatePAY\Payment\Controller\LibraryController $rpLibraryController,
+        array $data = []
+    ) {
         parent::__construct($context, $data);
-
         $this->checkoutSession = $checkoutSession;
-        $this->storeManager = $context->getStoreManager();
         $this->customerSession = $customerSession;
         $this->rpDataHelper = $rpDataHelper;
         $this->rpLibraryController = $rpLibraryController;
@@ -72,11 +66,10 @@ class Dfp extends \Magento\Payment\Block\Form
     public function getDeviceIdentCode()
     {
         if(is_null($this->customerSession->getRatePayDeviceIdentToken())) {
-            $storeId = $this->storeManager->getStore()->getId();
-            if (!(bool) $this->rpDataHelper->getRpConfigData('ratepay_general', 'device_ident', $storeId)) {
+            if (!(bool) $this->rpDataHelper->getRpConfigData('ratepay_general', 'device_ident')) {
                 return;
             }
-            $dfpSnippetId = $this->rpDataHelper->getRpConfigData('ratepay_general', 'snipped_id', $storeId);
+            $dfpSnippetId = $this->rpDataHelper->getRpConfigData('ratepay_general', 'snipped_id');
             if (!empty($dfpSnippetId)) {
                 $dfp = $this->rpLibraryController->getDfpCode(
                     $dfpSnippetId,

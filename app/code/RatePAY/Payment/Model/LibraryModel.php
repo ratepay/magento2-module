@@ -18,16 +18,16 @@ class LibraryModel
      * @param \RatePAY\Payment\Helper\Head\External $rpHeadExternalHelper
      * @param \RatePAY\Payment\Helper\Content\ContentBuilder $rpContentBuilder
      */
-    public function __construct(\RatePAY\Payment\Helper\Head\Head $rpHeadHelper,
-                                \RatePAY\Payment\Helper\Head\Additional  $rpHeadAdditionalHelper,
-                                \RatePAY\Payment\Helper\Head\External $rpHeadExternalHelper,
-                                \RatePAY\Payment\Helper\Content\ContentBuilder $rpContentBuilder)
-    {
+    public function __construct(
+        \RatePAY\Payment\Helper\Head\Head $rpHeadHelper,
+        \RatePAY\Payment\Helper\Head\Additional  $rpHeadAdditionalHelper,
+        \RatePAY\Payment\Helper\Head\External $rpHeadExternalHelper,
+        \RatePAY\Payment\Helper\Content\ContentBuilder $rpContentBuilder
+    ) {
         $this->rpHeadHelper = $rpHeadHelper;
         $this->rpHeadAdditionalHelper = $rpHeadAdditionalHelper;
         $this->rpHeadExternalHelper = $rpHeadExternalHelper;
         $this->rpContentBuilder = $rpContentBuilder;
-
     }
 
     /**

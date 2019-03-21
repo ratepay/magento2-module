@@ -19,4 +19,15 @@ class Installment0 extends AbstractMethod
      * @var string
      */
     protected $_infoBlockType = 'RatePAY\Payment\Block\Info\Info';
+
+    /**
+     * Generates allowed months
+     *
+     * @param double $basketAmount
+     * @return array
+     */
+    public function getAllowedMonths($basketAmount)
+    {
+        return explode(",", $this->rpDataHelper->getRpConfigData($this->getCode(), 'month_allowed'));
+    }
 }
