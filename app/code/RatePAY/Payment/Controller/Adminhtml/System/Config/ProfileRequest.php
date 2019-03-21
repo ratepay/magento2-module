@@ -76,7 +76,6 @@ class ProfileRequest extends \Magento\Framework\App\Action\Action
      */
     public function execute()
     {
-
         $response = [
             'status' => 'failure',
             'message' => ''

@@ -357,7 +357,7 @@
                             <config_path>payment/ratepay_de_installment/sort_order</config_path>
                         </field>
                     </group>
-                    <!--group id="installment0" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1"
+                    <group id="installment0" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1"
                            showInStore="1">
                         <label>0% Financing</label>
                         <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1"
@@ -478,7 +478,7 @@
                             <frontend_class>validate-number</frontend_class>
                             <config_path>payment/ratepay_de_installment0/sort_order</config_path>
                         </field>
-                    </group-->
+                    </group>
                 </group>
                 <group id="at" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1"
                        showInStore="1">
@@ -708,7 +708,7 @@
                             <config_path>payment/ratepay_at_directdebit/privacy_policy</config_path>
                         </field>
                     </group>
-                    <!--group id="installment" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1"
+                    <group id="installment" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1"
                            showInStore="1">
                         <label>Installment</label>
                         <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1"
@@ -951,7 +951,7 @@
                             <frontend_class>validate-number</frontend_class>
                             <config_path>payment/ratepay_at_installment0/sort_order</config_path>
                         </field>
-                    </group-->
+                    </group>
                 </group>
                 <group id="ch" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1"
                        showInStore="1">

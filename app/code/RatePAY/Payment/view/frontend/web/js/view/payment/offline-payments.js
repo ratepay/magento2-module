@@ -46,19 +46,19 @@ define(
                 component:'RatePAY_Payment/js/view/payment/method-renderer/directdebit'
             },
             {
-                type:'ratepay_de_installlment',
-                component:'RatePAY_Payment/js/view/payment/method-renderer/installment'
-            },
-            {
-                type:'ratepay_at_installment',
-                component:'RatePAY_Payment/js/view/payment/method-renderer/installment'
-            },
-            {
                 type:'ratepay_de_installment',
                 component:'RatePAY_Payment/js/view/payment/method-renderer/installment'
             },
             {
                 type:'ratepay_at_installment',
+                component:'RatePAY_Payment/js/view/payment/method-renderer/installment'
+            },
+            {
+                type:'ratepay_de_installment0',
+                component:'RatePAY_Payment/js/view/payment/method-renderer/installment'
+            },
+            {
+                type:'ratepay_at_installment0',
                 component:'RatePAY_Payment/js/view/payment/method-renderer/installment'
             }
         );

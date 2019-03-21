@@ -70,7 +70,7 @@ class InstallmentPlan implements InstallmentPlanInterface
         $response = $this->responseFactory->create();
         $response->setData('success', false);
 
-        if (empty($calcType) || empty($calcValue)) {
+        if (empty($calcType) || floatval($calcValue) < 0) {
             $response->setData('errormessage', 'calc data invalid');
         }
 

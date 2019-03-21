@@ -10,6 +10,9 @@
             <ratepay_installment>
                 <model>RatePAY\Payment\Model\Method\Installment</model>
             </ratepay_installment>
+            <ratepay_installment0>
+                <model>RatePAY\Payment\Model\Method\Installment0</model>
+            </ratepay_installment0>
             <ratepay_directdebit>
                 <model>RatePAY\Payment\Model\Method\Directdebit</model>
             </ratepay_directdebit>

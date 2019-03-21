@@ -91,7 +91,6 @@ ratepay_terms_block_3, "der RatePAY GmbH" ,module,RatePAY_Payment
 "rp_rate_title","Ratenhöhe",module,RatePAY_Payment
 "rp_rate_description","Höhe der monatlichen Raten",module,RatePAY_Payment
 "rp_calculate_rate","Rate berechnen",module,RatePAY_Payment
-"please_choose","Bitte auswählen",module,RatePAY_Payment
 "rp_personal_calculation","Pers&ouml;nliche Ratenberechnung",module,RatePAY_Payment
 "rp_reason_code_translation_603","Die Wunschrate entspricht den vorgegebenen Bedingungen.",module,RatePAY_Payment
 "rp_reason_code_translation_671","Die letzte Rate war niedriger als erlaubt. Laufzeit und/oder Rate wurden angepasst.",module,RatePAY_Payment
@@ -118,3 +117,5 @@ ratepay_terms_block_3, "der RatePAY GmbH" ,module,RatePAY_Payment
 "rp_total_amount","Gesamtbetrag",module,RatePAY_Payment
 "rp_mouseover_total_amount","Summe der vom K&auml;ufer zu zahlenden Betr&auml;ge aus Warenwert, Vertragsabschlussgeb&uuml;hr und Zinsen.",module,RatePAY_Payment
 "Please enter a valid IBAN.","Bitte geben Sie eine korrekte IBAN ein.",module,RatePAY_Payment
+"Please select a installment runtime or installment amount.","Bitte wählen Sie eine Raten-Laufzeit oder Ratenhöhe.",module,RatePAY_Payment
+"-- Please select runtime --","-- Bitte Laufzeit wählen --",module,RatePAY_Payment

@@ -51,7 +51,7 @@ class Payment extends \Magento\Framework\App\Helper\AbstractHelper
                 'Method' => $this->_rpPaymentHelper->convertMethodToProduct($id), // "installment", "elv", "prepayment"
                 'Amount' => round($quoteOrOrder->getBaseGrandTotal(), 2)
         ];
-        if ($id == 'ratepay_installment'){
+        if (in_array($id, ['ratepay_installment', 'ratepay_installment0'])) {
             $content['Amount'] = $this->_checkoutSession->getRatepayPaymentAmount();
             $content['InstallmentDetails'] = [
                 'InstallmentNumber' => $this->_checkoutSession->getRatepayInstallmentNumber(),

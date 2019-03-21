@@ -74,18 +74,37 @@ class RechnungConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
     }
 
     /**
+     * @param string $sMethodCode
+     * @return array
+     */
+    protected function getSingleInstallmentConfig($sMethodCode)
+    {
+        return ($this->isPaymentMethodActive($sMethodCode)) ? [
+            'payment' => [
+                $sMethodCode => [
+                    'allowedMonths' => $this->getAllowedMonths($sMethodCode),
+                    'validPaymentFirstdays' => $this->getValidPaymentFirstdays($sMethodCode)
+                ],
+            ],
+        ] : [];
+    }
+
+    /**
      * @return array
      */
     protected function getInstallmentConfig()
     {
-        return ($this->isPaymentMethodActive(Installment::METHOD_CODE)) ? [
-            'payment' => [
-                'ratepay_de_installment' => [
-                    'allowedMonths' => $this->getAllowedMonths(Installment::METHOD_CODE),
-                    'validPaymentFirstdays' => $this->getValidPaymentFirstdays()
-                ],
-            ],
-        ] : [];
+        $installmentPaymentTypes = [
+            \RatePAY\Payment\Model\Method\DE\Installment::METHOD_CODE,
+            \RatePAY\Payment\Model\Method\DE\Installment0::METHOD_CODE,
+            \RatePAY\Payment\Model\Method\AT\Installment::METHOD_CODE,
+            \RatePAY\Payment\Model\Method\AT\Installment0::METHOD_CODE
+        ];
+        $config = [];
+        foreach ($installmentPaymentTypes as $installmentPaymentType) {
+            $config = array_merge_recursive($config, $this->getSingleInstallmentConfig($installmentPaymentType));
+        }
+        return $config;
     }
 
     /**
@@ -105,9 +124,9 @@ class RechnungConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
     /**
      * @return string|array
      */
-    protected function getValidPaymentFirstdays()
+    protected function getValidPaymentFirstdays($sMethodCode)
     {
-        $validPaymentFirstdays = $this->rpDataHelper->getRpConfigData(Installment::METHOD_CODE, 'valid_payment_firstday');
+        $validPaymentFirstdays = $this->rpDataHelper->getRpConfigData($sMethodCode, 'valid_payment_firstday');
         if(strpos($validPaymentFirstdays, ',') !== false) {
             $validPaymentFirstdays = explode(',', $validPaymentFirstdays);
         }

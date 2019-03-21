@@ -28,7 +28,7 @@ class Payment extends \Magento\Framework\App\Helper\AbstractHelper
     private $_productsToMethods = array(
         "invoice" => "ratepay_invoice",
         "installment" => "ratepay_installment",
-        "installment0" => "ratepay_installment",
+        "installment0" => "ratepay_installment0",
         "elv" => "ratepay_directdebit",
         "prepayment" => "ratepay_vorkasse",
         "ratepay_invoice" => "invoice",
