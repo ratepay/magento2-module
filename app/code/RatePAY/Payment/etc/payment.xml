@@ -12,6 +12,9 @@
         <method name="ratepay_de_installment">
             <allow_multiple_address>1</allow_multiple_address>
         </method>
+        <method name="ratepay_de_installment0">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
     </methods>
 </payment>
 

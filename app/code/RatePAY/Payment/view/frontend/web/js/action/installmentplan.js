@@ -10,7 +10,7 @@ define([
 ], function ($, urlBuilder, storage, fullScreenLoader, quote, customer) {
     'use strict';
 
-    return function (calcType, calcValue, methodCode) {
+    return function (calcType, calcValue, methodCode, paymentRenderer) {
         var serviceUrl;
         var request = {
             calcType: calcType,
@@ -35,6 +35,7 @@ define([
                 if (response.success === true) {
                     $('#' + methodCode + '_ResultContainer').html(response.installment_html);
                     $('#' + methodCode + '_ContentSwitch').show();
+                    paymentRenderer.setIsInstallmentPlanSet(true);
                 } else {
                     alert(response.errormessage);
                 }

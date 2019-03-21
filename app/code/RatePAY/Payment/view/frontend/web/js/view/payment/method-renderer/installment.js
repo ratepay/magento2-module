@@ -21,7 +21,8 @@ define(
                 rp_dob_day: '',
                 rp_dob_month: '',
                 rp_dob_year: '',
-                rp_iban: ''
+                rp_iban: '',
+                isInstallmentPlanSet: false
             },
 
             currentBillingAddress: quote.billingAddress,
@@ -30,7 +31,7 @@ define(
             initialize: function () {
                 this._super();
                 if (this.hasAllowedMonths() === false) {
-                    this.updateInstallmentPlan('time', '12', this.getCode());
+                    this.updateInstallmentPlan('time', '0', this.getCode());
                 }
                 return this;
             },
@@ -47,23 +48,30 @@ define(
                     this.messageContainer.addErrorMessage({'message': $t('Please enter a valid IBAN.')});
                     return false;
                 }
+                if (this.isInstallmentPlanSet === false) {
+                    this.messageContainer.addErrorMessage({'message': $t('Please select a installment runtime or installment amount.')});
+                    return false;
+                }
                 return true;
             },
-            showSepaBlock: function () {return true;
-                var validPaymentFirstdays = window.checkoutConfig.payment.ratepay_de_installment.validPaymentFirstdays;
+            showSepaBlock: function () {
+                var validPaymentFirstdays = window.checkoutConfig.payment[this.getCode()].validPaymentFirstdays;
                 if (validPaymentFirstdays == '2' || Array.isArray(validPaymentFirstdays)) {
                     return true;
                 }
                 return false;
             },
             getAllowedMonths: function () {
-                return window.checkoutConfig.payment.ratepay_de_installment.allowedMonths;
+                return window.checkoutConfig.payment[this.getCode()].allowedMonths;
             },
             hasAllowedMonths: function () {
                 if (this.getAllowedMonths().length > 0) {
                     return true;
                 }
                 return false;
+            },
+            setIsInstallmentPlanSet: function (value) {
+                this.isInstallmentPlanSet = value;
             },
             useMonthDropdown: function () {
                 if (this.getAllowedMonths().length > 9) {
@@ -72,7 +80,7 @@ define(
                 return false;
             },
             updateInstallmentPlan: function (calcType, calcValue, methodCode) {
-                getInstallmentPlan(calcType, calcValue, methodCode);
+                getInstallmentPlan(calcType, calcValue, methodCode, this);
             },
             updateInstallmentPlanAmount: function () {
                 this.updateInstallmentPlan('rate', $('#' + this.getCode() + '-rate')[0].value, this.getCode());
