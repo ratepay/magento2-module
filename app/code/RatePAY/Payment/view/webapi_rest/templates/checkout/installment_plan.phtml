@@ -132,3 +132,6 @@ $notification = null;
         <?php echo $result['totalAmount']; ?> &euro;
     </div>
 </div>
+<?php foreach ($result as $key => $value): ?>
+    <input type="hidden" name="payment[rp_<?php echo strtolower($key); ?>]" value="<?php echo $value; ?>">
+<?php endforeach; ?>

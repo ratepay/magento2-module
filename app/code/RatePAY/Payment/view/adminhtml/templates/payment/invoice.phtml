@@ -1,0 +1,56 @@
+<?php
+
+/** @var \RatePay\Payment\Block\Form\Invoice $block */
+
+$code = $block->escapeHtml($block->getMethodCode());
+
+echo $block->getDeviceIdentCode();
+
+?>
+
+<fieldset class="admin__fieldset payment-method" id="payment_form_<?php /* @noEscape */ echo $code; ?>" style="display:none">
+    <?php if ($block->isPhoneVisible()): ?>
+        <div class="admin__field _required">
+            <label class="label admin__field-label" for="<?php /* @noEscape */ echo $code; ?>_phone">
+                <span><?php echo $block->escapeHtml(__('Phone')); ?></span>
+            </label>
+            <div class="admin__field-control control">
+                <input id="<?php /* @noEscape */ echo $code; ?>_phone" name="payment[rp_phone]" value="<?php echo $block->getInfoData('rp_phone'); ?>">
+            </div>
+        </div>
+    <?php endif; ?>
+    <?php if ($block->isDobVisible()): ?>
+        <div class="admin__field _required">
+            <label class="label admin__field-label" for="<?php /* @noEscape */ echo $code; ?>_dob_day">
+                <span><?php echo $block->escapeHtml(__('Birthday')); ?></span>
+            </label>
+            <div class="admin__field-control control">
+                <input type="text" placeholder="DD" size="3" maxlength="2" id="<?php /* @noEscape */ echo $code; ?>_dob_day" name="payment[rp_dob_day]" value="<?php echo $block->getInfoData('rp_dob_day'); ?>">
+                <input type="text" placeholder="MM" size="3" maxlength="2" id="<?php /* @noEscape */ echo $code; ?>_dob_month" name="payment[rp_dob_month]" value="<?php echo $block->getInfoData('rp_dob_month'); ?>">
+                <input type="text" placeholder="YYYY" size="5" maxlength="4" id="<?php /* @noEscape */ echo $code; ?>_dob_year" name="payment[rp_dob_year]" value="<?php echo $block->getInfoData('rp_dob_year'); ?>">
+            </div>
+        </div>
+    <?php else: ?>
+        <div class="admin__field">
+            <label><?php echo __('Date of Birth'); ?></label>
+            <span><?php echo $block->getBirthday(); ?></span>
+            <input type="hidden" name="payment[rp_dob_day]" value="<?php echo $block->getBirthdayPart('d'); ?>">
+            <input type="hidden" name="payment[rp_dob_month]" value="<?php echo $block->getBirthdayPart('m'); ?>">
+            <input type="hidden" name="payment[rp_dob_year]" value="<?php echo $block->getBirthdayPart('Y'); ?>">
+        </div>
+    <?php endif; ?>
+    <div>
+        <?php echo __('ratepay_terms_block_1'); ?>
+        <a target="_blank" href="https://www.ratepay.com/zgb-dse"><?php echo __('ratepay_terms_block_2'); ?></a>
+        <?php echo __('ratepay_terms_block_3'); ?>
+    </div>
+    <input type="submit" name="Submit" style="display: none;">
+</fieldset>
+<script>
+    /**
+     * Disable card server validation in admin
+     */
+    require(["Magento_Sales/order/create/form"], function () {
+        order.addExcludedPaymentMethod('<?php /* @noEscape */ echo $code; ?>');
+    });
+</script>

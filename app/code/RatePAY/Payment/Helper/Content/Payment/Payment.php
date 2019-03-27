@@ -14,9 +14,9 @@ use Magento\Framework\App\Helper\Context;
 class Payment extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
-     * @var \Magento\Checkout\Model\Session
+     * @var \Magento\Checkout\Model\Session\Proxy
      */
-    protected $_checkoutSession;
+    protected $checkoutSession;
 
     /**
      * @var \RatePAY\Payment\Helper\Payment
@@ -24,16 +24,24 @@ class Payment extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_rpPaymentHelper;
 
     /**
+     * @var \Magento\Framework\App\State
+     */
+    protected $appState;
+
+    /**
      * Payment constructor.
      * @param Context $context
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \RatePAY\Payment\Helper\Payment $rpPaymentHelper
      */
-    public function __construct(Context $context,
-                                \Magento\Checkout\Model\Session $checkoutSession,
-                                \RatePAY\Payment\Helper\Payment $rpPaymentHelper)
-    {
+    public function __construct(
+        Context $context,
+        \Magento\Checkout\Model\Session\Proxy $checkoutSession,
+        \RatePAY\Payment\Helper\Payment $rpPaymentHelper
+    ) {
         parent::__construct($context);
 
-        $this->_checkoutSession = $checkoutSession;
+        $this->checkoutSession = $checkoutSession;
         $this->_rpPaymentHelper = $rpPaymentHelper;
     }
 
@@ -52,12 +60,12 @@ class Payment extends \Magento\Framework\App\Helper\AbstractHelper
                 'Amount' => round($quoteOrOrder->getBaseGrandTotal(), 2)
         ];
         if (in_array($id, ['ratepay_installment', 'ratepay_installment0'])) {
-            $content['Amount'] = $this->_checkoutSession->getRatepayPaymentAmount();
+            $content['Amount'] = $this->checkoutSession->getRatepayPaymentAmount();
             $content['InstallmentDetails'] = [
-                'InstallmentNumber' => $this->_checkoutSession->getRatepayInstallmentNumber(),
-                'InstallmentAmount' => $this->_checkoutSession->getRatepayInstallmentAmount(),
-                'LastInstallmentAmount' => $this->_checkoutSession->getRatepayLastInstallmentAmount(),
-                'InterestRate' => $this->_checkoutSession->getRatepayInterestRate()
+                'InstallmentNumber' => $this->checkoutSession->getRatepayInstallmentNumber(),
+                'InstallmentAmount' => $this->checkoutSession->getRatepayInstallmentAmount(),
+                'LastInstallmentAmount' => $this->checkoutSession->getRatepayLastInstallmentAmount(),
+                'InterestRate' => $this->checkoutSession->getRatepayInterestRate()
             ];
             $content['DebitPayType'] = 'BANK-TRANSFER';
         }

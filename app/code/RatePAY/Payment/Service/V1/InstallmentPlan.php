@@ -62,9 +62,11 @@ class InstallmentPlan implements InstallmentPlanInterface
      *
      * @param string $calcType
      * @param string $calcValue
+     * @param float $grandTotal
+     * @param string $methodCode
      * @return \RatePAY\Payment\Service\V1\Data\InstallmentPlanResponse
      */
-    public function getInstallmentPlan($calcType, $calcValue)
+    public function getInstallmentPlan($calcType, $calcValue, $grandTotal, $methodCode)
     {
         /** @var \RatePAY\Payment\Service\V1\Data\InstallmentPlanResponse $response */
         $response = $this->responseFactory->create();
@@ -74,10 +76,10 @@ class InstallmentPlan implements InstallmentPlanInterface
             $response->setData('errormessage', 'calc data invalid');
         }
 
-        $installmentPlan = $this->getInstallmentPlanFromRatepay($calcType, (int)$calcValue);
+        $installmentPlan = $this->getInstallmentPlanFromRatepay($calcType, (int)$calcValue, $grandTotal, $methodCode);
         if ($installmentPlan !== false) {
             $this->block->setInstallmentData(json_decode($installmentPlan, true));
-            $this->block->setMethodCode('installment');
+            $this->block->setMethodCode($methodCode);
 
             $response->setData('success', true);
             $response->setData('installmentPlan', $installmentPlan);
@@ -93,29 +95,19 @@ class InstallmentPlan implements InstallmentPlanInterface
      *
      * @param string $calculationType
      * @param string $calculationValue
-     * @param string|null $template
+     * @param float $grandTotal
+     * @param string $methodCode
      * @return mixed
      */
-    protected function getInstallmentPlanFromRatepay($calculationType, $calculationValue, $template = null) {
-        $quote = $this->checkoutSession->getQuote();
-        if (!$quote || !$quote->getId()) {
-            return false;
-        }
-
-        $orderAmount = $quote->getGrandTotal();
-
-        $countryId = strtolower($quote->getBillingAddress()->getCountryId());
-        $methodCode = "ratepay_".$countryId."_installment";
-
+    protected function getInstallmentPlanFromRatepay($calculationType, $calculationValue, $grandTotal, $methodCode) {
         $profileId = $this->rpDataHelper->getRpConfigData($methodCode, 'profileId');
         $securitycode = $this->rpDataHelper->getRpConfigData($methodCode, 'securityCode');
         $sandbox = $this->rpDataHelper->getRpConfigData($methodCode, 'sandbox');
 
-        $configurationRequest = $this->rpLibraryController->getInstallmentPlan($profileId, $securitycode, $sandbox, $orderAmount, $calculationType, $calculationValue, $template);
-
-        // ToDo: failure handling
+        $configurationRequest = $this->rpLibraryController->getInstallmentPlan($profileId, $securitycode, $sandbox, $grandTotal, $calculationType, $calculationValue);
 
         $installmentPlan = json_decode($configurationRequest, true);
+
         $this->checkoutSession->setRatepayPaymentAmount($installmentPlan['totalAmount']);
         $this->checkoutSession->setRatepayInstallmentNumber($installmentPlan['numberOfRatesFull']);
         $this->checkoutSession->setRatepayInstallmentAmount($installmentPlan['rate']);

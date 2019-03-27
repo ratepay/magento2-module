@@ -21,6 +21,13 @@ class Installment0 extends AbstractMethod
     protected $_infoBlockType = 'RatePAY\Payment\Block\Info\Info';
 
     /**
+     * Can be used to install a different block for backend orders
+     *
+     * @var string
+     */
+    protected $_adminFormBlockType = 'RatePAY\Payment\Block\Form\Installment';
+
+    /**
      * Generates allowed months
      *
      * @param double $basketAmount

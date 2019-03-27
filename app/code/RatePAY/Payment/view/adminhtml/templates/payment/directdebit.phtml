@@ -1,0 +1,95 @@
+<?php
+
+/** @var \RatePay\Payment\Block\Form\Directdebit $block */
+
+$code = $block->escapeHtml($block->getMethodCode());
+
+?>
+
+<fieldset class="admin__fieldset payment-method" id="payment_form_<?php /* @noEscape */ echo $code; ?>" style="display:none">
+    <?php if ($block->isPhoneVisible()): ?>
+        <div class="admin__field _required">
+            <label class="label admin__field-label" for="<?php /* @noEscape */ echo $code; ?>_iban">
+                <span><?php echo $block->escapeHtml(__('Phone')); ?></span>
+            </label>
+            <div class="admin__field-control control">
+                <input id="<?php /* @noEscape */ echo $code; ?>_iban" name="payment[rp_phone]" value="<?php echo $block->getInfoData('rp_phone'); ?>">
+            </div>
+        </div>
+    <?php endif; ?>
+    <?php if ($block->isDobVisible()): ?>
+        <div class="admin__field _required">
+            <label class="label admin__field-label" for="<?php /* @noEscape */ echo $code; ?>_dob_day">
+                <span><?php echo $block->escapeHtml(__('Birthday')); ?></span>
+            </label>
+            <div class="admin__field-control control">
+                <input type="text" placeholder="DD" size="3" maxlength="2" id="<?php /* @noEscape */ echo $code; ?>_dob_day" name="payment[rp_dob_day]" value="<?php echo $block->getInfoData('rp_dob_day'); ?>">
+                <input type="text" placeholder="MM" size="3" maxlength="2" id="<?php /* @noEscape */ echo $code; ?>_dob_month" name="payment[rp_dob_month]" value="<?php echo $block->getInfoData('rp_dob_month'); ?>">
+                <input type="text" placeholder="YYYY" size="5" maxlength="4" id="<?php /* @noEscape */ echo $code; ?>_dob_year" name="payment[rp_dob_year]" value="<?php echo $block->getInfoData('rp_dob_year'); ?>">
+            </div>
+        </div>
+    <?php else: ?>
+        <div class="admin__field">
+            <label><?php echo __('Date of Birth'); ?></label>
+            <span><?php echo $block->getBirthday(); ?></span>
+            <input type="hidden" name="payment[rp_dob_day]" value="<?php echo $block->getBirthdayPart('d'); ?>">
+            <input type="hidden" name="payment[rp_dob_month]" value="<?php echo $block->getBirthdayPart('m'); ?>">
+            <input type="hidden" name="payment[rp_dob_year]" value="<?php echo $block->getBirthdayPart('Y'); ?>">
+        </div>
+    <?php endif; ?>
+    <div>
+        <?php echo __('ratepay_terms_block_1'); ?>
+        <a target="_blank" href="https://www.ratepay.com/zgb-dse"><?php echo __('ratepay_terms_block_2'); ?></a>
+        <?php echo __('ratepay_terms_block_3'); ?>
+    </div><br>
+    <ul style="list-style: none; margin-bottom: 15px; border: 1px solid #BDBDBD; padding-left: 4px;">
+        <li><label><span><?php echo __('Ratepay address'); ?></span></label></li>
+        <li><label><span><?php echo __('Creditor'); ?></span><span><?php echo __('Ratepay Creditor ID'); ?></span></label></li>
+        <li><label><span><?php echo __('Mandate'); ?></span><span><?php echo __('Mandate Ref'); ?></span></label></li>
+    </ul>
+    <ul style="list-style: none;">
+        <li style="margin-bottom: 15px;"><label><b><span><?php echo __('insert bankdata'); ?></span></b></label></li>
+        <li><label><span><?php echo __('Account holder'); ?></span></label></li>
+        <li><label><i><span><?php echo $block->getBillingName(); ?></span></i></label></li>
+    </ul>
+    <div class="admin__field _required" style="margin-left: -30px;">
+        <label class="label admin__field-label" for="<?php /* @noEscape */ echo $code; ?>_iban">
+            <span><?php echo $block->escapeHtml(__('IBAN')); ?></span>
+        </label>
+        <div class="admin__field-control control">
+            <input type="text" size="35" id="<?php /* @noEscape */ echo $code; ?>_iban" name="payment[rp_iban]" value="<?php echo $block->getInfoData('rp_iban'); ?>">
+        </div>
+    </div>
+    <a id="<?php echo $code; ?>_sepa_agreement_link" onclick="showAgreement('<?php echo $code; ?>')"><?php echo __('ratepay_directdebit_sepa_link'); ?></a>
+    <table>
+        <tbody style="display:none;" id="<?php echo $code; ?>_sepa_agreement">
+            <tr>
+                <td style="padding:10px 0;">
+                    <span class="required ratepayagreement">
+                        <?php echo __('ratepay_directdebit_sepa_terms_block_1'); ?>
+                        <?php echo __('Ratepay address'); ?>
+                        <?php echo __('ratepay_directdebit_sepa_terms_block_2'); ?>
+                        <?php echo __('ratepay_directdebit_sepa_terms_block_3'); ?>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:10px 0;">
+                    <br/>
+                    <span style="font-weight:bold;"><?php echo __('ratepay_directdebit_sepa_notice_block_1'); ?></span><br/>
+                    <?php echo __('ratepay_directdebit_sepa_notice_block_2'); ?><br/>
+                    <?php echo __('ratepay_directdebit_sepa_notice_block_3'); ?>
+                </td>
+            </tr>
+        </tbody>
+    </table><br>
+    <input type="submit" name="Submit" style="display: none;">
+</fieldset>
+<script>
+    /**
+     * Disable card server validation in admin
+     */
+    require(["Magento_Sales/order/create/form"], function () {
+        order.addExcludedPaymentMethod('<?php /* @noEscape */ echo $code; ?>');
+    });
+</script>
