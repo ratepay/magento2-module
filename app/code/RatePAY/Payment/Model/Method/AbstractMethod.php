@@ -69,6 +69,12 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
      */
     protected $customerSession;
 
+    /**
+     * Can be used to install a different block for backend orders
+     *
+     * @var string
+     */
+    protected $_adminFormBlockType = null;
 
     /**
      * AbstractMethod constructor.
@@ -251,6 +257,20 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
     }
 
     /**
+     * @param object $additionalData
+     */
+    protected function handleInstallmentSessionParams($additionalData)
+    {
+        if ($additionalData->getRpTotalamount()) {
+            $this->checkoutSession->setRatepayPaymentAmount($additionalData->getRpTotalamount());
+            $this->checkoutSession->setRatepayInstallmentNumber($additionalData->getRpNumberofratesfull());
+            $this->checkoutSession->setRatepayInstallmentAmount($additionalData->getRpRate());
+            $this->checkoutSession->setRatepayLastInstallmentAmount($additionalData->getRpLastrate());
+            $this->checkoutSession->setRatepayInterestRate($additionalData->getRpInterestrate());
+        }
+    }
+
+    /**
      * @param \Magento\Framework\DataObject $data
      * @return $this
      */
@@ -278,13 +298,17 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
             $this->rpValidator->validatePhone($additionalData);
         }
 
-        if ($this->getQuoteOrOrder()->getPayment()->getMethod() == 'ratepay_de_directdebit' ||
-            $this->getQuoteOrOrder()->getPayment()->getMethod() == 'ratepay_at_directdebit' ||
-            $this->getQuoteOrOrder()->getPayment()->getMethod() == 'ratepay_nl_directdebit' ||
-            $this->getQuoteOrOrder()->getPayment()->getMethod() == 'ratepay_be_directdebit' ||
-            !empty($additionalData->getRpIban()) // used for installments
+        $methodCode = $this->getQuoteOrOrder()->getPayment()->getMethod();
+
+        $debitMethods = ['ratepay_de_directdebit', 'ratepay_at_directdebit', 'ratepay_nl_directdebit', 'ratepay_be_directdebit'];
+        if (in_array($methodCode, $debitMethods) || !empty($additionalData->getRpIban()) // getRpIban used for installments
         ) {
             $this->rpValidator->validateIban($additionalData);
+        }
+
+        $installmentMethods = ['ratepay_de_installment', 'ratepay_at_installment', 'ratepay_de_installment0', 'ratepay_at_installment0'];
+        if (in_array($methodCode, $installmentMethods)) {
+            $this->handleInstallmentSessionParams($additionalData);
         }
 
         return $this;
@@ -333,5 +357,18 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
     public function getAllowedMonths($basketAmount)
     {
         return [];
+    }
+
+    /**
+     * Retrieve block type for method form generation
+     *
+     * @return string
+     */
+    public function getFormBlockType()
+    {
+        if ($this->_appState->getAreaCode() == \Magento\Framework\App\Area::AREA_ADMINHTML && $this->_adminFormBlockType !== null) {
+            return $this->_adminFormBlockType;
+        }
+        return $this->_formBlockType;
     }
 }

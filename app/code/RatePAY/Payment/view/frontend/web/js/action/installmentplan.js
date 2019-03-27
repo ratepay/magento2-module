@@ -4,26 +4,26 @@ define([
     'jquery',
     'Magento_Checkout/js/model/url-builder',
     'mage/storage',
-    'Magento_Checkout/js/model/full-screen-loader',
-    'Magento_Checkout/js/model/quote',
-    'Magento_Customer/js/model/customer'
-], function ($, urlBuilder, storage, fullScreenLoader, quote, customer) {
+    'Magento_Checkout/js/model/full-screen-loader'
+], function ($, urlBuilder, storage, fullScreenLoader) {
     'use strict';
 
     return function (calcType, calcValue, methodCode, paymentRenderer) {
         var serviceUrl;
         var request = {
             calcType: calcType,
-            calcValue: calcValue
+            calcValue: calcValue,
+            grandTotal: window.checkoutConfig.quoteData.grand_total,
+            methodCode: methodCode
         };
 
-        if (!customer.isLoggedIn()) {
-            serviceUrl = urlBuilder.createUrl('/guest-carts/:quoteId/ratepay-installmentPlan', {
-                quoteId: quote.getQuoteId()
-            });
-        } else {
+        //if (!customer.isLoggedIn()) {
+        //    serviceUrl = urlBuilder.createUrl('/guest-carts/:quoteId/ratepay-installmentPlan', {
+        //        quoteId: quote.getQuoteId()
+        //    });
+        //} else {
             serviceUrl = urlBuilder.createUrl('/carts/mine/ratepay-installmentPlan', {});
-        }
+        //}
 
         fullScreenLoader.startLoader();
 
@@ -43,7 +43,6 @@ define([
             }
         ).fail(
             function (response) {
-                //errorProcessor.process(response, messageContainer);
                 alert('An error occured.');
                 fullScreenLoader.stopLoader();
             }

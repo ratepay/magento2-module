@@ -14,6 +14,13 @@ class Invoice extends AbstractMethod
     protected $_formBlockType = 'RatePAY\Payment\Block\Form\Dfp';
 
     /**
+     * Can be used to install a different block for backend orders
+     *
+     * @var string
+     */
+    protected $_adminFormBlockType = 'RatePAY\Payment\Block\Form\Invoice';
+
+    /**
      * @var string
      */
     protected $_infoBlockType = 'RatePAY\Payment\Block\Info\Info';
