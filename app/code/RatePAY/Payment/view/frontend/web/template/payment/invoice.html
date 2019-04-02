@@ -30,13 +30,13 @@
                         />
                     </div>
                 </div>
-                <label class="label">
+                <label class="label" data-bind="if: !isCompanySet()">
                     <span><!-- ko i18n: 'Date of Birth'--><!-- /ko --><br>
                         <!-- ko if: currentCustomerData.dob -->
                             <!-- ko text: currentCustomerData.dob --><!-- /ko -->
                         <!-- /ko --></span>
                 </label>
-                <fieldset id="ratepay_dob-form" class="fieldset" data-bind="if: isDobSet()">
+                <fieldset id="ratepay_dob-form" class="fieldset" data-bind="if: isDobSet() && !isCompanySet()">
                     <div class="field _required" style="float:left; position: relative; width:60px; margin: 0 0 5px;">
                         <div class="control">
                             <input type="text" name="payment[rp_dob_day]" class="input-text required-entry" value=""
