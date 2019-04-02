@@ -286,10 +286,12 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         if (!is_object($additionalData)) {
             $additionalData = new \Magento\Framework\DataObject($additionalData ?: []);
         }
-        if(!$this->customerSession->isLoggedIn()){
-            $this->rpValidator->validateDob($additionalData);
-        } else {
-            if ($this->customerRepository->getById($this->customerSession->getCustomerId())->getDob() == null) {
+
+        $company = $order->getBillingAddress()->getCompany();
+        if (empty($company)) {
+            if(!$this->customerSession->isLoggedIn()) {
+                $this->rpValidator->validateDob($additionalData);
+            } else if ($this->customerRepository->getById($this->customerSession->getCustomerId())->getDob() == null) {
                 $this->rpValidator->validateDob($additionalData);
             }
         }
