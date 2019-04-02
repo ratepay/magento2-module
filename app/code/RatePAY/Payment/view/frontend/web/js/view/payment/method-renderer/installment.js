@@ -31,7 +31,7 @@ define(
             initialize: function () {
                 this._super();
                 if (this.hasAllowedMonths() === false) {
-                    this.updateInstallmentPlan('time', '0', this.getCode());
+                    this.updateInstallmentPlan('time', '3', this.getCode());
                 }
                 return this;
             },

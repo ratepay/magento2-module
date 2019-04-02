@@ -36,7 +36,7 @@ function updateInstallmentPlanRuntime(restUrl, grandTotal, methodCode) {
     require([
         'jquery'
     ], function ($) {
-        updateInstallmentPlan(restUrl, 'time', $('#' + methodCode + '-rate')[0].value, grandTotal, methodCode);
+        updateInstallmentPlan(restUrl, 'time', $('#' + methodCode + '-time')[0].value, grandTotal, methodCode);
     });
 }
 
