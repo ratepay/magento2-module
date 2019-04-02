@@ -56,7 +56,7 @@ $code = $block->escapeHtml($block->getMethodCode());
                         <span><?php echo $block->escapeHtml(__('rp_runtime_description')); ?></span>
                     </label>
                     <div class="admin__field-control control">
-                        <select id="<?php echo $code.'-time'; ?>" onchange="updateInstallmentPlanRuntime(ratePayRestUrl, ratePayGrandTotal, '<?php echo $code; ?>')">
+                        <select id="<?php echo $code.'-time'; ?>" onchange="updateInstallmentPlanRuntime('<?php echo $block->getRestUrl(); ?>', ratePayGrandTotal, '<?php echo $code; ?>')">
                             <option value=""><?php echo __('-- Please select runtime --'); ?></option>
                             <?php foreach ($block->getAllowedMonths() as $value): ?>
                                 <option value="<?php echo $value; ?>"><?php echo $value; ?></option>
@@ -74,7 +74,7 @@ $code = $block->escapeHtml($block->getMethodCode());
                     <div class="admin__field-control control">
                         <input id="<?php echo $code.'-rate'; ?>" type="text" class="form-control" aria-label="Amount" /><br>
                         <span class="input-group-btn">
-                            <button id="<?php echo $code.'_Input-button'; ?>" type="button" onclick="updateInstallmentPlanAmount(ratePayRestUrl, ratePayGrandTotal, '<?php echo $code; ?>')" class="btn btn-default" role="group">
+                            <button id="<?php echo $code.'_Input-button'; ?>" type="button" onclick="updateInstallmentPlanAmount('<?php echo $block->getRestUrl(); ?>', ratePayGrandTotal, '<?php echo $code; ?>')" class="btn btn-default" role="group">
                                 <?php echo __('rp_calculate_rate'); ?>
                             </button>
                         </span>
@@ -146,7 +146,6 @@ $code = $block->escapeHtml($block->getMethodCode());
         order.addExcludedPaymentMethod('<?php /* @noEscape */ echo $code; ?>');
     });
 
-    var ratePayRestUrl = '<?php echo $block->getRestUrl(); ?>';
     var ratePayGrandTotal = <?php echo $block->getQuoteGrandTotal(); ?>;
 
     <?php if ($block->hasAllowedMonths() === false): ?>
@@ -154,7 +153,7 @@ $code = $block->escapeHtml($block->getMethodCode());
             'jquery'
         ], function ($) {
             $(document).ready(function() {
-                updateInstallmentPlan(ratePayRestUrl, 'time', '0', ratePayGrandTotal, '<?php echo $code; ?>')
+                updateInstallmentPlan('<?php echo $block->getRestUrl(); ?>', 'time', '3', ratePayGrandTotal, '<?php echo $code; ?>')
             });
         });
     <?php endif; ?>
