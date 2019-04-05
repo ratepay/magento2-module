@@ -120,6 +120,7 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
         }
         if (!empty($quoteOrOrder->getBillingAddress()->getCompany())) {
             $content['CompanyName'] = $quoteOrOrder->getBillingAddress()->getCompany();
+            $content['VatId'] = $quoteOrOrder->getBillingAddress()->getVatId();
         }
 
         return $content;

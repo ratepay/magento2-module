@@ -153,6 +153,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         $head = $this->_rpLibraryModel->getRequestHead($order);
         $sandbox = (bool)$this->rpDataHelper->getRpConfigData($this->_code, 'sandbox');
         $company = $order->getBillingAddress()->getCompany();
+
         if (!$this->rpDataHelper->getRpConfigData($this->_code, 'b2b') && !empty($company)) {
             throw new PaymentException(__('b2b not allowed'));
         }
