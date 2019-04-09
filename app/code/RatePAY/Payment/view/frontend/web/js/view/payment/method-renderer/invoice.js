@@ -28,7 +28,8 @@ define(
                 this._super()
                     .observe({
                         isPhoneVisible: false,
-                        isDobSet: customer.customerData.dob == null
+                        isDobSet: customer.customerData.dob == null,
+                        isCompanySet: quote.billingAddress().company.length > 1
                     });
                 return this;
             },

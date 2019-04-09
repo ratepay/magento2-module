@@ -35,8 +35,8 @@ class Addresses extends \Magento\Framework\App\Helper\AbstractHelper
                 'Address' => [
                     'Type' => "billing",
                     //'Salutation' => "Mrs.",
-                    //'FirstName' => "Alice",
-                    //'LastName' => "Nobodyknows",
+                    'FirstName' => $quoteOrOrder->getBillingAddress()->getFirstname(),
+                    'LastName' => $quoteOrOrder->getBillingAddress()->getLastname(),
                     //'Company' => "Umbrella Corp.",
                     'Street' => $quoteOrOrder->getBillingAddress()->getData('street'),
                     //'StreetAdditional' => "SubLevel 27",

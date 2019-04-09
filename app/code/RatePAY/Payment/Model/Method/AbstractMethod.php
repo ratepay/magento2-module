@@ -153,6 +153,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         $head = $this->_rpLibraryModel->getRequestHead($order);
         $sandbox = (bool)$this->rpDataHelper->getRpConfigData($this->_code, 'sandbox');
         $company = $order->getBillingAddress()->getCompany();
+
         if (!$this->rpDataHelper->getRpConfigData($this->_code, 'b2b') && !empty($company)) {
             throw new PaymentException(__('b2b not allowed'));
         }
@@ -286,10 +287,12 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         if (!is_object($additionalData)) {
             $additionalData = new \Magento\Framework\DataObject($additionalData ?: []);
         }
-        if(!$this->customerSession->isLoggedIn()){
-            $this->rpValidator->validateDob($additionalData);
-        } else {
-            if ($this->customerRepository->getById($this->customerSession->getCustomerId())->getDob() == null) {
+
+        $company = $order->getBillingAddress()->getCompany();
+        if (empty($company)) {
+            if(!$this->customerSession->isLoggedIn()) {
+                $this->rpValidator->validateDob($additionalData);
+            } else if ($this->customerRepository->getById($this->customerSession->getCustomerId())->getDob() == null) {
                 $this->rpValidator->validateDob($additionalData);
             }
         }
