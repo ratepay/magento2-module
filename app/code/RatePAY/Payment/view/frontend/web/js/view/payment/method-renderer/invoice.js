@@ -29,7 +29,7 @@ define(
                     .observe({
                         isPhoneVisible: false,
                         isDobSet: customer.customerData.dob == null,
-                        isCompanySet: quote.billingAddress().company.length > 1
+                        isCompanySet: (quote.billingAddress() != null && quote.billingAddress().company != undefined && quote.billingAddress().company.length > 1)
                     });
                 return this;
             },
