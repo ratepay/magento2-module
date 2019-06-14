@@ -7,6 +7,10 @@
             <group id="ratepay" translate="label" type="text" sortOrder="999" showInDefault="1" showInWebsite="1"
                    showInStore="1">
                 <label>Ratepay</label>
+                <field id="snippet_id" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Device Fingerprint Snippet-Id</label>
+                    <config_path>payment/ratepay_general/snippet_id</config_path>
+                </field>
                 <group id="de" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1"
                        showInStore="1">
                     <label>Germany</label>

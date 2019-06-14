@@ -63,19 +63,13 @@ class Base extends \Magento\Payment\Block\Form
      */
     public function getDeviceIdentCode()
     {
-        if(is_null($this->customerSession->getRatePayDeviceIdentToken())) {
-            if (!(bool) $this->rpDataHelper->getRpConfigData('ratepay_general', 'device_ident')) {
-                return '';
-            }
-            $dfpSnippetId = $this->rpDataHelper->getRpConfigData('ratepay_general', 'snipped_id');
-            if (!empty($dfpSnippetId)) {
-                $dfp = $this->rpLibraryController->getDfpCode(
-                    $dfpSnippetId,
-                    $this->customerSession->getSessionId()
-                );
-                $this->customerSession->setRatePayDeviceIdentToken($dfp->getToken());
-                return $dfp->getDfpSnippetCode();
-            }
+        $dfpSessionToken = $this->customerSession->getRatePayDeviceIdentToken();
+        $dfpSnippetId = $this->rpDataHelper->getRpConfigData('ratepay_general', 'snippet_id');
+
+        if(!empty($dfpSnippetId) && empty($dfpSessionToken)) {
+            $dfp = $this->rpLibraryController->getDfpCode($dfpSnippetId, $this->customerSession->getSessionId());
+            $this->customerSession->setRatePayDeviceIdentToken($dfp->getToken());
+            return $dfp->getDfpSnippetCode();
         }
         return '';
     }
