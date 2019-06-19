@@ -67,8 +67,11 @@ class Dfp extends \Magento\Payment\Block\Form
     {
         $dfpSessionToken = $this->customerSession->getRatePayDeviceIdentToken();
         $dfpSnippetId = $this->rpDataHelper->getRpConfigData('ratepay_general', 'snippet_id');
+        if (empty($dfpSnippetId)) {
+            $dfpSnippetId = 'ratepay'; // default value, so that there is always a device fingerprint
+        }
 
-        if(!empty($dfpSnippetId) && empty($dfpSessionToken)) {
+        if(empty($dfpSessionToken)) {
             $dfp = $this->rpLibraryController->getDfpCode($dfpSnippetId, $this->customerSession->getSessionId());
             $this->customerSession->setRatePayDeviceIdentToken($dfp->getToken());
             return $dfp->getDfpSnippetCode();
