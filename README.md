@@ -37,6 +37,12 @@ For further information and prerequisites depending on module installation from 
 
 ## Changelog
 
+* Fixed checkout crash problem
+* Added payment method installment
+* Added new payment type zero percent installments
+* Implemented all payment methods for backend orders
+* Added default Device-Fingerprint Snippet id
+
 ### Version 1.1.3 - Released 2019-02-11
 * Fix Validator Exception Import
 
