@@ -136,8 +136,6 @@ class Validator extends \Magento\Framework\App\Helper\AbstractHelper
         if (empty($additionalData->getRpIban())) {
             throw new PaymentException(__("iban data invalid"));
         }
-
-        $this->checkoutSession->setRatepayIban($additionalData->getRpIban());
     }
 
     /**

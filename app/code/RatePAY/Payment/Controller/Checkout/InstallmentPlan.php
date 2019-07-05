@@ -79,12 +79,16 @@ class InstallmentPlan extends \Magento\Framework\App\Action\Action
             return $result->setData($response);
         }
 
-        $installmentPlan = $this->getInstallmentPlan((float) $params['order_amount'], $params['calc_type'], (int) $params['calc_value']);
-        if ($installmentPlan !== false) {
-            $response['status'] = "success";
-            $response['response'] = json_decode($installmentPlan);
-        } else {
-            $response['message'] = "quote not found";
+        try {
+            $installmentPlan = $this->getInstallmentPlan((float) $params['order_amount'], $params['calc_type'], (int) $params['calc_value']);
+            if ($installmentPlan !== false) {
+                $response['status'] = "success";
+                $response['response'] = json_decode($installmentPlan);
+            } else {
+                $response['message'] = "quote not found";
+            }
+        } catch (\Exception $e) {
+            $response['message'] = $e->getMessage();
         }
         return $result->setData($response);
     }

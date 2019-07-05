@@ -9,6 +9,8 @@
 namespace RatePAY\Payment\Plugin;
 
 use Magento\Framework\Exception\PaymentException;
+use RatePAY\Payment\Model\Exception\DisablePaymentMethodException;
+
 class RatepayErrorProcessor
 {
     /**
@@ -42,6 +44,7 @@ class RatepayErrorProcessor
      * @param \Magento\Quote\Api\Data\PaymentInterface $paymentMethod
      * @param \Magento\Quote\Api\Data\AddressInterface $billingAddress
      * @return int
+     * @throws DisablePaymentMethodException
      * @throws PaymentException
      */
     public function aroundSavePaymentInformationAndPlaceOrder(
@@ -55,6 +58,8 @@ class RatepayErrorProcessor
         $subject->savePaymentInformation($cartId, $paymentMethod, $billingAddress);
         try {
             $orderId = $this->cartManagement->placeOrder($cartId);
+        } catch (DisablePaymentMethodException $e) {
+            throw $e;
         } catch (\Exception $e) {
             throw new PaymentException(
                 __($e->getMessage()),

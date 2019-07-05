@@ -76,16 +76,20 @@ class InstallmentPlan implements InstallmentPlanInterface
             $response->setData('errormessage', 'calc data invalid');
         }
 
-        $installmentPlan = $this->getInstallmentPlanFromRatepay($calcType, (int)$calcValue, $grandTotal, $methodCode);
-        if ($installmentPlan !== false) {
-            $this->block->setInstallmentData(json_decode($installmentPlan, true));
-            $this->block->setMethodCode($methodCode);
+        try {
+            $installmentPlan = $this->getInstallmentPlanFromRatepay($calcType, (int)$calcValue, $grandTotal, $methodCode);
+            if ($installmentPlan !== false) {
+                $this->block->setInstallmentData(json_decode($installmentPlan, true));
+                $this->block->setMethodCode($methodCode);
 
-            $response->setData('success', true);
-            $response->setData('installmentPlan', $installmentPlan);
-            $response->setData('installmentHtml', $this->block->toHtml());
-        } else {
-            $response->setData('errormessage', 'quote not found');
+                $response->setData('success', true);
+                $response->setData('installmentPlan', $installmentPlan);
+                $response->setData('installmentHtml', $this->block->toHtml());
+            } else {
+                $response->setData('errormessage', 'quote not found');
+            }
+        } catch (\Exception $e) {
+            $response->setData('errormessage', $e->getMessage());
         }
         return $response;
     }

@@ -141,10 +141,6 @@ class ProfileRequest extends \Magento\Framework\App\Action\Action
                 $this->_config->saveConfig('payment/' . $method . '/interestrate_default', $installmentConfig['interestrate-default'], 'default', 0);
                 $this->_config->saveConfig('payment/' . $method . '/valid_payment_firstday', $installmentConfig['valid-payment-firstdays'], 'default', 0);
             }
-            $this->_config->saveConfig('payment/ratepay_general/device_ident', ($merchantConfig['eligibility-device-fingerprint'] == "yes") ? 1 : 0, 'default', 0);//device-fingerprint-snippet-id
-            if (isset($merchantConfig['device-fingerprint-snippet-id'])) {
-                $this->_config->saveConfig('payment/ratepay_general/snipped_id', $merchantConfig['device-fingerprint-snippet-id'], 'default', 0);
-            }
             $response['status'] = "success";
             $response['message'] = "profile data saved";
         } else {
