@@ -250,6 +250,11 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
             return false;
         }
 
+        $aValidCurrencies = explode(',', $this->rpDataHelper->getRpConfigData($this->_code, 'currency'));
+        if (in_array($quote->getQuoteCurrencyCode(), $aValidCurrencies) === false) {
+            return false;
+        }
+
         return true;
     }
 
