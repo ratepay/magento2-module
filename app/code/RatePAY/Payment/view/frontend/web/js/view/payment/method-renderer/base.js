@@ -25,7 +25,7 @@ define(
                 return false;
             },
             isDobSet: function () {
-                if (customer.customerData.dob === null) {
+                if (customer.customerData.dob == undefined || customer.customerData.dob === null) {
                     return false;
                 }
                 return true;

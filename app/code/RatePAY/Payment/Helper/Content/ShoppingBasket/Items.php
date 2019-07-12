@@ -75,7 +75,7 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
 				if($item->getOrderItem()->getProductType() === \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
                     $bundleQuantity = $this->_getBundleQuantity($quoteOrOrder->getItems(), $item); // bundles always have a qty of 1, which is wrong
                     if ($bundleQuantity !== false) {
-                        $quantity = $bundleQuantity;
+                        $quantity = (int)$bundleQuantity;
                     }
 
 					$discount = 0.00;

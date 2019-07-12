@@ -30,14 +30,14 @@
                             />
                         </div>
                     </div>
-                <!--/ko-->
+                <!-- /ko -->
                 <fieldset data-bind="attr: {class: 'fieldset payment items dob ' + getCode(), id: 'payment_form_' + getCode()}" style="margin: 0 0 5px; ">
                     <label class="label" data-bind="if: !isCompanySet()">
                         <span><!-- ko i18n: 'Date of Birth'--><!-- /ko --><br>
                             <!-- ko if: currentCustomerData.dob -->
                             <!-- ko text: currentCustomerData.dob --><!-- /ko -->
                             <!-- /ko -->
-                        </span><br><br>
+                        </span>
                     </label>
                     <!-- ko if: !isDobSet() && !isCompanySet() -->
                         <fieldset id="ratepay_dob-form" class="fieldset">
