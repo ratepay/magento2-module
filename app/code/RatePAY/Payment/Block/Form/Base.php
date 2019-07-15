@@ -158,13 +158,4 @@ class Base extends \Magento\Payment\Block\Form
         }
         return '';
     }
-
-    public function isCompanySet()
-    {
-        $billingAddress = $this->getBillingAddress();
-        if ($billingAddress && !empty($billingAddress->getCompany())) {
-            return true;
-        }
-        return false;
-    }
 }

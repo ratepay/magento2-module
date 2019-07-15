@@ -294,6 +294,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
     public function assignData(\Magento\Framework\DataObject $data)
     {
         $order = $this->getQuoteOrOrder();
+        $infoInstance = $order->getPayment();
 
         if (!$data instanceof \Magento\Framework\DataObject) {
             $data = new \Magento\Framework\DataObject($data);
@@ -305,19 +306,24 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         }
 
         $company = $order->getBillingAddress()->getCompany();
+        if (!empty($additionalData->getRpCompany())) {
+            $company = $additionalData->getRpCompany();
+        }
+
         if (empty($company)) {
             if(!$this->customerSession->isLoggedIn()) {
                 $this->rpValidator->validateDob($additionalData);
             } else if ($this->customerRepository->getById($this->customerSession->getCustomerId())->getDob() == null) {
                 $this->rpValidator->validateDob($additionalData);
             }
+        } else {
+            $infoInstance->setAdditionalInformation('rp_company', $company);
         }
 
         if(!$order->getBillingAddress()->getTelephone()) {
             $this->rpValidator->validatePhone($additionalData);
         }
 
-        $infoInstance = $order->getPayment();
         $methodCode = $infoInstance->getMethod();
 
         $debitMethods = ['ratepay_de_directdebit', 'ratepay_at_directdebit', 'ratepay_nl_directdebit', 'ratepay_be_directdebit'];

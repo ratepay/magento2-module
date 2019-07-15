@@ -114,8 +114,8 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
         if(!empty($bankAccount)){
             $content['BankAccount'] = $bankAccount;
         }
-        if (!empty($quoteOrOrder->getBillingAddress()->getCompany())) {
-            $content['CompanyName'] = $quoteOrOrder->getBillingAddress()->getCompany();
+        if (!empty($quoteOrOrder->getPayment()->getAdditionalInformation('rp_company'))) {
+            $content['CompanyName'] = $quoteOrOrder->getPayment()->getAdditionalInformation('rp_company');
             $content['VatId'] = $quoteOrOrder->getPayment()->getAdditionalInformation('rp_vatid');
         }
         return $content;
