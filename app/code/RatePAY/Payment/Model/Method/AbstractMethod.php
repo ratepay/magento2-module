@@ -362,6 +362,16 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         return strip_tags($message);
     }
 
+    public function getIsB2BModeEnabled($grandTotal = null)
+    {
+        $blB2BEnabled = (bool)$this->rpDataHelper->getRpConfigData($this->_code, 'b2b');
+        $dB2BMax = $this->rpDataHelper->getRpConfigData($this->_code, 'limit_max_b2b');
+        if ($blB2BEnabled === true && ($grandTotal === null || ($grandTotal <= $dB2BMax))) {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * @return \Magento\Sales\Model\Order
      */

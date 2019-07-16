@@ -158,4 +158,26 @@ class Base extends \Magento\Payment\Block\Form
         }
         return '';
     }
+
+    /**
+     * @return float
+     */
+    public function getQuoteGrandTotal()
+    {
+        return $this->getCreateOrderModel()->getQuote()->getGrandTotal();
+    }
+
+    /**
+     * Checks payment configuration for b2b mode
+     *
+     * @return bool
+     */
+    public function getIsB2BModeEnabled()
+    {
+        $oMethod = $this->getMethod();
+        if ($oMethod instanceof \RatePAY\Payment\Model\Method\AbstractMethod) {
+            return $this->getMethod()->getIsB2BModeEnabled($this->getQuoteGrandTotal());
+        }
+        return false;
+    }
 }

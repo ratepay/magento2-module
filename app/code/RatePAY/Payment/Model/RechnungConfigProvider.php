@@ -31,6 +31,39 @@ class RechnungConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
     protected $checkoutSession;
 
     /**
+     * Array with all ratepay payment methods
+     *
+     * @var array
+     */
+    protected $allRatePayMethods = [
+        \RatePAY\Payment\Model\Method\DE\Invoice::METHOD_CODE,
+        \RatePAY\Payment\Model\Method\DE\Directdebit::METHOD_CODE,
+        \RatePAY\Payment\Model\Method\DE\Installment::METHOD_CODE,
+        \RatePAY\Payment\Model\Method\DE\Installment0::METHOD_CODE,
+        \RatePAY\Payment\Model\Method\AT\Invoice::METHOD_CODE,
+        \RatePAY\Payment\Model\Method\AT\Directdebit::METHOD_CODE,
+        \RatePAY\Payment\Model\Method\AT\Installment::METHOD_CODE,
+        \RatePAY\Payment\Model\Method\AT\Installment0::METHOD_CODE,
+        \RatePAY\Payment\Model\Method\CH\Invoice::METHOD_CODE,
+        \RatePAY\Payment\Model\Method\NL\Invoice::METHOD_CODE,
+        \RatePAY\Payment\Model\Method\NL\Directdebit::METHOD_CODE,
+        \RatePAY\Payment\Model\Method\BE\Invoice::METHOD_CODE,
+        \RatePAY\Payment\Model\Method\BE\Directdebit::METHOD_CODE,
+    ];
+
+    /**
+     * Array with all ratepay installment payment methods
+     *
+     * @var array
+     */
+    protected $installmentPaymentTypes = [
+        \RatePAY\Payment\Model\Method\DE\Installment::METHOD_CODE,
+        \RatePAY\Payment\Model\Method\DE\Installment0::METHOD_CODE,
+        \RatePAY\Payment\Model\Method\AT\Installment::METHOD_CODE,
+        \RatePAY\Payment\Model\Method\AT\Installment0::METHOD_CODE
+    ];
+
+    /**
      * @param \Magento\Payment\Helper\Data $paymentHelper
      * @param \Magento\Framework\Escaper $escaper
      * @param \RatePAY\Payment\Helper\Data $rpDataHelper
@@ -55,6 +88,38 @@ class RechnungConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
     {
         $config = array_merge_recursive([], $this->getInvoiceConfig());
         $config = array_merge_recursive($config, $this->getInstallmentConfig());
+        $config = array_merge_recursive($config, $this->getB2BConfig());
+        return $config;
+    }
+
+    /**
+     * Add b2b config for given payment method
+     *
+     * @param  string $sMethodCode
+     * @return array
+     */
+    protected function getSingleB2BConfig($sMethodCode)
+    {
+        return ($this->isPaymentMethodActive($sMethodCode)) ? [
+            'payment' => [
+                $sMethodCode => [
+                    'b2bActive' => (bool)$this->rpDataHelper->getRpConfigData($sMethodCode, 'b2b'),
+                ],
+            ],
+        ] : [];
+    }
+
+    /**
+     * Add b2b config for all active payment methods
+     *
+     * @return array
+     */
+    protected function getB2BConfig()
+    {
+        $config = [];
+        foreach ($this->allRatePayMethods as $paymentType) {
+            $config = array_merge_recursive($config, $this->getSingleB2BConfig($paymentType));
+        }
         return $config;
     }
 
@@ -94,14 +159,8 @@ class RechnungConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
      */
     protected function getInstallmentConfig()
     {
-        $installmentPaymentTypes = [
-            \RatePAY\Payment\Model\Method\DE\Installment::METHOD_CODE,
-            \RatePAY\Payment\Model\Method\DE\Installment0::METHOD_CODE,
-            \RatePAY\Payment\Model\Method\AT\Installment::METHOD_CODE,
-            \RatePAY\Payment\Model\Method\AT\Installment0::METHOD_CODE
-        ];
         $config = [];
-        foreach ($installmentPaymentTypes as $installmentPaymentType) {
+        foreach ($this->installmentPaymentTypes as $installmentPaymentType) {
             $config = array_merge_recursive($config, $this->getSingleInstallmentConfig($installmentPaymentType));
         }
         return $config;

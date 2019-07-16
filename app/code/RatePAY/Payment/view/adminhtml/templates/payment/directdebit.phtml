@@ -4,6 +4,12 @@
 
 $code = $block->escapeHtml($block->getMethodCode());
 
+$dobDisplay = '';
+$b2bEnabled = $block->getIsB2BModeEnabled();
+if ($b2bEnabled === true) {
+    $dobDisplay = 'display: none;';
+}
+
 ?>
 
 <fieldset class="admin__fieldset payment-method" id="payment_form_<?php /* @noEscape */ echo $code; ?>" style="display:none">
@@ -18,7 +24,7 @@ $code = $block->escapeHtml($block->getMethodCode());
         </div>
     <?php endif; ?>
     <?php if ($block->isDobVisible()): ?>
-        <div class="admin__field _required" id="ratepay_<?php echo $code; ?>_birthday" style="margin-left:-30px;display: none;">
+        <div class="admin__field _required" id="ratepay_<?php echo $code; ?>_birthday" style="margin-left:-30px;<?php echo $dobDisplay; ?>">
             <label class="label admin__field-label" for="<?php /* @noEscape */ echo $code; ?>_dob_day">
                 <span><?php echo $block->escapeHtml(__('Birthday')); ?></span>
             </label>
@@ -29,7 +35,7 @@ $code = $block->escapeHtml($block->getMethodCode());
             </div>
         </div>
     <?php else: ?>
-        <div class="admin__field" id="ratepay_<?php echo $code; ?>_birthday" style="display: none;">
+        <div class="admin__field" id="ratepay_<?php echo $code; ?>_birthday" style="<?php echo $dobDisplay; ?>">
             <label><?php echo __('Date of Birth'); ?></label>
             <span><?php echo $block->getBirthday(); ?></span>
             <input type="hidden" name="payment[rp_dob_day]" value="<?php echo $block->getBirthdayPart('d'); ?>">
@@ -102,29 +108,31 @@ $code = $block->escapeHtml($block->getMethodCode());
         order.addExcludedPaymentMethod('<?php /* @noEscape */ echo $code; ?>');
     });
 
-    require(["jquery"], function ($jq) {
-        function handleRequiredData<?php echo $code; ?>() {
-            $jq('#<?php echo $code; ?>_company').val($jq('#order-billing_address_company').val());
-            if ($jq('#order-billing_address_company').val() == '') {
-                $jq('#ratepay_<?php echo $code; ?>_vatid').hide();
-                $jq('#ratepay_<?php echo $code; ?>_birthday').show();
-            } else if($jq('#order-billing_address_vat_id').val() == '') {
-                $jq('#ratepay_<?php echo $code; ?>_birthday').hide();
-                $jq('#ratepay_<?php echo $code; ?>_vatid').show();
-            } else {
-                if ($jq('#<?php echo $code; ?>_vatid').val() == '') {
-                    $jq('#<?php echo $code; ?>_vatid').val($jq('#order-billing_address_vat_id').val());
+    <?php if ($b2bEnabled === true): ?>
+        require(["jquery"], function ($jq) {
+            function handleRequiredData<?php echo $code; ?>() {
+                $jq('#<?php echo $code; ?>_company').val($jq('#order-billing_address_company').val());
+                if ($jq('#order-billing_address_company').val() == '') {
+                    $jq('#ratepay_<?php echo $code; ?>_vatid').hide();
+                    $jq('#ratepay_<?php echo $code; ?>_birthday').show();
+                } else if($jq('#order-billing_address_vat_id').val() == '') {
+                    $jq('#ratepay_<?php echo $code; ?>_birthday').hide();
+                    $jq('#ratepay_<?php echo $code; ?>_vatid').show();
+                } else {
+                    if ($jq('#<?php echo $code; ?>_vatid').val() == '') {
+                        $jq('#<?php echo $code; ?>_vatid').val($jq('#order-billing_address_vat_id').val());
+                    }
+                    $jq('#ratepay_<?php echo $code; ?>_birthday').hide();
+                    $jq('#ratepay_<?php echo $code; ?>_vatid').hide();
                 }
-                $jq('#ratepay_<?php echo $code; ?>_birthday').hide();
-                $jq('#ratepay_<?php echo $code; ?>_vatid').hide();
+                setTimeout(function(){
+                    window.requestAnimationFrame(handleRequiredData<?php echo $code; ?>);
+                }, 1000);
             }
-            setTimeout(function(){
-                window.requestAnimationFrame(handleRequiredData<?php echo $code; ?>);
-            }, 1000);
-        }
 
-        $jq(document).ready(function () {
-            handleRequiredData<?php echo $code; ?>();
+            $jq(document).ready(function () {
+                handleRequiredData<?php echo $code; ?>();
+            });
         });
-    });
+    <?php endif; ?>
 </script>

@@ -32,14 +32,14 @@
                     </div>
                 <!-- /ko -->
                 <fieldset data-bind="attr: {class: 'fieldset payment items dob ' + getCode(), id: 'payment_form_' + getCode()}" style="margin: 0 0 5px; ">
-                    <label class="label" data-bind="if: !isCompanySet()">
+                    <label class="label" data-bind="if: !isB2BModeUsable()">
                         <span><!-- ko i18n: 'Date of Birth'--><!-- /ko --><br>
                             <!-- ko if: currentCustomerData.dob -->
                             <!-- ko text: currentCustomerData.dob --><!-- /ko -->
                             <!-- /ko -->
                         </span>
                     </label>
-                    <!-- ko if: !isDobSet() && !isCompanySet() -->
+                    <!-- ko if: !isDobSet() && !isB2BModeUsable() -->
                         <fieldset id="ratepay_dob-form" class="fieldset">
                             <div class="field _required" style="float:left; position: relative; width:60px; margin: 0 0 5px;">
                                 <div class="control">
@@ -85,7 +85,7 @@
                             </div>
                         </fieldset>
                     <!-- /ko -->
-                    <!-- ko if: isCompanySet() -->
+                    <!-- ko if: isB2BModeUsable() -->
                         <fieldset id="ratepay_vat-form" class="fieldset">
                             <div class="field _required">
                                 <label data-bind="attr: {for: getCode() + 'vatid'}" class="label">

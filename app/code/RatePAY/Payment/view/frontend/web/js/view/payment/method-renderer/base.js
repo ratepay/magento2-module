@@ -30,12 +30,18 @@ define(
                 }
                 return true;
             },
+            isB2BModeUsable: function () {
+                if (this.isB2BEnabled() === true && this.isCompanySet() === true) {
+                    return true;
+                }
+                return false;
+            },
+            isB2BEnabled: function () {
+                return window.checkoutConfig.payment[this.getCode()].b2bActive;
+            },
             isCompanySet: function () {
                 if (quote.billingAddress() != null && quote.billingAddress().company != undefined && quote.billingAddress().company.length > 1) {
                     return true;
-                }
-                if (customer.customerData != null && customer.customerData.company != undefined && customer.customerData.company.length > 1) {
-
                 }
                 return false;
             },
@@ -46,7 +52,7 @@ define(
                 return false;
             },
             validate: function () {
-                if (this.isCompanySet() && this.rp_vatid == '') {
+                if (this.isB2BModeUsable() && this.rp_vatid == '') {
                     this.messageContainer.addErrorMessage({'message': $t('Please enter your Vat ID')});
                     return false;
                 }
