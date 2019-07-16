@@ -29,7 +29,7 @@ $code = $block->escapeHtml($block->getMethodCode());
             </div>
         </div>
     <?php else: ?>
-        <div class="admin__field" id="ratepay_<?php echo $code; ?>_birthday" style="margin-left:-30px;display: none;">
+        <div class="admin__field" id="ratepay_<?php echo $code; ?>_birthday" style="display: none;">
             <label><?php echo __('Date of Birth'); ?></label>
             <span><?php echo $block->getBirthday(); ?></span>
             <input type="hidden" name="payment[rp_dob_day]" value="<?php echo $block->getBirthdayPart('d'); ?>">
