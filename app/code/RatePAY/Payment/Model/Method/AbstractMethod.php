@@ -274,16 +274,18 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
     }
 
     /**
-     * @param object $additionalData
+     * @param  object $additionalData
+     * @param  string $methodCode
+     * @return void
      */
-    protected function handleInstallmentSessionParams($additionalData)
+    protected function handleInstallmentSessionParams($additionalData, $methodCode)
     {
         if ($additionalData->getRpTotalamount()) {
-            $this->checkoutSession->setRatepayPaymentAmount($additionalData->getRpTotalamount());
-            $this->checkoutSession->setRatepayInstallmentNumber($additionalData->getRpNumberofratesfull());
-            $this->checkoutSession->setRatepayInstallmentAmount($additionalData->getRpRate());
-            $this->checkoutSession->setRatepayLastInstallmentAmount($additionalData->getRpLastrate());
-            $this->checkoutSession->setRatepayInterestRate($additionalData->getRpInterestrate());
+            $this->checkoutSession->setData('ratepayPaymentAmount_'.$methodCode, $additionalData->getRpTotalamount());
+            $this->checkoutSession->setData('ratepayInstallmentNumber_'.$methodCode, $additionalData->getRpNumberofratesfull());
+            $this->checkoutSession->setData('ratepayInstallmentAmount_'.$methodCode, $additionalData->getRpRate());
+            $this->checkoutSession->setData('ratepayLastInstallmentAmount_'.$methodCode, $additionalData->getRpLastrate());
+            $this->checkoutSession->setData('ratepayInterestRate_'.$methodCode, $additionalData->getRpInterestrate());
         }
     }
 
@@ -295,6 +297,10 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
     {
         $order = $this->getQuoteOrOrder();
         $infoInstance = $order->getPayment();
+
+        // clear the data first, to refresh it later in this method
+        $infoInstance->unsAdditionalInformation('rp_company');
+        $infoInstance->unsAdditionalInformation('rp_vatid');
 
         if (!$data instanceof \Magento\Framework\DataObject) {
             $data = new \Magento\Framework\DataObject($data);
@@ -334,7 +340,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
 
         $installmentMethods = ['ratepay_de_installment', 'ratepay_at_installment', 'ratepay_de_installment0', 'ratepay_at_installment0'];
         if (in_array($methodCode, $installmentMethods)) {
-            $this->handleInstallmentSessionParams($additionalData);
+            $this->handleInstallmentSessionParams($additionalData, $methodCode);
         }
 
         if (!empty($additionalData->getRpVatid())) {
