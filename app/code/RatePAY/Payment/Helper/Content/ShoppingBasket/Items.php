@@ -10,16 +10,26 @@ namespace RatePAY\Payment\Helper\Content\ShoppingBasket;
 
 
 use Magento\Framework\App\Helper\Context;
+use Magento\Tax\Model\Config;
 
 class Items extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
+     * Magento tax config
+     *
+     * @var Config
+     */
+    protected $taxConfig;
+
+    /**
      * Items constructor.
      * @param Context $context
+     * @param Config  $taxConfig
      */
-    public function __construct(Context $context)
+    public function __construct(Context $context, Config $taxConfig)
     {
         parent::__construct($context);
+        $this->taxConfig = $taxConfig;
     }
 
     /**
@@ -156,8 +166,10 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
      */
     protected function getDiscount($discount, $quantity, $total, $vat)
     {
-        $dDiscountInclTax = $discount * ((100 + $vat) / 100);
-        $dSingleDiscount = $dDiscountInclTax / $quantity;
+        if ($this->taxConfig->discountTax() === false) { // discountTax() === false equates to config "Apply Discount On Prices" = "Excluding Tax"
+            $discount = $discount * ((100 + $vat) / 100);
+        }
+        $dSingleDiscount = $discount / $quantity;
         #$dSingleDiscount = round($dSingleDiscount, 2); // cutting of the decimals would result in rounding problems
         return $dSingleDiscount;
     }
