@@ -94,6 +94,7 @@ class LibraryController
      * @param $calculationValue
      * @param null $template
      * @return string
+     * @throws \Exception
      */
     public static function getInstallmentPlan($profileId, $securityCode, $sandbox, $calculationAmount, $calculationType, $calculationValue, $template = null)
     {
@@ -109,7 +110,7 @@ class LibraryController
                 $installmentPlan = $ib->getInstallmentPlanByTemplate($calculationAmount, $calculationType, $calculationValue, $template);
             }
         } catch (\Exception $e) {
-            echo $e->getMessage();
+            throw $e;
         }
 
         return $installmentPlan;

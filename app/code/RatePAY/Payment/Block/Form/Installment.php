@@ -63,12 +63,4 @@ class Installment extends Base
     {
         return $this->_urlBuilder->getDirectUrl('rest/default/V1/carts/mine/ratepay-installmentPlan?isAjax=1');
     }
-
-    /**
-     * @return float
-     */
-    public function getQuoteGrandTotal()
-    {
-        return $this->getCreateOrderModel()->getQuote()->getGrandTotal();
-    }
 }

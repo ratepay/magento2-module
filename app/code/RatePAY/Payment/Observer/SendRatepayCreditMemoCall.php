@@ -78,6 +78,24 @@ class SendRatepayCreditMemoCall implements ObserverInterface
     }
 
     /**
+     * Collect the quantity sum of all items
+     *
+     * @param $oCreditmemo
+     * @return int
+     */
+    protected function getCreditMemoQuantity($oCreditmemo)
+    {
+        $iQuantity = 0;
+        $aItems = $oCreditmemo->getItems();
+        if (is_array($aItems) && !empty($aItems)) {
+            foreach ($aItems as $oItem) {
+                $iQuantity += $oItem->getQty();
+            }
+        }
+        return $iQuantity;
+    }
+
+    /**
      * @param $order
      * @param $creditMemo
      * @param $paymentMethod
@@ -95,12 +113,14 @@ class SendRatepayCreditMemoCall implements ObserverInterface
 
         if ($creditMemo->getAdjustmentPositive() > 0 || $creditMemo->getAdjustmentNegative() > 0) {
             $this->callRatepayCredit($order, $creditMemo, $paymentMethod);
-            $returnRequest = $this->rpLibraryController->callPaymentChange($head, $content, 'return', $sandbox);
-            if (!$returnRequest->isSuccessful()) {
-                throw new PaymentException(__('Refund was not successfull'));
-            } else {
-                return true;
+            $iQuantity = $this->getCreditMemoQuantity($creditMemo);
+            if ($iQuantity > 0) {
+                $returnRequest = $this->rpLibraryController->callPaymentChange($head, $content, 'return', $sandbox);
+                if (!$returnRequest->isSuccessful()) {
+                    throw new PaymentException(__('Refund was not successfull'));
+                }
             }
+            return true;
         } else {
             $returnRequest = $this->rpLibraryController->callPaymentChange($head, $content, 'return', $sandbox);
             if (!$returnRequest->isSuccessful()) {

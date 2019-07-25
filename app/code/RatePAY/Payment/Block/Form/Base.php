@@ -63,19 +63,16 @@ class Base extends \Magento\Payment\Block\Form
      */
     public function getDeviceIdentCode()
     {
-        if(is_null($this->customerSession->getRatePayDeviceIdentToken())) {
-            if (!(bool) $this->rpDataHelper->getRpConfigData('ratepay_general', 'device_ident')) {
-                return '';
-            }
-            $dfpSnippetId = $this->rpDataHelper->getRpConfigData('ratepay_general', 'snipped_id');
-            if (!empty($dfpSnippetId)) {
-                $dfp = $this->rpLibraryController->getDfpCode(
-                    $dfpSnippetId,
-                    $this->customerSession->getSessionId()
-                );
-                $this->customerSession->setRatePayDeviceIdentToken($dfp->getToken());
-                return $dfp->getDfpSnippetCode();
-            }
+        $dfpSessionToken = $this->customerSession->getRatePayDeviceIdentToken();
+        $dfpSnippetId = $this->rpDataHelper->getRpConfigData('ratepay_general', 'snippet_id');
+        if (empty($dfpSnippetId)) {
+            $dfpSnippetId = 'ratepay'; // default value, so that there is always a device fingerprint
+        }
+
+        if(empty($dfpSessionToken)) {
+            $dfp = $this->rpLibraryController->getDfpCode($dfpSnippetId, $this->customerSession->getSessionId());
+            $this->customerSession->setRatePayDeviceIdentToken($dfp->getToken());
+            return $dfp->getDfpSnippetCode();
         }
         return '';
     }
@@ -91,13 +88,28 @@ class Base extends \Magento\Payment\Block\Form
     }
 
     /**
+     * @return \Magento\Quote\Model\Quote\Address|bool
+     */
+    public function getBillingAddress()
+    {
+        $order = $this->getCreateOrderModel();
+        if ($order) {
+            $billingAddress = $order->getBillingAddress();
+            if ($billingAddress) {
+                return $billingAddress;
+            }
+        }
+        return false;
+    }
+
+    /**
      * @return bool
      */
     public function isPhoneVisible()
     {
-        $order = $this->getCreateOrderModel();
-        if ($order) {
-            $telephone = $order->getBillingAddress()->getTelephone();
+        $billingAddress = $this->getBillingAddress();
+        if ($billingAddress) {
+            $telephone = $billingAddress->getTelephone();
             if (!empty($telephone)) {
                 return false;
             }
@@ -118,8 +130,11 @@ class Base extends \Magento\Payment\Block\Form
      */
     public function getBillingName()
     {
-        $billingAddress = $this->getCreateOrderModel()->getBillingAddress();
-        return $billingAddress->getFirstname().' '.$billingAddress->getLastname();
+        $billingAddress = $this->getBillingAddress();
+        if ($billingAddress) {
+            return $billingAddress->getFirstname().' '.$billingAddress->getLastname();
+        }
+        return '';
     }
 
     /**
@@ -142,5 +157,27 @@ class Base extends \Magento\Payment\Block\Form
             return date($part, $timestamp);
         }
         return '';
+    }
+
+    /**
+     * @return float
+     */
+    public function getQuoteGrandTotal()
+    {
+        return $this->getCreateOrderModel()->getQuote()->getGrandTotal();
+    }
+
+    /**
+     * Checks payment configuration for b2b mode
+     *
+     * @return bool
+     */
+    public function getIsB2BModeEnabled()
+    {
+        $oMethod = $this->getMethod();
+        if ($oMethod instanceof \RatePAY\Payment\Model\Method\AbstractMethod) {
+            return $this->getMethod()->getIsB2BModeEnabled($this->getQuoteGrandTotal());
+        }
+        return false;
     }
 }

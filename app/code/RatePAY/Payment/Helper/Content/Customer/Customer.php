@@ -83,9 +83,6 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function setCustomer($quoteOrOrder)
     {
-        $id = $quoteOrOrder->getPayment()->getMethod();
-        $id = $this->_getRpMethodWithoutCountry($id);
-
         if($this->customerSession->isLoggedIn()) {
             $dob = $this->customerRepository->getById($this->customerSession->getCustomerId())->getDob();
         } else {
@@ -111,18 +108,16 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
                 'IpAddress' => $this->_remoteAddress->getRemoteAddress(),
                 'Addresses'=> $this->rpContentCustomerAddressesHelper->setAddresses($quoteOrOrder),
                 'Contacts' => $this->rpContentCustomerContactsHelper->setContacts($quoteOrOrder)
-
         ];
 
         $bankAccount = $this->rpContentCustomerBankAccountHelper->getBankAccount($quoteOrOrder);
         if(!empty($bankAccount)){
             $content['BankAccount'] = $bankAccount;
         }
-        if (!empty($quoteOrOrder->getBillingAddress()->getCompany())) {
-            $content['CompanyName'] = $quoteOrOrder->getBillingAddress()->getCompany();
-            $content['VatId'] = $quoteOrOrder->getBillingAddress()->getVatId();
+        if (!empty($quoteOrOrder->getPayment()->getAdditionalInformation('rp_company'))) {
+            $content['CompanyName'] = $quoteOrOrder->getPayment()->getAdditionalInformation('rp_company');
+            $content['VatId'] = $quoteOrOrder->getPayment()->getAdditionalInformation('rp_vatid');
         }
-
         return $content;
     }
 

@@ -15,72 +15,92 @@
             <!-- ko template: getTemplate() --><!-- /ko -->
             <!--/ko-->
             <fieldset data-bind="attr: {class: 'fieldset payment items ' + getCode(), id: 'additionalInformation_' + getCode()}">
-                <div class="field _required" data-bind="if: isPhoneVisible()">
-                    <label data-bind="attr: {for: getCode() + '_phone'}" class="label">
-                        <span><!-- ko i18n: 'Phone'--><!-- /ko --></span>
-                    </label>
-                    <div class="control required">
-                        <input type="text" name="payment[rp_phone]" class="input-text required" value=""
-                               data-bind="attr: {
-                                     id: getCode() + '_phone',
-                                     autocomplete: off,
-                                     title: $t('Phone')},
-                                     value: currentBillingAddress().telephone"
-                        />
+                <!-- ko if: isPhoneVisible() -->
+                    <div class="field _required">
+                        <label data-bind="attr: {for: getCode() + '_phone'}" class="label">
+                            <span><!-- ko i18n: 'Phone'--><!-- /ko --></span>
+                        </label>
+                        <div class="control required">
+                            <input type="text" name="payment[rp_phone]" class="input-text required" value=""
+                                   data-bind="attr: {
+                                         id: getCode() + '_phone',
+                                         autocomplete: off,
+                                         title: $t('Phone')},
+                                         value: currentBillingAddress().telephone"
+                            />
+                        </div>
                     </div>
-                </div>
+                <!-- /ko -->
                 <fieldset data-bind="attr: {class: 'fieldset payment items dob ' + getCode(), id: 'payment_form_' + getCode()}" style="margin: 0 0 5px; ">
-                    <label class="label" data-bind="if: !isCompanySet()">
+                    <label class="label" data-bind="if: !isB2BModeUsable()">
                         <span><!-- ko i18n: 'Date of Birth'--><!-- /ko --><br>
                             <!-- ko if: currentCustomerData.dob -->
                             <!-- ko text: currentCustomerData.dob --><!-- /ko -->
-                            <!-- /ko --></span>
+                            <!-- /ko -->
+                        </span>
                     </label>
-                    <fieldset id="ratepay_dob-form" class="fieldset" data-bind="if: isDobSet() && !isCompanySet()">
-                        <div class="field _required" style="float:left; position: relative; width:60px; margin: 0 0 5px;">
-                            <div class="control">
-                                <input type="text" name="payment[rp_dob_day]" class="input-text required-entry" value=""
+                    <!-- ko if: !isDobSet() && !isB2BModeUsable() -->
+                        <fieldset id="ratepay_dob-form" class="fieldset">
+                            <div class="field _required" style="float:left; position: relative; width:60px; margin: 0 0 5px;">
+                                <div class="control">
+                                    <input type="text" name="payment[rp_dob_day]" class="input-text required-entry" value=""
+                                           data-bind="attr: {
+                                            id: getCode() + '_dob_day',
+                                            autocomplete: off,
+                                            title: $t('Date of Birth')},
+                                            value: rp_dob_day"
+                                    />
+                                </div>
+                                <label data-bind="attr: {for: getCode() + '_dob_day'}" class="label">
+                                    <span><!-- ko i18n: 'DD'--><!-- /ko --></span>
+                                </label>
+                            </div>
+                            <div class="field _required" style="float:left; position: relative; width:60px; margin: 0 5px;">
+                                <div class="control">
+                                    <input type="text" name="payment[rp_dob_month]" class="input-text" value=""
+                                           data-bind="attr: {
+                                            id: getCode() + '_dob_month',
+                                            autocomplete: off,
+                                            title: $t('Date of Birth')},
+                                            value: rp_dob_month"
+                                    />
+                                </div>
+                                <label data-bind="attr: {for: getCode() + '_dob_month'}" class="label">
+                                    <span><!-- ko i18n: 'MM'--><!-- /ko --></span>
+                                </label>
+                            </div>
+                            <div class="field _required" style="float:left; position: relative; width:60px; margin: 0 0 5px;">
+                                <div class="control">
+                                    <input type="text" name="payment[rp_dob_year]" class="input-text" value=""
+                                           data-bind="attr: {
+                                            id: getCode() + '_dob_year',
+                                            autocomplete: off,
+                                            title: $t('Date of Birth')},
+                                            value: rp_dob_year"
+                                    />
+                                </div>
+                                <label data-bind="attr: {for: getCode() + '_dob_year'}" class="label">
+                                    <span><!-- ko i18n: 'YYYY'--><!-- /ko --></span>
+                                </label>
+                            </div>
+                        </fieldset>
+                    <!-- /ko -->
+                    <!-- ko if: isB2BModeUsable() -->
+                        <fieldset id="ratepay_vat-form" class="fieldset">
+                            <div class="field _required">
+                                <label data-bind="attr: {for: getCode() + 'vatid'}" class="label">
+                                    <span><!-- ko i18n: 'Vat ID'--><!-- /ko --></span>
+                                </label>
+                                <input type="text" name="payment[rp_vatid]" class="input-text" style="width:200px;" value=""
                                        data-bind="attr: {
-                                        id: getCode() + '_dob_day',
-                                        autocomplete: off,
-                                        title: $t('Date of Birth')},
-                                        value: rp_dob_day"
-
+                                            id: getCode() + '_vatid',
+                                            autocomplete: off,
+                                            title: $t('VatId')},
+                                            value: rp_vatid"
                                 />
                             </div>
-                            <label data-bind="attr: {for: getCode() + '_dob_day'}" class="label">
-                                <span><!-- ko i18n: 'DD'--><!-- /ko --></span>
-                            </label>
-                        </div>
-                        <div class="field _required" style="float:left; position: relative; width:60px; margin: 0 5px;">
-                            <div class="control">
-                                <input type="text" name="payment[rp_dob_month]" class="input-text" value=""
-                                       data-bind="attr: {
-                                        id: getCode() + '_dob_month',
-                                        autocomplete: off,
-                                        title: $t('Date of Birth')},
-                                        value: rp_dob_month"
-                                />
-                            </div>
-                            <label data-bind="attr: {for: getCode() + '_dob_month'}" class="label">
-                                <span><!-- ko i18n: 'MM'--><!-- /ko --></span>
-                            </label>
-                        </div>
-                        <div class="field _required" style="float:left; position: relative; width:60px; margin: 0 0 5px;">
-                            <div class="control">
-                                <input type="text" name="payment[rp_dob_year]" class="input-text" value=""
-                                       data-bind="attr: {
-                                        id: getCode() + '_dob_year',
-                                        autocomplete: off,
-                                        title: $t('Date of Birth')},
-                                        value: rp_dob_year"
-                                />
-                            </div>
-                            <label data-bind="attr: {for: getCode() + '_dob_year'}" class="label">
-                                <span><!-- ko i18n: 'YYYY'--><!-- /ko --></span>
-                            </label>
-                        </div>
-                    </fieldset>
+                        </fieldset>
+                    <!-- /ko -->
                     <div>
                         <div>
                             <!-- ko i18n: 'ratepay_terms_block_1'--><!-- /ko -->
@@ -98,7 +118,7 @@
                     <ul style="list-style: none; margin-left: -40px;">
                         <li style="margin-bottom: 15px;"><label><b><!-- ko i18n: 'insert bankdata'--><!-- /ko --></b></label></li>
                         <li><label><!-- ko i18n: 'Account holder'--><!-- /ko --></label></li>
-                        <li><label><i><!-- ko text: currentBillingAddress().firstname --><!-- /ko --> <!-- ko text: currentBillingAddress().lastname --><!-- /ko --></i></label></li>
+                        <li><label><i><!-- ko text: getCustomerName() --><!-- /ko --></i></label></li>
                     </ul>
                     <div class="field _required" style="float:left; position: relative; margin: 0 0 5px;">
                         <label data-bind="attr: {for: getCode() + '_iban'}" class="label">

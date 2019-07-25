@@ -7,6 +7,10 @@
             <group id="ratepay" translate="label" type="text" sortOrder="999" showInDefault="1" showInWebsite="1"
                    showInStore="1">
                 <label>Ratepay</label>
+                <field id="snippet_id" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Device Fingerprint Snippet-Id</label>
+                    <config_path>payment/ratepay_general/snippet_id</config_path>
+                </field>
                 <group id="de" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1"
                        showInStore="1">
                     <label>Germany</label>
@@ -194,7 +198,7 @@
                         <field id="max_order_total" translate="label" type="label" sortOrder="90" showInDefault="1"
                                showInWebsite="1"
                                showInStore="1">
-                            <label>Maximum Oder Total</label>
+                            <label>Maximum Order Total</label>
                             <config_path>payment/ratepay_de_directdebit/max_order_total</config_path>
                         </field>
                         <field id="b2b" translate="label" type="label" sortOrder="110" showInDefault="1"
@@ -305,7 +309,7 @@
                         <field id="max_order_total" translate="label" type="label" sortOrder="90" showInDefault="1"
                                showInWebsite="1"
                                showInStore="1">
-                            <label>Maximum Oder Total</label>
+                            <label>Maximum Order Total</label>
                             <config_path>payment/ratepay_de_installment/max_order_total</config_path>
                         </field>
                         <field id="rate_min" translate="label" type="label" sortOrder="100" showInDefault="1"
@@ -427,7 +431,7 @@
                         <field id="max_order_total" translate="label" type="label" sortOrder="90" showInDefault="1"
                                showInWebsite="1"
                                showInStore="1">
-                            <label>Maximum Oder Total</label>
+                            <label>Maximum Order Total</label>
                             <config_path>payment/ratepay_de_installment0/max_order_total</config_path>
                         </field>
                         <field id="rate_min" translate="label" type="label" sortOrder="100" showInDefault="1"
@@ -555,7 +559,7 @@
                         <field id="max_order_total" translate="label" type="label" sortOrder="90" showInDefault="1"
                                showInWebsite="1"
                                showInStore="1">
-                            <label>Maximum Oder Total</label>
+                            <label>Maximum Order Total</label>
                             <config_path>payment/ratepay_at_invoice/max_order_total</config_path>
                         </field>
                         <field id="b2b" translate="label" type="select" sortOrder="110" showInDefault="1"
@@ -667,7 +671,7 @@
                         <field id="max_order_total" translate="label" type="label" sortOrder="90" showInDefault="1"
                                showInWebsite="1"
                                showInStore="1">
-                            <label>Maximum Oder Total</label>
+                            <label>Maximum Order Total</label>
                             <config_path>payment/ratepay_at_directdebit/max_order_total</config_path>
                         </field>
                         <field id="b2b" translate="label" type="label" sortOrder="110" showInDefault="1"
@@ -778,7 +782,7 @@
                         <field id="max_order_total" translate="label" type="label" sortOrder="90" showInDefault="1"
                                showInWebsite="1"
                                showInStore="1">
-                            <label>Maximum Oder Total</label>
+                            <label>Maximum Order Total</label>
                             <config_path>payment/ratepay_at_installment/max_order_total</config_path>
                         </field>
                         <field id="rate_min" translate="label" type="label" sortOrder="100" showInDefault="1"
@@ -900,7 +904,7 @@
                         <field id="max_order_total" translate="label" type="label" sortOrder="90" showInDefault="1"
                                showInWebsite="1"
                                showInStore="1">
-                            <label>Maximum Oder Total</label>
+                            <label>Maximum Order Total</label>
                             <config_path>payment/ratepay_at_installment0/max_order_total</config_path>
                         </field>
                         <field id="rate_min" translate="label" type="label" sortOrder="100" showInDefault="1"
@@ -1026,7 +1030,7 @@
                         <field id="max_order_total" translate="label" type="label" sortOrder="90" showInDefault="1"
                                showInWebsite="1"
                                showInStore="1">
-                            <label>Maximum Oder Total</label>
+                            <label>Maximum Order Total</label>
                             <config_path>payment/ratepay_ch_invoice/max_order_total</config_path>
                         </field>
                         <field id="b2b" translate="label" type="label" sortOrder="110" showInDefault="1"
@@ -1142,7 +1146,7 @@
                         <field id="max_order_total" translate="label" type="label" sortOrder="90" showInDefault="1"
                                showInWebsite="1"
                                showInStore="1">
-                            <label>Maximum Oder Total</label>
+                            <label>Maximum Order Total</label>
                             <config_path>payment/ratepay_nl_invoice/max_order_total</config_path>
                         </field>
                         <field id="b2b" translate="label" type="label" sortOrder="110" showInDefault="1"
@@ -1254,7 +1258,7 @@
                         <field id="max_order_total" translate="label" type="label" sortOrder="90" showInDefault="1"
                                showInWebsite="1"
                                showInStore="1">
-                            <label>Maximum Oder Total</label>
+                            <label>Maximum Order Total</label>
                             <config_path>payment/ratepay_nl_directdebit/max_order_total</config_path>
                         </field>
                         <field id="b2b" translate="label" type="label" sortOrder="110" showInDefault="1"
@@ -1369,7 +1373,7 @@
                         <field id="max_order_total" translate="label" type="label" sortOrder="90" showInDefault="1"
                                showInWebsite="1"
                                showInStore="1">
-                            <label>Maximum Oder Total</label>
+                            <label>Maximum Order Total</label>
                             <config_path>payment/ratepay_be_invoice/max_order_total</config_path>
                         </field>
                         <field id="b2b" translate="label" type="label" sortOrder="110" showInDefault="1"
@@ -1481,7 +1485,7 @@
                         <field id="max_order_total" translate="label" type="label" sortOrder="90" showInDefault="1"
                                showInWebsite="1"
                                showInStore="1">
-                            <label>Maximum Oder Total</label>
+                            <label>Maximum Order Total</label>
                             <config_path>payment/ratepay_be_directdebit/max_order_total</config_path>
                         </field>
                         <field id="b2b" translate="label" type="label" sortOrder="110" showInDefault="1"

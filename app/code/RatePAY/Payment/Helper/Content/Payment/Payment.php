@@ -53,19 +53,20 @@ class Payment extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function setPayment($quoteOrOrder, $fixedPaymentMethod = null)
     {
-        $id = (is_null($fixedPaymentMethod) ? $quoteOrOrder->getPayment()->getMethod() : $fixedPaymentMethod);
+        $methodCode = $quoteOrOrder->getPayment()->getMethod();
+        $id = (is_null($fixedPaymentMethod) ? $methodCode : $fixedPaymentMethod);
         $id = $this->_getRpMethodWithoutCountry($id);
         $content = [
                 'Method' => $this->_rpPaymentHelper->convertMethodToProduct($id), // "installment", "elv", "prepayment"
-                'Amount' => round($quoteOrOrder->getBaseGrandTotal(), 2)
+                'Amount' => round($quoteOrOrder->getGrandTotal(), 2)
         ];
         if (in_array($id, ['ratepay_installment', 'ratepay_installment0'])) {
-            $content['Amount'] = $this->checkoutSession->getRatepayPaymentAmount();
+            $content['Amount'] = $this->checkoutSession->getData('ratepayPaymentAmount_'.$methodCode);
             $content['InstallmentDetails'] = [
-                'InstallmentNumber' => $this->checkoutSession->getRatepayInstallmentNumber(),
-                'InstallmentAmount' => $this->checkoutSession->getRatepayInstallmentAmount(),
-                'LastInstallmentAmount' => $this->checkoutSession->getRatepayLastInstallmentAmount(),
-                'InterestRate' => $this->checkoutSession->getRatepayInterestRate()
+                'InstallmentNumber' => $this->checkoutSession->getData('ratepayInstallmentNumber_'.$methodCode),
+                'InstallmentAmount' => $this->checkoutSession->getData('ratepayInstallmentAmount_'.$methodCode),
+                'LastInstallmentAmount' => $this->checkoutSession->getData('ratepayLastInstallmentAmount_'.$methodCode),
+                'InterestRate' => $this->checkoutSession->getData('ratepayInterestRate_'.$methodCode)
             ];
             $content['DebitPayType'] = 'BANK-TRANSFER';
         }

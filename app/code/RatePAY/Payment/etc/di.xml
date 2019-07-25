@@ -8,4 +8,10 @@
     </type>
     <preference for="RatePAY\Payment\Api\InstallmentPlanInterface" type="RatePAY\Payment\Service\V1\InstallmentPlan" />
     <preference for="RatePAY\Payment\Api\Data\InstallmentPlanResponseInterface" type="RatePAY\Payment\Service\V1\Data\InstallmentPlanResponse" />
+    <type name="Magento\Framework\Webapi\ErrorProcessor">
+        <plugin name="RatePAY_Payment_plugin_WebapiErrorProcessor" type="RatePAY\Payment\Plugin\WebapiErrorProcessor" sortOrder="1"/>
+    </type>
+    <type name="Magento\Payment\Model\MethodList">
+        <plugin name="RatePAY_Payment_Plugin_MethodList" type="RatePAY\Payment\Plugin\MethodList" sortOrder="1" />
+    </type>
 </config>

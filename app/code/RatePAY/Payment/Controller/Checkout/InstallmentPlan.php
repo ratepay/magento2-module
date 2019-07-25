@@ -79,12 +79,16 @@ class InstallmentPlan extends \Magento\Framework\App\Action\Action
             return $result->setData($response);
         }
 
-        $installmentPlan = $this->getInstallmentPlan((float) $params['order_amount'], $params['calc_type'], (int) $params['calc_value']);
-        if ($installmentPlan !== false) {
-            $response['status'] = "success";
-            $response['response'] = json_decode($installmentPlan);
-        } else {
-            $response['message'] = "quote not found";
+        try {
+            $installmentPlan = $this->getInstallmentPlan((float) $params['order_amount'], $params['calc_type'], (int) $params['calc_value']);
+            if ($installmentPlan !== false) {
+                $response['status'] = "success";
+                $response['response'] = json_decode($installmentPlan);
+            } else {
+                $response['message'] = "quote not found";
+            }
+        } catch (\Exception $e) {
+            $response['message'] = $e->getMessage();
         }
         return $result->setData($response);
     }
@@ -117,12 +121,14 @@ class InstallmentPlan extends \Magento\Framework\App\Action\Action
 
         // ToDo: failure handling
 
+        $methodCode = $quote->getPayment()->getMethod();
+
         $installmentPlan = json_decode($configurationRequest, true);
-        $this->_checkoutSession->setRatepayPaymentAmount($installmentPlan['totalAmount']);
-        $this->_checkoutSession->setRatepayInstallmentNumber($installmentPlan['numberOfRatesFull']);
-        $this->_checkoutSession->setRatepayInstallmentAmount($installmentPlan['rate']);
-        $this->_checkoutSession->setRatepayLastInstallmentAmount($installmentPlan['lastRate']);
-        $this->_checkoutSession->setRatepayInterestRate($installmentPlan['interestRate']);
+        $this->_checkoutSession->setData('ratepayPaymentAmount_'.$methodCode, $installmentPlan['totalAmount']);
+        $this->_checkoutSession->setData('ratepayInstallmentNumber_'.$methodCode, $installmentPlan['numberOfRatesFull']);
+        $this->_checkoutSession->setData('ratepayInstallmentAmount_'.$methodCode, $installmentPlan['rate']);
+        $this->_checkoutSession->setData('ratepayLastInstallmentAmount_'.$methodCode, $installmentPlan['lastRate']);
+        $this->_checkoutSession->setData('ratepayInterestRate_'.$methodCode, $installmentPlan['interestRate']);
 
         return $configurationRequest;
     }

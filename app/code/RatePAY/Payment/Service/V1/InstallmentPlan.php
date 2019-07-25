@@ -62,30 +62,35 @@ class InstallmentPlan implements InstallmentPlanInterface
      *
      * @param string $calcType
      * @param string $calcValue
-     * @param float $grandTotal
      * @param string $methodCode
      * @return \RatePAY\Payment\Service\V1\Data\InstallmentPlanResponse
      */
-    public function getInstallmentPlan($calcType, $calcValue, $grandTotal, $methodCode)
+    public function getInstallmentPlan($calcType, $calcValue, $methodCode)
     {
         /** @var \RatePAY\Payment\Service\V1\Data\InstallmentPlanResponse $response */
         $response = $this->responseFactory->create();
         $response->setData('success', false);
 
+        $grandTotal = $this->checkoutSession->getQuote()->getGrandTotal();
+
         if (empty($calcType) || floatval($calcValue) < 0) {
             $response->setData('errormessage', 'calc data invalid');
         }
 
-        $installmentPlan = $this->getInstallmentPlanFromRatepay($calcType, (int)$calcValue, $grandTotal, $methodCode);
-        if ($installmentPlan !== false) {
-            $this->block->setInstallmentData(json_decode($installmentPlan, true));
-            $this->block->setMethodCode($methodCode);
+        try {
+            $installmentPlan = $this->getInstallmentPlanFromRatepay($calcType, (int)$calcValue, $grandTotal, $methodCode);
+            if ($installmentPlan !== false) {
+                $this->block->setInstallmentData(json_decode($installmentPlan, true));
+                $this->block->setMethodCode($methodCode);
 
-            $response->setData('success', true);
-            $response->setData('installmentPlan', $installmentPlan);
-            $response->setData('installmentHtml', $this->block->toHtml());
-        } else {
-            $response->setData('errormessage', 'quote not found');
+                $response->setData('success', true);
+                $response->setData('installmentPlan', $installmentPlan);
+                $response->setData('installmentHtml', $this->block->toHtml());
+            } else {
+                $response->setData('errormessage', 'quote not found');
+            }
+        } catch (\Exception $e) {
+            $response->setData('errormessage', $e->getMessage());
         }
         return $response;
     }
@@ -107,12 +112,11 @@ class InstallmentPlan implements InstallmentPlanInterface
         $configurationRequest = $this->rpLibraryController->getInstallmentPlan($profileId, $securitycode, $sandbox, $grandTotal, $calculationType, $calculationValue);
 
         $installmentPlan = json_decode($configurationRequest, true);
-
-        $this->checkoutSession->setRatepayPaymentAmount($installmentPlan['totalAmount']);
-        $this->checkoutSession->setRatepayInstallmentNumber($installmentPlan['numberOfRatesFull']);
-        $this->checkoutSession->setRatepayInstallmentAmount($installmentPlan['rate']);
-        $this->checkoutSession->setRatepayLastInstallmentAmount($installmentPlan['lastRate']);
-        $this->checkoutSession->setRatepayInterestRate($installmentPlan['interestRate']);
+        $this->checkoutSession->setData('ratepayPaymentAmount_'.$methodCode, $installmentPlan['totalAmount']);
+        $this->checkoutSession->setData('ratepayInstallmentNumber_'.$methodCode, $installmentPlan['numberOfRatesFull']);
+        $this->checkoutSession->setData('ratepayInstallmentAmount_'.$methodCode, $installmentPlan['rate']);
+        $this->checkoutSession->setData('ratepayLastInstallmentAmount_'.$methodCode, $installmentPlan['lastRate']);
+        $this->checkoutSession->setData('ratepayInterestRate_'.$methodCode, $installmentPlan['interestRate']);
 
         return $configurationRequest;
     }

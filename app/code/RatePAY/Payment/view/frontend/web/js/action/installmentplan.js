@@ -13,7 +13,6 @@ define([
         var request = {
             calcType: calcType,
             calcValue: calcValue,
-            grandTotal: window.checkoutConfig.quoteData.grand_total,
             methodCode: methodCode
         };
 

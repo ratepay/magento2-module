@@ -65,7 +65,7 @@ class ShoppingBasket extends \Magento\Framework\App\Helper\AbstractHelper
                 ];
             } else {
                 $content = [
-                    'Amount' => round($quoteOrOrder->getBaseGrandTotal(), 2),
+                    'Amount' => round($quoteOrOrder->getGrandTotal(), 2),
                     'Items' => $this->rpContentBasketItemsHelper->setItems($quoteOrOrder),
                 ];
             }
@@ -81,6 +81,10 @@ class ShoppingBasket extends \Magento\Framework\App\Helper\AbstractHelper
 
         if (!is_null($amount)) {
             $content['Amount'] = $amount;
+        }
+
+        if ($quoteOrOrder->getOrderCurrencyCode() != 'EUR') {
+            $content['Currency'] = $quoteOrOrder->getOrderCurrencyCode();
         }
 
         return $content;

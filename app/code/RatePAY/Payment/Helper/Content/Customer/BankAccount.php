@@ -41,14 +41,14 @@ class BankAccount extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $return = false;
 
-        $iban = $this->_checkoutSession->getRatepayIban();
+        $iban = $quoteOrOrder->getPayment()->getAdditionalInformation('rp_iban');
         if (!empty($iban)) {
             $return =[
                 'Owner' => $quoteOrOrder->getBillingAddress()->getFirstname() . ' ' . $quoteOrOrder->getBillingAddress()->getLastname(),
                 //'BankName' =>
                 //'BankAccountNumber' => '1234567891',
                 //'BankCode' => '12345678',
-                'Iban' => $this->_checkoutSession->getRatepayIban(),
+                'Iban' => $iban,
                 //'BicSwift' =>
             ];
         }

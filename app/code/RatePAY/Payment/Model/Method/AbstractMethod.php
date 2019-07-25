@@ -12,6 +12,7 @@ use Magento\Customer\Api\CustomerRepositoryInterface;
 use RatePAY\Payment\Controller\LibraryController;
 use RatePAY\Payment\Helper\Validator;
 use Magento\Framework\Exception\PaymentException;
+use RatePAY\Payment\Model\Exception\DisablePaymentMethodException;
 
 abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMethod
 {
@@ -173,19 +174,18 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
             $content = $this->_rpLibraryModel->getRequestContent($order, 'PAYMENT_REQUEST');
             $resultRequest = LibraryController::callPaymentRequest($head, $content, $sandbox);
             if (!$resultRequest->isSuccessful()) {
-                if (!$resultRequest->isRetryAdmitted()){
-                    $this->checkoutSession->setRatepayMethodHide(true);
-                    $message = $this->formatMessage($resultRequest->getCustomerMessage());
+                $message = $this->formatMessage($resultRequest->getCustomerMessage());
+                if (!$resultRequest->isRetryAdmitted()) {
                     $this->customerSession->setRatePayDeviceIdentToken(null);
-                    throw new PaymentException(__($message)); // RatePAY Error Message
+
+                    $sMethodCode = $order->getPayment()->getMethod();
+                    $this->addPaymentMethodToDisabledMethods($sMethodCode);
+                    throw new DisablePaymentMethodException(__($message), $sMethodCode); // RatePAY Error Message
                 } else {
-                    $message = $this->formatMessage($resultRequest->getCustomerMessage());
                     throw new PaymentException(__($message)); // RatePAY Error Message
                 }
             }
             $payment->setAdditionalInformation('descriptor', $resultRequest->getDescriptor());
-            $this->checkoutSession->setRatepayMethodHide(false);
-            $this->checkoutSession->unsRatepayIban();
             $this->customerSession->setRatePayDeviceIdentToken(null);
             return $this;
         } else {
@@ -193,6 +193,22 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
             $this->customerSession->setRatePayDeviceIdentToken(null);
             throw new PaymentException(__($message)); // RatePAY Error Message
         }
+    }
+
+    /**
+     * Adds current payment method to the array with disabled payment methods
+     *
+     * @param string $sPaymentMethod
+     * @return void
+     */
+    protected function addPaymentMethodToDisabledMethods($sPaymentMethod)
+    {
+        $aDisabledMethods = $this->checkoutSession->getRatePayDisabledPaymentMethods();
+        if (empty($aDisabledMethods)) {
+            $aDisabledMethods = [];
+        }
+        $aDisabledMethods[] = $sPaymentMethod;
+        $this->checkoutSession->setRatePayDisabledPaymentMethods($aDisabledMethods);
     }
 
     /**
@@ -217,11 +233,6 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
             return false;
         }
 
-        $ratepayMethodHide = $this->checkoutSession->getRatepayMethodHide();
-        if ($ratepayMethodHide == true) {
-            return false;
-        }
-
         if (!$this->rpDataHelper->getRpConfigData($this->_code, 'active')) {
             return false;
         }
@@ -236,6 +247,11 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
 
         $shippingAddress = $quote->getShippingAddress();
         if (!$this->canUseForCountryDelivery($shippingAddress->getCountryId())) {
+            return false;
+        }
+
+        $aValidCurrencies = explode(',', $this->rpDataHelper->getRpConfigData($this->_code, 'currency'));
+        if (in_array($quote->getQuoteCurrencyCode(), $aValidCurrencies) === false) {
             return false;
         }
 
@@ -258,16 +274,18 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
     }
 
     /**
-     * @param object $additionalData
+     * @param  object $additionalData
+     * @param  string $methodCode
+     * @return void
      */
-    protected function handleInstallmentSessionParams($additionalData)
+    protected function handleInstallmentSessionParams($additionalData, $methodCode)
     {
         if ($additionalData->getRpTotalamount()) {
-            $this->checkoutSession->setRatepayPaymentAmount($additionalData->getRpTotalamount());
-            $this->checkoutSession->setRatepayInstallmentNumber($additionalData->getRpNumberofratesfull());
-            $this->checkoutSession->setRatepayInstallmentAmount($additionalData->getRpRate());
-            $this->checkoutSession->setRatepayLastInstallmentAmount($additionalData->getRpLastrate());
-            $this->checkoutSession->setRatepayInterestRate($additionalData->getRpInterestrate());
+            $this->checkoutSession->setData('ratepayPaymentAmount_'.$methodCode, $additionalData->getRpTotalamount());
+            $this->checkoutSession->setData('ratepayInstallmentNumber_'.$methodCode, $additionalData->getRpNumberofratesfull());
+            $this->checkoutSession->setData('ratepayInstallmentAmount_'.$methodCode, $additionalData->getRpRate());
+            $this->checkoutSession->setData('ratepayLastInstallmentAmount_'.$methodCode, $additionalData->getRpLastrate());
+            $this->checkoutSession->setData('ratepayInterestRate_'.$methodCode, $additionalData->getRpInterestrate());
         }
     }
 
@@ -278,6 +296,11 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
     public function assignData(\Magento\Framework\DataObject $data)
     {
         $order = $this->getQuoteOrOrder();
+        $infoInstance = $order->getPayment();
+
+        // clear the data first, to refresh it later in this method
+        $infoInstance->unsAdditionalInformation('rp_company');
+        $infoInstance->unsAdditionalInformation('rp_vatid');
 
         if (!$data instanceof \Magento\Framework\DataObject) {
             $data = new \Magento\Framework\DataObject($data);
@@ -289,29 +312,39 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         }
 
         $company = $order->getBillingAddress()->getCompany();
+        if (!empty($additionalData->getRpCompany())) {
+            $company = $additionalData->getRpCompany();
+        }
+
         if (empty($company)) {
             if(!$this->customerSession->isLoggedIn()) {
                 $this->rpValidator->validateDob($additionalData);
             } else if ($this->customerRepository->getById($this->customerSession->getCustomerId())->getDob() == null) {
                 $this->rpValidator->validateDob($additionalData);
             }
+        } else {
+            $infoInstance->setAdditionalInformation('rp_company', $company);
         }
 
         if(!$order->getBillingAddress()->getTelephone()) {
             $this->rpValidator->validatePhone($additionalData);
         }
 
-        $methodCode = $this->getQuoteOrOrder()->getPayment()->getMethod();
+        $methodCode = $infoInstance->getMethod();
 
         $debitMethods = ['ratepay_de_directdebit', 'ratepay_at_directdebit', 'ratepay_nl_directdebit', 'ratepay_be_directdebit'];
-        if (in_array($methodCode, $debitMethods) || !empty($additionalData->getRpIban()) // getRpIban used for installments
-        ) {
+        if (in_array($methodCode, $debitMethods) || !empty($additionalData->getRpIban())) { // getRpIban used for installments
             $this->rpValidator->validateIban($additionalData);
+            $infoInstance->setAdditionalInformation('rp_iban', $additionalData->getRpIban());
         }
 
         $installmentMethods = ['ratepay_de_installment', 'ratepay_at_installment', 'ratepay_de_installment0', 'ratepay_at_installment0'];
         if (in_array($methodCode, $installmentMethods)) {
-            $this->handleInstallmentSessionParams($additionalData);
+            $this->handleInstallmentSessionParams($additionalData, $methodCode);
+        }
+
+        if (!empty($additionalData->getRpVatid())) {
+            $infoInstance->setAdditionalInformation('rp_vatid', $additionalData->getRpVatid());
         }
 
         return $this;
@@ -333,6 +366,16 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         }
 
         return strip_tags($message);
+    }
+
+    public function getIsB2BModeEnabled($grandTotal = null)
+    {
+        $blB2BEnabled = (bool)$this->rpDataHelper->getRpConfigData($this->_code, 'b2b');
+        $dB2BMax = $this->rpDataHelper->getRpConfigData($this->_code, 'limit_max_b2b');
+        if ($blB2BEnabled === true && ($grandTotal === null || ($grandTotal <= $dB2BMax))) {
+            return true;
+        }
+        return false;
     }
 
     /**

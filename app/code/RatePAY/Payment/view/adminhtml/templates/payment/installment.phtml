@@ -4,6 +4,14 @@
 
 $code = $block->escapeHtml($block->getMethodCode());
 
+$ratePayGrandTotal = $block->getQuoteGrandTotal();
+
+$dobDisplay = '';
+$b2bEnabled = $block->getIsB2BModeEnabled();
+if ($b2bEnabled === true) {
+    $dobDisplay = 'display: none;';
+}
+
 ?>
 
 <fieldset class="admin__fieldset payment-method" id="payment_form_<?php /* @noEscape */ echo $code; ?>" style="display:none">
@@ -18,7 +26,7 @@ $code = $block->escapeHtml($block->getMethodCode());
         </div>
     <?php endif; ?>
     <?php if ($block->isDobVisible()): ?>
-        <div class="admin__field _required">
+        <div class="admin__field _required" id="ratepay_<?php echo $code; ?>_birthday" style="margin-left:-30px;<?php echo $dobDisplay; ?>">
             <label class="label admin__field-label" for="<?php /* @noEscape */ echo $code; ?>_dob_day">
                 <span><?php echo $block->escapeHtml(__('Birthday')); ?></span>
             </label>
@@ -29,7 +37,7 @@ $code = $block->escapeHtml($block->getMethodCode());
             </div>
         </div>
     <?php else: ?>
-        <div class="admin__field">
+        <div class="admin__field" id="ratepay_<?php echo $code; ?>_birthday" style="<?php echo $dobDisplay; ?>">
             <label><?php echo __('Date of Birth'); ?></label>
             <span><?php echo $block->getBirthday(); ?></span>
             <input type="hidden" name="payment[rp_dob_day]" value="<?php echo $block->getBirthdayPart('d'); ?>">
@@ -37,6 +45,15 @@ $code = $block->escapeHtml($block->getMethodCode());
             <input type="hidden" name="payment[rp_dob_year]" value="<?php echo $block->getBirthdayPart('Y'); ?>">
         </div>
     <?php endif; ?>
+    <div id="ratepay_<?php echo $code; ?>_vatid" class="admin__field _required" style="margin-top:1.5rem;margin-left:-30px;display: none;">
+        <label class="label admin__field-label" for="<?php /* @noEscape */ echo $code; ?>_vatid">
+            <span><?php echo $block->escapeHtml(__('Vat ID')); ?></span>
+        </label>
+        <div class="admin__field-control control">
+            <input type="text" size="20" id="<?php echo $code; ?>_vatid" name="payment[rp_vatid]" value="<?php echo $block->getInfoData('rp_vatid'); ?>">
+            <input type="hidden" id="<?php echo $code; ?>_company" name="payment[rp_company]" value="<?php echo $block->getInfoData('rp_company'); ?>">
+        </div>
+    </div>
     <div>
         <?php echo __('ratepay_terms_block_1'); ?>
         <a target="_blank" href="https://www.ratepay.com/zgb-dse"><?php echo __('ratepay_terms_block_2'); ?></a>
@@ -56,7 +73,7 @@ $code = $block->escapeHtml($block->getMethodCode());
                         <span><?php echo $block->escapeHtml(__('rp_runtime_description')); ?></span>
                     </label>
                     <div class="admin__field-control control">
-                        <select id="<?php echo $code.'-time'; ?>" onchange="updateInstallmentPlanRuntime('<?php echo $block->getRestUrl(); ?>', ratePayGrandTotal, '<?php echo $code; ?>')">
+                        <select id="<?php echo $code.'-time'; ?>" onchange="updateInstallmentPlanRuntime('<?php echo $block->getRestUrl(); ?>', <?php echo $ratePayGrandTotal; ?>, '<?php echo $code; ?>')">
                             <option value=""><?php echo __('-- Please select runtime --'); ?></option>
                             <?php foreach ($block->getAllowedMonths() as $value): ?>
                                 <option value="<?php echo $value; ?>"><?php echo $value; ?></option>
@@ -74,7 +91,7 @@ $code = $block->escapeHtml($block->getMethodCode());
                     <div class="admin__field-control control">
                         <input id="<?php echo $code.'-rate'; ?>" type="text" class="form-control" aria-label="Amount" /><br>
                         <span class="input-group-btn">
-                            <button id="<?php echo $code.'_Input-button'; ?>" type="button" onclick="updateInstallmentPlanAmount('<?php echo $block->getRestUrl(); ?>', ratePayGrandTotal, '<?php echo $code; ?>')" class="btn btn-default" role="group">
+                            <button id="<?php echo $code.'_Input-button'; ?>" type="button" onclick="updateInstallmentPlanAmount('<?php echo $block->getRestUrl(); ?>', <?php echo $ratePayGrandTotal; ?>, '<?php echo $code; ?>')" class="btn btn-default" role="group">
                                 <?php echo __('rp_calculate_rate'); ?>
                             </button>
                         </span>
@@ -146,14 +163,12 @@ $code = $block->escapeHtml($block->getMethodCode());
         order.addExcludedPaymentMethod('<?php /* @noEscape */ echo $code; ?>');
     });
 
-    var ratePayGrandTotal = <?php echo $block->getQuoteGrandTotal(); ?>;
-
     <?php if ($block->hasAllowedMonths() === false): ?>
         require([
             'jquery'
         ], function ($) {
             $(document).ready(function() {
-                updateInstallmentPlan('<?php echo $block->getRestUrl(); ?>', 'time', '3', ratePayGrandTotal, '<?php echo $code; ?>')
+                updateInstallmentPlan('<?php echo $block->getRestUrl(); ?>', 'time', '3', <?php echo $ratePayGrandTotal; ?>, '<?php echo $code; ?>')
             });
         });
     <?php endif; ?>
@@ -161,5 +176,31 @@ $code = $block->escapeHtml($block->getMethodCode());
     ///@TODO: Validierung
     var isInstallmentPlanSet = false;
 
+    <?php if ($b2bEnabled === true): ?>
+        require(["jquery"], function ($jq) {
+            function handleRequiredData<?php echo $code; ?>() {
+                $jq('#<?php echo $code; ?>_company').val($jq('#order-billing_address_company').val());
+                if ($jq('#order-billing_address_company').val() == '') {
+                    $jq('#ratepay_<?php echo $code; ?>_vatid').hide();
+                    $jq('#ratepay_<?php echo $code; ?>_birthday').show();
+                } else if($jq('#order-billing_address_vat_id').val() == '') {
+                    $jq('#ratepay_<?php echo $code; ?>_birthday').hide();
+                    $jq('#ratepay_<?php echo $code; ?>_vatid').show();
+                } else {
+                    if ($jq('#<?php echo $code; ?>_vatid').val() == '') {
+                        $jq('#<?php echo $code; ?>_vatid').val($jq('#order-billing_address_vat_id').val());
+                    }
+                    $jq('#ratepay_<?php echo $code; ?>_birthday').hide();
+                    $jq('#ratepay_<?php echo $code; ?>_vatid').hide();
+                }
+                setTimeout(function(){
+                    window.requestAnimationFrame(handleRequiredData<?php echo $code; ?>);
+                }, 1000);
+            }
 
+            $jq(document).ready(function () {
+                handleRequiredData<?php echo $code; ?>();
+            });
+        });
+    <?php endif; ?>
 </script>
