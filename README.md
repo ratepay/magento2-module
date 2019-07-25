@@ -37,6 +37,16 @@ For further information and prerequisites depending on module installation from 
 
 ## Changelog
 
+### Version 1.1.4 - Released 2019-07-25
+* Added payment method installment
+* Added payment method zero percent installments
+* Added currency validation to isAvailable mechanic
+* Fixed checkout crash problem
+* Fixed orders in different currencies
+* Fixed creditmemo with only adjustment refund and no items
+* Fixed tax calculation for discounts
+* Fixed several bugs with B2B mode
+
 ### Version 1.1.3 - Released 2019-02-11
 * Fix Validator Exception Import
 
