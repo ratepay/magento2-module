@@ -90,14 +90,13 @@ class ProfileRequest extends \Magento\Framework\App\Action\Action
             $response['message'] = "credentials needed";
             return $result->setData($response);
         }
-
+        
         $head = $this->getHead($params['profile_id'], $params['security_code']);
         $profileRequest = $this->_rpLibraryController->callProfileRequest($head, (bool)$params['sandbox']);
         $method = $params['method'];
 
         if($profileRequest->isSuccessful()){
             $prResult = $profileRequest->getResult();
-            $method = $this->_getRpMethod($method);
             $product = $this->_rpPaymentHelper->convertMethodToProduct($this->_getRpMethodWithoutCountry($method));
             $country = $this->_getRpCountry($method);
 
@@ -160,17 +159,6 @@ class ProfileRequest extends \Magento\Framework\App\Action\Action
         $quote = $this->_checkoutSession->getQuote();
 
         return $this->_rpLibraryModel->getRequestHead($quote, null, null, null, $profileId, $securityCode);
-    }
-
-    /**
-     * Get RatePay payment method
-     *
-     * @param $id
-     * @return string
-     */
-    private function _getRpMethod($id) {
-        $pos = strpos($id, 'ratepay');
-        return substr($id, $pos);
     }
 
     /**

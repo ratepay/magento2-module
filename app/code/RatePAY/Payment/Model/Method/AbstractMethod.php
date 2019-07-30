@@ -9,6 +9,7 @@
 namespace RatePAY\Payment\Model\Method;
 
 use Magento\Customer\Api\CustomerRepositoryInterface;
+use Magento\Framework\App\Area;
 use RatePAY\Payment\Controller\LibraryController;
 use RatePAY\Payment\Helper\Validator;
 use Magento\Framework\Exception\PaymentException;
@@ -16,6 +17,8 @@ use RatePAY\Payment\Model\Exception\DisablePaymentMethodException;
 
 abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMethod
 {
+    const BACKEND_SUFFIX = '_backend';
+
     /**
      * Payment method code
      *
@@ -76,6 +79,13 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
      * @var string
      */
     protected $_adminFormBlockType = null;
+
+    /**
+     * Used to differentiate between frontend and backend payment methods
+     *
+     * @var bool
+     */
+    protected $isFrontendPaymentMethod = true;
 
     /**
      * AbstractMethod constructor.
@@ -211,6 +221,22 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         $this->checkoutSession->setRatePayDisabledPaymentMethods($aDisabledMethods);
     }
 
+    protected function isBackend()
+    {
+        if ($this->_appState->getAreaCode() == Area::AREA_ADMINHTML) {
+            return true;
+        }
+        return false;
+    }
+
+    protected function isBackendMethod()
+    {
+        if (stripos($this->getCode(), self::BACKEND_SUFFIX) !== false) {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Check if payment method is available
      *
@@ -226,6 +252,12 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
     public function isAvailable(\Magento\Quote\Api\Data\CartInterface $quote = null)
     {
         if(is_null($quote)){
+            return false;
+        }
+
+        if ($this->isBackend() === true && $this->isBackendMethod() === false) {
+            return false;
+        } elseif ($this->isBackend() === false && $this->isBackendMethod() === true) {
             return false;
         }
 
@@ -338,7 +370,16 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
             $infoInstance->setAdditionalInformation('rp_iban', $additionalData->getRpIban());
         }
 
-        $installmentMethods = ['ratepay_de_installment', 'ratepay_at_installment', 'ratepay_de_installment0', 'ratepay_at_installment0'];
+        $installmentMethods = [
+            'ratepay_de_installment',
+            'ratepay_at_installment',
+            'ratepay_de_installment0',
+            'ratepay_at_installment0',
+            'ratepay_de_installment_backend',
+            'ratepay_at_installment_backend',
+            'ratepay_de_installment0_backend',
+            'ratepay_at_installment0_backend'
+        ];
         if (in_array($methodCode, $installmentMethods)) {
             $this->handleInstallmentSessionParams($additionalData, $methodCode);
         }

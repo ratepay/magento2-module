@@ -159,6 +159,150 @@
                 <group>offline</group>
                 <privacy_policy>https://www.ratepay.com/additional-general-terms-and-conditions-and-data-protection-notice-be</privacy_policy>
             </ratepay_be_directdebit>
+            <!-- START BACKEND ORDERS -->
+            <ratepay_de_invoice_backend>
+                <payment_action>authorize</payment_action>
+                <active>0</active>
+                <model>RatePAY\Payment\Model\Method\DE\InvoiceBackend</model>
+                <sandbox>1</sandbox>
+                <order_status>pending</order_status>
+                <title>RatePAY Invoice Germany Backend</title>
+                <allowspecific>0</allowspecific>
+                <group>offline</group>
+                <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
+            </ratepay_de_invoice_backend>
+            <ratepay_de_directdebit_backend>
+                <payment_action>authorize</payment_action>
+                <active>0</active>
+                <sandbox>1</sandbox>
+                <model>RatePAY\Payment\Model\Method\DE\DirectdebitBackend</model>
+                <order_status>pending</order_status>
+                <title>RatePAY Directdebit Germany Backend</title>
+                <allowspecific>0</allowspecific>
+                <group>offline</group>
+                <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
+            </ratepay_de_directdebit_backend>
+            <ratepay_de_installment_backend>
+                <payment_action>authorize</payment_action>
+                <active>0</active>
+                <sandbox>1</sandbox>
+                <model>RatePAY\Payment\Model\Method\DE\InstallmentBackend</model>
+                <order_status>pending</order_status>
+                <title>RatePAY Installment Germany Backend</title>
+                <allowspecific>0</allowspecific>
+                <group>offline</group>
+                <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
+            </ratepay_de_installment_backend>
+            <ratepay_de_installment0_backend>
+                <payment_action>authorize</payment_action>
+                <active>0</active>
+                <sandbox>1</sandbox>
+                <model>RatePAY\Payment\Model\Method\DE\Installment0Backend</model>
+                <order_status>pending</order_status>
+                <title>RatePAY 0% Financing Germany Backend</title>
+                <allowspecific>0</allowspecific>
+                <group>offline</group>
+                <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
+            </ratepay_de_installment0_backend>
+            <ratepay_at_invoice_backend>
+                <payment_action>authorize</payment_action>
+                <active>0</active>
+                <sandbox>1</sandbox>
+                <model>RatePAY\Payment\Model\Method\AT\InvoiceBackend</model>
+                <order_status>pending</order_status>
+                <title>RatePAY Invoice Austria Backend</title>
+                <allowspecific>0</allowspecific>
+                <group>offline</group>
+                <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
+            </ratepay_at_invoice_backend>
+            <ratepay_at_directdebit_backend>
+                <payment_action>authorize</payment_action>
+                <active>0</active>
+                <sandbox>1</sandbox>
+                <model>RatePAY\Payment\Model\Method\AT\DirectdebitBackend</model>
+                <order_status>pending</order_status>
+                <title>RatePAY Directdebit Austria Backend</title>
+                <allowspecific>0</allowspecific>
+                <group>offline</group>
+                <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
+            </ratepay_at_directdebit_backend>
+            <ratepay_at_installment_backend>
+                <payment_action>authorize</payment_action>
+                <active>0</active>
+                <sandbox>1</sandbox>
+                <model>RatePAY\Payment\Model\Method\AT\InstallmentBackend</model>
+                <order_status>pending</order_status>
+                <title>RatePAY Installment Austria Backend</title>
+                <allowspecific>0</allowspecific>
+                <group>offline</group>
+                <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
+            </ratepay_at_installment_backend>
+            <ratepay_at_installment0_backend>
+                <payment_action>authorize</payment_action>
+                <active>0</active>
+                <sandbox>1</sandbox>
+                <model>RatePAY\Payment\Model\Method\AT\Installment0Backend</model>
+                <order_status>pending</order_status>
+                <title>RatePAY 0% Financing Austria Backend</title>
+                <allowspecific>0</allowspecific>
+                <group>offline</group>
+                <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
+            </ratepay_at_installment0_backend>
+            <ratepay_ch_invoice_backend>
+                <payment_action>authorize</payment_action>
+                <active>0</active>
+                <sandbox>1</sandbox>
+                <model>RatePAY\Payment\Model\Method\CH\InvoiceBackend</model>
+                <order_status>pending</order_status>
+                <title>RatePAY Invoice Switzerland Backend</title>
+                <allowspecific>0</allowspecific>
+                <group>offline</group>
+                <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
+            </ratepay_ch_invoice_backend>
+            <ratepay_nl_invoice_backend>
+                <payment_action>authorize</payment_action>
+                <active>0</active>
+                <sandbox>1</sandbox>
+                <model>RatePAY\Payment\Model\Method\NL\InvoiceBackend</model>
+                <order_status>pending</order_status>
+                <title>RatePAY Invoice Netherlands Backend</title>
+                <allowspecific>0</allowspecific>
+                <group>offline</group>
+                <privacy_policy>https://www.ratepay.com/aanvullende-voorwaarden-en-privacybeleid-nl</privacy_policy>
+            </ratepay_nl_invoice_backend>
+            <ratepay_nl_directdebit_backend>
+                <payment_action>authorize</payment_action>
+                <active>0</active>
+                <sandbox>1</sandbox>
+                <model>RatePAY\Payment\Model\Method\NL\DirectdebitBackend</model>
+                <order_status>pending</order_status>
+                <title>RatePAY Directdebit Netherlands Backend</title>
+                <allowspecific>0</allowspecific>
+                <group>offline</group>
+                <privacy_policy>https://www.ratepay.com/aanvullende-voorwaarden-en-privacybeleid-nl</privacy_policy>
+            </ratepay_nl_directdebit_backend>
+            <ratepay_be_invoice_backend>
+                <payment_action>authorize</payment_action>
+                <active>0</active>
+                <sandbox>1</sandbox>
+                <model>RatePAY\Payment\Model\Method\BE\InvoiceBackend</model>
+                <order_status>pending</order_status>
+                <title>RatePAY Invoice Belgium Backend</title>
+                <allowspecific>0</allowspecific>
+                <group>offline</group>
+                <privacy_policy>https://www.ratepay.com/additional-general-terms-and-conditions-and-data-protection-notice-be</privacy_policy>
+            </ratepay_be_invoice_backend>
+            <ratepay_be_directdebit_backend>
+                <payment_action>authorize</payment_action>
+                <active>0</active>
+                <sandbox>1</sandbox>
+                <model>RatePAY\Payment\Model\Method\BE\DirectdebitBackend</model>
+                <order_status>pending</order_status>
+                <title>RatePAY Directdebit Belgium Backend</title>
+                <allowspecific>0</allowspecific>
+                <group>offline</group>
+                <privacy_policy>https://www.ratepay.com/additional-general-terms-and-conditions-and-data-protection-notice-be</privacy_policy>
+            </ratepay_be_directdebit_backend>
         </payment>
     </default>
 </config>

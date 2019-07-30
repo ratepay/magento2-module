@@ -7,79 +7,79 @@
     <body>
         <referenceBlock name="order_create_billing_form">
             <action method="setMethodFormTemplate">
-                <argument name="method" xsi:type="string">ratepay_de_invoice</argument>
+                <argument name="method" xsi:type="string">ratepay_de_invoice_backend</argument>
                 <argument name="template" xsi:type="string">RatePAY_Payment::payment/invoice.phtml</argument>
             </action>
         </referenceBlock>
         <referenceBlock name="order_create_billing_form">
             <action method="setMethodFormTemplate">
-                <argument name="method" xsi:type="string">ratepay_at_invoice</argument>
+                <argument name="method" xsi:type="string">ratepay_at_invoice_backend</argument>
                 <argument name="template" xsi:type="string">RatePAY_Payment::payment/invoice.phtml</argument>
             </action>
         </referenceBlock>
         <referenceBlock name="order_create_billing_form">
             <action method="setMethodFormTemplate">
-                <argument name="method" xsi:type="string">ratepay_ch_invoice</argument>
+                <argument name="method" xsi:type="string">ratepay_ch_invoice_backend</argument>
                 <argument name="template" xsi:type="string">RatePAY_Payment::payment/invoice.phtml</argument>
             </action>
         </referenceBlock>
         <referenceBlock name="order_create_billing_form">
             <action method="setMethodFormTemplate">
-                <argument name="method" xsi:type="string">ratepay_nl_invoice</argument>
+                <argument name="method" xsi:type="string">ratepay_nl_invoice_backend</argument>
                 <argument name="template" xsi:type="string">RatePAY_Payment::payment/invoice.phtml</argument>
             </action>
         </referenceBlock>
         <referenceBlock name="order_create_billing_form">
             <action method="setMethodFormTemplate">
-                <argument name="method" xsi:type="string">ratepay_be_invoice</argument>
+                <argument name="method" xsi:type="string">ratepay_be_invoice_backend</argument>
                 <argument name="template" xsi:type="string">RatePAY_Payment::payment/invoice.phtml</argument>
             </action>
         </referenceBlock>
         <referenceBlock name="order_create_billing_form">
             <action method="setMethodFormTemplate">
-                <argument name="method" xsi:type="string">ratepay_de_directdebit</argument>
+                <argument name="method" xsi:type="string">ratepay_de_directdebit_backend</argument>
                 <argument name="template" xsi:type="string">RatePAY_Payment::payment/directdebit.phtml</argument>
             </action>
         </referenceBlock>
         <referenceBlock name="order_create_billing_form">
             <action method="setMethodFormTemplate">
-                <argument name="method" xsi:type="string">ratepay_at_directdebit</argument>
+                <argument name="method" xsi:type="string">ratepay_at_directdebit_backend</argument>
                 <argument name="template" xsi:type="string">RatePAY_Payment::payment/directdebit.phtml</argument>
             </action>
         </referenceBlock>
         <referenceBlock name="order_create_billing_form">
             <action method="setMethodFormTemplate">
-                <argument name="method" xsi:type="string">ratepay_nl_directdebit</argument>
+                <argument name="method" xsi:type="string">ratepay_nl_directdebit_backend</argument>
                 <argument name="template" xsi:type="string">RatePAY_Payment::payment/directdebit.phtml</argument>
             </action>
         </referenceBlock>
         <referenceBlock name="order_create_billing_form">
             <action method="setMethodFormTemplate">
-                <argument name="method" xsi:type="string">ratepay_be_directdebit</argument>
+                <argument name="method" xsi:type="string">ratepay_be_directdebit_backend</argument>
                 <argument name="template" xsi:type="string">RatePAY_Payment::payment/directdebit.phtml</argument>
             </action>
         </referenceBlock>
         <referenceBlock name="order_create_billing_form">
             <action method="setMethodFormTemplate">
-                <argument name="method" xsi:type="string">ratepay_de_installment</argument>
+                <argument name="method" xsi:type="string">ratepay_de_installment_backend</argument>
                 <argument name="template" xsi:type="string">RatePAY_Payment::payment/installment.phtml</argument>
             </action>
         </referenceBlock>
         <referenceBlock name="order_create_billing_form">
             <action method="setMethodFormTemplate">
-                <argument name="method" xsi:type="string">ratepay_at_installment</argument>
+                <argument name="method" xsi:type="string">ratepay_at_installment_backend</argument>
                 <argument name="template" xsi:type="string">RatePAY_Payment::payment/installment.phtml</argument>
             </action>
         </referenceBlock>
         <referenceBlock name="order_create_billing_form">
             <action method="setMethodFormTemplate">
-                <argument name="method" xsi:type="string">ratepay_de_installment0</argument>
+                <argument name="method" xsi:type="string">ratepay_de_installment0_backend</argument>
                 <argument name="template" xsi:type="string">RatePAY_Payment::payment/installment.phtml</argument>
             </action>
         </referenceBlock>
         <referenceBlock name="order_create_billing_form">
             <action method="setMethodFormTemplate">
-                <argument name="method" xsi:type="string">ratepay_at_installment0</argument>
+                <argument name="method" xsi:type="string">ratepay_at_installment0_backend</argument>
                 <argument name="template" xsi:type="string">RatePAY_Payment::payment/installment.phtml</argument>
             </action>
         </referenceBlock>

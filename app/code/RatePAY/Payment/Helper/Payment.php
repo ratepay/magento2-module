@@ -44,6 +44,7 @@ class Payment extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function convertMethodToProduct($id)
     {
+        $id = str_ireplace('_backend', '', $id);
         return $this->_productsToMethods[$id];
     }
 
