@@ -37,6 +37,10 @@ For further information and prerequisites depending on module installation from 
 
 ## Changelog
 
+### Version 1.1.5 - Released 2019-07-31
+* Implemented the opportunity to configure backend orders
+* Implemented the processing of backend orders
+
 ### Version 1.1.4 - Released 2019-07-25
 * Added payment method installment
 * Added payment method zero percent installments
