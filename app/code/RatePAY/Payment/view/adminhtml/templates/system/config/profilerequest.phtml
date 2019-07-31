@@ -13,8 +13,9 @@
             ],
             function (jQuery) {
 
-                jQuery('#<?php echo $this->getPaymentMethod();?>_profilerequest_button').click(function () {
-                    var id = '<?php echo $this->getPaymentMethod();?>';
+                jQuery('#<?php echo $this->getContainerId();?>_profilerequest_button').click(function () {
+                    var id = '<?php echo $this->getContainerId();?>';
+                    var methodCode = '<?php echo $this->getPaymentMethod();?>';
                     if (document.getElementById(id + '_sandbox').value == 1 && document.getElementById(id + '_profileId').value.search(/_PR_.+/) != -1) {
                         if (!confirm('<?php echo __('PROD credentials in sandbox mode') ?>')) {
                             return;
@@ -36,7 +37,7 @@
                             profile_id: document.getElementById(id + '_profileId').value,
                             security_code: document.getElementById(id + '_securityCode').value,
                             sandbox: document.getElementById(id + '_sandbox').value,
-                            method: id
+                            method: methodCode
                         }
                     })
                         .done(function (data) {

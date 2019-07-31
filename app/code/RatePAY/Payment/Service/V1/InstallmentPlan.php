@@ -62,23 +62,27 @@ class InstallmentPlan implements InstallmentPlanInterface
      *
      * @param string $calcType
      * @param string $calcValue
+     * @param float $grandTotal
      * @param string $methodCode
      * @return \RatePAY\Payment\Service\V1\Data\InstallmentPlanResponse
      */
-    public function getInstallmentPlan($calcType, $calcValue, $methodCode)
+    public function getInstallmentPlan($calcType, $calcValue, $grandTotal, $methodCode)
     {
         /** @var \RatePAY\Payment\Service\V1\Data\InstallmentPlanResponse $response */
         $response = $this->responseFactory->create();
         $response->setData('success', false);
 
-        $grandTotal = $this->checkoutSession->getQuote()->getGrandTotal();
+        $sessionGrandTotal = $this->checkoutSession->getQuote()->getGrandTotal();
+        if (empty($sessionGrandTotal) || $sessionGrandTotal == 0) {
+            $sessionGrandTotal = $grandTotal; // needed for backend orders
+        }
 
         if (empty($calcType) || floatval($calcValue) < 0) {
             $response->setData('errormessage', 'calc data invalid');
         }
 
         try {
-            $installmentPlan = $this->getInstallmentPlanFromRatepay($calcType, (int)$calcValue, $grandTotal, $methodCode);
+            $installmentPlan = $this->getInstallmentPlanFromRatepay($calcType, (int)$calcValue, $sessionGrandTotal, $methodCode);
             if ($installmentPlan !== false) {
                 $this->block->setInstallmentData(json_decode($installmentPlan, true));
                 $this->block->setMethodCode($methodCode);
