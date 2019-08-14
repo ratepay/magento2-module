@@ -1,0 +1,17 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+/**
+ * @var \RatePAY\Payment\Block\Info\Info $block
+ * @see \RatePAY\Payment\Block\Info\Info
+ */
+?>
+<p><?php echo $block->escapeHtml($block->getMethod()->getTitle()) ?></p>
+<?php if ($block->getInfo()->getAdditionalInformation()): ?>
+<p><?php echo 'Transaction-Id: ' . $block->getTransactionId()?></p>
+<p><?php echo 'Descriptor: ' . $block->getDescriptor()?></p>
+<?php endif ?>
