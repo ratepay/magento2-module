@@ -20,7 +20,6 @@ class Installment extends AbstractMethod
      */
     protected $_infoBlockType = 'RatePAY\Payment\Block\Info\Info';
 
-
     /**
      * Can be used to install a different block for backend orders
      *
@@ -41,17 +40,17 @@ class Installment extends AbstractMethod
         $interestrateMonth = ((float)$this->rpDataHelper->getRpConfigData($this->getCode(), 'interestrate_default') / 12) / 100;
 
         $allowedRuntimes = [];
-
-        if ($interestrateMonth > 0) { // otherwise division by zero error will happen
-            foreach ($runtimes as $runtime) {
+        foreach ($runtimes as $runtime) {
+            if ($interestrateMonth > 0) { // otherwise division by zero error will happen
                 $rateAmount = ceil($basketAmount * (($interestrateMonth * pow((1 + $interestrateMonth), $runtime)) / (pow((1 + $interestrateMonth), $runtime) - 1)));
+            } else {
+                $rateAmount = $basketAmount / $runtime;
+            }
 
-                if ($rateAmount >= $rateMinNormal) {
-                    $allowedRuntimes[] = $runtime;
-                }
+            if ($rateAmount >= $rateMinNormal) {
+                $allowedRuntimes[] = $runtime;
             }
         }
-        
         return $allowedRuntimes;
     }
 }

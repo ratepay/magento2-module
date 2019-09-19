@@ -35,6 +35,15 @@ class Installment0 extends AbstractMethod
      */
     public function getAllowedMonths($basketAmount)
     {
-        return explode(",", $this->rpDataHelper->getRpConfigData($this->getCode(), 'month_allowed'));
+        $rateMinNormal = $this->rpDataHelper->getRpConfigData($this->getCode(), 'rate_min');
+        $runtimes = explode(",", $this->rpDataHelper->getRpConfigData($this->getCode(), 'month_allowed'));
+
+        $allowedRuntimes = [];
+        foreach ($runtimes as $runtime) {
+            if (($basketAmount / $runtime) >= $rateMinNormal) {
+                $allowedRuntimes[] = $runtime;
+            }
+        }
+        return $allowedRuntimes;
     }
 }
