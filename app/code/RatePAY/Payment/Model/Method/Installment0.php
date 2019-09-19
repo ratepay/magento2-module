@@ -37,10 +37,17 @@ class Installment0 extends AbstractMethod
     {
         $rateMinNormal = $this->rpDataHelper->getRpConfigData($this->getCode(), 'rate_min');
         $runtimes = explode(",", $this->rpDataHelper->getRpConfigData($this->getCode(), 'month_allowed'));
+        $interestrateMonth = ((float)$this->rpDataHelper->getRpConfigData($this->getCode(), 'interestrate_default') / 12) / 100;
 
         $allowedRuntimes = [];
         foreach ($runtimes as $runtime) {
-            if (($basketAmount / $runtime) >= $rateMinNormal) {
+            if ($interestrateMonth > 0) { // otherwise division by zero error will happen
+                $rateAmount = ceil($basketAmount * (($interestrateMonth * pow((1 + $interestrateMonth), $runtime)) / (pow((1 + $interestrateMonth), $runtime) - 1)));
+            } else {
+                $rateAmount = $basketAmount / $runtime;
+            }
+
+            if ($rateAmount >= $rateMinNormal) {
                 $allowedRuntimes[] = $runtime;
             }
         }
