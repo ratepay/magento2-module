@@ -53,4 +53,26 @@ class Installment extends AbstractMethod
         }
         return $allowedRuntimes;
     }
+
+    /**
+     * Check if payment method is available
+     *
+     * 1) Check if parent call succeeds
+     * 2) Check if there are allowed installment months
+     *
+     * @param \Magento\Quote\Api\Data\CartInterface|null $quote
+     * @return bool
+     */
+    public function isAvailable(\Magento\Quote\Api\Data\CartInterface $quote = null)
+    {
+        if (parent::isAvailable($quote) === false) {
+            return false;
+        }
+
+        if (empty($this->getAllowedMonths($quote->getGrandTotal()))) {
+            return false;
+        }
+
+        return true;
+    }
 }
