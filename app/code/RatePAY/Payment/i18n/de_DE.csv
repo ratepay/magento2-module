@@ -106,6 +106,7 @@ ratepay_terms_block_3, "der RatePAY GmbH" ,module,RatePAY_Payment
 "rp_mouseover_cash_payment_price","Summe aller Artikel Ihres Warenkorbs, incl. Versandkosten etc.",module,RatePAY_Payment
 "rp_service_charge","Vertragsabschlussgeb&uuml;hr",module,RatePAY_Payment
 "rp_mouseover_service_charge","Bei Ratenzahlung pro Bestellung anfallende, einmalige Bearbeitungsgeb&uuml;hr.",module,RatePAY_Payment
+"rp_mouseover_effective_rate","Gesamtkosten des Kredits als j&auml;hrlicher Prozentsatz.",module,RatePAY_Payment
 "rp_effective_rate","Effektiver Jahreszins",module,RatePAY_Payment
 "rp_debit_rate","Sollzinssatz p.a. (gebunden)",module,RatePAY_Payment
 "rp_mouseover_debit_rate","Periodischer Prozentsatz, der auf das in Anspruch genommene Darlehen angewendet wird.",module,RatePAY_Payment
