@@ -3,8 +3,9 @@
 
 |Repository | RatePAY Module for Magento 2
 |------|----------
-|Author | Annegret Seufert
-|Version | `1.1.5`
+|Author | Robert Müller
+|Module-Version | `1.1.5`
+|Compatible with | Magento 2.1.0 - 2.3.2
 |Link | http://www.ratepay.com
 |Mail | integration@ratepay.com
 |Documentation | https://ratepay.gitbook.io/magento2/
