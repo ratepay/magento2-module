@@ -5,7 +5,7 @@
 |------|----------
 |Author | Robert Müller
 |Module-Version | `1.1.5`
-|Compatible with | Magento 2.1.0 - 2.3.2
+|Compatibility | Magento 2.1.0 - 2.3.2
 |Link | http://www.ratepay.com
 |Mail | integration@ratepay.com
 |Documentation | https://ratepay.gitbook.io/magento2/
