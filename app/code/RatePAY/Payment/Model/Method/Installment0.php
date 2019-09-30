@@ -42,7 +42,7 @@ class Installment0 extends AbstractMethod
         $allowedRuntimes = [];
         foreach ($runtimes as $runtime) {
             if ($interestrateMonth > 0) { // otherwise division by zero error will happen
-                $rateAmount = ceil($basketAmount * (($interestrateMonth * pow((1 + $interestrateMonth), $runtime)) / (pow((1 + $interestrateMonth), $runtime) - 1)));
+                $rateAmount = $basketAmount * (($interestrateMonth * pow((1 + $interestrateMonth), $runtime)) / (pow((1 + $interestrateMonth), $runtime) - 1));
             } else {
                 $rateAmount = $basketAmount / $runtime;
             }
