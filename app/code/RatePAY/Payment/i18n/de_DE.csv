@@ -106,6 +106,7 @@ ratepay_terms_block_3, "der RatePAY GmbH" ,module,RatePAY_Payment
 "rp_mouseover_cash_payment_price","Summe aller Artikel Ihres Warenkorbs, incl. Versandkosten etc.",module,RatePAY_Payment
 "rp_service_charge","Vertragsabschlussgeb&uuml;hr",module,RatePAY_Payment
 "rp_mouseover_service_charge","Bei Ratenzahlung pro Bestellung anfallende, einmalige Bearbeitungsgeb&uuml;hr.",module,RatePAY_Payment
+"rp_mouseover_effective_rate","Gesamtkosten des Kredits als j&auml;hrlicher Prozentsatz.",module,RatePAY_Payment
 "rp_effective_rate","Effektiver Jahreszins",module,RatePAY_Payment
 "rp_debit_rate","Sollzinssatz p.a. (gebunden)",module,RatePAY_Payment
 "rp_mouseover_debit_rate","Periodischer Prozentsatz, der auf das in Anspruch genommene Darlehen angewendet wird.",module,RatePAY_Payment
@@ -120,3 +121,5 @@ ratepay_terms_block_3, "der RatePAY GmbH" ,module,RatePAY_Payment
 "Please enter a valid IBAN.","Bitte geben Sie eine korrekte IBAN ein.",module,RatePAY_Payment
 "Please select a installment runtime or installment amount.","Bitte wählen Sie eine Raten-Laufzeit oder Ratenhöhe.",module,RatePAY_Payment
 "-- Please select runtime --","-- Bitte Laufzeit wählen --",module,RatePAY_Payment
+"The runtime has been updated successfully.","Die Laufzeit wurde erfolgreich angepasst.",module,RatePAY_Payment
+"The installment amount has been updated successfully.","Die Ratenhöhe wurde erfolgreich angepasst.",module,RatePAY_Payment

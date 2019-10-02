@@ -20,7 +20,6 @@ class Installment extends AbstractMethod
      */
     protected $_infoBlockType = 'RatePAY\Payment\Block\Info\Info';
 
-
     /**
      * Can be used to install a different block for backend orders
      *
@@ -41,17 +40,39 @@ class Installment extends AbstractMethod
         $interestrateMonth = ((float)$this->rpDataHelper->getRpConfigData($this->getCode(), 'interestrate_default') / 12) / 100;
 
         $allowedRuntimes = [];
+        foreach ($runtimes as $runtime) {
+            if ($interestrateMonth > 0) { // otherwise division by zero error will happen
+                $rateAmount = $basketAmount * (($interestrateMonth * pow((1 + $interestrateMonth), $runtime)) / (pow((1 + $interestrateMonth), $runtime) - 1));
+            } else {
+                $rateAmount = $basketAmount / $runtime;
+            }
 
-        if ($interestrateMonth > 0) { // otherwise division by zero error will happen
-            foreach ($runtimes as $runtime) {
-                $rateAmount = ceil($basketAmount * (($interestrateMonth * pow((1 + $interestrateMonth), $runtime)) / (pow((1 + $interestrateMonth), $runtime) - 1)));
-
-                if ($rateAmount >= $rateMinNormal) {
-                    $allowedRuntimes[] = $runtime;
-                }
+            if ($rateAmount >= $rateMinNormal) {
+                $allowedRuntimes[] = $runtime;
             }
         }
-        
         return $allowedRuntimes;
+    }
+
+    /**
+     * Check if payment method is available
+     *
+     * 1) Check if parent call succeeds
+     * 2) Check if there are allowed installment months
+     *
+     * @param \Magento\Quote\Api\Data\CartInterface|null $quote
+     * @return bool
+     */
+    public function isAvailable(\Magento\Quote\Api\Data\CartInterface $quote = null)
+    {
+        if (parent::isAvailable($quote) === false) {
+            return false;
+        }
+
+        if (empty($this->getAllowedMonths($quote->getGrandTotal()))) {
+            return false;
+        }
+
+        return true;
     }
 }
