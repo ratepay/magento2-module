@@ -125,3 +125,5 @@ ratepay_terms_block_3, "apply.",module,RatePAY_Payment
 "-- Please select runtime --","-- Please select runtime --",module,RatePAY_Payment
 "The runtime has been updated successfully.","The runtime has been updated successfully.",module,RatePAY_Payment
 "The installment amount has been updated successfully.","The installment amount has been updated successfully.",module,RatePAY_Payment
+"Show details","Show details",module,RatePAY_Payment
+"Hide details","Hide details",module,RatePAY_Payment
