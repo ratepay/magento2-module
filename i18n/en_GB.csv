@@ -26,9 +26,9 @@ YYYY,YYYY,module,RatePAY_Payment
 "Ratepay Creditor ID","RatePAY Creditor ID",module,RatePAY_Payment
 "insert bankdata","Please enter your bank account information.",module,RatePAY_Payment
 "Account holder","Account holder:",module,RatePAY_Payment
+IBAN,IBAN,module,RatePAY_Payment
 "Mandate","Mandate reference number:",module,RatePAY_Payment
 "Mandate Ref","(provided after purchase)",module,RatePAY_Payment
-IBAN,IBAN,module,RatePAY_Payment
 ratepay_directdebit_sepa_link,Read agreement to the SEPA mandate,module,RatePAY_Payment
 ratepay_directdebit_sepa_terms_block_1,I hereby agree to the forwarding of my data to ,module,RatePAY_Payment
 "Ratepay address","RatePAY GmbH, Franklinstraße 28-29, 10587 Berlin",module,RatePAY_Payment
@@ -39,6 +39,7 @@ ratepay_directdebit_sepa_notice_block_2,After the contract has been created, I w
 ratepay_directdebit_sepa_notice_block_3,"Within eight weeks of the debit I may request the reimbursement of my payment. The conditions of my credit institute apply.",module,RatePAY_Payment
 "Place Order","Place order",module,RatePAY_Payment
 "Vat ID","Vat ID",module,RatePAY_Payment
+"Please enter your Vat ID","Please enter your Vat ID",module,RatePAY_Payment
 "Phone Number","Phone number",module,RatePAY_Payment
 "b2b not allowed","This payment method is not available for business customers.",module,RatePAY_Payment
 "ala not allowed","This payment method requires the delivery address to match the billing address.",module,RatePAY_Payment
@@ -64,9 +65,9 @@ B2B,B2B,module,RatePAY_Payment
 "New Order Status","New order status",module,RatePAY_Payment
 "Sort Order","Sort order",module,RatePAY_Payment
 "Direct Debit","SEPA direct debit",module,RatePAY_Payment
-"Maximum Oder Total","Maximum order total",module,RatePAY_Payment
-"Nur SEPA/IBAN Kontodaten","SEPA/IBAN account info only",module,RatePAY_Payment
 "RatePAY-Datenschutzerklärung Url","URL of the RatePAY privacy policy",module,RatePAY_Payment
+Installment,Installment,module,RatePAY_Payment
+Rate min,Minimumrate,module,RatePAY_Payment
 "Month Allowed","term (in months)",module,RatePAY_Payment
 "0% Financing","0% financing",module,RatePAY_Payment
 Austria,Austria,module,RatePAY_Payment
@@ -82,29 +83,32 @@ Inactive,deactivated,module,RatePAY_Payment
 ratepay_terms_block_1, "RatePAY GmbH's additional" ,module,RatePAY_Payment
 ratepay_terms_block_2, "general terms and conditions and data protection policy" ,module,RatePAY_Payment
 ratepay_terms_block_3, "apply.",module,RatePAY_Payment
-"rp_calculation_intro_part1","Im Folgenden können Sie entscheiden, wie Sie die Ratenzahlung gestalten möchten. Legen Sie bequem die Anzahl der Raten und somit ",module,RatePAY_Payment
-"rp_calculation_intro_part2","die Laufzeit",module,RatePAY_Payment
-"rp_calculation_intro_part3"," der Ratenzahlung fest. Oder bestimmen sie einfach die gewünschte ",module,RatePAY_Payment
-"rp_calculation_intro_part4","monatliche Ratenhöhe.",module,RatePAY_Payment
+"Maximum Oder Total","Maximum order total",module,RatePAY_Payment
+"Nur SEPA/IBAN Kontodaten","SEPA/IBAN account info only",module,RatePAY_Payment
+"rp_calculation_intro_part1","In the following you will be able to decide, how you want to shape your installment payment. You can comfortable declare the amount of installments and therefore ",module,RatePAY_Payment
+"rp_calculation_intro_part2","the runtime",module,RatePAY_Payment
+"rp_calculation_intro_part3"," of your installment payment. You can also simply declare your desired ",module,RatePAY_Payment
+"rp_calculation_intro_part4","monthly installment amount.",module,RatePAY_Payment
 "rp_runtime_title","Runtime",module,RatePAY_Payment
 "rp_runtime_description", "Amount of monthly installments",module,RatePAY_Payment
 "rp_rate_title","Installment amount",module,RatePAY_Payment
 "rp_rate_description","Amount of the monthly installment",module,RatePAY_Payment
 "rp_calculate_rate","Calculate installment",module,RatePAY_Payment
 "rp_personal_calculation","Personal calculation",module,RatePAY_Payment
-"rp_reason_code_translation_603","Die Wunschrate entspricht den vorgegebenen Bedingungen.",module,RatePAY_Payment
-"rp_reason_code_translation_671","Die letzte Rate war niedriger als erlaubt. Laufzeit und/oder Rate wurden angepasst.",module,RatePAY_Payment
-"rp_reason_code_translation_688","Die Rate war niedriger als f&uuml;r Ratenpl&auml;ne mit langer Laufzeit erlaubt. Die Laufzeit wurde angepasst.",module,RatePAY_Payment
-"rp_reason_code_translation_689","Die Rate war niedriger als f&uuml;r Ratenpl&auml;ne mit kurzer Laufzeit erlaubt. Die Laufzeit wurde angepasst.",module,RatePAY_Payment
-"rp_reason_code_translation_695","Die Rate ist zu hoch f&uuml;r die minimal verf&uuml;gbare Laufzeit. Die Rate wurde verringert.",module,RatePAY_Payment
-"rp_reason_code_translation_696","Die Wunschrate ist zu niedrig. Die Rate wurde erh&ouml;ht.",module,RatePAY_Payment
-"rp_reason_code_translation_697","F&uuml;r die gew&auml;hlte Ratenh&ouml;he ist keine entsprechende Laufzeit verf&uuml;gbar. Die Ratenh&ouml;he wurde angepasst.",module,RatePAY_Payment
-"rp_reason_code_translation_698","Die Rate war zu niedrig f&uuml;r die maximal verf&uuml;gbare Laufzeit. Die Rate wurde erh&ouml;ht.",module,RatePAY_Payment
-"rp_reason_code_translation_699","Die Rate ist zu hoch f&uuml;r die minimal verf&uuml;gbare Laufzeit. Die Rate wurde verringert.",module,RatePAY_Payment
+"rp_reason_code_translation_603","The desired installment complies to the stated conditions.",module,RatePAY_Payment
+"rp_reason_code_translation_671","The last installment was lower than permitted. Runtime and/or installment amount has been adjusted accordingly.",module,RatePAY_Payment
+"rp_reason_code_translation_688","The installment was lower than permitted for installment plans with a long runtime. The runtime has been adjusted accordingly.",module,RatePAY_Payment
+"rp_reason_code_translation_689","The installment was lower than permitted for installment plans with a short runtime. The runtime has been adjusted accordingly.",module,RatePAY_Payment
+"rp_reason_code_translation_695","The installment is too high for the minimal available runtime. The installmend has been lowered accordingly.",module,RatePAY_Payment
+"rp_reason_code_translation_696","The desired installment was too low. The installment has been raised accordingly.",module,RatePAY_Payment
+"rp_reason_code_translation_697","There was no fitting runtime available for the desired installment amount. The installment amount has been adjusted accordingly.",module,RatePAY_Payment
+"rp_reason_code_translation_698","The installment was too low for the maximally available runtime. The installment has been raised accordingly.",module,RatePAY_Payment
+"rp_reason_code_translation_699","The installment is too high for the minimally available runtime. The installment has been lowered accordingly.",module,RatePAY_Payment
 "rp_cash_payment_price","Basket amount",module,RatePAY_Payment
 "rp_mouseover_cash_payment_price","Sum of all products in the basket including shipping",module,RatePAY_Payment
 "rp_service_charge","Servicecharge",module,RatePAY_Payment
 "rp_mouseover_service_charge","Service charge occurring one time for installment payment",module,RatePAY_Payment
+"rp_mouseover_effective_rate","Total amount of the credit as annual percent rate.",module,RatePAY_Payment
 "rp_effective_rate","Annual percentage rate",module,RatePAY_Payment
 "rp_debit_rate","Interest rate",module,RatePAY_Payment
 "rp_mouseover_debit_rate","Periodic interest rate.",module,RatePAY_Payment
@@ -116,3 +120,8 @@ ratepay_terms_block_3, "apply.",module,RatePAY_Payment
 "rp_mouseover_last_rate","Final installment due in the last month.",module,RatePAY_Payment
 "rp_total_amount","Total amount",module,RatePAY_Payment
 "rp_mouseover_total_amount","Sum to be payed by the buyer consisting of basket amount, service charge and interests.",module,RatePAY_Payment
+"Please enter a valid IBAN.","Please enter a valid IBAN.",module,RatePAY_Payment
+"Please select a installment runtime or installment amount.","Please select a installment runtime or installment amount.",module,RatePAY_Payment
+"-- Please select runtime --","-- Please select runtime --",module,RatePAY_Payment
+"The runtime has been updated successfully.","The runtime has been updated successfully.",module,RatePAY_Payment
+"The installment amount has been updated successfully.","The installment amount has been updated successfully.",module,RatePAY_Payment
