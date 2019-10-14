@@ -68,7 +68,11 @@ class Payment extends \Magento\Framework\App\Helper\AbstractHelper
                 'LastInstallmentAmount' => $this->checkoutSession->getData('ratepayLastInstallmentAmount_'.$methodCode),
                 'InterestRate' => $this->checkoutSession->getData('ratepayInterestRate_'.$methodCode)
             ];
-            $content['DebitPayType'] = 'BANK-TRANSFER';
+            if ($quoteOrOrder->getPayment()->getAdditionalInformation('rp_directdebit') === true) {
+                $content['DebitPayType'] = 'DIRECT-DEBIT';
+            } else {
+                $content['DebitPayType'] = 'BANK-TRANSFER';
+            }
         }
         return $content;
     }

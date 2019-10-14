@@ -123,3 +123,5 @@ ratepay_terms_block_3, "der RatePAY GmbH" ,module,RatePAY_Payment
 "-- Please select runtime --","-- Bitte Laufzeit wählen --",module,RatePAY_Payment
 "The runtime has been updated successfully.","Die Laufzeit wurde erfolgreich angepasst.",module,RatePAY_Payment
 "The installment amount has been updated successfully.","Die Ratenhöhe wurde erfolgreich angepasst.",module,RatePAY_Payment
+"I want to transfer the installments myself and not pay by direct debit","Ich möchte die Ratenzahlung selbst vornehmen und nicht per Lastschrift begleichen",module,RatePAY_Payment
+"I want to settle the installments by direct debit","Ich möchte die Ratenzahlung per Lastschrift begleichen",module,RatePAY_Payment

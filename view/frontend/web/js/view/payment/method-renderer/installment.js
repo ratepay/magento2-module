@@ -22,7 +22,8 @@ define(
                 rp_dob_year: '',
                 rp_vatid: '',
                 rp_iban: '',
-                isInstallmentPlanSet: false
+                isInstallmentPlanSet: false,
+                useDirectDebit: true
             },
 
             initialize: function () {
@@ -38,7 +39,7 @@ define(
                     return blParentReturn;
                 }
 
-                if (this.showSepaBlock() === true && this.rp_iban == '') {
+                if (this.showSepaBlock() === true && this.useDirectDebit === true && this.rp_iban == '') {
                     this.messageContainer.addErrorMessage({'message': $t('Please enter a valid IBAN.')});
                     return false;
                 }
@@ -86,12 +87,25 @@ define(
                 $('#' + this.getCode() + '_sepa_agreement').show();
                 $('#' + this.getCode() + '_sepa_agreement_link').hide();
             },
+            showBankTransfer: function () {
+                $('#' + this.getCode() + '_sepa_use_directdebit').show();
+                $('#' + this.getCode() + '_sepa_use_banktransfer').hide();
+                $('#ratepay_rate_sepa_block_' + this.getCode()).hide();
+                this.useDirectDebit = false;
+            },
+            showDirectDebit: function () {
+                $('#' + this.getCode() + '_sepa_use_banktransfer').show();
+                $('#' + this.getCode() + '_sepa_use_directdebit').hide();
+                $('#ratepay_rate_sepa_block_' + this.getCode()).show();
+                this.useDirectDebit = true;
+            },
             getData: function() {
                 var parentReturn = this._super();
                 if (parentReturn.additional_data === null) {
                     parentReturn.additional_data = {};
                 }
                 parentReturn.additional_data.rp_iban = this.rp_iban;
+                parentReturn.additional_data.rp_directdebit = this.useDirectDebit;
                 return parentReturn;
             }
         });

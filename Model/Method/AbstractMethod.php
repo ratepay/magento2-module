@@ -370,6 +370,10 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
             $infoInstance->setAdditionalInformation('rp_iban', $additionalData->getRpIban());
         }
 
+        if ($additionalData->getRpDirectdebit() !== null) {
+            $infoInstance->setAdditionalInformation('rp_directdebit', (bool)$additionalData->getRpDirectdebit());
+        }
+
         $installmentMethods = [
             'ratepay_de_installment',
             'ratepay_at_installment',
