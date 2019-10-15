@@ -161,6 +161,7 @@ class LibraryController
      * @param $operation
      * @param $sandbox
      * @return mixed
+     * @throws \Exception
      */
     public function callPaymentChange($head, $content, $operation, $sandbox)
     {
@@ -169,12 +170,16 @@ class LibraryController
         try {
             $paymentChange = $rb->callPaymentChange($head, $content)->subtype($operation);
         } catch (\Exception $e) {
-            echo $e->getMessage();
+            throw $e;
         }
-
         return $paymentChange;
     }
 
+    /**
+     * @param string $snippetId
+     * @param string $orderId
+     * @return DeviceFingerprintBuilder
+     */
     public function getDfpCode($snippetId, $orderId)
     {
         $dfp = new DeviceFingerprintBuilder($snippetId, $orderId);

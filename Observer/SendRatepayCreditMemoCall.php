@@ -96,6 +96,26 @@ class SendRatepayCreditMemoCall implements ObserverInterface
     }
 
     /**
+     * Check if creditmemo consists of partial bundle refunds
+     *
+     * @param $creditMemo
+     * @return bool
+     */
+    protected function hasPartialRefundBundle($creditMemo)
+    {
+        foreach ($creditMemo->getItems() as $creditMemoItem) {
+            $orderItem = $creditMemoItem->getOrderItem();
+            $parentItem = $orderItem->getParentItem();
+            if ($parentItem !== null && $parentItem->getProductType() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
+                if ((float)$creditMemoItem->getQty() != (float)$orderItem->getQtyOrdered()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
      * @param $order
      * @param $creditMemo
      * @param $paymentMethod
@@ -109,6 +129,10 @@ class SendRatepayCreditMemoCall implements ObserverInterface
 
         if ($this->rpDataHelper->getRpConfigData($paymentMethod, 'status', $this->storeManager->getStore()->getId()) == 1) {
             throw new PaymentException(__('Processing failed'));
+        }
+
+        if ($this->hasPartialRefundBundle($creditMemo) === true) { // module doesnt support partial bundle refunds at the moment, bundle is transmitted as 1 product to API
+            throw new PaymentException(__('Bundles can only be refunded completely'));
         }
 
         if ($creditMemo->getAdjustmentPositive() > 0 || $creditMemo->getAdjustmentNegative() > 0) {

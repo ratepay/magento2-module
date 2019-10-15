@@ -90,7 +90,7 @@ class SendRatepayCancelCall implements ObserverInterface
         if (!$cancellationRequest->isSuccessful()){
             throw new PaymentException(__('Cancellation was not successsfull'));
         } else {
-        return true;
+            return true;
         }
     }
 }
