@@ -38,11 +38,11 @@ $notification = null;
 <div class="rp-menue">
     <div colspan="2" class="small text-right">
         <a class="rp-link" id="rp-show-installment-plan-details_<?php echo $method; ?>" onclick="changeDetails('<?php echo $method; ?>')">
-            Zeige Details
+            <?php echo __('Show details'); ?>
             <img src="<?php echo $this->getImageUrl('icon-enlarge.png'); ?>" class="rp-details-icon" />
         </a>
         <a class="rp-link" id="rp-hide-installment-plan-details_<?php echo $method; ?>" onclick="changeDetails('<?php echo $method; ?>')">
-            Schließe Details
+            <?php echo __('Hide details'); ?>
             <img src="<?php echo $this->getImageUrl('icon-shrink.png'); ?>" class="rp-details-icon" />
         </a>
     </div>
