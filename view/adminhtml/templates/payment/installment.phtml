@@ -111,48 +111,55 @@ if ($b2bEnabled === true) {
         <div id="<?php echo $code.'_Notification'; ?>"></div>
     </div>
     <?php if ($block->isSepaBlockVisible() === true): ?>
-        <ul style="list-style: none; margin-bottom: 15px; border: 1px solid #BDBDBD; padding-left: 4px;">
-            <li><label><span><?php echo __('Ratepay address'); ?></span></label></li>
-            <li><label><span><?php echo __('Creditor'); ?></span><span><?php echo __('Ratepay Creditor ID'); ?></span></label></li>
-            <li><label><span><?php echo __('Mandate'); ?></span><span><?php echo __('Mandate Ref'); ?></span></label></li>
-        </ul>
-        <ul style="list-style: none;">
-            <li style="margin-bottom: 15px;"><label><b><span><?php echo __('insert bankdata'); ?></span></b></label></li>
-            <li><label><span><?php echo __('Account holder'); ?></span></label></li>
-            <li><label><i><span><?php echo $block->getBillingName(); ?></span></i></label></li>
-        </ul>
-        <div class="admin__field _required" style="margin-left: -30px;">
-            <label class="label admin__field-label" for="<?php /* @noEscape */ echo $code; ?>_iban">
-                <span><?php echo $block->escapeHtml(__('IBAN')); ?></span>
-            </label>
-            <div class="admin__field-control control">
-                <input type="text" size="35" id="<?php /* @noEscape */ echo $code; ?>_iban" name="payment[rp_iban]" value="<?php echo $block->getInfoData('rp_iban'); ?>">
+        <div id="ratepay_rate_sepa_block_<?php echo $code; ?>">
+            <ul style="list-style: none; margin-bottom: 15px; border: 1px solid #BDBDBD; padding-left: 4px;">
+                <li><label><span><?php echo __('Ratepay address'); ?></span></label></li>
+                <li><label><span><?php echo __('Creditor'); ?></span><span><?php echo __('Ratepay Creditor ID'); ?></span></label></li>
+                <li><label><span><?php echo __('Mandate'); ?></span><span><?php echo __('Mandate Ref'); ?></span></label></li>
+            </ul>
+            <ul style="list-style: none;">
+                <li style="margin-bottom: 15px;"><label><b><span><?php echo __('insert bankdata'); ?></span></b></label></li>
+                <li><label><span><?php echo __('Account holder'); ?></span></label></li>
+                <li><label><i><span><?php echo $block->getBillingName(); ?></span></i></label></li>
+            </ul>
+            <div class="admin__field _required" style="margin-left: -30px;">
+                <label class="label admin__field-label" for="<?php /* @noEscape */ echo $code; ?>_iban" style="margin-left: 11px;">
+                    <span><?php echo $block->escapeHtml(__('IBAN')); ?></span>
+                </label>
+                <div class="admin__field-control control">
+                    <input type="text" size="35" id="<?php /* @noEscape */ echo $code; ?>_iban" name="payment[rp_iban]" value="<?php echo $block->getInfoData('rp_iban'); ?>" style="margin-left: 30px;">
+                </div>
             </div>
+            <a id="<?php echo $code; ?>_sepa_agreement_link" onclick="showAgreement('<?php echo $code; ?>')"><?php echo __('ratepay_directdebit_sepa_link'); ?></a>
+            <table>
+                <tbody style="display:none;" id="<?php echo $code; ?>_sepa_agreement">
+                <tr>
+                    <td style="padding:10px 0;">
+                            <span class="required ratepayagreement">
+                                <?php echo __('ratepay_directdebit_sepa_terms_block_1'); ?>
+                                <?php echo __('Ratepay address'); ?>
+                                <?php echo __('ratepay_directdebit_sepa_terms_block_2'); ?>
+                                <?php echo __('ratepay_directdebit_sepa_terms_block_3'); ?>
+                            </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding:10px 0;">
+                        <br/>
+                        <span style="font-weight:bold;"><?php echo __('ratepay_directdebit_sepa_notice_block_1'); ?></span><br/>
+                        <?php echo __('ratepay_directdebit_sepa_notice_block_2'); ?><br/>
+                        <?php echo __('ratepay_directdebit_sepa_notice_block_3'); ?>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
-        <a id="<?php echo $code; ?>_sepa_agreement_link" onclick="showAgreement('<?php echo $code; ?>')"><?php echo __('ratepay_directdebit_sepa_link'); ?></a>
-        <table>
-            <tbody style="display:none;" id="<?php echo $code; ?>_sepa_agreement">
-            <tr>
-                <td style="padding:10px 0;">
-                        <span class="required ratepayagreement">
-                            <?php echo __('ratepay_directdebit_sepa_terms_block_1'); ?>
-                            <?php echo __('Ratepay address'); ?>
-                            <?php echo __('ratepay_directdebit_sepa_terms_block_2'); ?>
-                            <?php echo __('ratepay_directdebit_sepa_terms_block_3'); ?>
-                        </span>
-                </td>
-            </tr>
-            <tr>
-                <td style="padding:10px 0;">
-                    <br/>
-                    <span style="font-weight:bold;"><?php echo __('ratepay_directdebit_sepa_notice_block_1'); ?></span><br/>
-                    <?php echo __('ratepay_directdebit_sepa_notice_block_2'); ?><br/>
-                    <?php echo __('ratepay_directdebit_sepa_notice_block_3'); ?>
-                </td>
-            </tr>
-            </tbody>
-        </table><br>
+        <br>
     <?php endif; ?>
+    <hr>
+    <a id="<?php echo $code; ?>_sepa_use_banktransfer" onclick="showBankTransfer('<?php echo $code; ?>')"><?php echo __('I want to transfer the installments myself and not pay by direct debit'); ?></a>
+    <a id="<?php echo $code; ?>_sepa_use_directdebit" onclick="showDirectDebit('<?php echo $code; ?>')" style="display: none;"><?php echo __('I want to settle the installments by direct debit'); ?></a>
+    <input type="hidden" id="<?php echo $code; ?>_directdebit" name="payment[rp_directdebit]" value="1">
     <input type="submit" name="Submit" style="display: none;">
 </fieldset>
 <script>

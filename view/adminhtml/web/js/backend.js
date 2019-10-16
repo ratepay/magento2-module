@@ -24,6 +24,23 @@ function showAgreement(code) {
     });
 }
 
+function showBankTransfer(code) {
+    require(['jquery'], function($) {
+        $('#' + code + '_sepa_use_directdebit').show();
+        $('#' + code + '_sepa_use_banktransfer').hide();
+        $('#ratepay_rate_sepa_block_' + code).hide();
+        $('#' + code + '_directdebit').val('0');
+    });
+}
+function showDirectDebit(code) {
+    require(['jquery'], function($) {
+        $('#' + code + '_sepa_use_banktransfer').show();
+        $('#' + code + '_sepa_use_directdebit').hide();
+        $('#ratepay_rate_sepa_block_' + code).show();
+        $('#' + code + '_directdebit').val('1');
+    });
+}
+
 function updateInstallmentPlanAmount(restUrl, grandTotal, methodCode) {
     require([
         'jquery'
