@@ -127,3 +127,4 @@ ratepay_terms_block_3, "der RatePAY GmbH" ,module,RatePAY_Payment
 "The installment amount has been updated successfully.","Die Ratenhöhe wurde erfolgreich angepasst.",module,RatePAY_Payment
 "Show details","Zeige Details",module,RatePAY_Payment
 "Hide details","Schließe Details",module,RatePAY_Payment
+"Bundles can only be refunded completely","Bundle-Produkte können nur vollständig retourniert werden",module,RatePAY_Payment
