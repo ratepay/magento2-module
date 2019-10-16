@@ -1,5 +1,5 @@
 "Get Config","Konfiguration laden",module,RatePAY_Payment
-"Request Failed","Request Failed",module,RatePAY_Payment
+"Request Failed","Anfrage fehlgeschlagen",module,RatePAY_Payment
 "Country not supported by credentials","Das aktuelle Land wird durch diese Konfiguration nicht unterstützt",module,RatePAY_Payment
 "Interest Rate not supported by payment method","Zahlungsart unterstützt nur 0%-Ratenkonfiguration",module,RatePAY_Payment
 "dob data invalid","Bitte überprüfen Sie ihre Eingabe. Für die gewählte Zahlungsart müssen Sie mindestens 18 Jahre alt sein und das Geburtsdatum muss in dem Format TT.MM.JJJJ vorliegen.",module,RatePAY_Payment
@@ -10,9 +10,9 @@
 "phone not valid","Bitte geben Sie, für die gewählte Zahlungsart, eine gültige Telefonnummer an.",module,RatePAY_Payment
 "PROD credentials in sandbox mode","Sie beabsichtigen Live-Zugangsdaten für den Test-Betrieb zu verwenden. Möchten Sie fortfahren?",module,RatePAY_Payment
 "INT credentials in live mode","Sie beabsichtigen Test-Zugangsdaten für den Live-Betrieb zu verwenden. Möchten Sie fortfahren?",module,RatePAY_Payment
-"No Ajax Connection","No Ajax Connection",module,RatePAY_Payment
-"Sandbox Notifcation","Sandbox Notifcation",module,RatePAY_Payment
-"Tax/VAT number","Tax/VAT number",module,RatePAY_Payment
+"No Ajax Connection","Keine Ajax Verbindung",module,RatePAY_Payment
+"Sandbox Notifcation","Sandbox Benachrichtigung",module,RatePAY_Payment
+"Tax/VAT number","USt-IdNr.",module,RatePAY_Payment
 Alter,Ändern,module,RatePAY_Payment
 Phone,Telefon,module,RatePAY_Payment
 "Date of Birth","Geburtsdatum",module,RatePAY_Payment
@@ -63,7 +63,7 @@ B2B,B2B,module,RatePAY_Payment
 "Delivery Address","Abweichende Lieferadresse",module,RatePAY_Payment
 "Payment Fee","RatePAY Zahlungsartenaufschlag",module,RatePAY_Payment
 "New Order Status","Neuer Bestellstatus",module,RatePAY_Payment
-"Sort Order","Sort Order",module,RatePAY_Payment
+"Sort Order","Reihenfolge",module,RatePAY_Payment
 "Direct Debit","SEPA-Lastschrift",module,RatePAY_Payment
 "RatePAY-Datenschutzerklärung Url","RatePAY-Datenschutzerklärung Url",module,RatePAY_Payment
 Installment,Ratenzahlung,module,RatePAY_Payment
@@ -83,6 +83,8 @@ Phased Out,Abgelaufen,module,RatePAY_Payment
 ratepay_terms_block_1, "Es gelten die" ,module,RatePAY_Payment
 ratepay_terms_block_2, "zusätzlichen Geschäftsbedingungen und der Datenschutzhinweis" ,module,RatePAY_Payment
 ratepay_terms_block_3, "der RatePAY GmbH" ,module,RatePAY_Payment
+"Maximum Oder Total","Maximum order total",module,RatePAY_Payment
+"Nur SEPA/IBAN Kontodaten","Nur SEPA/IBAN Kontodaten",module,RatePAY_Payment
 "rp_calculation_intro_part1","Im Folgenden können Sie entscheiden, wie Sie die Ratenzahlung gestalten möchten. Legen Sie bequem die Anzahl der Raten und somit ",module,RatePAY_Payment
 "rp_calculation_intro_part2","die Laufzeit",module,RatePAY_Payment
 "rp_calculation_intro_part3"," der Ratenzahlung fest. Oder bestimmen sie einfach die gewünschte ",module,RatePAY_Payment
@@ -123,4 +125,6 @@ ratepay_terms_block_3, "der RatePAY GmbH" ,module,RatePAY_Payment
 "-- Please select runtime --","-- Bitte Laufzeit wählen --",module,RatePAY_Payment
 "The runtime has been updated successfully.","Die Laufzeit wurde erfolgreich angepasst.",module,RatePAY_Payment
 "The installment amount has been updated successfully.","Die Ratenhöhe wurde erfolgreich angepasst.",module,RatePAY_Payment
+"Show details","Zeige Details",module,RatePAY_Payment
+"Hide details","Schließe Details",module,RatePAY_Payment
 "Bundles can only be refunded completely","Bundle-Produkte können nur vollständig retourniert werden",module,RatePAY_Payment
