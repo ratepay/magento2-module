@@ -14,4 +14,17 @@
     <type name="Magento\Payment\Model\MethodList">
         <plugin name="RatePAY_Payment_Plugin_MethodList" type="RatePAY\Payment\Plugin\MethodList" sortOrder="1" />
     </type>
+    <virtualType name="RatePAY\Payment\Model\ResourceModel\ApiLog\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">ratepay_api_log</argument>
+            <argument name="resourceModel" xsi:type="string">RatePAY\Payment\Model\ResourceModel\ApiLog</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="ratepay_protocol_apilog_grid_data_source" xsi:type="string">RatePAY\Payment\Model\ResourceModel\ApiLog\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

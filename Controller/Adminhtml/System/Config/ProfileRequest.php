@@ -97,7 +97,7 @@ class ProfileRequest extends \Magento\Framework\App\Action\Action
 
         if($profileRequest->isSuccessful()){
             $prResult = $profileRequest->getResult();
-            $product = $this->_rpPaymentHelper->convertMethodToProduct($this->_getRpMethodWithoutCountry($method));
+            $product = $this->_rpPaymentHelper->convertMethodToProduct($method);
             $country = $this->_getRpCountry($method);
 
             if (!is_array($prResult)) {
@@ -159,22 +159,6 @@ class ProfileRequest extends \Magento\Framework\App\Action\Action
         $quote = $this->_checkoutSession->getQuote();
 
         return $this->_rpLibraryModel->getRequestHead($quote, null, null, null, $profileId, $securityCode);
-    }
-
-    /**
-     * Get RatePay payment method without country code
-     *
-     * @param $id
-     * @return mixed
-     */
-    private function _getRpMethodWithoutCountry($id) {
-        $id = str_replace('_de', '', $id);
-        $id = str_replace('_at', '', $id);
-        $id = str_replace('_ch', '', $id);
-        $id = str_replace('_nl', '', $id);
-        $id = str_replace('_be', '', $id);
-
-        return $id;
     }
 
     /**

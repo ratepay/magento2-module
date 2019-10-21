@@ -1,0 +1,21 @@
+<?php
+$apiLog = $block->getApiLogEntry();
+?>
+<?php if (!$apiLog): ?>
+    <?php echo __('The requested API-Log entry is not existing!'); ?>
+<?php else: ?>
+    <div data-mage-init='{"floatingHeader": {}}' class="page-actions"><?php echo $block->getButtonsHtml() ?></div>
+    <section class="admin__page-section  order-view-account-information">
+        <div class="admin__page-section-content">
+            <div style="border-bottom: 4px solid #DFDFDF;margin-bottom: 18px;padding-bottom: 0.25em;">
+                <h3>Request</h3>
+                <pre><?php echo $apiLog->getRequest(); ?></pre>
+            </div>
+
+            <div style="border-bottom: 4px solid #DFDFDF;margin-bottom: 18px;padding-bottom: 0.25em;">
+                <h3>Response</h3>
+                <pre><?php echo $apiLog->getResponse(); ?></pre>
+            </div>
+        </div>
+    </section>
+<?php endif; ?>

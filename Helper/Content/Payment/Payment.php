@@ -55,10 +55,10 @@ class Payment extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $methodCode = $quoteOrOrder->getPayment()->getMethod();
         $id = (is_null($fixedPaymentMethod) ? $methodCode : $fixedPaymentMethod);
-        $id = $this->_getRpMethodWithoutCountry($id);
+        $id = $this->_rpPaymentHelper->getRpMethodWithoutCountry($id);
         $content = [
-                'Method' => $this->_rpPaymentHelper->convertMethodToProduct($id), // "installment", "elv", "prepayment"
-                'Amount' => round($quoteOrOrder->getGrandTotal(), 2)
+            'Method' => $this->_rpPaymentHelper->convertMethodToProduct($id), // "installment", "elv", "prepayment"
+            'Amount' => round($quoteOrOrder->getGrandTotal(), 2)
         ];
         if (in_array($id, ['ratepay_installment', 'ratepay_installment0', 'ratepay_installment_backend', 'ratepay_installment0_backend'])) {
             $content['Amount'] = $this->checkoutSession->getData('ratepayPaymentAmount_'.$methodCode);
@@ -75,21 +75,5 @@ class Payment extends \Magento\Framework\App\Helper\AbstractHelper
             }
         }
         return $content;
-    }
-
-    /**
-     * Get RatePay payment method without country code
-     *
-     * @param $id
-     * @return mixed
-     */
-    private function _getRpMethodWithoutCountry($id) {
-        $id = str_replace('_de', '', $id);
-        $id = str_replace('_at', '', $id);
-        $id = str_replace('_ch', '', $id);
-        $id = str_replace('_nl', '', $id);
-        $id = str_replace('_be', '', $id);
-
-        return $id;
     }
 }

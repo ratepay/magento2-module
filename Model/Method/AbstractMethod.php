@@ -88,6 +88,13 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
     protected $isFrontendPaymentMethod = true;
 
     /**
+     * Ratepay LibraryController
+     *
+     * @var \RatePAY\Payment\Controller\LibraryController
+     */
+    protected $libraryController;
+
+    /**
      * AbstractMethod constructor.
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
@@ -103,6 +110,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param CustomerRepositoryInterface $customerRepository
      * @param \Magento\Customer\Model\Session $customerSession
+     * @param \RatePAY\Payment\Controller\LibraryController $libraryController
      * @param \Magento\Framework\Model\ResourceModel\AbstractResource|null $resource
      * @param \Magento\Framework\Data\Collection\AbstractDb|null $resourceCollection
      * @param array $data
@@ -122,6 +130,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         \Magento\Checkout\Model\Session $checkoutSession,
         CustomerRepositoryInterface $customerRepository,
         \Magento\Customer\Model\Session $customerSession,
+        \RatePAY\Payment\Controller\LibraryController $libraryController,
         \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
         array $data = [])
@@ -145,6 +154,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         $this->checkoutSession = $checkoutSession;
         $this->customerRepository = $customerRepository;
         $this->customerSession = $customerSession;
+        $this->libraryController = $libraryController;
     }
 
     /**
@@ -177,12 +187,12 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
             throw new PaymentException(__('ala not allowed'));
         }
 
-        $resultInit = LibraryController::callPaymentInit($head, $sandbox);
+        $resultInit = $this->libraryController->callPaymentInit($head, $order, $sandbox);
         if ($resultInit->isSuccessful()) {
             $payment->setAdditionalInformation('transactionId', $resultInit->getTransactionId());
             $head = $this->_rpLibraryModel->getRequestHead($order, 'PAYMENT_REQUEST', $resultInit);
             $content = $this->_rpLibraryModel->getRequestContent($order, 'PAYMENT_REQUEST');
-            $resultRequest = LibraryController::callPaymentRequest($head, $content, $sandbox);
+            $resultRequest = $this->libraryController->callPaymentRequest($head, $content, $order, $sandbox);
             if (!$resultRequest->isSuccessful()) {
                 $message = $this->formatMessage($resultRequest->getCustomerMessage());
                 if (!$resultRequest->isRetryAdmitted()) {

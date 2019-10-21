@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <block class="RatePAY\Payment\Block\Adminhtml\Protocol\ApiLog\View" name="ratepay_protocol_apilog_view" template="protocol/apilog/view.phtml" />
+        </referenceContainer>
+    </body>
+</page>

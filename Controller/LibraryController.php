@@ -8,30 +8,63 @@
 
 namespace RatePAY\Payment\Controller;
 
+use RatePAY\Payment\Model\ResourceModel\ApiLog;
 use RatePAY\RequestBuilder;
 use RatePAY\Frontend\InstallmentBuilder;
 use RatePAY\Frontend\DeviceFingerprintBuilder;
 
 class LibraryController
 {
+    protected $apiLog;
+
+    /**
+     * LibraryController constructor.
+     *
+     * @param ApiLog $apiLog
+     */
+    public function __construct(ApiLog $apiLog)
+    {
+        $this->apiLog = $apiLog;
+    }
+
+    /**
+     * Log request to database
+     *
+     * @param $request
+     * @param $order
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function log($request, $order = null)
+    {
+        $this->apiLog->addApiLogEntry($request, $order);
+    }
+
     /**
      * Call Ratepay Payment Init
      *
      * @param $head
+     * @param $order
      * @param $sandbox
      * @return mixed
+     * @throws \Exception
      */
-    public static function callPaymentInit($head, $sandbox)
+    public function callPaymentInit($head, $order, $sandbox)
     {
         // Initiation of generic RequestBuilder object.
-        $rb = new RequestBuilder($sandbox); // true == Sandbox mode
+        $request = new RequestBuilder($sandbox); // true == Sandbox mode
+        $exception = false;
 
         try {
-            $paymentInit = $rb->callPaymentInit($head); // Initializes transaction
+            $request->callPaymentInit($head); // Initializes transaction
         } catch (\Exception $e) {
-            echo $e->getMessage();
+            $exception = $e;
         }
-        return $paymentInit;
+        $this->log($request, $order);
+
+        if ($exception !== false) {
+            throw $exception;
+        }
+        return $request;
     }
 
     /**
@@ -39,19 +72,27 @@ class LibraryController
      *
      * @param $head
      * @param $content
+     * @param $order
      * @param $sandbox
      * @return mixed
+     * @throws \Exception
      */
-    public static function callPaymentRequest($head, $content, $sandbox)
+    public function callPaymentRequest($head, $content, $order, $sandbox)
     {
-        $rb = new RequestBuilder($sandbox); // Sandbox mode = true
-        try {
-            $paymentRequest = $rb->callPaymentRequest($head, $content);
-        } catch (\Exception $e) {
-            echo $e->getMessage();
-        }
+        $request = new RequestBuilder($sandbox); // Sandbox mode = true
+        $exception = false;
 
-        return $paymentRequest;
+        try {
+            $request->callPaymentRequest($head, $content);
+        } catch (\Exception $e) {
+            $exception = $e;
+        }
+        $this->log($request, $order);
+
+        if ($exception !== false) {
+            throw $exception;
+        }
+        return $request;
     }
 
     /**
@@ -121,64 +162,85 @@ class LibraryController
      *
      * @param $head
      * @param $sandbox
-     * @return mixed
+     * @return RequestBuilder
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function callProfileRequest($head, $sandbox)
     {
-        $rb = new RequestBuilder($sandbox);
+        $request = new RequestBuilder($sandbox);
+        $exception = false;
 
         try{
-            $profilerequest = $rb->callProfileRequest($head);
+            $request->callProfileRequest($head);
         } catch (\Exception $e) {
-            echo $e->getMessage();
+            $exception = $e;
         }
+        $this->log($request);
 
-        return $profilerequest;
+        if ($exception !== false) {
+            throw $exception;
+        }
+        return $request;
     }
 
     /**
      * @param $head
      * @param $content
+     * @param $order
      * @param $sandbox
-     * @return mixed
+     * @return RequestBuilder
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function  callConfirmationDeliver($head, $content, $sandbox)
+    public function callConfirmationDeliver($head, $content, $order, $sandbox)
     {
-        $rb = new RequestBuilder($sandbox);
+        $request = new RequestBuilder($sandbox);
+        $exception = false;
 
         try {
-            $confirmationDeliver = $rb->callConfirmationDeliver($head, $content);
+            $request->callConfirmationDeliver($head, $content);
         } catch (\Exception $e) {
-            echo $e->getMessage();
+            $exception = $e;
         }
+        $this->log($request, $order);
 
-        return $confirmationDeliver;
+        if ($exception !== false) {
+            throw $exception;
+        }
+        return $request;
     }
 
     /**
      * @param $head
      * @param $content
      * @param $operation
+     * @param $order
      * @param $sandbox
      * @return mixed
      * @throws \Exception
      */
-    public function callPaymentChange($head, $content, $operation, $sandbox)
+    public function callPaymentChange($head, $content, $operation, $order, $sandbox)
     {
-        $rb = new RequestBuilder($sandbox);
+        $request = new RequestBuilder($sandbox);
+        $exception = false;
 
         try {
-            $paymentChange = $rb->callPaymentChange($head, $content)->subtype($operation);
+            $request->callPaymentChange($head, $content)->subtype($operation);
         } catch (\Exception $e) {
-            throw $e;
+            $exception = $e;
         }
-        return $paymentChange;
+        $this->log($request, $order);
+
+        if ($exception !== false) {
+            throw $exception;
+        }
+        return $request;
     }
 
     /**
-     * @param string $snippetId
-     * @param string $orderId
+     * @param $snippetId
+     * @param $orderId
      * @return DeviceFingerprintBuilder
+     * @throws \RatePAY\Exception\FrontendException
      */
     public function getDfpCode($snippetId, $orderId)
     {

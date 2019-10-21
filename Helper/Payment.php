@@ -39,11 +39,26 @@ class Payment extends \Magento\Framework\App\Helper\AbstractHelper
     );
 
     /**
-     * @param $id
-     * @return mixed
+     * @param string $id
+     * @return string
+     */
+    public function getRpMethodWithoutCountry($id)
+    {
+        $id = str_replace('_de', '', $id);
+        $id = str_replace('_at', '', $id);
+        $id = str_replace('_ch', '', $id);
+        $id = str_replace('_nl', '', $id);
+        $id = str_replace('_be', '', $id);
+        return $id;
+    }
+
+    /**
+     * @param string $id
+     * @return string
      */
     public function convertMethodToProduct($id)
     {
+        $id = $this->getRpMethodWithoutCountry($id);
         $id = str_ireplace('_backend', '', $id);
         return $this->_productsToMethods[$id];
     }

@@ -88,7 +88,7 @@ class SendRatepayDeliverCallOnInvoice implements ObserverInterface
         $sandbox = (bool)$this->rpDataHelper->getRpConfigData($paymentMethod, 'sandbox', $this->storeManager->getStore()->getId());
         $head = $this->rpLibraryModel->getRequestHead($order, 'CONFIRMATION_DELIVER');
         $content = $this->rpLibraryModel->getRequestContent($inv, 'CONFIRMATION_DELIVER');
-        $resultConfirmationDeliver = $this->rpLibraryController->callConfirmationDeliver($head, $content, $sandbox);
+        $resultConfirmationDeliver = $this->rpLibraryController->callConfirmationDeliver($head, $content, $order, $sandbox);
 
         if(!$resultConfirmationDeliver->isSuccessful())
         {
