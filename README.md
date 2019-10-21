@@ -9,6 +9,7 @@
 |Link | http://www.ratepay.com
 |Mail | integration@ratepay.com
 |Documentation | https://ratepay.gitbook.io/magento2/
+|Legal Disclaimer|https://ratepay.gitbook.io/docs/#legal-disclaimer
 
 ## Installation
 ### Option 1 - Composer
