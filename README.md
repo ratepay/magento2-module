@@ -11,25 +11,10 @@
 |Documentation | https://ratepay.gitbook.io/magento2/
 |Legal Disclaimer|https://ratepay.gitbook.io/docs/#legal-disclaimer
 
-## Installation
-### Option 1 - Composer
+## Installation with Composer
 Enter the following commands in your terminal from the root of you shopdirectory.
 ````bash
 composer require ratepay/magento2-payment
-````
-
-### Option 2 - Manual installation
-* Copy all files from this GitHub repository into app/code/RatePAY/Payment/ of your shopdirectory.
-* Create the folders if not existing.
-
-Enter the following commands in your terminal from the root of you shopdirectory.
-````bash
-composer require ratepay/php-library
-````
-
-## Enable the module
-Enter the following commands in your terminal from the root of you shopdirectory.
-````bash
 php bin/magento module:enable RatePAY_Payment
 php bin/magento setup:upgrade
 php bin/magento setup:di:compile
