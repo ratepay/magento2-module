@@ -58,6 +58,24 @@ class ApiLog extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
     /**
      * @param RequestBuilder $request
      * @param $order
+     * @return string
+     */
+    protected function getTransactionId(RequestBuilder $request, $order = null)
+    {
+        $transactionId = null;
+        if (!is_null($order)) {
+            try {
+                $transactionId = $request->getTransactionId();
+            } catch(\Exception $exc) {
+                // do nothing
+            }
+        }
+        return $transactionId;
+    }
+
+    /**
+     * @param RequestBuilder $request
+     * @param $order
      * @return $this
      * @throws \Magento\Framework\Exception\LocalizedException
      */
@@ -68,9 +86,9 @@ class ApiLog extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
         $this->getConnection()->insert(
             $this->getMainTable(),
             [
-                'order_id' => $order->getId(),
-                'order_increment_id' => $order->getIncrementId(),
-                'transaction_id' => !is_null($request->getTransactionId()) ? $request->getTransactionId() : null,
+                'order_id' => !is_null($order) ? $order->getId() : null,
+                'order_increment_id' => !is_null($order) ? $order->getIncrementId() : null,
+                'transaction_id' => $this->getTransactionId($request, $order),
                 'name' => !is_null($order) ? $order->getBillingAddress()->getFirstname()." ".$order->getBillingAddress()->getLastname() : null,
                 'payment_method' => !is_null($order) ? strtoupper($this->paymentHelper->convertMethodToProduct($order->getPayment()->getMethod())) : null,
                 'payment_type' => $requestXMLElement->head->{'operation'},
