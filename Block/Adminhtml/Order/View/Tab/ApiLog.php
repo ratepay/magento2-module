@@ -13,7 +13,7 @@ class ApiLog extends \Magento\Framework\View\Element\Text\ListText implements \M
      */
     public function getTabLabel()
     {
-        return __('RatePAY - API log');
+        return __('RatePAY - API Log');
     }
 
     /**
@@ -23,7 +23,7 @@ class ApiLog extends \Magento\Framework\View\Element\Text\ListText implements \M
      */
     public function getTabTitle()
     {
-        return __('RatePAY - API log');
+        return __('RatePAY - API Log');
     }
 
     /**

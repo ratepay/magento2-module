@@ -5,7 +5,7 @@
             <resource id="Magento_Backend::admin">
                 <resource id="RatePAY_Payment::ratepay" title="RatePAY" sortOrder="500">
                     <resource id="RatePAY_Payment::ratepay_protocol" title="Protocol" sortOrder="10">
-                        <resource id="RatePAY_Payment::ratepay_protocol_apilog" title="API logs" sortOrder="10" />
+                        <resource id="RatePAY_Payment::ratepay_protocol_apilog" title="API Logs" sortOrder="10" />
                     </resource>
                 </resource>
             </resource>
