@@ -9,13 +9,18 @@ $apiLog = $block->getApiLogEntry();
         <div class="admin__page-section-content">
             <div style="border-bottom: 4px solid #DFDFDF;margin-bottom: 18px;padding-bottom: 0.25em;">
                 <h3>Request</h3>
-                <pre><?php echo $apiLog->getRequest(); ?></pre>
+                <pre>
+                    <code class="xml"><?php echo $apiLog->getRequest(); ?></code>
+                </pre>
             </div>
 
             <div style="border-bottom: 4px solid #DFDFDF;margin-bottom: 18px;padding-bottom: 0.25em;">
                 <h3>Response</h3>
-                <pre><?php echo $apiLog->getResponse(); ?></pre>
+                <pre>
+                    <code class="xml"><?php echo $apiLog->getResponse(); ?></code>
+                </pre>
             </div>
         </div>
     </section>
+    <script>hljs.initHighlightingOnLoad();</script>
 <?php endif; ?>

@@ -56,6 +56,36 @@ class ApiLog extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
     }
 
     /**
+     * Mask the value of a given tag in the xml
+     *
+     * @param string $xmlString
+     * @param string $tagName
+     * @return string
+     */
+    protected function maskTagValue($xmlString, $tagName)
+    {
+        preg_match('#<'.$tagName.'>(\w*)<\/'.$tagName.'>#', $xmlString, $matches);
+        $masked = '';
+        for ($i = 0; $i < strlen($matches[1]); $i++) {
+            $masked .= '*';
+        }
+        $replaceWith = '<'.$tagName.'>'.$masked.'</'.$tagName.'>';
+        return str_replace($matches[0], $replaceWith, $xmlString);
+    }
+
+    /**
+     * Masks certain values in the xml string
+     *
+     * @param string $xmlString
+     * @return string
+     */
+    protected function maskXml($xmlString)
+    {
+        $xmlString = $this->maskTagValue($xmlString, 'securitycode');
+        return $xmlString;
+    }
+
+    /**
      * @param RequestBuilder $request
      * @param $order
      * @return string
@@ -94,7 +124,7 @@ class ApiLog extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
                 'payment_type' => $requestXMLElement->head->{'operation'},
                 'payment_subtype' => isset($requestXMLElement->head->operation->attributes()->subtype) ? strtoupper((string) $requestXMLElement->head->operation->attributes()->subtype) :null,
                 'result' => $request->getResultMessage(),
-                'request' => $this->getFormattedXml($requestXMLElement),
+                'request' => $this->maskXml($this->getFormattedXml($requestXMLElement)),
                 'response' => $this->getFormattedXml($request->getResponseXmlElement()),
                 'result_code' => $request->getResultCode(),
                 'reason' => $request->getReasonMessage(),

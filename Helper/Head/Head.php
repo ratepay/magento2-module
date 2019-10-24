@@ -81,7 +81,7 @@ class Head extends \Magento\Framework\App\Helper\AbstractHelper
         $securityCode = (is_null($securityCode) ? $this->rpDataHelper->getRpConfigData($paymentMethod, 'securityCode', $storeCode) : $securityCode);
 
         $headModel->setArray([
-            'SystemId' => $this->storeManager->getStore($this->storeManager->getStore()->getId())->getBaseUrl() . ' (' . $_SERVER['SERVER_ADDR'] . ')',
+            'SystemId' => $this->storeManager->getStore($quoteOrOrder->getStore()->getId())->getBaseUrl() . ' (' . $_SERVER['SERVER_ADDR'] . ')',
             'Credential' => [
                 'ProfileId' => $profileId,
                 'Securitycode' => $securityCode
