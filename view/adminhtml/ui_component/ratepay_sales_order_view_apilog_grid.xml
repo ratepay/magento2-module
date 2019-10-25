@@ -87,6 +87,14 @@
                 </item>
             </argument>
         </column>
+        <column name="status_code">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Status code</item>
+                </item>
+            </argument>
+        </column>
         <column name="result">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">

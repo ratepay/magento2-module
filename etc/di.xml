@@ -27,4 +27,7 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Sales\Model\Service\CreditmemoService">
+        <plugin name="RatePAY_Payment_plugin_CreditmemoService" type="RatePAY\Payment\Plugin\CreditmemoService" sortOrder="1" />
+    </type>
 </config>

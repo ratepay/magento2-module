@@ -29,6 +29,7 @@ class ApiLog
             'request'           => ['type' => Table::TYPE_TEXT,         'length' => null,   'option' => []],
             'response'          => ['type' => Table::TYPE_TEXT,         'length' => null,   'option' => []],
             'result_code'       => ['type' => Table::TYPE_TEXT,         'length' => 5,      'option' => []],
+            'status_code'       => ['type' => Table::TYPE_TEXT,         'length' => 40,     'option' => []],
             'reason'            => ['type' => Table::TYPE_TEXT,         'length' => 255,    'option' => []],
         ],
         'comment' => 'Logs all API requests',

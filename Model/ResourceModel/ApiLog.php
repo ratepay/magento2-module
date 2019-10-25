@@ -112,6 +112,7 @@ class ApiLog extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
     public function addApiLogEntry(RequestBuilder $request, $order = null)
     {
         $requestXMLElement = $request->getRequestXmlElement();
+        $responseXMLElement = $request->getResponseXmlElement();
 
         $this->getConnection()->insert(
             $this->getMainTable(),
@@ -121,12 +122,13 @@ class ApiLog extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
                 'transaction_id' => $this->getTransactionId($request, $order),
                 'name' => !is_null($order) ? $order->getBillingAddress()->getFirstname()." ".$order->getBillingAddress()->getLastname() : null,
                 'payment_method' => !is_null($order) ? strtoupper($this->paymentHelper->convertMethodToProduct($order->getPayment()->getMethod())) : null,
-                'payment_type' => $requestXMLElement->head->{'operation'},
+                'payment_type' => (string)$requestXMLElement->head->{'operation'},
                 'payment_subtype' => isset($requestXMLElement->head->operation->attributes()->subtype) ? strtoupper((string) $requestXMLElement->head->operation->attributes()->subtype) :null,
                 'result' => $request->getResultMessage(),
                 'request' => $this->maskXml($this->getFormattedXml($requestXMLElement)),
-                'response' => $this->getFormattedXml($request->getResponseXmlElement()),
+                'response' => $this->getFormattedXml($responseXMLElement),
                 'result_code' => $request->getResultCode(),
+                'status_code' => (string)$responseXMLElement->head->processing->status->attributes()->code,
                 'reason' => $request->getReasonMessage(),
             ]
         );

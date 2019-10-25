@@ -12,19 +12,30 @@ use RatePAY\Payment\Model\ResourceModel\ApiLog;
 use RatePAY\RequestBuilder;
 use RatePAY\Frontend\InstallmentBuilder;
 use RatePAY\Frontend\DeviceFingerprintBuilder;
+use Magento\Checkout\Model\Session\Proxy as CheckoutSession;
 
 class LibraryController
 {
+    /**
+     * @var ApiLog
+     */
     protected $apiLog;
+
+    /**
+     * @var CheckoutSession
+     */
+    protected $checkoutSession;
 
     /**
      * LibraryController constructor.
      *
      * @param ApiLog $apiLog
+     * @param CheckoutSession $checkoutSession
      */
-    public function __construct(ApiLog $apiLog)
+    public function __construct(ApiLog $apiLog, CheckoutSession $checkoutSession)
     {
         $this->apiLog = $apiLog;
+        $this->checkoutSession = $checkoutSession;
     }
 
     /**
@@ -228,6 +239,7 @@ class LibraryController
         } catch (\Exception $e) {
             $exception = $e;
         }
+        $this->checkoutSession->setRatepayRequest($request);
         $this->log($request, $order);
 
         if ($exception !== false) {
