@@ -37,6 +37,7 @@ ratepay_directdebit_sepa_terms_block_3,"ein und ermächtige diese, mit diesem Ka
 ratepay_directdebit_sepa_notice_block_1,Hinweis:,module,RatePAY_Payment
 ratepay_directdebit_sepa_notice_block_2,Nach Zustandekommen des Vertrags wird mir die Mandatsreferenz von RatePAY mitgeteilt.,module,RatePAY_Payment
 ratepay_directdebit_sepa_notice_block_3,"Ich kann innerhalb von acht Wochen, beginnend mit dem Belastungsdatum, die Erstattung des belasteten Betrages verlangen. Es gelten dabei die mit meinem Kreditinstitut vereinbarten Bedingungen.",module,RatePAY_Payment
+"RatePAY Data Privacy Policy","RatePAY-Datenschutzerklärung",module,RatePAY_Payment
 "Place Order","Zahlungspflichtig bestellen",module,RatePAY_Payment
 "Vat ID","USt-IdNr.",module,RatePAY_Payment
 "Please enter your Vat ID","Bitte geben Sie Ihre USt-IdNr. an",module,RatePAY_Payment
