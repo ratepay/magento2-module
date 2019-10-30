@@ -4,41 +4,29 @@
 |Repository | RatePAY Module for Magento 2
 |------|----------
 |Author | Robert Müller
-|Module-Version | `1.1.6`
+|Module-Version | `1.1.7`
 |Compatibility | Magento 2.1.0 - 2.3.3
 |Link | http://www.ratepay.com
 |Mail | integration@ratepay.com
 |Documentation | https://ratepay.gitbook.io/magento2/
+|Legal Disclaimer|https://ratepay.gitbook.io/docs/#legal-disclaimer
 
-## Installation
-Add the Ratepay Library in the composer.json file
-````bash
-"require": {
-    ...,
-	   "ratepay/php-library": "*"
-},
-````
-````bash
-composer update
-````
-Copy all files into app/code/RatePAY/Payment/ of your shopdirectory.
-Create the folders if not existing.
-Afterwords you follow one of the following options.
-
-### Option 1 (terminal):
+## Installation with Composer
 Enter the following commands in your terminal from the root of you shopdirectory.
 ````bash
+composer require ratepay/magento2-payment
 php bin/magento module:enable RatePAY_Payment
 php bin/magento setup:upgrade
 php bin/magento setup:di:compile
-php bin/magento cache:flush
+php bin/magento cache:clean
 ````
 
-### Option 2 (Web Setup Wizard):
-Navigate to the component manager in adminarea of the Shop. Choose the RatePAY Payment Module and activate it.
-For further information and prerequisites depending on module installation from adminarea please follow the official Magento 2 documentation : http://devdocs.magento.com/guides/v2.1/comp-mgr/module-man/compman-checklist.html
-
 ## Changelog
+
+### Version 1.1.7 - Released 2019-10-30
+* Added API log to backend
+* Fixed multistore compatibility
+* Updated privacy policy links
 
 ### Version 1.1.6 - Released 2019-10-16
 * Changed folder structure to standard Github Repo structure for Magento2 modules
