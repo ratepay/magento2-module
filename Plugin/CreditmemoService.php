@@ -58,9 +58,9 @@ class CreditmemoService
                 // Rewrite the log-entry after it was rolled back in the db-transaction
                 $this->apiLog->addApiLogEntry($request, $creditmemo->getOrder());
             }
-            $this->checkoutSession->unsRatepayRequest();
             throw $ex;
         }
+        $this->checkoutSession->unsRatepayRequest();
         return $return;
     }
 }
