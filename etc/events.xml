@@ -3,4 +3,7 @@
     <event name="sales_order_payment_place_end">
         <observer name="ratepay_sales_order_payment_place_end" instance="RatePAY\Payment\Observer\OrderPaymentPlaceEnd"/>
     </event>
+    <event name="sales_order_save_after">
+        <observer name="ratepay_sales_order_save_after" instance="RatePAY\Payment\Observer\OrderSaveAfter"/>
+    </event>
 </config>

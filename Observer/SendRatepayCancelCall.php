@@ -86,7 +86,7 @@ class SendRatepayCancelCall implements ObserverInterface
         $sandbox = (bool)$this->rpDataHelper->getRpConfigData($paymentMethod, 'sandbox', $this->storeManager->getStore()->getId());
         $head = $this->rpLibraryModel->getRequestHead($order, 'PAYMENT_CHANGE');
         $content = $this->rpLibraryModel->getRequestContent($order, 'PAYMENT_CHANGE', [], 0);
-        $cancellationRequest = $this->rpLibraryController->callPaymentChange($head, $content, 'cancellation', $sandbox);
+        $cancellationRequest = $this->rpLibraryController->callPaymentChange($head, $content, 'cancellation', $order, $sandbox);
         if (!$cancellationRequest->isSuccessful()){
             throw new PaymentException(__('Cancellation was not successsfull'));
         } else {

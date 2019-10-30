@@ -120,18 +120,4 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
         }
         return $content;
     }
-
-    /**
-     * @param $id
-     * @return mixed
-     */
-    private function _getRpMethodWithoutCountry($id) {
-        $id = str_replace('_de', '', $id);
-        $id = str_replace('_at', '', $id);
-        $id = str_replace('_ch', '', $id);
-        $id = str_replace('_nl', '', $id);
-        $id = str_replace('_be', '', $id);
-
-        return $id;
-    }
 }

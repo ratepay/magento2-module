@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="sales_order_tabs">
+            <block class="RatePAY\Payment\Block\Adminhtml\Order\View\Tab\ApiLog" name="ratepay_sales_order_apilog.grid.container"/>
+            <action method="addTab">
+                <argument name="name" xsi:type="string">ratepay_order_apilog</argument>
+                <argument name="block" xsi:type="string">ratepay_sales_order_apilog.grid.container</argument>
+            </action>
+        </referenceBlock>
+        <referenceBlock name="ratepay_sales_order_apilog.grid.container">
+            <uiComponent name="ratepay_sales_order_view_apilog_grid"/>
+        </referenceBlock>
+    </body>
+</page>

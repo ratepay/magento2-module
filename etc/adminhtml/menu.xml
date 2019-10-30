@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="RatePAY_Payment::ratepay" title="RatePAY" module="RatePAY_Payment" sortOrder="79" resource="RatePAY_Payment::ratepay"/>
+        <add id="RatePAY_Payment::ratepay_protocol" title="Protocol" module="RatePAY_Payment" sortOrder="30" parent="RatePAY_Payment::ratepay" resource="RatePAY_Payment::ratepay_protocol"/>
+        <add id="RatePAY_Payment::ratepay_protocol_apilog" title="API Logs" module="RatePAY_Payment" sortOrder="10" parent="RatePAY_Payment::ratepay_protocol" action="ratepay/protocol_apilog" resource="RatePAY_Payment::ratepay_protocol_apilog"/>
+    </menu>
+</config>

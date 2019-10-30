@@ -4,7 +4,7 @@
 |Repository | RatePAY Module for Magento 2
 |------|----------
 |Author | Robert Müller
-|Module-Version | `1.1.6`
+|Module-Version | `1.1.7`
 |Compatibility | Magento 2.1.0 - 2.3.3
 |Link | http://www.ratepay.com
 |Mail | integration@ratepay.com
@@ -22,6 +22,11 @@ php bin/magento cache:clean
 ````
 
 ## Changelog
+
+### Version 1.1.7 - Released 2019-10-30
+* Added API log to backend
+* Fixed multistore compatibility
+* Updated privacy policy links
 
 ### Version 1.1.6 - Released 2019-10-16
 * Changed folder structure to standard Github Repo structure for Magento2 modules
