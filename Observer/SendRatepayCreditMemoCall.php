@@ -103,13 +103,15 @@ class SendRatepayCreditMemoCall implements ObserverInterface
      */
     protected function hasPartialRefundBundle($creditMemo)
     {
+        $bundleRefundArray = array();
         foreach ($creditMemo->getItems() as $creditMemoItem) {
             $orderItem = $creditMemoItem->getOrderItem();
             $parentItem = $orderItem->getParentItem();
             if ($parentItem !== null && $parentItem->getProductType() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
-                if ((float)$creditMemoItem->getQty() != (float)$orderItem->getQtyOrdered()) {
-                    return true;
+                if (isset($bundleRefundArray[$parentItem->getId()]) && $bundleRefundArray[$parentItem->getId()] != (float)$creditMemoItem->getQty()) {
+                    return true; // all items must have the same amount!
                 }
+                $bundleRefundArray[$parentItem->getId()] = (float)$creditMemoItem->getQty(); // add amount to array
             }
         }
         return false;
