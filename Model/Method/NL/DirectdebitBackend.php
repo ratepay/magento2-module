@@ -9,7 +9,7 @@
 namespace RatePAY\Payment\Model\Method\NL;
 
 
-class DirectdebitBackend extends \RatePAY\Payment\Model\Method\NL\Invoice
+class DirectdebitBackend extends \RatePAY\Payment\Model\Method\NL\Directdebit
 {
     const METHOD_CODE = parent::METHOD_CODE.self::BACKEND_SUFFIX;
 

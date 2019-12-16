@@ -9,7 +9,7 @@
 namespace RatePAY\Payment\Model\Method\AT;
 
 
-class InstallmentBackend extends \RatePAY\Payment\Model\Method\AT\Invoice
+class InstallmentBackend extends \RatePAY\Payment\Model\Method\AT\Installment
 {
     const METHOD_CODE = parent::METHOD_CODE.self::BACKEND_SUFFIX;
 
