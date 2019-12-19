@@ -23,6 +23,11 @@ php bin/magento cache:clean
 
 ## Changelog
 
+### Version 1.1.8 - Released 2019-12-19
+* Added API log to backend
+* Fixed multistore compatibility
+* Updated privacy policy links
+
 ### Version 1.1.7 - Released 2019-10-30
 * Added API log to backend
 * Fixed multistore compatibility
