@@ -38,6 +38,7 @@ class OrderPaymentPlaceEnd implements ObserverInterface
         'ratepayLastInstallmentAmount',
         'ratepayInterestRate',
         'rate_pay_disabled_payment_methods',
+        'ratepay_request',
     ];
 
     /**

@@ -13,6 +13,7 @@ use RatePAY\RequestBuilder;
 use RatePAY\Frontend\InstallmentBuilder;
 use RatePAY\Frontend\DeviceFingerprintBuilder;
 use Magento\Checkout\Model\Session\Proxy as CheckoutSession;
+use RatePAY\Payment\Model\SerializableRequestFactory;
 
 class LibraryController
 {
@@ -27,15 +28,22 @@ class LibraryController
     protected $checkoutSession;
 
     /**
+     * @var SerializableRequestFactory
+     */
+    protected $serializableRequestFactory;
+
+    /**
      * LibraryController constructor.
      *
      * @param ApiLog $apiLog
      * @param CheckoutSession $checkoutSession
+     * @param SerializableRequestFactory $serializableRequestFactory
      */
-    public function __construct(ApiLog $apiLog, CheckoutSession $checkoutSession)
+    public function __construct(ApiLog $apiLog, CheckoutSession $checkoutSession, SerializableRequestFactory $serializableRequestFactory)
     {
         $this->apiLog = $apiLog;
         $this->checkoutSession = $checkoutSession;
+        $this->serializableRequestFactory = $serializableRequestFactory;
     }
 
     /**
@@ -43,11 +51,19 @@ class LibraryController
      *
      * @param $request
      * @param $order
+     * @param $addToSession
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function log($request, $order = null)
+    public function log($request, $order = null, $addToSession = false)
     {
-        $this->apiLog->addApiLogEntry($request, $order);
+        $serializableRequest = $this->serializableRequestFactory->create();
+        $serializableRequest->initData($request, $order);
+
+        if ($addToSession === true) {
+            $this->checkoutSession->setRatepayRequest($serializableRequest);
+        }
+
+        $this->apiLog->addApiLogEntry($serializableRequest, $order);
     }
 
     /**
@@ -98,7 +114,7 @@ class LibraryController
         } catch (\Exception $e) {
             $exception = $e;
         }
-        $this->log($request, $order);
+        $this->log($request, $order, true);
 
         if ($exception !== false) {
             throw $exception;
@@ -239,8 +255,8 @@ class LibraryController
         } catch (\Exception $e) {
             $exception = $e;
         }
-        $this->checkoutSession->setRatepayRequest($request);
-        $this->log($request, $order);
+
+        $this->log($request, $order, true);
 
         if ($exception !== false) {
             throw $exception;
