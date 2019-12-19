@@ -23,9 +23,9 @@ class RatepayGuestErrorProcessor
     protected $paymentInformationManagement;
 
     /**
-     * @var \Magento\Checkout\Model\Session
+     * @var \Magento\Checkout\Model\Session\Proxy
      */
-    protected $session;
+    protected $checkoutSession;
 
     /**
      * @var \Magento\Quote\Api\CartManagementInterface
@@ -33,22 +33,38 @@ class RatepayGuestErrorProcessor
     protected $cartManagement;
 
     /**
-     * @param \Magento\Checkout\Model\Session $session
+     * @var \Magento\Framework\App\ProductMetadata
+     */
+    protected $productMetadata;
+
+    /**
+     * @var \RatePAY\Payment\Model\ResourceModel\ApiLog
+     */
+    protected $apiLog;
+
+    /**
+     * @param \Magento\Checkout\Model\Session\Proxy $checkoutSession
      * @param \Magento\Quote\Api\GuestBillingAddressManagementInterface $billingAddressManagement
      * @param \Magento\Quote\Api\GuestPaymentMethodManagementInterface $paymentMethodManagement
      * @param \Magento\Quote\Api\GuestCartManagementInterface $cartManagement
+     * @param \Magento\Framework\App\ProductMetadata $productMetadata
+     * @param \RatePAY\Payment\Model\ResourceModel\ApiLog $apiLog
      * @codeCoverageIgnore
      */
     public function __construct(
-        \Magento\Checkout\Model\Session $session,
+        \Magento\Checkout\Model\Session\Proxy $checkoutSession,
         \Magento\Quote\Api\GuestBillingAddressManagementInterface $billingAddressManagement,
         \Magento\Quote\Api\GuestPaymentMethodManagementInterface $paymentMethodManagement,
-        \Magento\Quote\Api\GuestCartManagementInterface $cartManagement
+        \Magento\Quote\Api\GuestCartManagementInterface $cartManagement,
+        \Magento\Framework\App\ProductMetadata $productMetadata,
+        \RatePAY\Payment\Model\ResourceModel\ApiLog $apiLog
     ) {
         $this->billingAddressManagement = $billingAddressManagement;
         $this->paymentMethodManagement = $paymentMethodManagement;
-        $this->session = $session;
+        $this->checkoutSession = $checkoutSession;
         $this->cartManagement = $cartManagement;
+        $this->productMetadata = $productMetadata;
+        $this->apiLog = $apiLog;
     }
 
     /**
@@ -70,16 +86,31 @@ class RatepayGuestErrorProcessor
         \Magento\Quote\Api\Data\AddressInterface $billingAddress
     )
     {
-        $subject->savePaymentInformation($cartId, $email, $paymentMethod, $billingAddress);
-        try {
-            $orderId = $this->cartManagement->placeOrder($cartId);
-        } catch (\Exception $e) {
-            throw new PaymentException(
-                __($e->getMessage()),
-                $e
-            );
-        }
+        if (version_compare($this->productMetadata->getVersion(), '2.1.0', '>=') &&
+            version_compare($this->productMetadata->getVersion(), '2.2.0', '<') &&
+            strpos($paymentMethod->getMethod(), 'ratepay_') !== false
+        ) { // Problem only exists in Magento 2.1.X
+            $subject->savePaymentInformation($cartId, $email, $paymentMethod, $billingAddress);
+            try {
+                $orderId = $this->cartManagement->placeOrder($cartId);
+            } catch (\Exception $e) {
+                throw new PaymentException(__($e->getMessage()), $e);
+            }
 
-        return $orderId;
+            return $orderId;
+        }
+        // run core method
+        try {
+            $return = $proceed($cartId, $email, $paymentMethod, $billingAddress);
+        } catch (\Exception $e) {
+            $request = $this->checkoutSession->getRatepayRequest();
+            if (!empty($request)) {
+                // Rewrite the log-entry after it was rolled back in the db-transaction
+                $this->apiLog->addApiLogEntry($request);
+            }
+            $this->checkoutSession->unsRatepayRequest();
+            throw $e;
+        }
+        return $return;
     }
 }
