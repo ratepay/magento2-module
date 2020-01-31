@@ -234,7 +234,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
      */
     protected function handleError($resultRequest, $order)
     {
-        if ($resultRequest->getReasonCode() == 703) {
+        if ($resultRequest->getReasonCode() == 703 && !empty($order->getCustomerId())) {
             $this->hidePaymentType->addHiddenPaymentType($this->getCode(), $order->getCustomerId());
         }
     }
