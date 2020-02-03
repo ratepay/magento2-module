@@ -14,7 +14,8 @@ define(
 
         return function (targetModule) {
             targetModule.disablePaymentMethod = function (sPaymentMethod) {
-                $('INPUT#' + sPaymentMethod).parents('.payment-method').fadeOut(3000, function() {
+                $('INPUT#' + sPaymentMethod).parents('.payment-method').find('.action.checkout').prop( "disabled", true );
+                $('INPUT#' + sPaymentMethod).parents('.payment-method').delay(5000).fadeOut(2000, function() {
                     $('INPUT#' + sPaymentMethod).parents('.payment-method').remove();
                 });
             };
