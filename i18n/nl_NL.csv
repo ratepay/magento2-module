@@ -72,9 +72,9 @@ B2B,B2B,module,RatePAY_Payment
 Austria,Austria,module,RatePAY_Payment
 Switzerland,Switzerland,module,RatePAY_Payment
 "Automated Data Procedure Error","Helaas is een betaling met de gekozen betaalmethode Factuur niet mogelijk. Dit besluit is genomen op basis van een geautomatiseerde gegevenscontrole.",module,RatePAY_Payment
-ratepay_terms_block_1, "De aanvullende" ,module,RatePAY_Payment
-ratepay_terms_block_2, "voorwaarden en het gegevensbeschermingsvoorschrift" ,module,RatePAY_Payment
-ratepay_terms_block_3, "van RatePAY GmbH zijn van toepassing" ,module,RatePAY_Payment
+ratepay_terms_block_1, "Voor deze betalingsmethode gelden" ,module,RatePAY_Payment
+ratepay_terms_block_2, "aanvullende algemene voorwaarden en de privacyverklaring" ,module,RatePAY_Payment
+ratepay_terms_block_3, "." ,module,RatePAY_Payment
 "rp_calculation_intro_part1","Im Folgenden können Sie entscheiden, wie Sie die Ratenzahlung gestalten möchten. Legen Sie bequem die Anzahl der Raten und somit ",module,RatePAY_Payment
 "rp_calculation_intro_part2","die Laufzeit",module,RatePAY_Payment
 "rp_calculation_intro_part3"," der Ratenzahlung fest. Oder bestimmen sie einfach die gewünschte ",module,RatePAY_Payment

@@ -71,9 +71,9 @@ B2B,B2B,module,RatePAY_Payment
 Austria,Austria,module,RatePAY_Payment
 Switzerland,Switzerland,module,RatePAY_Payment
 "Automated Data Procedure Error","Votre paiement via RatePAY a malheureusement été refusé. Cette décision est le résultat d'un traitement automatique des données. Pour plus de renseignements, veuillez consulter les Conditions Générales de Ventes ainsi que la déclaration de confidentialité des données concernant les méthodes de paiement de RatePAY.",module,RatePAY_Payment
-ratepay_terms_block_1, "Les" ,module,RatePAY_Payment
-ratepay_terms_block_2, "conditions générales supplémentaires ainsi que les informations sur la protection des données" ,module,RatePAY_Payment
-ratepay_terms_block_3, "de RatePAY GmbH s´appliquent" ,module,RatePAY_Payment
+ratepay_terms_block_1, "Pour ce moyen de paiement" ,module,RatePAY_Payment
+ratepay_terms_block_2, ", d'autres conditions d'utilisation et de protection des données" ,module,RatePAY_Payment
+ratepay_terms_block_3, "s'applique." ,module,RatePAY_Payment
 "rp_calculation_intro_part1","Im Folgenden können Sie entscheiden, wie Sie die Ratenzahlung gestalten möchten. Legen Sie bequem die Anzahl der Raten und somit ",module,RatePAY_Payment
 "rp_calculation_intro_part2","die Laufzeit",module,RatePAY_Payment
 "rp_calculation_intro_part3"," der Ratenzahlung fest. Oder bestimmen sie einfach die gewünschte ",module,RatePAY_Payment
