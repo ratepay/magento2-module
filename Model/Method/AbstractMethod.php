@@ -14,6 +14,7 @@ use RatePAY\Payment\Controller\LibraryController;
 use RatePAY\Payment\Helper\Validator;
 use Magento\Framework\Exception\PaymentException;
 use RatePAY\Payment\Model\Exception\DisablePaymentMethodException;
+use RatePAY\Payment\Model\ResourceModel\HidePaymentType;
 
 abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMethod
 {
@@ -95,6 +96,13 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
     protected $libraryController;
 
     /**
+     * HidePaymentType resource model
+     *
+     * @var \RatePay\Payment\Model\ResourceModel\HidePaymentType
+     */
+    protected $hidePaymentType;
+
+    /**
      * AbstractMethod constructor.
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
@@ -111,6 +119,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
      * @param CustomerRepositoryInterface $customerRepository
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \RatePAY\Payment\Controller\LibraryController $libraryController
+     * @param \RatePay\Payment\Model\ResourceModel\HidePaymentType $hidePaymentType
      * @param \Magento\Framework\Model\ResourceModel\AbstractResource|null $resource
      * @param \Magento\Framework\Data\Collection\AbstractDb|null $resourceCollection
      * @param array $data
@@ -131,6 +140,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         CustomerRepositoryInterface $customerRepository,
         \Magento\Customer\Model\Session $customerSession,
         \RatePAY\Payment\Controller\LibraryController $libraryController,
+        \RatePay\Payment\Model\ResourceModel\HidePaymentType $hidePaymentType,
         \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
         array $data = [])
@@ -155,6 +165,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         $this->customerRepository = $customerRepository;
         $this->customerSession = $customerSession;
         $this->libraryController = $libraryController;
+        $this->hidePaymentType = $hidePaymentType;
     }
 
     /**
@@ -197,6 +208,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
                 $message = $this->formatMessage($resultRequest->getCustomerMessage());
                 if (!$resultRequest->isRetryAdmitted()) {
                     $this->customerSession->setRatePayDeviceIdentToken(null);
+                    $this->handleError($resultRequest, $order);
 
                     $sMethodCode = $order->getPayment()->getMethod();
                     $this->addPaymentMethodToDisabledMethods($sMethodCode);
@@ -212,6 +224,18 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
             $message = $this->formatMessage($resultInit->getReasonMessage());
             $this->customerSession->setRatePayDeviceIdentToken(null);
             throw new PaymentException(__($message)); // RatePAY Error Message
+        }
+    }
+
+    /**
+     * @param object $resultRequest
+     * @param \Magento\Sales\Model\Order $order
+     * @return void
+     */
+    protected function handleError($resultRequest, $order)
+    {
+        if ($resultRequest->getReasonCode() == 703 && !empty($order->getCustomerId())) {
+            $this->hidePaymentType->addHiddenPaymentType($this->getCode(), $order->getCustomerId());
         }
     }
 

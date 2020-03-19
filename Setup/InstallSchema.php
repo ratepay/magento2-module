@@ -6,6 +6,7 @@ use Magento\Framework\Setup\InstallSchemaInterface;
 use Magento\Framework\Setup\SchemaSetupInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
 use RatePAY\Payment\Setup\Tables\ApiLog;
+use RatePAY\Payment\Setup\Tables\HidePaymentType;
 
 /**
  * Setup class to create RatePay specific tables
@@ -26,6 +27,7 @@ class InstallSchema extends BaseSchema implements InstallSchemaInterface
         $installer->startSetup();
 
         $this->addTable($installer, ApiLog::getData());
+        $this->addTable($installer, HidePaymentType::getData());
 
         $installer->endSetup();
     }
