@@ -10,6 +10,7 @@ namespace RatePAY\Payment\Helper\Content;
 
 
 use Magento\Framework\App\Helper\Context;
+use Magento\Sales\Model\Order\Invoice;
 
 class ContentBuilder extends \Magento\Framework\App\Helper\AbstractHelper
 {
@@ -83,6 +84,9 @@ class ContentBuilder extends \Magento\Framework\App\Helper\AbstractHelper
                 $contentArr = [
                     'ShoppingBasket' => $this->rpContentBasketHelper->setShoppingBasket($quoteOrOrder)
                 ];
+                if ($quoteOrOrder instanceof Invoice && !empty($quoteOrOrder->getIncrementId())) {
+                    $contentArr['Invoicing'] = ['InvoiceId' => $quoteOrOrder->getIncrementId()];
+                }
                 break;
         }
 
