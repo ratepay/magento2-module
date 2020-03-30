@@ -10,6 +10,7 @@ namespace RatePAY\Payment\Helper\Content\ShoppingBasket;
 
 
 use Magento\Framework\App\Helper\Context;
+use Magento\Sales\Model\Order\Creditmemo;
 use Magento\Tax\Model\Config;
 
 class Items extends \Magento\Framework\App\Helper\AbstractHelper
@@ -64,7 +65,8 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $items = [];
 
-        foreach ($quoteOrOrder->getItems() as $item) {
+        $itemArray = $quoteOrOrder->getItems();
+        foreach ($itemArray as $item) {
 
             $parentItem = false;
 
@@ -92,7 +94,15 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
 					$taxRate = 0;
 					$children = $item->getOrderItem()->getChildrenItems();
 					foreach($children as $ch) {
-						$discount += $ch->getDiscountAmount();
+					    if ($quoteOrOrder instanceof Creditmemo) {
+                            foreach ($itemArray as $creditmemoItem) {
+                                if ($creditmemoItem->getOrderItemId() == $ch->getId()) {
+                                    $discount += $creditmemoItem->getDiscountAmount();
+                                }
+                            }
+                        } else {
+                            $discount += $ch->getDiscountAmount();
+                        }
 						$taxRate += $ch->getTaxPercent();
 					}
 					$taxRate = $taxRate / count($children);

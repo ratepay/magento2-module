@@ -9,25 +9,43 @@
 namespace RatePAY\Payment\Model;
 
 use RatePAY\ModelBuilder;
+use RatePAY\Payment\Model\Source\CreditmemoDiscountType;
+
 class LibraryModel
 {
+    /**
+     * @var Discount
+     */
+    protected $rpContentBasketDiscountHelper;
+
+    /**
+     * @var \RatePAY\Payment\Helper\Data
+     */
+    protected $rpDataHelper;
+
     /**
      * LibraryModel constructor.
      * @param \RatePAY\Payment\Helper\Head\Head $rpHeadHelper
      * @param \RatePAY\Payment\Helper\Head\Additional $rpHeadAdditionalHelper
      * @param \RatePAY\Payment\Helper\Head\External $rpHeadExternalHelper
      * @param \RatePAY\Payment\Helper\Content\ContentBuilder $rpContentBuilder
+     * @param \RatePAY\Payment\Helper\Content\ShoppingBasket\Discount $rpContentBasketDiscountHelper
+     * @param \RatePAY\Payment\Helper\Data $rpDataHelper
      */
     public function __construct(
         \RatePAY\Payment\Helper\Head\Head $rpHeadHelper,
         \RatePAY\Payment\Helper\Head\Additional  $rpHeadAdditionalHelper,
         \RatePAY\Payment\Helper\Head\External $rpHeadExternalHelper,
-        \RatePAY\Payment\Helper\Content\ContentBuilder $rpContentBuilder
+        \RatePAY\Payment\Helper\Content\ContentBuilder $rpContentBuilder,
+        \RatePAY\Payment\Helper\Content\ShoppingBasket\Discount $rpContentBasketDiscountHelper,
+        \RatePAY\Payment\Helper\Data $rpDataHelper
     ) {
         $this->rpHeadHelper = $rpHeadHelper;
         $this->rpHeadAdditionalHelper = $rpHeadAdditionalHelper;
         $this->rpHeadExternalHelper = $rpHeadExternalHelper;
         $this->rpContentBuilder = $rpContentBuilder;
+        $this->rpContentBasketDiscountHelper = $rpContentBasketDiscountHelper;
+        $this->rpDataHelper = $rpDataHelper;
     }
 
     /**
@@ -38,17 +56,21 @@ class LibraryModel
      */
     public function addAdjustments($creditmemo)
     {
-        $articles = [];
+        $content = [];
 
         if ($creditmemo->getAdjustmentPositive() > 0) {
-            array_push($articles, ['Item' => $this->addAdjustment((float) $creditmemo->getAdjustmentPositive() * -1, 'Adjustment Refund', 'adj-ref')]);
+            if ($this->rpDataHelper->getRpConfigData('ratepay_general', 'creditmemo_discount_type') == CreditmemoDiscountType::SPECIAL_ITEM) {
+                $content['Discount'] = $this->rpContentBasketDiscountHelper->setDiscount((float) $creditmemo->getAdjustmentPositive() * -1, 'Adjustment Refund');
+            } else {
+                $content['Items'][] = ['Item' => $this->addAdjustment((float) $creditmemo->getAdjustmentPositive() * -1, 'Adjustment Refund', 'adj-ref')];
+            }
         }
 
         if ($creditmemo->getAdjustmentNegative() > 0) {
-            array_push($articles, ['Item' => $this->addAdjustment((float) $creditmemo->getAdjustmentNegative(), 'Adjustment Fee', 'adj-fee')]);
+            $content['Items'][] = ['Item' => $this->addAdjustment((float) $creditmemo->getAdjustmentNegative(), 'Adjustment Fee', 'adj-fee')];
         }
 
-        return $articles;
+        return $content;
     }
 
     /**
@@ -112,13 +134,13 @@ class LibraryModel
      * Build requests content section
      *
      * @param $quoteOrOrder
-     * @return ModelBuilder
+     * @return ModelBuilders
      */
-    public function getRequestContent($quoteOrOrder, $operation, $articleList = null, $amount = null, $fixedPaymentMethod = null)
+    public function getRequestContent($quoteOrOrder, $operation, $articleList = null, $amount = null, $fixedPaymentMethod = null, $contentArr = null)
     {
         $content = new ModelBuilder('Content');
 
-        $contentArr = $this->rpContentBuilder->setContent($quoteOrOrder, $operation, $articleList, $amount, $fixedPaymentMethod);
+        $contentArr = $this->rpContentBuilder->setContent($quoteOrOrder, $operation, $articleList, $amount, $fixedPaymentMethod, $contentArr);
         try{
             $content->setArray($contentArr);
         } catch (\Exception $e){
