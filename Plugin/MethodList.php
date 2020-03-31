@@ -18,7 +18,7 @@ class MethodList
     /**
      * HidePaymentType resource model
      *
-     * @var \RatePay\Payment\Model\ResourceModel\HidePaymentType
+     * @var \RatePAY\Payment\Model\ResourceModel\HidePaymentType
      */
     protected $hidePaymentType;
 
@@ -26,9 +26,9 @@ class MethodList
      * Constructor
      *
      * @param \Magento\Checkout\Model\Session                       $checkoutSession
-     * @param \RatePay\Payment\Model\ResourceModel\HidePaymentType  $hidePaymentType
+     * @param \RatePAY\Payment\Model\ResourceModel\HidePaymentType  $hidePaymentType
      */
-    public function __construct(\Magento\Checkout\Model\Session $checkoutSession, \RatePay\Payment\Model\ResourceModel\HidePaymentType $hidePaymentType) {
+    public function __construct(\Magento\Checkout\Model\Session $checkoutSession, \RatePAY\Payment\Model\ResourceModel\HidePaymentType $hidePaymentType) {
         $this->checkoutSession = $checkoutSession;
         $this->hidePaymentType = $hidePaymentType;
     }

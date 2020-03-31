@@ -98,7 +98,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
     /**
      * HidePaymentType resource model
      *
-     * @var \RatePay\Payment\Model\ResourceModel\HidePaymentType
+     * @var \RatePAY\Payment\Model\ResourceModel\HidePaymentType
      */
     protected $hidePaymentType;
 
@@ -119,7 +119,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
      * @param CustomerRepositoryInterface $customerRepository
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \RatePAY\Payment\Controller\LibraryController $libraryController
-     * @param \RatePay\Payment\Model\ResourceModel\HidePaymentType $hidePaymentType
+     * @param \RatePAY\Payment\Model\ResourceModel\HidePaymentType $hidePaymentType
      * @param \Magento\Framework\Model\ResourceModel\AbstractResource|null $resource
      * @param \Magento\Framework\Data\Collection\AbstractDb|null $resourceCollection
      * @param array $data
@@ -140,7 +140,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         CustomerRepositoryInterface $customerRepository,
         \Magento\Customer\Model\Session $customerSession,
         \RatePAY\Payment\Controller\LibraryController $libraryController,
-        \RatePay\Payment\Model\ResourceModel\HidePaymentType $hidePaymentType,
+        \RatePAY\Payment\Model\ResourceModel\HidePaymentType $hidePaymentType,
         \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
         array $data = [])
