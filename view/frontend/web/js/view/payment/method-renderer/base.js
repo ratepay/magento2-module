@@ -51,13 +51,6 @@ define(
                 }
                 return false;
             },
-            validate: function () {
-                if (this.isB2BModeUsable() && this.rp_vatid == '') {
-                    this.messageContainer.addErrorMessage({'message': $t('Please enter your Vat ID')});
-                    return false;
-                }
-                return true;
-            },
             getData: function() {
                 var returnData = {
                     'method': this.getCode(),
