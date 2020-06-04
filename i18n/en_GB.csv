@@ -22,8 +22,8 @@ Year,Year,module,RatePAY_Payment
 DD,DD,module,RatePAY_Payment
 MM,MM,module,RatePAY_Payment
 YYYY,YYYY,module,RatePAY_Payment
-"Creditor","Creditor ID",module,RatePAY_Payment
-"Ratepay Creditor ID","RatePAY Creditor ID",module,RatePAY_Payment
+"Creditor","Creditor ID: ",module,RatePAY_Payment
+"Ratepay Creditor ID","DE39RPY00000568463",module,RatePAY_Payment
 "insert bankdata","Please enter your bank account information.",module,RatePAY_Payment
 "Account holder","Account holder:",module,RatePAY_Payment
 IBAN,IBAN,module,RatePAY_Payment
