@@ -129,7 +129,19 @@
                         disabled>
                     <span data-bind="i18n: 'Place Order'"></span>
                 </button>
+                <button class="action primary updatePaymentMethods"
+                        type="submit"
+                        data-bind="
+                        click: updatePaymentMethods,
+                        attr: {title: $t('Update Payment Methods')}
+                        ">
+                    <span data-bind="i18n: 'Update Payment Methods'"></span>
+                </button>
             </div>
+        </div>
+        <div class="ratepay_ala_warning"><br>
+            <span style="float:right;"><!-- ko i18n: 'Orders with different billing- and shipping-addresses are not supported for this payment method.'--><!-- /ko --></span>
+            <div style="clear:both;"></div>
         </div>
     </div>
 </div>

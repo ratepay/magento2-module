@@ -311,10 +311,8 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
             return false;
         }
 
-        $address = $quote->getShippingAddress();
-        if ($this->isBackend() === true) {
-            $address = $quote->getBillingAddress();
-        }
+
+        $address = $quote->getBillingAddress();
         if (!$this->canUseForCountryDelivery($address->getCountryId())) {
             return false;
         }
