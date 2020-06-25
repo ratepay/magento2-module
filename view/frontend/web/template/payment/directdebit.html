@@ -87,7 +87,7 @@
                     <!-- /ko -->
                     <!-- ko if: isB2BModeUsable() -->
                         <fieldset id="ratepay_vat-form" class="fieldset">
-                            <div class="field _required">
+                            <div class="field">
                                 <label data-bind="attr: {for: getCode() + 'vatid'}" class="label">
                                     <span><!-- ko i18n: 'Vat ID'--><!-- /ko --></span>
                                 </label>
@@ -179,14 +179,6 @@
                         "
                         disabled>
                     <span data-bind="i18n: 'Place Order'"></span>
-                </button>
-                <button class="action primary updatePaymentMethods"
-                        type="submit"
-                        data-bind="
-                        click: updatePaymentMethods,
-                        attr: {title: $t('Update Payment Methods')}
-                        ">
-                    <span data-bind="i18n: 'Update Payment Methods'"></span>
                 </button>
             </div>
         </div>

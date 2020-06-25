@@ -4,26 +4,14 @@ define(
         'jquery',
         'Magento_Checkout/js/model/quote',
         'Magento_Customer/js/model/customer',
-        'mage/translate',
-        'RatePAY_Payment/js/action/handle-order-buttons',
-        'Magento_Checkout/js/model/full-screen-loader',
-        'Magento_Checkout/js/action/set-shipping-information'
+        'mage/translate'
     ],
-    function (Component, $, quote, customer, $t, handleOrderButtons, fullScreenLoader, setShippingInformation) {
+    function (Component, $, quote, customer, $t) {
         'use strict';
         return Component.extend({
             currentBillingAddress: quote.billingAddress,
             currentCustomerData: customer.customerData,
 
-            initialize: function () {
-                var parentReturn = this._super();
-
-                if (window.checkoutConfig.payment.ratepay === undefined) {
-                    window.checkoutConfig.payment['ratepay'] = {currentPaymentCountry : quote.billingAddress().countryId};
-                }
-
-                return parentReturn;
-            },
             getCustomerName: function () {
                 if (quote.billingAddress() != null && quote.billingAddress().firstname != undefined) {
                     return quote.billingAddress().firstname + ' ' + quote.billingAddress().lastname;
@@ -62,28 +50,6 @@ define(
                     return quote.billingAddress().company;
                 }
                 return false;
-            },
-            selectPaymentMethod: function () {
-                var parentReturn = this._super();
-
-                if (window.checkoutConfig.payment.ratepay !== undefined && window.checkoutConfig.payment.ratepay.isAddressSameAsShipping !== undefined) {
-                    handleOrderButtons(!window.checkoutConfig.payment.ratepay.isAddressSameAsShipping);
-                }
-
-                return parentReturn;
-            },
-            updatePaymentMethods: function () {
-                if (window.checkoutConfig.payment.ratepay !== undefined) {
-                    window.checkoutConfig.payment.ratepay.currentPaymentCountry = quote.billingAddress().countryId;
-                } else {
-                    window.checkoutConfig.payment['ratepay'] = {currentPaymentCountry : quote.billingAddress().countryId};
-                }
-                fullScreenLoader.startLoader();
-                setShippingInformation().done(
-                    function () {
-                        fullScreenLoader.stopLoader();
-                    }
-                );
             },
             getData: function() {
                 var returnData = {
