@@ -27,7 +27,7 @@ YYYY,YYYY,module,RatePAY_Payment
 "insert bankdata","Please enter your bank account information.",module,RatePAY_Payment
 "Account holder","Account holder:",module,RatePAY_Payment
 IBAN,IBAN,module,RatePAY_Payment
-"Mandate","Mandate reference number:",module,RatePAY_Payment
+"Mandate","Mandate reference number: ",module,RatePAY_Payment
 "Mandate Ref","(provided after purchase)",module,RatePAY_Payment
 ratepay_directdebit_sepa_link,Read agreement to the SEPA mandate,module,RatePAY_Payment
 ratepay_directdebit_sepa_terms_block_1,I hereby agree to the forwarding of my data to ,module,RatePAY_Payment
