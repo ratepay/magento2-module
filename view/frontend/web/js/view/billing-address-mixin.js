@@ -20,7 +20,9 @@ define([
 
             if (!window.checkoutConfig.payment[paymentMethod].differentShippingAddressAllowed) {
                 handleOrderButtons(!this.isAddressSameAsShipping());
-                return;
+                if (!this.isAddressSameAsShipping()) {
+                    return;
+                }
             }
 
             setBillingAddressAction(globalMessageList); // always update for ratepay payment methods
