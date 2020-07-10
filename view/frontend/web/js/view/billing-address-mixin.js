@@ -18,13 +18,6 @@ define([
                 return this._super();
             }
 
-            if (!window.checkoutConfig.payment[paymentMethod].differentShippingAddressAllowed) {
-                handleOrderButtons(!this.isAddressSameAsShipping());
-                if (!this.isAddressSameAsShipping()) {
-                    return;
-                }
-            }
-
             setBillingAddressAction(globalMessageList); // always update for ratepay payment methods
         },
     };
