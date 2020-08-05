@@ -131,4 +131,4 @@ ratepay_terms_block_3, "der RatePAY GmbH" ,module,RatePAY_Payment
 "Bundles can only be refunded completely","Bundle-Produkte können nur vollständig retourniert werden",module,RatePAY_Payment
 "I want to transfer the installments myself and not pay by direct debit","Ich möchte die Ratenzahlung selbst vornehmen und nicht per Lastschrift begleichen",module,RatePAY_Payment
 "I want to settle the installments by direct debit","Ich möchte die Ratenzahlung per Lastschrift begleichen",module,RatePAY_Payment
-"Return previous adjustments.","Vorherige Erstattungen/Gebühren retournieren",module,RatePAY_Payment
+"Return previous adjustments","Vorherige Erstattungen/Gebühren retournieren",module,RatePAY_Payment
