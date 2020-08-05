@@ -40,6 +40,17 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
+     * Get parameter from the request
+     *
+     * @param  string $sParameter
+     * @return mixed
+     */
+    public function getRequestParameter($sParameter)
+    {
+        return $this->_getRequest()->getParam($sParameter);
+    }
+
+    /**
      * @param string $method
      * @param string $field
      * @param string $storeCode

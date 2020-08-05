@@ -7,6 +7,7 @@ use Magento\Framework\Setup\SchemaSetupInterface;
 use Magento\Framework\Setup\UpgradeSchemaInterface;
 use RatePAY\Payment\Setup\Tables\ApiLog;
 use RatePAY\Payment\Setup\Tables\HidePaymentType;
+use RatePAY\Payment\Setup\Tables\OrderAdjustment;
 
 /**
  * Update class to create RatePay specific tables
@@ -25,5 +26,6 @@ class UpgradeSchema extends BaseSchema implements UpgradeSchemaInterface
     {
         $this->addTable($setup, ApiLog::getData());
         $this->addTable($setup, HidePaymentType::getData());
+        $this->addTable($setup, OrderAdjustment::getData());
     }
 }

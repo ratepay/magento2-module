@@ -29,19 +29,27 @@ class DiscountRefund extends \Magento\Backend\Block\Template
     protected $rpPaymentHelper;
 
     /**
+     * @var \RatePAY\Payment\Helper\Data
+     */
+    protected $rpDataHelper;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Sales\Helper\Admin $salesAdminHelper
      * @param \RatePAY\Payment\Helper\Payment $rpPaymentHelper
+     * @param \RatePAY\Payment\Helper\Data $rpDataHelper
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Sales\Helper\Admin $salesAdminHelper,
         \RatePAY\Payment\Helper\Payment $rpPaymentHelper,
+        \RatePAY\Payment\Helper\Data $rpDataHelper,
         array $data = []
     ) {
         $this->_salesAdminHelper = $salesAdminHelper;
         $this->rpPaymentHelper = $rpPaymentHelper;
+        $this->rpDataHelper = $rpDataHelper;
         parent::__construct($context, $data);
     }
 
@@ -118,9 +126,26 @@ class DiscountRefund extends \Magento\Backend\Block\Template
         return $dRefundAmountBase;
     }
 
+    /**
+     * @param float $amount
+     * @param float $baseAmount
+     * @return mixed
+     */
     public function displayAmount($amount, $baseAmount)
     {
         return $this->_salesAdminHelper->displayPrices($this->getSource(), $this->getRefundAmountBase(), $this->getRefundAmount(), false, '<br />');
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCheckboxChecked()
+    {
+        $paramCreditmemo = $this->rpDataHelper->getRequestParameter('creditmemo');
+        if (isset($paramCreditmemo['ratepay_return_adjustments']) && (bool)$paramCreditmemo['ratepay_return_adjustments'] === true) {
+            return true;
+        }
+        return false;
     }
 
     /**

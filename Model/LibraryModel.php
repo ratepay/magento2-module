@@ -9,46 +9,126 @@
 namespace RatePAY\Payment\Model;
 
 use RatePAY\ModelBuilder;
+use RatePAY\Payment\Model\Source\CreditmemoDiscountType;
+
 class LibraryModel
 {
+    /**
+     * @var Discount
+     */
+    protected $rpContentBasketDiscountHelper;
+
+    /**
+     * @var \RatePAY\Payment\Helper\Data
+     */
+    protected $rpDataHelper;
+
+    /**
+     * @var \RatePAY\Payment\Model\ResourceModel\OrderAdjustment
+     */
+    protected $orderAdjustment;
+
     /**
      * LibraryModel constructor.
      * @param \RatePAY\Payment\Helper\Head\Head $rpHeadHelper
      * @param \RatePAY\Payment\Helper\Head\Additional $rpHeadAdditionalHelper
      * @param \RatePAY\Payment\Helper\Head\External $rpHeadExternalHelper
      * @param \RatePAY\Payment\Helper\Content\ContentBuilder $rpContentBuilder
+     * @param \RatePAY\Payment\Helper\Content\ShoppingBasket\Discount $rpContentBasketDiscountHelper
+     * @param \RatePAY\Payment\Helper\Data $rpDataHelper
+     * @param \RatePAY\Payment\Model\ResourceModel\OrderAdjustment $orderAdjustment
      */
     public function __construct(
         \RatePAY\Payment\Helper\Head\Head $rpHeadHelper,
         \RatePAY\Payment\Helper\Head\Additional  $rpHeadAdditionalHelper,
         \RatePAY\Payment\Helper\Head\External $rpHeadExternalHelper,
-        \RatePAY\Payment\Helper\Content\ContentBuilder $rpContentBuilder
+        \RatePAY\Payment\Helper\Content\ContentBuilder $rpContentBuilder,
+        \RatePAY\Payment\Helper\Content\ShoppingBasket\Discount $rpContentBasketDiscountHelper,
+        \RatePAY\Payment\Helper\Data $rpDataHelper,
+        \RatePAY\Payment\Model\ResourceModel\OrderAdjustment $orderAdjustment
     ) {
         $this->rpHeadHelper = $rpHeadHelper;
         $this->rpHeadAdditionalHelper = $rpHeadAdditionalHelper;
         $this->rpHeadExternalHelper = $rpHeadExternalHelper;
         $this->rpContentBuilder = $rpContentBuilder;
+        $this->rpContentBasketDiscountHelper = $rpContentBasketDiscountHelper;
+        $this->rpDataHelper = $rpDataHelper;
+        $this->orderAdjustment = $orderAdjustment;
     }
 
     /**
      * Add adjustment items to the article list
      *
      * @param $creditmemo
+     * @param $artNumRefund
+     * @param $artNumFee
      * @return array
      */
-    public function addAdjustments($creditmemo)
+    public function addAdjustments($creditmemo, $artNumRefund, $artNumFee)
     {
-        $articles = [];
+        $content = [];
 
         if ($creditmemo->getAdjustmentPositive() > 0) {
-            array_push($articles, ['Item' => $this->addAdjustment((float) $creditmemo->getAdjustmentPositive() * -1, 'Adjustment Refund', 'adj-ref')]);
+            if ($this->rpDataHelper->getRpConfigData('ratepay_general', 'creditmemo_discount_type') == CreditmemoDiscountType::SPECIAL_ITEM) {
+                $content['Discount'] = $this->rpContentBasketDiscountHelper->setDiscount((float) $creditmemo->getAdjustmentPositive() * -1, 'Adjustment Refund');
+            } else {
+                $content['Items'][] = ['Item' => $this->addAdjustment((float) $creditmemo->getAdjustmentPositive() * -1, 'Adjustment Refund', $artNumRefund)];
+            }
         }
 
         if ($creditmemo->getAdjustmentNegative() > 0) {
-            array_push($articles, ['Item' => $this->addAdjustment((float) $creditmemo->getAdjustmentNegative(), 'Adjustment Fee', 'adj-fee')]);
+            $content['Items'][] = ['Item' => $this->addAdjustment((float) $creditmemo->getAdjustmentNegative(), 'Adjustment Fee', $artNumFee)];
         }
 
-        return $articles;
+        return $content;
+    }
+
+    /**
+     * @param  string $adjustments
+     * @param  string $type
+     * @return int|mixed
+     */
+    protected function getAdjustmentSum($adjustments, $type)
+    {
+        $sum = 0;
+        foreach ($adjustments as $adjustment) {
+            if ($adjustment['adjustment_type'] == $type) {
+                $sum += $adjustment['amount'];
+            }
+        }
+        return $sum;
+    }
+
+    /**
+     * Add adjustment items to the article list
+     *
+     * @param $order
+     * @return array
+     */
+    public function addReturnAdjustments($order)
+    {
+        $adjustments = $this->orderAdjustment->getOrderAdjustments($order->getId());
+
+        $content = [];
+
+        $blSkipPositive = false;
+        if ($this->rpDataHelper->getRpConfigData('ratepay_general', 'creditmemo_discount_type') == CreditmemoDiscountType::SPECIAL_ITEM) {
+            $positiveAdjustmentSum = $this->getAdjustmentSum($adjustments, 'positive');
+            if ($positiveAdjustmentSum > 0) {
+                $content['Discount'] = $this->rpContentBasketDiscountHelper->setDiscount((float)$positiveAdjustmentSum * -1, 'Adjustment Refund');
+            }
+            $blSkipPositive = true;
+        }
+
+        foreach ($adjustments as $adjustment) {
+            if ($adjustment['adjustment_type'] == 'positive' && $blSkipPositive === false) {
+                $content['Items'][] = ['Item' => $this->addAdjustment((float) $adjustment['amount'] * -1, 'Adjustment Refund', $adjustment['article_number'])];
+            } elseif($adjustment['adjustment_type'] == 'negative') {
+                $content['Items'][] = ['Item' => $this->addAdjustment((float) $adjustment['amount'], 'Adjustment Fee', $adjustment['article_number'])];
+            }
+        }
+
+        return $content;
     }
 
     /**
