@@ -22,6 +22,7 @@ class OrderAdjustment
             'article_number'    => ['type' => Table::TYPE_TEXT,         'length' => 32,     'option' => []],
             'amount'            => ['type' => Table::TYPE_DECIMAL,      'length' => '20,4', 'option' => ['default' => '0']],
             'base_amount'       => ['type' => Table::TYPE_DECIMAL,      'length' => '20,4', 'option' => ['default' => '0']],
+            'is_specialitem'    => ['type' => Table::TYPE_SMALLINT,     'length' => null,   'option' => ['unsigned' => true, 'nullable' => false]],
             'is_returned'       => ['type' => Table::TYPE_SMALLINT,     'length' => null,   'option' => ['unsigned' => true, 'nullable' => false]],
         ],
         'comment' => 'Save order sum adjustments for returning them later',

@@ -24,9 +24,10 @@ class OrderAdjustment extends \Magento\Framework\Model\ResourceModel\Db\Abstract
      * @param  string $article_number
      * @param  float  $adjustment
      * @param  float  $adjustment_base
+     * @param  bool   $is_specialitem
      * @return $this
      */
-    public function addOrderAdjustment($orderId, $type, $article_number, $adjustment, $adjustment_base)
+    public function addOrderAdjustment($orderId, $type, $article_number, $adjustment, $adjustment_base, $is_specialitem = false)
     {
         $this->getConnection()->insert(
             $this->getMainTable(),
@@ -36,6 +37,7 @@ class OrderAdjustment extends \Magento\Framework\Model\ResourceModel\Db\Abstract
                 'article_number' => $article_number,
                 'amount' => $adjustment,
                 'base_amount' => $adjustment_base,
+                'is_specialitem' => (int)$is_specialitem
             ]
         );
         return $this;
@@ -50,7 +52,7 @@ class OrderAdjustment extends \Magento\Framework\Model\ResourceModel\Db\Abstract
     public function getOrderAdjustments($orderId)
     {
         $oSelect = $this->getConnection()->select()
-            ->from($this->getMainTable(), ['adjustment_type', 'article_number', 'amount', 'base_amount'])
+            ->from($this->getMainTable(), ['adjustment_type', 'article_number', 'amount', 'base_amount', 'is_specialitem'])
             ->where("order_id = :orderId")
             ->where("is_returned = 0");
 
@@ -69,7 +71,7 @@ class OrderAdjustment extends \Magento\Framework\Model\ResourceModel\Db\Abstract
     public function getOrderAdjustmentsByType($orderId, $type)
     {
         $oSelect = $this->getConnection()->select()
-            ->from($this->getMainTable(), ['adjustment_type', 'article_number', 'amount', 'base_amount'])
+            ->from($this->getMainTable(), ['adjustment_type', 'article_number', 'amount', 'base_amount', 'is_specialitem'])
             ->where("order_id = :orderId")
             ->where("adjustment_type = :adjustmentType");
 

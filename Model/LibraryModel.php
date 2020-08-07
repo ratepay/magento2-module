@@ -84,15 +84,14 @@ class LibraryModel
     }
 
     /**
-     * @param  string $adjustments
-     * @param  string $type
+     * @param  array $adjustments
      * @return int|mixed
      */
-    protected function getAdjustmentSum($adjustments, $type)
+    protected function getSpecialItemAdjustmentSum($adjustments)
     {
         $sum = 0;
         foreach ($adjustments as $adjustment) {
-            if ($adjustment['adjustment_type'] == $type) {
+            if ($adjustment['adjustment_type'] == 'positive' && (bool)$adjustment['is_specialitem'] === true) {
                 $sum += $adjustment['amount'];
             }
         }
@@ -111,17 +110,13 @@ class LibraryModel
 
         $content = [];
 
-        $blSkipPositive = false;
-        if ($this->rpDataHelper->getRpConfigData('ratepay_general', 'creditmemo_discount_type') == CreditmemoDiscountType::SPECIAL_ITEM) {
-            $positiveAdjustmentSum = $this->getAdjustmentSum($adjustments, 'positive');
-            if ($positiveAdjustmentSum > 0) {
-                $content['Discount'] = $this->rpContentBasketDiscountHelper->setDiscount((float)$positiveAdjustmentSum * -1, 'Adjustment Refund');
-            }
-            $blSkipPositive = true;
+        $positiveAdjustmentSum = $this->getSpecialItemAdjustmentSum($adjustments);
+        if ($positiveAdjustmentSum > 0) {
+            $content['Discount'] = $this->rpContentBasketDiscountHelper->setDiscount((float)$positiveAdjustmentSum * -1, 'Adjustment Refund');
         }
 
         foreach ($adjustments as $adjustment) {
-            if ($adjustment['adjustment_type'] == 'positive' && $blSkipPositive === false) {
+            if ($adjustment['adjustment_type'] == 'positive' && (bool)$adjustment['is_specialitem'] === false) {
                 $content['Items'][] = ['Item' => $this->addAdjustment((float) $adjustment['amount'] * -1, 'Adjustment Refund', $adjustment['article_number'])];
             } elseif($adjustment['adjustment_type'] == 'negative') {
                 $content['Items'][] = ['Item' => $this->addAdjustment((float) $adjustment['amount'], 'Adjustment Fee', $adjustment['article_number'])];

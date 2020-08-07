@@ -11,6 +11,7 @@ namespace RatePAY\Payment\Observer;
 
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\PaymentException;
+use RatePAY\Payment\Model\Source\CreditmemoDiscountType;
 
 class SendRatepayCreditMemoCall implements ObserverInterface
 {
@@ -110,7 +111,11 @@ class SendRatepayCreditMemoCall implements ObserverInterface
     {
         if ($creditMemo->getAdjustmentPositive() > 0) {
             $this->artNumRefund = 'adj-ref'.$this->orderAdjustment->getNextArticleNumberCounter($order->getId(), 'positive');
-            $this->orderAdjustment->addOrderAdjustment($order->getId(), 'positive', $this->artNumRefund, $creditMemo->getAdjustmentPositive(), $creditMemo->getBaseAdjustmentPositive());
+            $is_specialitem = false;
+            if ($this->rpDataHelper->getRpConfigData('ratepay_general', 'creditmemo_discount_type') == CreditmemoDiscountType::SPECIAL_ITEM) {
+                $is_specialitem = true;
+            }
+            $this->orderAdjustment->addOrderAdjustment($order->getId(), 'positive', $this->artNumRefund, $creditMemo->getAdjustmentPositive(), $creditMemo->getBaseAdjustmentPositive(), $is_specialitem);
         }
         if ($creditMemo->getAdjustmentNegative() > 0) {
             $this->artNumFee = 'adj-fee'.$this->orderAdjustment->getNextArticleNumberCounter($order->getId(), 'negative');
