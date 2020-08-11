@@ -51,6 +51,9 @@ class BankAccount extends \Magento\Framework\App\Helper\AbstractHelper
                 'Iban' => $iban,
                 //'BicSwift' =>
             ];
+            if ($quoteOrOrder->getBillingAddress()->getCompany() != "" && stripos($quoteOrOrder->getPayment()->getMethod(), "directdebit") !== false) {
+                $return['Owner'] = $quoteOrOrder->getBillingAddress()->getCompany();
+            }
         }
         return $return;
     }

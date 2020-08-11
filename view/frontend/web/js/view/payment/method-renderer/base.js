@@ -14,7 +14,7 @@ define(
 
             getCustomerName: function () {
                 if (quote.billingAddress() != null) {
-                    if (this.getCode().indexOf('directdebit') != -1 && quote.billingAddress().company != undefined && quote.billingAddress().company != null) {
+                    if (this.getCode().indexOf('directdebit') != -1 && quote.billingAddress().company != undefined && quote.billingAddress().company != null && quote.billingAddress().company != "") {
                         return quote.billingAddress().company
                     }
                     if (quote.billingAddress().firstname != undefined) {
@@ -22,7 +22,7 @@ define(
                     }
                 }
                 if (customer.customerData != null) {
-                    if (this.getCode().indexOf('directdebit') != -1 && customer.customerData.company != undefined && customer.customerData.company != null) {
+                    if (this.getCode().indexOf('directdebit') != -1 && customer.customerData.company != undefined && customer.customerData.company != null && customer.customerData.company != "") {
                         return customer.customerData.company;
                     }
                     if (customer.customerData.firstname != undefined) {
