@@ -183,10 +183,6 @@ class SendRatepayCreditMemoCall implements ObserverInterface
      */
     public function callRatepayReturn($order, $creditMemo, $paymentMethod)
     {
-        $sandbox = (bool)$this->rpDataHelper->getRpConfigData($paymentMethod, 'sandbox', $this->storeManager->getStore()->getId());
-        $head = $this->rpLibraryModel->getRequestHead($order, 'PAYMENT_CHANGE');
-        $content = $this->rpLibraryModel->getRequestContent($creditMemo, "PAYMENT_CHANGE");
-
         if ($this->rpDataHelper->getRpConfigData($paymentMethod, 'status', $this->storeManager->getStore()->getId()) == 1) {
             throw new PaymentException(__('Processing failed'));
         }
@@ -195,24 +191,35 @@ class SendRatepayCreditMemoCall implements ObserverInterface
             throw new PaymentException(__('Bundles can only be refunded completely'));
         }
 
-        if ($creditMemo->getAdjustmentPositive() > 0 || $creditMemo->getAdjustmentNegative() > 0) {
+        $blReturnProducts = true;
+        if ($this->isReturnPreviousAdjustmentsCheckboxChecked() === false && ($creditMemo->getAdjustmentPositive() > 0 || $creditMemo->getAdjustmentNegative() > 0)) {
             $this->callRatepayCredit($order, $creditMemo, $paymentMethod);
-            $iQuantity = $this->getCreditMemoQuantity($creditMemo);
-            if ($iQuantity > 0) {
-                $returnRequest = $this->rpLibraryController->callPaymentChange($head, $content, 'return', $order, $sandbox);
-                if (!$returnRequest->isSuccessful()) {
-                    throw new PaymentException(__('Refund was not successfull'));
-                }
+            if ($this->getCreditMemoQuantity($creditMemo) <= 0) {
+                $blReturnProducts = false;
             }
-            return true;
-        } else {
+        }
+
+        if ($blReturnProducts === true) {
+            $sandbox = (bool)$this->rpDataHelper->getRpConfigData($paymentMethod, 'sandbox', $this->storeManager->getStore()->getId());
+            $head = $this->rpLibraryModel->getRequestHead($order, 'PAYMENT_CHANGE');
+
+            $adjustments = null;
+            if ($this->isReturnPreviousAdjustmentsCheckboxChecked() === true) {
+                $adjustments = $this->rpLibraryModel->addReturnAdjustments($order);
+            }
+            $content = $this->rpLibraryModel->getRequestContent($creditMemo, "PAYMENT_CHANGE", null, null, null, null, $adjustments);
+
             $returnRequest = $this->rpLibraryController->callPaymentChange($head, $content, 'return', $order, $sandbox);
             if (!$returnRequest->isSuccessful()) {
                 throw new PaymentException(__('Refund was not successfull'));
-            } else {
-                return true;
+            }
+
+            if ($this->isReturnPreviousAdjustmentsCheckboxChecked() === true) {
+                $this->orderAdjustment->setAdjustmentsToReturned($order->getId());
             }
         }
+
+        return true;
     }
 
     /**
@@ -225,24 +232,14 @@ class SendRatepayCreditMemoCall implements ObserverInterface
     {
         $sandbox = (bool)$this->rpDataHelper->getRpConfigData($paymentMethod, 'sandbox', $this->storeManager->getStore()->getId());
         $head = $this->rpLibraryModel->getRequestHead($order, 'PAYMENT_CHANGE');
+        $content = $this->rpLibraryModel->getRequestContent($order, 'PAYMENT_CHANGE', null, null, null, $this->rpLibraryModel->addAdjustments($creditMemo, $this->artNumRefund, $this->artNumFee));
 
-        if ($this->isReturnPreviousAdjustmentsCheckboxChecked() === true) {
-            $operation = 'return';
-            $content = $this->rpLibraryModel->getRequestContent($order, 'PAYMENT_CHANGE', null, null, null, $this->rpLibraryModel->addReturnAdjustments($order));
-        } else {
-            $operation = 'credit';
-            $content = $this->rpLibraryModel->getRequestContent($order, 'PAYMENT_CHANGE', null, null, null, $this->rpLibraryModel->addAdjustments($creditMemo, $this->artNumRefund, $this->artNumFee));
-        }
-
-        $creditRequest = $this->rpLibraryController->callPaymentChange($head, $content, $operation, $order, $sandbox);
+        $creditRequest = $this->rpLibraryController->callPaymentChange($head, $content, 'credit', $order, $sandbox);
 
         if (!$creditRequest->isSuccessful()) {
             throw new PaymentException(__('Credit was not successfull'));
-        } else {
-            if ($this->isReturnPreviousAdjustmentsCheckboxChecked()) {
-                $this->orderAdjustment->setAdjustmentsToReturned($order->getId());
-            }
-            return true;
         }
+
+        return true;
     }
 }

@@ -189,11 +189,11 @@ class LibraryModel
      * @param $quoteOrOrder
      * @return ModelBuilder
      */
-    public function getRequestContent($quoteOrOrder, $operation, $articleList = null, $amount = null, $fixedPaymentMethod = null)
+    public function getRequestContent($quoteOrOrder, $operation, $articleList = null, $amount = null, $fixedPaymentMethod = null, $contentArr = null, $mergeContent = null)
     {
         $content = new ModelBuilder('Content');
 
-        $contentArr = $this->rpContentBuilder->setContent($quoteOrOrder, $operation, $articleList, $amount, $fixedPaymentMethod);
+        $contentArr = $this->rpContentBuilder->setContent($quoteOrOrder, $operation, $articleList, $amount, $fixedPaymentMethod, $contentArr, $mergeContent);
         try{
             $content->setArray($contentArr);
         } catch (\Exception $e){

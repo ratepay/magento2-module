@@ -56,9 +56,11 @@ class ContentBuilder extends \Magento\Framework\App\Helper\AbstractHelper
      * @param null $articleList
      * @param null $amount
      * @param null $fixedPaymentMethod
+     * @param array $content
+     * @param array $mergeContent
      * @return array
      */
-    public function setContent($quoteOrOrder, $operation, $articleList = null, $amount = null, $fixedPaymentMethod = null)
+    public function setContent($quoteOrOrder, $operation, $articleList = null, $amount = null, $fixedPaymentMethod = null, $content = null, $mergeContent = null)
     {
         $contentArr = [];
 
@@ -76,8 +78,14 @@ class ContentBuilder extends \Magento\Framework\App\Helper\AbstractHelper
                 ];
                 break;
             case "PAYMENT_CHANGE" :
+                if ($content === null) {
+                    $content = $this->rpContentBasketHelper->setShoppingBasket($quoteOrOrder, $articleList, $amount);
+                }
+                if ($mergeContent !== null) {
+                    $content = array_merge_recursive($content, $mergeContent);
+                }
                 $contentArr = [
-                    'ShoppingBasket' => $this->rpContentBasketHelper->setShoppingBasket($quoteOrOrder, $articleList, $amount)
+                    'ShoppingBasket' => $content
                 ];
                 break;
             case "CONFIRMATION_DELIVER" :
