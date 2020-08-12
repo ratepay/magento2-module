@@ -81,9 +81,9 @@ Active,Aktiv,module,RatePAY_Payment
 Inactive,Inaktiv,module,RatePAY_Payment
 Phased Out,Abgelaufen,module,RatePAY_Payment
 "Automated Data Procedure Error","Leider ist eine Bezahlung mit RatePAY nicht möglich. Diese Entscheidung ist auf Grundlage einer automatisierten Datenverarbeitung getroffen worden. Einzelheiten finden sie in den zusätzlichen Allgemeinen Geschäftsbedingungen und dem Datenschutzhinweis für RatePAY-Zahlungsarten.",module,RatePAY_Payment
-ratepay_terms_block_1, "Es gelten die" ,module,RatePAY_Payment
-ratepay_terms_block_2, "zusätzlichen Geschäftsbedingungen und der Datenschutzhinweis" ,module,RatePAY_Payment
-ratepay_terms_block_3, "der RatePAY GmbH" ,module,RatePAY_Payment
+ratepay_terms_block_1, "Für diese Zahlungsart gelten" ,module,RatePAY_Payment
+ratepay_terms_block_2, "zusätzliche AGB und Datenschutzhinweise" ,module,RatePAY_Payment
+ratepay_terms_block_3, "." ,module,RatePAY_Payment
 "Maximum Oder Total","Maximum order total",module,RatePAY_Payment
 "Nur SEPA/IBAN Kontodaten","Nur SEPA/IBAN Kontodaten",module,RatePAY_Payment
 "rp_calculation_intro_part1","Im Folgenden können Sie entscheiden, wie Sie die Ratenzahlung gestalten möchten. Legen Sie bequem die Anzahl der Raten und somit ",module,RatePAY_Payment
@@ -132,3 +132,4 @@ ratepay_terms_block_3, "der RatePAY GmbH" ,module,RatePAY_Payment
 "I want to transfer the installments myself and not pay by direct debit","Ich möchte die Ratenzahlung selbst vornehmen und nicht per Lastschrift begleichen",module,RatePAY_Payment
 "I want to settle the installments by direct debit","Ich möchte die Ratenzahlung per Lastschrift begleichen",module,RatePAY_Payment
 "Return previous adjustments","Vorherige Erstattungen/Gebühren retournieren",module,RatePAY_Payment
+"Orders with different billing- and shipping-addresses are not supported for this payment method.","Unterschiedliche Rechnungs- und Lieferadressen werden von dieser Zahlungsart nicht unterstützt.",module,RatePAY_Payment

@@ -22,12 +22,12 @@ Year,Year,module,RatePAY_Payment
 DD,DD,module,RatePAY_Payment
 MM,MM,module,RatePAY_Payment
 YYYY,YYYY,module,RatePAY_Payment
-"Creditor","Creditor ID",module,RatePAY_Payment
-"Ratepay Creditor ID","RatePAY Creditor ID",module,RatePAY_Payment
+"Creditor","Creditor ID: ",module,RatePAY_Payment
+"Ratepay Creditor ID","DE39RPY00000568463",module,RatePAY_Payment
 "insert bankdata","Please enter your bank account information.",module,RatePAY_Payment
 "Account holder","Account holder:",module,RatePAY_Payment
 IBAN,IBAN,module,RatePAY_Payment
-"Mandate","Mandate reference number:",module,RatePAY_Payment
+"Mandate","Mandate reference number: ",module,RatePAY_Payment
 "Mandate Ref","(provided after purchase)",module,RatePAY_Payment
 ratepay_directdebit_sepa_link,Read agreement to the SEPA mandate,module,RatePAY_Payment
 ratepay_directdebit_sepa_terms_block_1,I hereby agree to the forwarding of my data to ,module,RatePAY_Payment
@@ -80,8 +80,8 @@ Active,active,module,RatePAY_Payment
 Inactive,deactivated,module,RatePAY_Payment
 "Phased Out","phased out",module,RatePAY_Payment
 "Automated Data Procedure Error","Unfortunately, you cannot use RatePAY to make your payment. This decision has been made through automated data processing. For details, see the additional general terms and conditions and privacy policy for RatePAY payment methods.",module,RatePAY_Payment
-ratepay_terms_block_1, "RatePAY GmbH's additional" ,module,RatePAY_Payment
-ratepay_terms_block_2, "general terms and conditions and data protection policy" ,module,RatePAY_Payment
+ratepay_terms_block_1, "For this payment method" ,module,RatePAY_Payment
+ratepay_terms_block_2, "additional GTC and data protection notices" ,module,RatePAY_Payment
 ratepay_terms_block_3, "apply.",module,RatePAY_Payment
 "Maximum Oder Total","Maximum order total",module,RatePAY_Payment
 "Nur SEPA/IBAN Kontodaten","SEPA/IBAN account info only",module,RatePAY_Payment

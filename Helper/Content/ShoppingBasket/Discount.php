@@ -25,14 +25,15 @@ class Discount extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Build Discount-Items Block of Payment Request
      *
-     * @param $quoteOrOrder
+     * @param double $unitPriceGross
+     * @param string $description
      * @return array
      */
-    public function setDiscount($quoteOrOrder)
+    public function setDiscount($unitPriceGross, $description)
     {
         $content = [
-            'Description' => "GiftCard",
-            'UnitPriceGross' => round($quoteOrOrder->getGiftCardsAmount(),2),
+            'Description' => $description,
+            'UnitPriceGross' => round($unitPriceGross,2),
             'TaxRate' => 0
             //'DescriptionAddition' => "Additional information about the shipping"
         ];

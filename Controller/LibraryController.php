@@ -12,7 +12,7 @@ use RatePAY\Payment\Model\ResourceModel\ApiLog;
 use RatePAY\RequestBuilder;
 use RatePAY\Frontend\InstallmentBuilder;
 use RatePAY\Frontend\DeviceFingerprintBuilder;
-use Magento\Checkout\Model\Session\Proxy as CheckoutSession;
+use Magento\Checkout\Model\Session as CheckoutSession;
 use RatePAY\Payment\Model\SerializableRequestFactory;
 
 class LibraryController
@@ -145,7 +145,7 @@ class LibraryController
                 $installmentConfiguration = $ib->getInstallmentConfigByTemplate($orderAmount, $template);
             }
         } catch (\Exception $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
         }
 
         return $installmentConfiguration;

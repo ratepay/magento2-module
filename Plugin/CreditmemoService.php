@@ -11,7 +11,7 @@ class CreditmemoService
     /**
      * Checkout session model
      *
-     * @var \Magento\Checkout\Model\Session\Proxy
+     * @var \Magento\Checkout\Model\Session
      */
     protected $checkoutSession;
 
@@ -25,11 +25,11 @@ class CreditmemoService
     /**
      * Constructor
      *
-     * @param \Magento\Checkout\Model\Session\Proxy $checkoutSession
+     * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \RatePAY\Payment\Model\ResourceModel\ApiLog $apiLog
      */
     public function __construct(
-        \Magento\Checkout\Model\Session\Proxy $checkoutSession,
+        \Magento\Checkout\Model\Session $checkoutSession,
         \RatePAY\Payment\Model\ResourceModel\ApiLog $apiLog
     ) {
         $this->checkoutSession = $checkoutSession;

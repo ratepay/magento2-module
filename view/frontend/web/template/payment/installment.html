@@ -87,7 +87,7 @@
                     <!-- /ko -->
                     <!-- ko if: isB2BModeUsable() -->
                         <fieldset id="ratepay_vat-form" class="fieldset">
-                            <div class="field _required">
+                            <div class="field">
                                 <label data-bind="attr: {for: getCode() + 'vatid'}" class="label">
                                     <span><!-- ko i18n: 'Vat ID'--><!-- /ko --></span>
                                 </label>
@@ -186,12 +186,12 @@
                             </ul>
                             <ul style="list-style: none; margin-left: -40px;">
                                 <li style="margin-bottom: 15px;"><label><b><!-- ko i18n: 'insert bankdata'--><!-- /ko --></b></label></li>
-                                <li><label><!-- ko i18n: 'Account holder'--><!-- /ko --></label></li>
+                                <li><label><b><!-- ko i18n: 'Account holder'--><!-- /ko --></b></label></li>
                                 <li><label><i><!-- ko text: getCustomerName() --><!-- /ko --></i></label></li>
                             </ul>
                             <div class="field _required" style="float:left; position: relative; margin: 0 0 5px;">
                                 <label data-bind="attr: {for: getCode() + '_iban'}" class="label">
-                                    <span><!-- ko i18n: 'IBAN'--><!-- /ko --></span>
+                                    <span><!-- ko i18n: 'IBAN'--><!-- /ko -->:</span>
                                 </label>
                                 <div class="control required">
                                     <input type="text" name="payment[rp_iban]" class="input-text required-entry" value="" data-bind="attr: {id: getCode() + '_iban', autocomplete: off, title: $t('IBAN')}, value: rp_iban" />
@@ -243,13 +243,17 @@
                         data-bind="
                         click: placeOrder,
                         attr: {title: $t('Place Order')},
-                        css: {disabled: !isPlaceOrderActionAllowed()},
+                        css: {disabled: !isPlaceOrderActionAllowedRatePay() && !isPlaceOrderActionAllowedRatePay()},
                         enable: (getCode() == isChecked())
                         "
                         disabled>
                     <span data-bind="i18n: 'Place Order'"></span>
                 </button>
             </div>
+        </div>
+        <div class="ratepay_ala_warning" data-bind="visible: !isPlaceOrderActionAllowedRatePay()"><br>
+            <span style="float:right;"><!-- ko i18n: 'Orders with different billing- and shipping-addresses are not supported for this payment method.'--><!-- /ko --></span>
+            <div style="clear:both;"></div>
         </div>
     </div>
 </div>

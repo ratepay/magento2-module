@@ -153,7 +153,7 @@ class LibraryModel
      * @param null $resultInit
      * @return /app/code/RatePAY/Payment/Model/Library/src/ModelBuilder mixed|ModelBuilder
      */
-    public function getRequestHead($quoteOrOrder, $operation = null, $resultInit = null, $fixedPaymentMethod = null, $profileId = null, $securityCode = null)
+    public function getRequestHead($quoteOrOrder, $operation = null, $resultInit = null, $fixedPaymentMethod = null, $profileId = null, $securityCode = null, $trackingInfo = null)
     {
         $headModel = new ModelBuilder('Head');
 
@@ -177,6 +177,13 @@ class LibraryModel
 
             case "CONFIRMATION_DELIVER" :
                 $headModel->setTransactionId($quoteOrOrder->getPayment()->getAdditionalInformation('transactionId'));
+                if ($trackingInfo !== null) {
+                    $headModel->setArray([
+                        'External' => [
+                            'Tracking' => $trackingInfo,
+                        ]
+                    ]);
+                }
                 break;
         }
 
@@ -197,9 +204,9 @@ class LibraryModel
         try{
             $content->setArray($contentArr);
         } catch (\Exception $e){
-            echo $e->getMessage();
+            error_log($e->getMessage());
         }
 
-        return $content ;
+        return $content;
     }
 }
