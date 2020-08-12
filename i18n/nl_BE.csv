@@ -24,8 +24,8 @@ DD,DD,module,RatePAY_Payment
 MM,MM,module,RatePAY_Payment
 YYYY,YYYY,module,RatePAY_Payment
 "Ratepay address","Ratepay address",module,RatePAY_Payment
-Creditor,Creditor,module,RatePAY_Payment
-"Ratepay Creditor ID","Ratepay Creditor ID",module,RatePAY_Payment
+"Creditor","Creditor: ",module,RatePAY_Payment
+"Ratepay Creditor ID","DE39RPY00000568463",module,RatePAY_Payment
 Mandate,Mandate,module,RatePAY_Payment
 "Mandate Ref","Mandate Ref",module,RatePAY_Payment
 "insert bankdata","Vul uw bankgegevens in",module,RatePAY_Payment
