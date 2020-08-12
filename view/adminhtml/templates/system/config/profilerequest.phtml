@@ -37,7 +37,9 @@
                             profile_id: document.getElementById(id + '_profileId').value,
                             security_code: document.getElementById(id + '_securityCode').value,
                             sandbox: document.getElementById(id + '_sandbox').value,
-                            method: methodCode
+                            method: methodCode,
+                            scope: '<?php echo $this->getScope(); ?>',
+                            scopeId: '<?php echo $this->getScopeId(); ?>',
                         }
                     })
                         .done(function (data) {
