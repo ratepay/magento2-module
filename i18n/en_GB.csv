@@ -80,8 +80,8 @@ Active,active,module,RatePAY_Payment
 Inactive,deactivated,module,RatePAY_Payment
 "Phased Out","phased out",module,RatePAY_Payment
 "Automated Data Procedure Error","Unfortunately, you cannot use RatePAY to make your payment. This decision has been made through automated data processing. For details, see the additional general terms and conditions and privacy policy for RatePAY payment methods.",module,RatePAY_Payment
-ratepay_terms_block_1, "RatePAY GmbH's additional" ,module,RatePAY_Payment
-ratepay_terms_block_2, "general terms and conditions and data protection policy" ,module,RatePAY_Payment
+ratepay_terms_block_1, "For this payment method" ,module,RatePAY_Payment
+ratepay_terms_block_2, "additional GTC and data protection notices" ,module,RatePAY_Payment
 ratepay_terms_block_3, "apply.",module,RatePAY_Payment
 "Maximum Oder Total","Maximum order total",module,RatePAY_Payment
 "Nur SEPA/IBAN Kontodaten","SEPA/IBAN account info only",module,RatePAY_Payment
