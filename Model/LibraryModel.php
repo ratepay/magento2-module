@@ -144,9 +144,9 @@ class LibraryModel
         try{
             $content->setArray($contentArr);
         } catch (\Exception $e){
-            echo $e->getMessage();
+            error_log($e->getMessage());
         }
 
-        return $content ;
+        return $content;
     }
 }
