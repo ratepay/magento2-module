@@ -83,6 +83,13 @@ class ProfileRequest extends \Magento\Framework\App\Action\Action
 
         $params = $this->getRequest()->getParams();
 
+        $scope = 'default';
+        $scopeId = 0;
+        if (isset($params['scope'])) {
+            $scope = $params['scope'];
+            $scopeId = $params['scopeId'];
+        }
+
         $result = $this->_resultJsonFactory->create();
 
         if (!key_exists('profile_id', $params) ||
@@ -94,14 +101,13 @@ class ProfileRequest extends \Magento\Framework\App\Action\Action
         $head = $this->getHead($params['profile_id'], $params['security_code']);
         $profileRequest = $this->_rpLibraryController->callProfileRequest($head, (bool)$params['sandbox']);
         $method = $params['method'];
-
         if($profileRequest->isSuccessful()){
             $prResult = $profileRequest->getResult();
             $product = $this->_rpPaymentHelper->convertMethodToProduct($method);
             $country = $this->_getRpCountry($method);
 
             if (!is_array($prResult)) {
-                $this->_config->saveConfig('payment/' . $method . '/status', 0, 'default', 0);
+                $this->_config->saveConfig('payment/' . $method . '/status', 0, $scope, $scopeId);
                 return __('Request Failed');
             }
 
@@ -120,25 +126,25 @@ class ProfileRequest extends \Magento\Framework\App\Action\Action
                 return $result->setData($response);
             }
 
-            $this->_config->saveConfig('payment/' . $method . '/specificcountry_billing', $merchantConfig['country-code-billing'], 'default', 0);
-            $this->_config->saveConfig('payment/' . $method . '/specificcountry_delivery', $merchantConfig['country-code-delivery'], 'default', 0);
-            $this->_config->saveConfig('payment/' . $method . '/currency', $merchantConfig['currency'], 'default', 0);
+            $this->_config->saveConfig('payment/' . $method . '/specificcountry_billing', $merchantConfig['country-code-billing'], $scope, $scopeId);
+            $this->_config->saveConfig('payment/' . $method . '/specificcountry_delivery', $merchantConfig['country-code-delivery'], $scope, $scopeId);
+            $this->_config->saveConfig('payment/' . $method . '/currency', $merchantConfig['currency'], $scope, $scopeId);
             $this->_config->saveConfig('payment/' . $method . '/status', (($merchantConfig['merchant-status'] == 2) &&
                 ($merchantConfig['activation-status-' . $product] != 1) &&
-                ($merchantConfig['eligibility-ratepay-' . $product] == 'yes')) ? $merchantConfig['activation-status-' . $product] : 1, 'default', 0);
+                ($merchantConfig['eligibility-ratepay-' . $product] == 'yes')) ? $merchantConfig['activation-status-' . $product] : 1, $scope, $scopeId);
 
-            $this->_config->saveConfig('payment/' . $method . '/min_order_total', $merchantConfig['tx-limit-' . $product . '-min'], 'default', 0);
-            $this->_config->saveConfig('payment/' . $method . '/max_order_total', $merchantConfig['tx-limit-' . $product . '-max'], 'default', 0);
-            $this->_config->saveConfig('payment/' . $method . '/b2b', ($merchantConfig['b2b-' . $product] == 'yes') ? 1 : 0, 'default', 0);
-            $this->_config->saveConfig('payment/' . $method . '/limit_max_b2b', ($merchantConfig['tx-limit-' . $product . '-max-b2b'] > 0) ? $merchantConfig['tx-limit-' . $product . '-max-b2b'] : $merchantConfig['tx-limit-' . $product . '-max'], 'default', 0);
-            $this->_config->saveConfig('payment/' . $method . '/delivery_address', ($merchantConfig['delivery-address-' . $product] == 'yes') ? 1 : 0, 'default', 0);
+            $this->_config->saveConfig('payment/' . $method . '/min_order_total', $merchantConfig['tx-limit-' . $product . '-min'], $scope, $scopeId);
+            $this->_config->saveConfig('payment/' . $method . '/max_order_total', $merchantConfig['tx-limit-' . $product . '-max'], $scope, $scopeId);
+            $this->_config->saveConfig('payment/' . $method . '/b2b', ($merchantConfig['b2b-' . $product] == 'yes') ? 1 : 0, $scope, $scopeId);
+            $this->_config->saveConfig('payment/' . $method . '/limit_max_b2b', ($merchantConfig['tx-limit-' . $product . '-max-b2b'] > 0) ? $merchantConfig['tx-limit-' . $product . '-max-b2b'] : $merchantConfig['tx-limit-' . $product . '-max'], $scope, $scopeId);
+            $this->_config->saveConfig('payment/' . $method . '/delivery_address', ($merchantConfig['delivery-address-' . $product] == 'yes') ? 1 : 0, $scope, $scopeId);
 
             if (strstr($method, "ratepay_" . $country . "_installment") || strstr($method, "ratepay_" . $country . "_installment0")) {
-                $this->_config->saveConfig('payment/' . $method . '/month_allowed', $installmentConfig['month-allowed'], 'default', 0);
-                $this->_config->saveConfig('payment/' . $method . '/rate_min', $installmentConfig['rate-min-normal'], 'default', 0);
-                $this->_config->saveConfig('payment/' . $method . '/service_charge', $installmentConfig['service-charge'], 'default', 0);
-                $this->_config->saveConfig('payment/' . $method . '/interestrate_default', $installmentConfig['interestrate-default'], 'default', 0);
-                $this->_config->saveConfig('payment/' . $method . '/valid_payment_firstday', $installmentConfig['valid-payment-firstdays'], 'default', 0);
+                $this->_config->saveConfig('payment/' . $method . '/month_allowed', $installmentConfig['month-allowed'], $scope, $scopeId);
+                $this->_config->saveConfig('payment/' . $method . '/rate_min', $installmentConfig['rate-min-normal'], $scope, $scopeId);
+                $this->_config->saveConfig('payment/' . $method . '/service_charge', $installmentConfig['service-charge'], $scope, $scopeId);
+                $this->_config->saveConfig('payment/' . $method . '/interestrate_default', $installmentConfig['interestrate-default'], $scope, $scopeId);
+                $this->_config->saveConfig('payment/' . $method . '/valid_payment_firstday', $installmentConfig['valid-payment-firstdays'], $scope, $scopeId);
             }
             $response['status'] = "success";
             $response['message'] = "profile data saved";

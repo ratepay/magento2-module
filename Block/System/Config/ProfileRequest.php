@@ -48,6 +48,57 @@ class ProfileRequest extends Field
     }
 
     /**
+     * Get currently selected scope of configuration
+     *
+     * @return \Magento\Store\Model\Store
+     */
+    public function getCurrentStore()
+    {
+        $aRequestParams = $this->getRequest()->getParams();
+        if (isset($aRequestParams['website'])) {
+            return $this->_storeManager->getWebsite($aRequestParams['website']);
+        }
+
+        if (isset($aRequestParams['store'])) {
+            return $this->_storeManager->getStore($aRequestParams['store']);
+        }
+
+        return $this->_storeManager->getStore();
+    }
+
+    /**
+     * Returns current config scope
+     *
+     * @return string
+     */
+    public function getScope()
+    {
+        $aRequestParams = $this->getRequest()->getParams();
+        if (isset($aRequestParams['website'])) {
+            return 'websites';
+        } elseif (isset($aRequestParams['store'])) {
+            return 'stores';
+        }
+        return 'default';
+    }
+
+    /**
+     * Returns current config scope id
+     *
+     * @return string
+     */
+    public function getScopeId()
+    {
+        $aRequestParams = $this->getRequest()->getParams();
+        if (isset($aRequestParams['website'])) {
+            return $aRequestParams['website'];
+        } elseif (isset($aRequestParams['store'])) {
+            return $aRequestParams['store'];
+        }
+        return 0;
+    }
+
+    /**
      * Return element html
      *
      * @param  AbstractElement $element
