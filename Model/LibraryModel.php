@@ -24,6 +24,11 @@ class LibraryModel
     protected $rpDataHelper;
 
     /**
+     * @var \RatePAY\Payment\Model\ResourceModel\OrderAdjustment
+     */
+    protected $orderAdjustment;
+
+    /**
      * LibraryModel constructor.
      * @param \RatePAY\Payment\Helper\Head\Head $rpHeadHelper
      * @param \RatePAY\Payment\Helper\Head\Additional $rpHeadAdditionalHelper
@@ -31,6 +36,7 @@ class LibraryModel
      * @param \RatePAY\Payment\Helper\Content\ContentBuilder $rpContentBuilder
      * @param \RatePAY\Payment\Helper\Content\ShoppingBasket\Discount $rpContentBasketDiscountHelper
      * @param \RatePAY\Payment\Helper\Data $rpDataHelper
+     * @param \RatePAY\Payment\Model\ResourceModel\OrderAdjustment $orderAdjustment
      */
     public function __construct(
         \RatePAY\Payment\Helper\Head\Head $rpHeadHelper,
@@ -38,7 +44,8 @@ class LibraryModel
         \RatePAY\Payment\Helper\Head\External $rpHeadExternalHelper,
         \RatePAY\Payment\Helper\Content\ContentBuilder $rpContentBuilder,
         \RatePAY\Payment\Helper\Content\ShoppingBasket\Discount $rpContentBasketDiscountHelper,
-        \RatePAY\Payment\Helper\Data $rpDataHelper
+        \RatePAY\Payment\Helper\Data $rpDataHelper,
+        \RatePAY\Payment\Model\ResourceModel\OrderAdjustment $orderAdjustment
     ) {
         $this->rpHeadHelper = $rpHeadHelper;
         $this->rpHeadAdditionalHelper = $rpHeadAdditionalHelper;
@@ -46,15 +53,18 @@ class LibraryModel
         $this->rpContentBuilder = $rpContentBuilder;
         $this->rpContentBasketDiscountHelper = $rpContentBasketDiscountHelper;
         $this->rpDataHelper = $rpDataHelper;
+        $this->orderAdjustment = $orderAdjustment;
     }
 
     /**
      * Add adjustment items to the article list
      *
      * @param $creditmemo
+     * @param $artNumRefund
+     * @param $artNumFee
      * @return array
      */
-    public function addAdjustments($creditmemo)
+    public function addAdjustments($creditmemo, $artNumRefund, $artNumFee)
     {
         $content = [];
 
@@ -62,12 +72,55 @@ class LibraryModel
             if ($this->rpDataHelper->getRpConfigData('ratepay_general', 'creditmemo_discount_type') == CreditmemoDiscountType::SPECIAL_ITEM) {
                 $content['Discount'] = $this->rpContentBasketDiscountHelper->setDiscount((float) $creditmemo->getAdjustmentPositive() * -1, 'Adjustment Refund');
             } else {
-                $content['Items'][] = ['Item' => $this->addAdjustment((float) $creditmemo->getAdjustmentPositive() * -1, 'Adjustment Refund', 'adj-ref')];
+                $content['Items'][] = ['Item' => $this->addAdjustment((float) $creditmemo->getAdjustmentPositive() * -1, 'Adjustment Refund', $artNumRefund)];
             }
         }
 
         if ($creditmemo->getAdjustmentNegative() > 0) {
-            $content['Items'][] = ['Item' => $this->addAdjustment((float) $creditmemo->getAdjustmentNegative(), 'Adjustment Fee', 'adj-fee')];
+            $content['Items'][] = ['Item' => $this->addAdjustment((float) $creditmemo->getAdjustmentNegative(), 'Adjustment Fee', $artNumFee)];
+        }
+
+        return $content;
+    }
+
+    /**
+     * @param  array $adjustments
+     * @return int|mixed
+     */
+    protected function getSpecialItemAdjustmentSum($adjustments)
+    {
+        $sum = 0;
+        foreach ($adjustments as $adjustment) {
+            if ($adjustment['adjustment_type'] == 'positive' && (bool)$adjustment['is_specialitem'] === true) {
+                $sum += $adjustment['amount'];
+            }
+        }
+        return $sum;
+    }
+
+    /**
+     * Add adjustment items to the article list
+     *
+     * @param $order
+     * @return array
+     */
+    public function addReturnAdjustments($order)
+    {
+        $adjustments = $this->orderAdjustment->getOrderAdjustments($order->getId());
+
+        $content = [];
+
+        $positiveAdjustmentSum = $this->getSpecialItemAdjustmentSum($adjustments);
+        if ($positiveAdjustmentSum > 0) {
+            $content['Discount'] = $this->rpContentBasketDiscountHelper->setDiscount((float)$positiveAdjustmentSum * -1, 'Adjustment Refund');
+        }
+
+        foreach ($adjustments as $adjustment) {
+            if ($adjustment['adjustment_type'] == 'positive' && (bool)$adjustment['is_specialitem'] === false) {
+                $content['Items'][] = ['Item' => $this->addAdjustment((float) $adjustment['amount'] * -1, 'Adjustment Refund', $adjustment['article_number'])];
+            } elseif($adjustment['adjustment_type'] == 'negative') {
+                $content['Items'][] = ['Item' => $this->addAdjustment((float) $adjustment['amount'], 'Adjustment Fee', $adjustment['article_number'])];
+            }
         }
 
         return $content;
@@ -141,13 +194,13 @@ class LibraryModel
      * Build requests content section
      *
      * @param $quoteOrOrder
-     * @return ModelBuilders
+     * @return ModelBuilder
      */
-    public function getRequestContent($quoteOrOrder, $operation, $articleList = null, $amount = null, $fixedPaymentMethod = null, $contentArr = null)
+    public function getRequestContent($quoteOrOrder, $operation, $articleList = null, $amount = null, $fixedPaymentMethod = null, $contentArr = null, $mergeContent = null)
     {
         $content = new ModelBuilder('Content');
 
-        $contentArr = $this->rpContentBuilder->setContent($quoteOrOrder, $operation, $articleList, $amount, $fixedPaymentMethod, $contentArr);
+        $contentArr = $this->rpContentBuilder->setContent($quoteOrOrder, $operation, $articleList, $amount, $fixedPaymentMethod, $contentArr, $mergeContent);
         try{
             $content->setArray($contentArr);
         } catch (\Exception $e){

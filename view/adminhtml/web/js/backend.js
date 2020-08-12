@@ -94,3 +94,24 @@ function updateInstallmentPlan(restUrl, calcType, calcValue, grandTotal, methodC
         });
     });
 }
+
+function handleAjustmentRefund(element, dAdjPositive, dAdjNegative) {
+    var elemAdjPositive = document.getElementById("adjustment_positive");
+    var elemAdjNegative = document.getElementById("adjustment_negative");
+    if (element.checked === true) {
+        if (window.ratepayAdjustmentPositiveManualData === undefined || (elemAdjPositive.value !== dAdjPositive && elemAdjPositive.value !== window.ratepayAdjustmentPositiveManualData)) {
+            window.ratepayAdjustmentPositiveManualData = elemAdjPositive.value;
+        }
+        if (window.ratepayAdjustmentNegativeManualData === undefined || (elemAdjNegative.value !== dAdjNegative && elemAdjNegative.value !== window.ratepayAdjustmentNegativeManualData)) {
+            window.ratepayAdjustmentNegativeManualData = elemAdjNegative.value;
+        }
+        elemAdjPositive.value = dAdjPositive;
+        elemAdjNegative.value = dAdjNegative;
+
+        var event = new Event('change');
+        elemAdjPositive.dispatchEvent(event);
+    } else if (window.ratepayAdjustmentPositiveManualData !== undefined) {
+        elemAdjPositive.value = window.ratepayAdjustmentPositiveManualData;
+        elemAdjNegative.value = window.ratepayAdjustmentNegativeManualData;
+    }
+}

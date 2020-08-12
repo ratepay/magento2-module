@@ -1,0 +1,7 @@
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="creditmemo_totals">
+            <block class="RatePAY\Payment\Block\Adminhtml\Order\Creditmemo\DiscountRefund" name="ratepay_discount_refund" template="discountrefund.phtml" />
+        </referenceBlock>
+    </body>
+</page>

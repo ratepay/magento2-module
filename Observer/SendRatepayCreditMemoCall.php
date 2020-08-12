@@ -11,6 +11,7 @@ namespace RatePAY\Payment\Observer;
 
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\PaymentException;
+use RatePAY\Payment\Model\Source\CreditmemoDiscountType;
 
 class SendRatepayCreditMemoCall implements ObserverInterface
 {
@@ -40,19 +41,36 @@ class SendRatepayCreditMemoCall implements ObserverInterface
     protected $storeManager;
 
     /**
+     * @var \RatePAY\Payment\Model\ResourceModel\OrderAdjustment
+     */
+    protected $orderAdjustment;
+
+    /**
+     * @var string
+     */
+    protected $artNumRefund;
+
+    /**
+     * @var string
+     */
+    protected $artNumFee;
+
+    /**
      * SendRatepayCreditMemoCall constructor.
      * @param \RatePAY\Payment\Helper\Data $rpDataHelper
      * @param \RatePAY\Payment\Helper\Payment $rpPaymentHelper
      * @param \RatePAY\Payment\Model\LibraryModel $rpLibraryModel
      * @param \RatePAY\Payment\Controller\LibraryController $rpLibraryController
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \RatePAY\Payment\Model\ResourceModel\OrderAdjustment $orderAdjustment
      */
     function __construct(
         \RatePAY\Payment\Helper\Data $rpDataHelper,
         \RatePAY\Payment\Helper\Payment $rpPaymentHelper,
         \RatePAY\Payment\Model\LibraryModel $rpLibraryModel,
         \RatePAY\Payment\Controller\LibraryController $rpLibraryController,
-        \Magento\Store\Model\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \RatePAY\Payment\Model\ResourceModel\OrderAdjustment $orderAdjustment
     )
     {
         $this->rpDataHelper = $rpDataHelper;
@@ -60,6 +78,7 @@ class SendRatepayCreditMemoCall implements ObserverInterface
         $this->rpLibraryModel = $rpLibraryModel;
         $this->rpLibraryController = $rpLibraryController;
         $this->storeManager = $storeManager;
+        $this->orderAdjustment = $orderAdjustment;
     }
 
     /**
@@ -74,7 +93,46 @@ class SendRatepayCreditMemoCall implements ObserverInterface
         if(!$this->rpPaymentHelper->isRatepayPayment($paymentMethod)){
             return $this;
         }
+
+        if ($this->isReturnPreviousAdjustmentsCheckboxChecked() === false) {
+            $this->addAdjustmentsToDb($order, $creditMemo);
+        }
+
         $this->callRatepayReturn($order, $creditMemo, $paymentMethod);
+    }
+
+    /**
+     * Adds order adjustments to database
+     *
+     * @param $order
+     * @param $creditMemo
+     */
+    protected function addAdjustmentsToDb($order, $creditMemo)
+    {
+        if ($creditMemo->getAdjustmentPositive() > 0) {
+            $this->artNumRefund = 'adj-ref'.$this->orderAdjustment->getNextArticleNumberCounter($order->getId(), 'positive');
+            $is_specialitem = false;
+            if ($this->rpDataHelper->getRpConfigData('ratepay_general', 'creditmemo_discount_type') == CreditmemoDiscountType::SPECIAL_ITEM) {
+                $is_specialitem = true;
+            }
+            $this->orderAdjustment->addOrderAdjustment($order->getId(), 'positive', $this->artNumRefund, $creditMemo->getAdjustmentPositive(), $creditMemo->getBaseAdjustmentPositive(), $is_specialitem);
+        }
+        if ($creditMemo->getAdjustmentNegative() > 0) {
+            $this->artNumFee = 'adj-fee'.$this->orderAdjustment->getNextArticleNumberCounter($order->getId(), 'negative');
+            $this->orderAdjustment->addOrderAdjustment($order->getId(), 'negative', $this->artNumFee, $creditMemo->getAdjustmentNegative(), $creditMemo->getBaseAdjustmentNegative());
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isReturnPreviousAdjustmentsCheckboxChecked()
+    {
+        $paramCreditmemo = $this->rpDataHelper->getRequestParameter('creditmemo');
+        if (isset($paramCreditmemo['ratepay_return_adjustments']) && (bool)$paramCreditmemo['ratepay_return_adjustments'] === true) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -125,10 +183,6 @@ class SendRatepayCreditMemoCall implements ObserverInterface
      */
     public function callRatepayReturn($order, $creditMemo, $paymentMethod)
     {
-        $sandbox = (bool)$this->rpDataHelper->getRpConfigData($paymentMethod, 'sandbox', $this->storeManager->getStore()->getId());
-        $head = $this->rpLibraryModel->getRequestHead($order, 'PAYMENT_CHANGE');
-        $content = $this->rpLibraryModel->getRequestContent($creditMemo, "PAYMENT_CHANGE");
-
         if ($this->rpDataHelper->getRpConfigData($paymentMethod, 'status', $this->storeManager->getStore()->getId()) == 1) {
             throw new PaymentException(__('Processing failed'));
         }
@@ -137,24 +191,35 @@ class SendRatepayCreditMemoCall implements ObserverInterface
             throw new PaymentException(__('Bundles can only be refunded completely'));
         }
 
-        if ($creditMemo->getAdjustmentPositive() > 0 || $creditMemo->getAdjustmentNegative() > 0) {
+        $blReturnProducts = true;
+        if ($this->isReturnPreviousAdjustmentsCheckboxChecked() === false && ($creditMemo->getAdjustmentPositive() > 0 || $creditMemo->getAdjustmentNegative() > 0)) {
             $this->callRatepayCredit($order, $creditMemo, $paymentMethod);
-            $iQuantity = $this->getCreditMemoQuantity($creditMemo);
-            if ($iQuantity > 0) {
-                $returnRequest = $this->rpLibraryController->callPaymentChange($head, $content, 'return', $order, $sandbox);
-                if (!$returnRequest->isSuccessful()) {
-                    throw new PaymentException(__('Refund was not successfull'));
-                }
+            if ($this->getCreditMemoQuantity($creditMemo) <= 0) {
+                $blReturnProducts = false;
             }
-            return true;
-        } else {
+        }
+
+        if ($blReturnProducts === true) {
+            $sandbox = (bool)$this->rpDataHelper->getRpConfigData($paymentMethod, 'sandbox', $this->storeManager->getStore()->getId());
+            $head = $this->rpLibraryModel->getRequestHead($order, 'PAYMENT_CHANGE');
+
+            $adjustments = null;
+            if ($this->isReturnPreviousAdjustmentsCheckboxChecked() === true) {
+                $adjustments = $this->rpLibraryModel->addReturnAdjustments($order);
+            }
+            $content = $this->rpLibraryModel->getRequestContent($creditMemo, "PAYMENT_CHANGE", null, null, null, null, $adjustments);
+
             $returnRequest = $this->rpLibraryController->callPaymentChange($head, $content, 'return', $order, $sandbox);
             if (!$returnRequest->isSuccessful()) {
                 throw new PaymentException(__('Refund was not successfull'));
-            } else {
-                return true;
+            }
+
+            if ($this->isReturnPreviousAdjustmentsCheckboxChecked() === true) {
+                $this->orderAdjustment->setAdjustmentsToReturned($order->getId());
             }
         }
+
+        return true;
     }
 
     /**
@@ -167,14 +232,14 @@ class SendRatepayCreditMemoCall implements ObserverInterface
     {
         $sandbox = (bool)$this->rpDataHelper->getRpConfigData($paymentMethod, 'sandbox', $this->storeManager->getStore()->getId());
         $head = $this->rpLibraryModel->getRequestHead($order, 'PAYMENT_CHANGE');
-        $content = $this->rpLibraryModel->getRequestContent($order, 'PAYMENT_CHANGE', null, null, null, $this->rpLibraryModel->addAdjustments($creditMemo));
+        $content = $this->rpLibraryModel->getRequestContent($order, 'PAYMENT_CHANGE', null, null, null, $this->rpLibraryModel->addAdjustments($creditMemo, $this->artNumRefund, $this->artNumFee));
 
         $creditRequest = $this->rpLibraryController->callPaymentChange($head, $content, 'credit', $order, $sandbox);
 
         if (!$creditRequest->isSuccessful()) {
             throw new PaymentException(__('Credit was not successfull'));
-        } else {
-            return true;
         }
+
+        return true;
     }
 }
