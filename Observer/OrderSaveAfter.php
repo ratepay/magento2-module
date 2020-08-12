@@ -33,13 +33,18 @@ class OrderSaveAfter implements ObserverInterface
     {
         $transactionId = $order->getPayment()->getAdditionalInformation('transactionId');
         if (!empty($transactionId)) {
-            $table = $this->databaseResource->getTableName('ratepay_api_log');
-            $data = [
-                'order_id' => $order->getId(),
-                'order_increment_id' => $order->getIncrementId(),
-            ];
-            $where = ['transaction_id = ?' => $transactionId];
-            $this->databaseResource->getConnection()->update($table, $data, $where);
+            try {
+                $table = $this->databaseResource->getTableName('ratepay_api_log');
+                $data = [
+                    'order_id' => $order->getId(),
+                    'order_increment_id' => $order->getIncrementId(),
+                ];
+                $where = ['transaction_id = ?' => $transactionId];
+                $this->databaseResource->getConnection()->update($table, $data, $where);
+            } catch (\Exception $exc) {
+                // do nothing - if this section fails because of a DB deadlock or something else, a DB rollback will happen which will result in RatePay waiting for money for an order that doesnt exist
+                error_log('RatePay Error: Was not able to update ratepay_api_log table with order_id = '.$order->getId().' and order_increment_id = '.$order->getIncrementId().' for transaction_id = '.$transactionId.' Original Exception: '.$exc->getMessage());
+            }
         }
     }
 
