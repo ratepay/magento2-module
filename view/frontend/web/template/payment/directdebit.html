@@ -117,12 +117,12 @@
                     </ul>
                     <ul style="list-style: none; margin-left: -40px;">
                         <li style="margin-bottom: 15px;"><label><b><!-- ko i18n: 'insert bankdata'--><!-- /ko --></b></label></li>
-                        <li><label><!-- ko i18n: 'Account holder'--><!-- /ko --></label></li>
+                        <li><label><b><!-- ko i18n: 'Account holder'--><!-- /ko --></b></label></li>
                         <li><label><i><!-- ko text: getCustomerName() --><!-- /ko --></i></label></li>
                     </ul>
                     <div class="field _required" style="float:left; position: relative; margin: 0 0 5px;">
                         <label data-bind="attr: {for: getCode() + '_iban'}" class="label">
-                            <span><!-- ko i18n: 'IBAN'--><!-- /ko --></span>
+                            <span><!-- ko i18n: 'IBAN'--><!-- /ko -->: </span>
                         </label>
                         <div class="control required">
                             <input type="text" name="payment[rp_iban]" class="input-text required-entry" value=""
