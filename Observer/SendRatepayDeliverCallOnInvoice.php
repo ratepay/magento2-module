@@ -40,6 +40,13 @@ class SendRatepayDeliverCallOnInvoice implements ObserverInterface
     protected $storeManager;
 
     /**
+     * @var array
+     */
+    protected $validCarrierCodes = [
+        'DHL', 'DPD', 'GLS', 'HLG', 'HVS', 'TNT', 'UPS'
+    ];
+
+    /**
      * SendRatepayDeliverCallOnInvoice constructor.
      * @param \RatePAY\Payment\Model\LibraryModel $rpLibraryModel
      * @param \RatePAY\Payment\Helper\Data $rpDataHelper
@@ -80,6 +87,51 @@ class SendRatepayDeliverCallOnInvoice implements ObserverInterface
     }
 
     /**
+     * The Ratepay API only accepts certain carrier codes
+     * Checks if carrier code is valid, otherwise OTH for other is returned
+     *
+     * @param  string $sShopCarrierCode
+     * @return string
+     */
+    private function getValidCarrierCode($sShopCarrierCode)
+    {
+        if (in_array(strtoupper($sShopCarrierCode), $this->validCarrierCodes)) {
+            return strtoupper($sShopCarrierCode);
+        }
+        return 'OTH';
+    }
+
+    /**
+     * Returns trackinfo request parameter array
+     *
+     * Problem: Documentation suggests that multiple tracking codes can be sent, but der Ratepay API lib didnt let me add multiple tracking codes so only first code is sent
+     *
+     * @param $order
+     * @return array|null
+     */
+    private function getTrackingInfo($order)
+    {
+        $trackInfo = null;
+
+        $aShipments = $order->getShipmentsCollection()->getItems();
+        if (!empty($aShipments)) {
+            $aShipment = array_shift($aShipments);
+            if ($aShipment) {
+                $aAllTracks = $aShipment->getAllTracks();
+                foreach ($aAllTracks as $oTrack) {
+                    if (!isset($trackInfo['Id'])) {
+                        $trackInfo['Id'] = [];
+                    }
+                    $trackInfo['Id'] = $oTrack->getTrackNumber();
+                    $trackInfo['Provider'] = $this->getValidCarrierCode($oTrack->getCarrierCode());
+                    break;
+                }
+            }
+        }
+        return $trackInfo;
+    }
+
+    /**
      * @param $order
      * @param $inv
      * @param $paymentMethod
@@ -88,7 +140,7 @@ class SendRatepayDeliverCallOnInvoice implements ObserverInterface
     private function sendRatepayDeliverCall($order, $inv, $paymentMethod)
     {
         $sandbox = (bool)$this->rpDataHelper->getRpConfigData($paymentMethod, 'sandbox', $this->storeManager->getStore()->getId());
-        $head = $this->rpLibraryModel->getRequestHead($order, 'CONFIRMATION_DELIVER');
+        $head = $this->rpLibraryModel->getRequestHead($order, 'CONFIRMATION_DELIVER', null, null, null, null, $this->getTrackingInfo($order));
         $content = $this->rpLibraryModel->getRequestContent($inv, 'CONFIRMATION_DELIVER');
         $resultConfirmationDeliver = $this->rpLibraryController->callConfirmationDeliver($head, $content, $order, $sandbox);
 
