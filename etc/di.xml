@@ -30,4 +30,24 @@
     <type name="Magento\Sales\Model\Service\CreditmemoService">
         <plugin name="RatePAY_Payment_plugin_CreditmemoService" type="RatePAY\Payment\Plugin\CreditmemoService" sortOrder="1" />
     </type>
+    <type name="RatePAY\Payment\Controller\LibraryController">
+        <arguments>
+            <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="RatePAY\Payment\Helper\Content\Payment\Payment">
+        <arguments>
+            <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="RatePAY\Payment\Plugin\CreditmemoService">
+        <arguments>
+            <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="RatePAY\Payment\Plugin\RatepayGuestErrorProcessor">
+        <arguments>
+            <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
 </config>

@@ -11,7 +11,13 @@
                     <label>Device Fingerprint Snippet-Id</label>
                     <config_path>payment/ratepay_general/snippet_id</config_path>
                 </field>
-                <group id="de" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1"
+                <field id="creditmemo_discount_type" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Creditmemo goodwill refund transmission type</label>
+                    <source_model>RatePAY\Payment\Model\Source\CreditmemoDiscountType</source_model>
+                    <config_path>payment/ratepay_general/creditmemo_discount_type</config_path>
+                    <tooltip>Standard item means that the goodwill refund will be transferred as an ordinary item in the item list with the article-number "adj-ref" this has the sideeffect that only one goodwill refund per order can be executed. Special item sends the goodwill refund as a discount. This way multiple goodwill refunds can be executed per order.</tooltip>
+                </field>
+                <group id="de" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
                        showInStore="1">
                     <label>Germany</label>
                     <group id="invoice" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1"
@@ -484,7 +490,7 @@
                         </field>
                     </group>
                 </group>
-                <group id="at" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1"
+                <group id="at" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1"
                        showInStore="1">
                     <label>Austria</label>
                     <group id="invoice" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1"
@@ -957,7 +963,7 @@
                         </field>
                     </group>
                 </group>
-                <group id="ch" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1"
+                <group id="ch" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1"
                        showInStore="1">
                     <label>Switzerland</label>
                     <group id="invoice" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1"
@@ -1073,7 +1079,7 @@
                         </field>
                     </group>
                 </group>
-                <group id="nl" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1"
+                <group id="nl" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1"
                        showInStore="1">
                     <label>Netherlands</label>
                     <group id="invoice" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1"
@@ -1300,7 +1306,7 @@
                         </field>
                     </group>
                 </group>
-                <group id="be" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1"
+                <group id="be" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1"
                        showInStore="1">
                     <label>Belgium</label>
                     <group id="invoice" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1"

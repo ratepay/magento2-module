@@ -104,6 +104,7 @@ class RechnungConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
             'payment' => [
                 $sMethodCode => [
                     'b2bActive' => (bool)$this->rpDataHelper->getRpConfigData($sMethodCode, 'b2b'),
+                    'differentShippingAddressAllowed' => $this->getIsDifferentShippingAddressAllowed($sMethodCode)
                 ],
             ],
         ] : [];
@@ -152,6 +153,15 @@ class RechnungConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
                 ],
             ],
         ] : [];
+    }
+
+    /**
+     * @param  string $sMethodCode
+     * @return bool
+     */
+    protected function getIsDifferentShippingAddressAllowed($sMethodCode)
+    {
+        return (bool)$this->rpDataHelper->getRpConfigData($sMethodCode, 'delivery_address');
     }
 
     /**

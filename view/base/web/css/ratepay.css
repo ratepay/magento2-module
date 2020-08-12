@@ -241,3 +241,14 @@ div.ratepay-ContentSwitch {
 .ratepay-ContentSwitch div.ratepay-Active {
     color: #B69767;
 }
+
+.action.primary.updatePaymentMethods {
+    display: none;
+    background-color: #eddb51;
+    border-color: #eddb51;
+    color: #111111;
+}
+
+.ratepay_ala_warning {
+    color: crimson;
+}

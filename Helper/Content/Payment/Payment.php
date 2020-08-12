@@ -14,7 +14,7 @@ use Magento\Framework\App\Helper\Context;
 class Payment extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
-     * @var \Magento\Checkout\Model\Session\Proxy
+     * @var \Magento\Checkout\Model\Session
      */
     protected $checkoutSession;
 
@@ -36,7 +36,7 @@ class Payment extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function __construct(
         Context $context,
-        \Magento\Checkout\Model\Session\Proxy $checkoutSession,
+        \Magento\Checkout\Model\Session $checkoutSession,
         \RatePAY\Payment\Helper\Payment $rpPaymentHelper
     ) {
         parent::__construct($context);
