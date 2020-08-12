@@ -73,7 +73,7 @@ class ShoppingBasket extends \Magento\Framework\App\Helper\AbstractHelper
                 $content['Shipping'] = $this->rpContentBasketShippingHelper->setShipping($quoteOrOrder);
             }
             if ($quoteOrOrder->getGiftCardsAmount() > 0) {
-                $content['Discount'] = $this->rpContentBasketDiscountHelper->setDiscount($quoteOrOrder);
+                $content['Discount'] = $this->rpContentBasketDiscountHelper->setDiscount($quoteOrOrder->getGiftCardsAmount(), 'GiftCard');
             }
         } elseif (count($articleList) > 0) {
             $content['Items'] = $articleList;
