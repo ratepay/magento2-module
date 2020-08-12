@@ -174,13 +174,17 @@
                         data-bind="
                         click: placeOrder,
                         attr: {title: $t('Place Order')},
-                        css: {disabled: !isPlaceOrderActionAllowed()},
+                        css: {disabled: !isPlaceOrderActionAllowedRatePay() && !isPlaceOrderActionAllowedRatePay()},
                         enable: (getCode() == isChecked())
                         "
                         disabled>
                     <span data-bind="i18n: 'Place Order'"></span>
                 </button>
             </div>
+        </div>
+        <div class="ratepay_ala_warning" data-bind="visible: !isPlaceOrderActionAllowedRatePay()"><br>
+            <span style="float:right;"><!-- ko i18n: 'Orders with different billing- and shipping-addresses are not supported for this payment method.'--><!-- /ko --></span>
+            <div style="clear:both;"></div>
         </div>
     </div>
 </div>

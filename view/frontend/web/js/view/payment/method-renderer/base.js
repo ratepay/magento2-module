@@ -12,6 +12,9 @@ define(
             currentBillingAddress: quote.billingAddress,
             currentCustomerData: customer.customerData,
 
+            isPlaceOrderActionAllowedRatePay: function () {
+                return (window.checkoutConfig.payment[this.getCode()].differentShippingAddressAllowed === true || (quote.billingAddress() != null && quote.billingAddress().getCacheKey() == quote.shippingAddress().getCacheKey()));
+            },
             getCustomerName: function () {
                 if (quote.billingAddress() != null && quote.billingAddress().firstname != undefined) {
                     return quote.billingAddress().firstname + ' ' + quote.billingAddress().lastname;
