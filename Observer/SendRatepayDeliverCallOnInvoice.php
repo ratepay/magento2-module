@@ -69,12 +69,14 @@ class SendRatepayDeliverCallOnInvoice implements ObserverInterface
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
         $inv = $observer->getEvent()->getData('invoice');
-        $order = $observer->getEvent()->getData('invoice')->getOrder();
-        $paymentMethod = $observer->getEvent()->getData('invoice')->getOrder()->getPayment()->getMethodInstance()->getCode();
-        if(!$this->rpPaymentHelper->isRatepayPayment($paymentMethod)){
-            return $this;
+        if ($inv->getIsUsedForRefund() !== true) { // online refund executes a save on the invoice, which would trigger another confirmation_deliver
+            $order = $observer->getEvent()->getData('invoice')->getOrder();
+            $paymentMethod = $observer->getEvent()->getData('invoice')->getOrder()->getPayment()->getMethodInstance()->getCode();
+            if(!$this->rpPaymentHelper->isRatepayPayment($paymentMethod)){
+                return $this;
+            }
+            $this->sendRatepayDeliverCall($order, $inv, $paymentMethod);
         }
-        $this->sendRatepayDeliverCall($order, $inv, $paymentMethod);
     }
 
     /**

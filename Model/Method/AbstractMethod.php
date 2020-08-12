@@ -32,12 +32,40 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
      *
      * @var bool
      */
-    protected $_isOffline = true;
+    protected $_isOffline = false;
 
     /**
      * @var bool
      */
     protected $_canAuthorize = false;
+
+    /**
+     * Determines if payment type can use refund mechanism
+     *
+     * @var bool
+     */
+    protected $_canRefund = true;
+
+    /**
+     * Determines if payment type can use capture mechanism
+     *
+     * @var bool
+     */
+    protected $_canCapture = true;
+
+    /**
+     * Determines if payment type can use partial captures
+     *
+     * @var bool
+     */
+    protected $_canCapturePartial = true;
+
+    /**
+     * Determines if payment type can use partial refunds
+     *
+     * @var bool
+     */
+    protected $_canRefundInvoicePartial = true;
 
     /**
      * @var \RatePAY\Payment\Model\LibraryModel
@@ -201,6 +229,8 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         $resultInit = $this->libraryController->callPaymentInit($head, $order, $sandbox);
         if ($resultInit->isSuccessful()) {
             $payment->setAdditionalInformation('transactionId', $resultInit->getTransactionId());
+            $payment->setTransactionId($resultInit->getTransactionId());
+            $payment->setIsTransactionClosed(0);
             $head = $this->_rpLibraryModel->getRequestHead($order, 'PAYMENT_REQUEST', $resultInit);
             $content = $this->_rpLibraryModel->getRequestContent($order, 'PAYMENT_REQUEST');
             $resultRequest = $this->libraryController->callPaymentRequest($head, $content, $order, $sandbox);
