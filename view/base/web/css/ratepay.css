@@ -17,7 +17,9 @@
 .sp-methods div.ratepaybirthdate {
     width: 476px;
 }
-
+.legalText {
+    margin-top: 1em;
+}
 /* RatePAY Calculator */
 .rpContainer {
     width: 100%;

@@ -83,6 +83,12 @@ Inactive,deactivated,module,RatePAY_Payment
 ratepay_terms_block_1, "For this payment method" ,module,RatePAY_Payment
 ratepay_terms_block_2, "additional GTC and data protection notices" ,module,RatePAY_Payment
 ratepay_terms_block_3, "apply.",module,RatePAY_Payment
+ratepay_terms_block_1, "With clicking on" ,module,RatePAY_Payment
+ratepay_terms_block_2, "you agree to the" ,module,RatePAY_Payment
+ratepay_terms_block_3, "terms of payment of our payment partner" ,module,RatePAY_Payment
+ratepay_terms_block_4, "as well as to the performance of a" ,module,RatePAY_Payment
+ratepay_terms_block_5, "risk check by our payment partner" ,module,RatePAY_Payment
+ratepay_terms_block_6, "." ,module,RatePAY_Payment
 "Maximum Oder Total","Maximum order total",module,RatePAY_Payment
 "Nur SEPA/IBAN Kontodaten","SEPA/IBAN account info only",module,RatePAY_Payment
 "rp_calculation_intro_part1","In the following you will be able to decide, how you want to shape your installment payment. You can comfortable declare the amount of installments and therefore ",module,RatePAY_Payment

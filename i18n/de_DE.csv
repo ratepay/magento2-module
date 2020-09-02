@@ -84,6 +84,12 @@ Phased Out,Abgelaufen,module,RatePAY_Payment
 ratepay_terms_block_1, "Für diese Zahlungsart gelten" ,module,RatePAY_Payment
 ratepay_terms_block_2, "zusätzliche AGB und Datenschutzhinweise" ,module,RatePAY_Payment
 ratepay_terms_block_3, "." ,module,RatePAY_Payment
+ratepay_terms_block_1, "Mit Klicken auf" ,module,RatePAY_Payment
+ratepay_terms_block_2, "erklären Sie sich mit den" ,module,RatePAY_Payment
+ratepay_terms_block_3, "Zahlungsbedingungen unseres Zahlungspartners" ,module,RatePAY_Payment
+ratepay_terms_block_4, "sowie mit der Durchführung einer" ,module,RatePAY_Payment
+ratepay_terms_block_5, "Risikoprüfung durch unseren Zahlungspartner" ,module,RatePAY_Payment
+ratepay_terms_block_6, "einverstanden." ,module,RatePAY_Payment
 "Maximum Oder Total","Maximum order total",module,RatePAY_Payment
 "Nur SEPA/IBAN Kontodaten","Nur SEPA/IBAN Kontodaten",module,RatePAY_Payment
 "rp_calculation_intro_part1","Im Folgenden können Sie entscheiden, wie Sie die Ratenzahlung gestalten möchten. Legen Sie bequem die Anzahl der Raten und somit ",module,RatePAY_Payment
