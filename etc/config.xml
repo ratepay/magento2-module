@@ -22,7 +22,7 @@
                 <model>RatePAY\Payment\Model\Method\DE\Invoice</model>
                 <sandbox>1</sandbox>
                 <order_status>pending</order_status>
-                <title>RatePAY Invoice</title>
+                <title>Ratepay Invoice</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
                 <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
@@ -33,7 +33,7 @@
                 <sandbox>1</sandbox>
                 <model>RatePAY\Payment\Model\Method\DE\Directdebit</model>
                 <order_status>pending</order_status>
-                <title>RatePAY Directdebit</title>
+                <title>Ratepay Directdebit</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
                 <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
@@ -44,7 +44,7 @@
                 <sandbox>1</sandbox>
                 <model>RatePAY\Payment\Model\Method\DE\Installment</model>
                 <order_status>pending</order_status>
-                <title>RatePAY Installment</title>
+                <title>Ratepay Installment</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
                 <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
@@ -55,7 +55,7 @@
                 <sandbox>1</sandbox>
                 <model>RatePAY\Payment\Model\Method\DE\Installment0</model>
                 <order_status>pending</order_status>
-                <title>RatePAY 0% Financing</title>
+                <title>Ratepay 0% Financing</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
                 <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
@@ -66,7 +66,7 @@
                 <sandbox>1</sandbox>
                 <model>RatePAY\Payment\Model\Method\AT\Invoice</model>
                 <order_status>pending</order_status>
-                <title>RatePAY Invoice</title>
+                <title>Ratepay Invoice</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
                 <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
@@ -77,7 +77,7 @@
                 <sandbox>1</sandbox>
                 <model>RatePAY\Payment\Model\Method\AT\Directdebit</model>
                 <order_status>pending</order_status>
-                <title>RatePAY Directdebit</title>
+                <title>Ratepay Directdebit</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
                 <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
@@ -88,7 +88,7 @@
                 <sandbox>1</sandbox>
                 <model>RatePAY\Payment\Model\Method\AT\Installment</model>
                 <order_status>pending</order_status>
-                <title>RatePAY Installment</title>
+                <title>Ratepay Installment</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
                 <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
@@ -99,7 +99,7 @@
                 <sandbox>1</sandbox>
                 <model>RatePAY\Payment\Model\Method\AT\Installment0</model>
                 <order_status>pending</order_status>
-                <title>RatePAY 0% Financing</title>
+                <title>Ratepay 0% Financing</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
                 <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
@@ -110,7 +110,7 @@
                 <sandbox>1</sandbox>
                 <model>RatePAY\Payment\Model\Method\CH\Invoice</model>
                 <order_status>pending</order_status>
-                <title>RatePAY Invoice</title>
+                <title>Ratepay Invoice</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
                 <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
@@ -121,7 +121,7 @@
                 <sandbox>1</sandbox>
                 <model>RatePAY\Payment\Model\Method\NL\Invoice</model>
                 <order_status>pending</order_status>
-                <title>RatePAY Invoice</title>
+                <title>Ratepay Invoice</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
                 <privacy_policy>https://www.ratepay.com/aanvullende-voorwaarden-en-privacybeleid-nl</privacy_policy>
@@ -132,7 +132,7 @@
                 <sandbox>1</sandbox>
                 <model>RatePAY\Payment\Model\Method\NL\Directdebit</model>
                 <order_status>pending</order_status>
-                <title>RatePAY Directdebit</title>
+                <title>Ratepay Directdebit</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
                 <privacy_policy>https://www.ratepay.com/aanvullende-voorwaarden-en-privacybeleid-nl</privacy_policy>
@@ -143,7 +143,7 @@
                 <sandbox>1</sandbox>
                 <model>RatePAY\Payment\Model\Method\BE\Invoice</model>
                 <order_status>pending</order_status>
-                <title>RatePAY Invoice</title>
+                <title>Ratepay Invoice</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
                 <privacy_policy>https://www.ratepay.com/additional-general-terms-and-conditions-and-data-protection-notice-be</privacy_policy>
@@ -154,7 +154,7 @@
                 <sandbox>1</sandbox>
                 <model>RatePAY\Payment\Model\Method\BE\Directdebit</model>
                 <order_status>pending</order_status>
-                <title>RatePAY Directdebit</title>
+                <title>Ratepay Directdebit</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
                 <privacy_policy>https://www.ratepay.com/additional-general-terms-and-conditions-and-data-protection-notice-be</privacy_policy>
@@ -166,7 +166,7 @@
                 <model>RatePAY\Payment\Model\Method\DE\InvoiceBackend</model>
                 <sandbox>1</sandbox>
                 <order_status>pending</order_status>
-                <title>RatePAY Invoice Germany Backend</title>
+                <title>Ratepay Invoice Germany Backend</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
                 <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
@@ -177,7 +177,7 @@
                 <sandbox>1</sandbox>
                 <model>RatePAY\Payment\Model\Method\DE\DirectdebitBackend</model>
                 <order_status>pending</order_status>
-                <title>RatePAY Directdebit Germany Backend</title>
+                <title>Ratepay Directdebit Germany Backend</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
                 <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
@@ -188,7 +188,7 @@
                 <sandbox>1</sandbox>
                 <model>RatePAY\Payment\Model\Method\DE\InstallmentBackend</model>
                 <order_status>pending</order_status>
-                <title>RatePAY Installment Germany Backend</title>
+                <title>Ratepay Installment Germany Backend</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
                 <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
@@ -199,7 +199,7 @@
                 <sandbox>1</sandbox>
                 <model>RatePAY\Payment\Model\Method\DE\Installment0Backend</model>
                 <order_status>pending</order_status>
-                <title>RatePAY 0% Financing Germany Backend</title>
+                <title>Ratepay 0% Financing Germany Backend</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
                 <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
@@ -210,7 +210,7 @@
                 <sandbox>1</sandbox>
                 <model>RatePAY\Payment\Model\Method\AT\InvoiceBackend</model>
                 <order_status>pending</order_status>
-                <title>RatePAY Invoice Austria Backend</title>
+                <title>Ratepay Invoice Austria Backend</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
                 <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
@@ -221,7 +221,7 @@
                 <sandbox>1</sandbox>
                 <model>RatePAY\Payment\Model\Method\AT\DirectdebitBackend</model>
                 <order_status>pending</order_status>
-                <title>RatePAY Directdebit Austria Backend</title>
+                <title>Ratepay Directdebit Austria Backend</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
                 <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
@@ -232,7 +232,7 @@
                 <sandbox>1</sandbox>
                 <model>RatePAY\Payment\Model\Method\AT\InstallmentBackend</model>
                 <order_status>pending</order_status>
-                <title>RatePAY Installment Austria Backend</title>
+                <title>Ratepay Installment Austria Backend</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
                 <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
@@ -243,7 +243,7 @@
                 <sandbox>1</sandbox>
                 <model>RatePAY\Payment\Model\Method\AT\Installment0Backend</model>
                 <order_status>pending</order_status>
-                <title>RatePAY 0% Financing Austria Backend</title>
+                <title>Ratepay 0% Financing Austria Backend</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
                 <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
@@ -254,7 +254,7 @@
                 <sandbox>1</sandbox>
                 <model>RatePAY\Payment\Model\Method\CH\InvoiceBackend</model>
                 <order_status>pending</order_status>
-                <title>RatePAY Invoice Switzerland Backend</title>
+                <title>Ratepay Invoice Switzerland Backend</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
                 <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
@@ -265,7 +265,7 @@
                 <sandbox>1</sandbox>
                 <model>RatePAY\Payment\Model\Method\NL\InvoiceBackend</model>
                 <order_status>pending</order_status>
-                <title>RatePAY Invoice Netherlands Backend</title>
+                <title>Ratepay Invoice Netherlands Backend</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
                 <privacy_policy>https://www.ratepay.com/aanvullende-voorwaarden-en-privacybeleid-nl</privacy_policy>
@@ -276,7 +276,7 @@
                 <sandbox>1</sandbox>
                 <model>RatePAY\Payment\Model\Method\NL\DirectdebitBackend</model>
                 <order_status>pending</order_status>
-                <title>RatePAY Directdebit Netherlands Backend</title>
+                <title>Ratepay Directdebit Netherlands Backend</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
                 <privacy_policy>https://www.ratepay.com/aanvullende-voorwaarden-en-privacybeleid-nl</privacy_policy>
@@ -287,7 +287,7 @@
                 <sandbox>1</sandbox>
                 <model>RatePAY\Payment\Model\Method\BE\InvoiceBackend</model>
                 <order_status>pending</order_status>
-                <title>RatePAY Invoice Belgium Backend</title>
+                <title>Ratepay Invoice Belgium Backend</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
                 <privacy_policy>https://www.ratepay.com/additional-general-terms-and-conditions-and-data-protection-notice-be</privacy_policy>
@@ -298,7 +298,7 @@
                 <sandbox>1</sandbox>
                 <model>RatePAY\Payment\Model\Method\BE\DirectdebitBackend</model>
                 <order_status>pending</order_status>
-                <title>RatePAY Directdebit Belgium Backend</title>
+                <title>Ratepay Directdebit Belgium Backend</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
                 <privacy_policy>https://www.ratepay.com/additional-general-terms-and-conditions-and-data-protection-notice-be</privacy_policy>

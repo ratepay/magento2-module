@@ -2,10 +2,10 @@
 "Request Failed","Request Failed",module,RatePAY_Payment
 "Country not supported by credentials","Country not supported by credentials",module,RatePAY_Payment
 "Interest Rate not supported by payment method","Interest Rate not supported by payment method",module,RatePAY_Payment
-"dob data invalid","Om door RatePAY een betaling op rekening door te kunnen voeren, gelieve hier uw geboortedatum invoeren. ",module,RatePAY_Payment
+"dob data invalid","Om door Ratepay een betaling op rekening door te kunnen voeren, gelieve hier uw geboortedatum invoeren. ",module,RatePAY_Payment
 "iban data invalid","Vul een geldige IBAN in.",module,RatePAY_Payment
 "phone data invalid","Vul een geldig telefoonnummer in.",module,RatePAY_Payment
-"phone not valid","Om door RatePAY een betaling op rekening door te kunnen voeren, gelieve hier uw geboortedatum invoeren. ",module,RatePAY_Payment
+"phone not valid","Om door Ratepay een betaling op rekening door te kunnen voeren, gelieve hier uw geboortedatum invoeren. ",module,RatePAY_Payment
 "b2b not allowed","Deze betaalmethode is niet beschikbaar voor zakelijke klanten.",module,RatePAY_Payment
 "ala not allowed","Om deze betaalmethode te gebruiken moet het factuuradres overeenstemmen met het afleveradres.",module,RatePAY_Payment
 "PROD credentials in sandbox mode","PROD credentials in sandbox mode",module,RatePAY_Payment
@@ -35,11 +35,11 @@ IBAN,"IBAN / rekeningnummer *",module,RatePAY_Payment
 "Mandate Ref","(is transmitted after sale)",module,RatePAY_Payment
 "ratepay_directdebit_sepa_link","Lees de toestemmingsverklaring voor het SEPA-mandaat.",module,RatePAY_Payment
 ratepay_directdebit_sepa_terms_block_1,Ik ga hiermee akkoord met het overdragen van mijn gegevens aan ,module,RatePAY_Payment
-"Ratepay address","RatePAY GmbH, Schlüterstr. 39, 10629 Berlin",module,RatePAY_Payment
+"Ratepay address","Ratepay GmbH, Schlüterstr. 39, 10629 Berlin",module,RatePAY_Payment
 ratepay_directdebit_sepa_terms_block_2,volgens het ,module,RatePAY_Payment
-ratepay_directdebit_sepa_terms_block_3,"het RatePAY Privacybeleid en machtig hen de betalingen in samenhang met deze koopovereenkomst middels een incasso van bovengenoemde rekening af te boeken. Gelijktijdig geef ik mijn kredietinstelling opdracht de incasso’s van RatePAY GmbH op mijn rekening te honoreren.",module,RatePAY_Payment
+ratepay_directdebit_sepa_terms_block_3,"het Ratepay Privacybeleid en machtig hen de betalingen in samenhang met deze koopovereenkomst middels een incasso van bovengenoemde rekening af te boeken. Gelijktijdig geef ik mijn kredietinstelling opdracht de incasso’s van Ratepay GmbH op mijn rekening te honoreren.",module,RatePAY_Payment
 ratepay_directdebit_sepa_notice_block_1,Opmerking:,module,RatePAY_Payment
-ratepay_directdebit_sepa_notice_block_2,Na het tot stand komen van deze overeenkomst wordt u het RatePAY machtigingskenmerk medegedeeld.,module,RatePAY_Payment
+ratepay_directdebit_sepa_notice_block_2,Na het tot stand komen van deze overeenkomst wordt u het Ratepay machtigingskenmerk medegedeeld.,module,RatePAY_Payment
 ratepay_directdebit_sepa_notice_block_3,"Ik kan binnen acht weken, na afschrijving, het bedrag laten terugboeken. Hierbij gelden de met mijn kredietinstelling overeengekomen voorwaarden.",module,RatePAY_Payment
 "Place Order","Place Order",module,RatePAY_Payment
 "Vat ID","Vat ID",module,RatePAY_Payment
@@ -51,7 +51,7 @@ Enabled,Enabled,module,RatePAY_Payment
 ProfileID,ProfileID,module,RatePAY_Payment
 "Security Code","Security Code",module,RatePAY_Payment
 "Activate Sandbox","Activate Sandbox",module,RatePAY_Payment
-"Status RatePAY","Status RatePAY",module,RatePAY_Payment
+"Status Ratepay","Status Ratepay",module,RatePAY_Payment
 Title,Title,module,RatePAY_Payment
 "Specific Countries Billing","Specific Countries Billing",module,RatePAY_Payment
 "Specific Countries Delivery","Specific Countries Delivery",module,RatePAY_Payment
@@ -68,7 +68,7 @@ B2B,B2B,module,RatePAY_Payment
 "Direct Debit","Direct Debit",module,RatePAY_Payment
 "Maximum Oder Total","Maximum Oder Total",module,RatePAY_Payment
 "Nur SEPA/IBAN Kontodaten","Nur SEPA/IBAN Kontodaten",module,RatePAY_Payment
-"RatePAY-Datenschutzerklärung Url","RatePAY-Privacypolicy Url",module,RatePAY_Payment
+"Ratepay-Datenschutzerklärung Url","Ratepay-Privacypolicy Url",module,RatePAY_Payment
 Austria,Austria,module,RatePAY_Payment
 Switzerland,Switzerland,module,RatePAY_Payment
 "Automated Data Procedure Error","Helaas is een betaling met de gekozen betaalmethode Factuur niet mogelijk. Dit besluit is genomen op basis van een geautomatiseerde gegevenscontrole.",module,RatePAY_Payment

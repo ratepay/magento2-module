@@ -31,13 +31,13 @@ IBAN,IBAN,module,RatePAY_Payment
 "Mandate Ref","(wird nach Kaufabschluss übermittelt)",module,RatePAY_Payment
 ratepay_directdebit_sepa_link,Einwilligungserklärung zum SEPA-Mandat lesen,module,RatePAY_Payment
 ratepay_directdebit_sepa_terms_block_1,Ich willige hiermit in die Weiterleitung meiner Daten an ,module,RatePAY_Payment
-"Ratepay address","RatePAY GmbH, Franklinstraße 28-29, 10587 Berlin",module,RatePAY_Payment
+"Ratepay address","Ratepay GmbH, Franklinstraße 28-29, 10587 Berlin",module,RatePAY_Payment
 ratepay_directdebit_sepa_terms_block_2,gemäß ,module,RatePAY_Payment
-ratepay_directdebit_sepa_terms_block_3,"ein und ermächtige diese, mit diesem Kaufvertrag in Zusammenhang stehende Zahlungen von meinem o.a. Konto mittels Lastschrift einzuziehen. Zugleich weise ich mein Kreditinstitut an, die von RatePAY GmbH auf mein Konto gezogenen Lastschriften einzulösen.",module,RatePAY_Payment
+ratepay_directdebit_sepa_terms_block_3,"ein und ermächtige diese, mit diesem Kaufvertrag in Zusammenhang stehende Zahlungen von meinem o.a. Konto mittels Lastschrift einzuziehen. Zugleich weise ich mein Kreditinstitut an, die von Ratepay GmbH auf mein Konto gezogenen Lastschriften einzulösen.",module,RatePAY_Payment
 ratepay_directdebit_sepa_notice_block_1,Hinweis:,module,RatePAY_Payment
-ratepay_directdebit_sepa_notice_block_2,Nach Zustandekommen des Vertrags wird mir die Mandatsreferenz von RatePAY mitgeteilt.,module,RatePAY_Payment
+ratepay_directdebit_sepa_notice_block_2,Nach Zustandekommen des Vertrags wird mir die Mandatsreferenz von Ratepay mitgeteilt.,module,RatePAY_Payment
 ratepay_directdebit_sepa_notice_block_3,"Ich kann innerhalb von acht Wochen, beginnend mit dem Belastungsdatum, die Erstattung des belasteten Betrages verlangen. Es gelten dabei die mit meinem Kreditinstitut vereinbarten Bedingungen.",module,RatePAY_Payment
-"RatePAY Data Privacy Policy","RatePAY-Datenschutzerklärung",module,RatePAY_Payment
+"Ratepay Data Privacy Policy","Ratepay-Datenschutzerklärung",module,RatePAY_Payment
 "Place Order","Zahlungspflichtig bestellen",module,RatePAY_Payment
 "Vat ID","USt-IdNr.",module,RatePAY_Payment
 "Please enter your Vat ID","Bitte geben Sie Ihre USt-IdNr. an",module,RatePAY_Payment
@@ -51,7 +51,7 @@ Enabled,Aktiviert,module,RatePAY_Payment
 ProfileID,ProfileID,module,RatePAY_Payment
 "Security Code","Security Code",module,RatePAY_Payment
 "Activate Sandbox","Sandbox aktivieren",module,RatePAY_Payment
-"Status RatePAY","Status RatePAY",module,RatePAY_Payment
+"Status Ratepay","Status Ratepay",module,RatePAY_Payment
 Title,Titel,module,RatePAY_Payment
 "Specific Countries Billing","Länderauswahl Rechnung",module,RatePAY_Payment
 "Specific Countries Delivery","Länderauswahl Versand",module,RatePAY_Payment
@@ -62,25 +62,25 @@ Maximum Order Total,Höchstbestellwert,module,RatePAY_Payment
 B2B,B2B,module,RatePAY_Payment
 "Maximum Oder Total B2B","Höchstbestellwert B2B",module,RatePAY_Payment
 "Delivery Address","Abweichende Lieferadresse",module,RatePAY_Payment
-"Payment Fee","RatePAY Zahlungsartenaufschlag",module,RatePAY_Payment
+"Payment Fee","Ratepay Zahlungsartenaufschlag",module,RatePAY_Payment
 "New Order Status","Neuer Bestellstatus",module,RatePAY_Payment
 "Sort Order","Reihenfolge",module,RatePAY_Payment
 "Direct Debit","SEPA-Lastschrift",module,RatePAY_Payment
-"RatePAY-Datenschutzerklärung Url","RatePAY-Datenschutzerklärung Url",module,RatePAY_Payment
+"Ratepay-Datenschutzerklärung Url","Ratepay-Datenschutzerklärung Url",module,RatePAY_Payment
 Installment,Ratenzahlung,module,RatePAY_Payment
 Rate min,Minimumrate,module,RatePAY_Payment
 "Month Allowed","Laufzeiten (in Monaten)",module,RatePAY_Payment
 "0% Financing","0% Finanzierung",module,RatePAY_Payment
 Austria,Österreich,module,RatePAY_Payment
 Switzerland,Schweiz,module,RatePAY_Payment
-RatePAY Invoice,RatePAY Rechnung,module,RatePAY_Payment
-RatePAY Directdebit,RatePAY SEPA-Lastschrift,module,RatePAY_Payment
-RatePAY Installment,RatePAY Rate,module,RatePAY_Payment
-RatePAY 0% Financing,RatePAY 0% Finanzierung,module,RatePAY_Payment
+Ratepay Invoice,Ratepay Rechnung,module,RatePAY_Payment
+Ratepay Directdebit,Ratepay SEPA-Lastschrift,module,RatePAY_Payment
+Ratepay Installment,Ratepay Rate,module,RatePAY_Payment
+Ratepay 0% Financing,Ratepay 0% Finanzierung,module,RatePAY_Payment
 Active,Aktiv,module,RatePAY_Payment
 Inactive,Inaktiv,module,RatePAY_Payment
 Phased Out,Abgelaufen,module,RatePAY_Payment
-"Automated Data Procedure Error","Leider ist eine Bezahlung mit RatePAY nicht möglich. Diese Entscheidung ist auf Grundlage einer automatisierten Datenverarbeitung getroffen worden. Einzelheiten finden sie in den zusätzlichen Allgemeinen Geschäftsbedingungen und dem Datenschutzhinweis für RatePAY-Zahlungsarten.",module,RatePAY_Payment
+"Automated Data Procedure Error","Leider ist eine Bezahlung mit Ratepay nicht möglich. Diese Entscheidung ist auf Grundlage einer automatisierten Datenverarbeitung getroffen worden. Einzelheiten finden sie in den zusätzlichen Allgemeinen Geschäftsbedingungen und dem Datenschutzhinweis für Ratepay-Zahlungsarten.",module,RatePAY_Payment
 ratepay_terms_block_1, "Für diese Zahlungsart gelten" ,module,RatePAY_Payment
 ratepay_terms_block_2, "zusätzliche AGB und Datenschutzhinweise" ,module,RatePAY_Payment
 ratepay_terms_block_3, "." ,module,RatePAY_Payment

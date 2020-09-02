@@ -34,11 +34,11 @@ IBAN,IBAN,module,RatePAY_Payment
 "Mandate Ref","(is transmitted after sale)",module,RatePAY_Payment
 "ratepay_directdebit_sepa_link","Lire le formulaire de consentement concernant le mandat SEPA",module,RatePAY_Payment
 "ratepay_directdebit_sepa_terms_block_1","Je consens par la présente à ce que mes données soient transmises à ",module,RatePAY_Payment
-"Ratepay address","RatePAY GmbH, Franklinstraße 28-29, 10587 Berlin",module,RatePAY_Payment
+"Ratepay address","Ratepay GmbH, Franklinstraße 28-29, 10587 Berlin",module,RatePAY_Payment
 "ratepay_directdebit_sepa_terms_block_2","conformément à ",module,RatePAY_Payment
-"ratepay_directdebit_sepa_terms_block_3","et autorise ainsi le prélèvement automatique depuis mon compte mentionné ci-dessus des paiements relatifs au présent contrat. J’enjoins également mon établissement de crédit à acquitter les prélèvements automatiques depuis mon compte par RatePAY GmbH.",module,RatePAY_Payment
+"ratepay_directdebit_sepa_terms_block_3","et autorise ainsi le prélèvement automatique depuis mon compte mentionné ci-dessus des paiements relatifs au présent contrat. J’enjoins également mon établissement de crédit à acquitter les prélèvements automatiques depuis mon compte par Ratepay GmbH.",module,RatePAY_Payment
 "ratepay_directdebit_sepa_notice_block_1","Indication:",module,RatePAY_Payment
-"ratepay_directdebit_sepa_notice_block_2","après formation du contrat, ma référence de mandat me sera transmise par RatePAY. Je dispose de huit semaines à compter de la date de prélèvement pour exiger le remboursement du montant prélevé.",module,RatePAY_Payment
+"ratepay_directdebit_sepa_notice_block_2","après formation du contrat, ma référence de mandat me sera transmise par Ratepay. Je dispose de huit semaines à compter de la date de prélèvement pour exiger le remboursement du montant prélevé.",module,RatePAY_Payment
 "ratepay_directdebit_sepa_notice_block_3","Je dispose de huit semaines à compter de la date de prélèvement pour exiger le remboursement du montant prélevé. Les conditions ayant fait l’objet d’un accord avec mon établissement de crédit s’appliquent.",module,RatePAY_Payment
 "Place Order","Place Order",module,RatePAY_Payment
 "Vat ID","Numéro de TVA",module,RatePAY_Payment
@@ -50,7 +50,7 @@ Enabled,Enabled,module,RatePAY_Payment
 ProfileID,ProfileID,module,RatePAY_Payment
 "Security Code","Security Code",module,RatePAY_Payment
 "Activate Sandbox","Activate Sandbox",module,RatePAY_Payment
-"Status RatePAY","Status RatePAY",module,RatePAY_Payment
+"Status Ratepay","Status Ratepay",module,RatePAY_Payment
 Title,Title,module,RatePAY_Payment
 "Specific Countries Billing","Specific Countries Billing",module,RatePAY_Payment
 "Specific Countries Delivery","Specific Countries Delivery",module,RatePAY_Payment
@@ -67,10 +67,10 @@ B2B,B2B,module,RatePAY_Payment
 "Direct Debit","Direct Debit",module,RatePAY_Payment
 "Maximum Oder Total","Maximum Oder Total",module,RatePAY_Payment
 "Nur SEPA/IBAN Kontodaten","Nur SEPA/IBAN Kontodaten",module,RatePAY_Payment
-"RatePAY-Datenschutzerklärung Url","la politique de confidentialité RatePAY ",module,RatePAY_Payment
+"Ratepay-Datenschutzerklärung Url","la politique de confidentialité Ratepay ",module,RatePAY_Payment
 Austria,Austria,module,RatePAY_Payment
 Switzerland,Switzerland,module,RatePAY_Payment
-"Automated Data Procedure Error","Votre paiement via RatePAY a malheureusement été refusé. Cette décision est le résultat d'un traitement automatique des données. Pour plus de renseignements, veuillez consulter les Conditions Générales de Ventes ainsi que la déclaration de confidentialité des données concernant les méthodes de paiement de RatePAY.",module,RatePAY_Payment
+"Automated Data Procedure Error","Votre paiement via Ratepay a malheureusement été refusé. Cette décision est le résultat d'un traitement automatique des données. Pour plus de renseignements, veuillez consulter les Conditions Générales de Ventes ainsi que la déclaration de confidentialité des données concernant les méthodes de paiement de Ratepay.",module,RatePAY_Payment
 ratepay_terms_block_1, "Pour ce moyen de paiement" ,module,RatePAY_Payment
 ratepay_terms_block_2, ", d'autres conditions d'utilisation et de protection des données" ,module,RatePAY_Payment
 ratepay_terms_block_3, "s'applique." ,module,RatePAY_Payment

@@ -1,7 +1,7 @@
-# RatePAY GmbH
+# Ratepay GmbH
 ============================================
 
-|Repository | RatePAY Module for Magento 2
+|Repository | Ratepay Module for Magento 2
 |------|----------
 |Author | Robert Müller
 |Module-Version | `1.2.0`
@@ -25,10 +25,10 @@ php bin/magento cache:clean
 
 ### Version 1.2.0 - Released 2020-08-12
 * Added compatibility for Magento 2.4.0
-* RatePay Payment method- and ProfileID selection now based on billing address
+* Ratepay Payment method- and ProfileID selection now based on billing address
 * Added tracking code to confirmation deliver request if present
 * Added feature to return previous order price adjustments
-* Magento2 REST API calls will now trigger RatePay API communication
+* Magento2 REST API calls will now trigger Ratepay API communication
 * Enabled the "Online" Capture and Refund workflow in Magento2
 * Goodwill refund item type can be configured now
 * Added a try-catch block to prevent a order rollback when a database error occures

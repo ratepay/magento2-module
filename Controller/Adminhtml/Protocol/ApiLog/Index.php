@@ -63,7 +63,7 @@ class Index extends Action
     {
         $resultPage = $this->getResultPage();
         $resultPage->setActiveMenu('RatePAY_Payment::ratepay_protocol_apilog');
-        $resultPage->getConfig()->getTitle()->set((__('RatePAY - API Log')));
+        $resultPage->getConfig()->getTitle()->set((__('Ratepay - API Log')));
         return $this;
     }
 }
