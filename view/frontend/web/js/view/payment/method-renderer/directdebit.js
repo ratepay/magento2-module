@@ -6,9 +6,10 @@ define(
         'RatePAY_Payment/js/view/payment/method-renderer/base',
         'Magento_Customer/js/customer-data',
         'Magento_Checkout/js/model/quote',
-        'Magento_Customer/js/model/customer'
+        'Magento_Customer/js/model/customer',
+        'mage/translate'
     ],
-    function ($, Component, customerData, quote, customer) {
+    function ($, Component, customerData, quote, customer, $t) {
         'use strict';
 
         return Component.extend({
@@ -19,9 +20,26 @@ define(
                 rp_dob_month: '',
                 rp_dob_year: '',
                 rp_vatid: '',
-                rp_iban: ''
+                rp_iban: '',
+                sepaAccepted: false
             },
+            validate: function () {
+                var blParentReturn = this._super();
+                if (!blParentReturn) {
+                    return blParentReturn;
+                }
 
+                if (this.rp_iban == '') {
+                    this.messageContainer.addErrorMessage({'message': $t('Please enter a valid IBAN.')});
+                    return false;
+                }
+
+                if (this.sepaAccepted === false) {
+                    this.messageContainer.addErrorMessage({'message': $t('Please confirm the transmission of the necessary data to Ratepay.')});
+                    return false;
+                }
+                return true;
+            },
             getData: function() {
                 var parentReturn = this._super();
                 if (parentReturn.additional_data === null) {

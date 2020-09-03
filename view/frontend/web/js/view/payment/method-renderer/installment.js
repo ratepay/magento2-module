@@ -23,7 +23,8 @@ define(
                 rp_vatid: '',
                 rp_iban: '',
                 isInstallmentPlanSet: false,
-                useDirectDebit: true
+                useDirectDebit: true,
+                sepaAccepted: false
             },
 
             initialize: function () {
@@ -43,6 +44,12 @@ define(
                     this.messageContainer.addErrorMessage({'message': $t('Please enter a valid IBAN.')});
                     return false;
                 }
+
+                if (this.showSepaBlock() === true  && this.sepaAccepted === false) {
+                    this.messageContainer.addErrorMessage({'message': $t('Please confirm the transmission of the necessary data to Ratepay.')});
+                    return false;
+                }
+
                 if (this.isInstallmentPlanSet === false) {
                     this.messageContainer.addErrorMessage({'message': $t('Please select a installment runtime or installment amount.')});
                     return false;

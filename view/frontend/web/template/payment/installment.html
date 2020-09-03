@@ -196,33 +196,35 @@
                                 <div class="control required">
                                     <input type="text" name="payment[rp_iban]" class="input-text required-entry" value="" data-bind="attr: {id: getCode() + '_iban', autocomplete: off, title: $t('IBAN')}, value: rp_iban" />
                                 </div>
-                                <a data-bind="attr: {id: getCode() + '_sepa_agreement_link'}, click: showAgreement"><!-- ko i18n: 'ratepay_directdebit_sepa_link'--><!-- /ko --></a>
+                                <table>
+                                    <tbody data-bind="attr: {id: getCode() + '_sepa_agreement'}">
+                                        <tr>
+                                            <td style="padding:10px;">
+                                                <input type="checkbox" data-bind="attr: {id: getCode() + '_save_sepa_accepted'}, checked: sepaAccepted" />
+                                            </td>
+                                            <td style="padding:10px 0;">
+                                                <span class="required ratepayagreement">
+                                                    <!-- ko i18n: 'ratepay_directdebit_sepa_terms_block_1'--><!-- /ko -->
+                                                    <!-- ko i18n: 'Ratepay address'--><!-- /ko -->
+                                                    <!-- ko i18n: 'ratepay_directdebit_sepa_terms_block_2'--><!-- /ko -->
+                                                    <a target="_blank" href="https://www.ratepay.com/legal"><!-- ko i18n: 'Ratepay Data Privacy Policy'--><!-- /ko --></a>
+                                                    <!-- ko i18n: 'ratepay_directdebit_sepa_terms_block_3'--><!-- /ko -->
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding:10px 0;" colspan="2">
+                                                <br/>
+                                                <span style="font-weight:bold;"><!-- ko i18n: 'ratepay_directdebit_sepa_notice_block_1'--><!-- /ko --></span>
+                                                <br/>
+                                                <!-- ko i18n: 'ratepay_directdebit_sepa_notice_block_2'--><!-- /ko -->
+                                                <br/>
+                                                <!-- ko i18n: 'ratepay_directdebit_sepa_notice_block_3'--><!-- /ko -->
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                            <table>
-                                <tbody style="display: none;" data-bind="attr: {id: getCode() + '_sepa_agreement'}">
-                                    <tr>
-                                        <td style="padding:10px 0;">
-                                            <span class="required ratepayagreement">
-                                                <!-- ko i18n: 'ratepay_directdebit_sepa_terms_block_1'--><!-- /ko -->
-                                                <!-- ko i18n: 'Ratepay address'--><!-- /ko -->
-                                                <!-- ko i18n: 'ratepay_directdebit_sepa_terms_block_2'--><!-- /ko -->
-                                                <a target="_blank" href="https://www.ratepay.com/legal"><!-- ko i18n: 'RatePAY Data Privacy Policy'--><!-- /ko --></a>
-                                                <!-- ko i18n: 'ratepay_directdebit_sepa_terms_block_3'--><!-- /ko -->
-                                            </span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding:10px 0;">
-                                            <br/>
-                                            <span style="font-weight:bold;"><!-- ko i18n: 'ratepay_directdebit_sepa_notice_block_1'--><!-- /ko --></span>
-                                            <br/>
-                                            <!-- ko i18n: 'ratepay_directdebit_sepa_notice_block_2'--><!-- /ko -->
-                                            <br/>
-                                            <!-- ko i18n: 'ratepay_directdebit_sepa_notice_block_3'--><!-- /ko -->
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
                         </fieldset>
                         <hr>
                         <a data-bind="attr: {id: getCode() + '_sepa_use_banktransfer'}, click: showBankTransfer"><!-- ko i18n: 'I want to transfer the installments myself and not pay by direct debit'--><!-- /ko --></a>
