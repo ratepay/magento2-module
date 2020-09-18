@@ -25,7 +25,7 @@
                 <title>RatePAY Invoice</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
-                <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
+                <privacy_policy>https://www.ratepay.com/legal-payment-dataprivacy/</privacy_policy>
             </ratepay_de_invoice>
             <ratepay_de_directdebit>
                 <payment_action>authorize</payment_action>
@@ -36,7 +36,7 @@
                 <title>RatePAY Directdebit</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
-                <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
+                <privacy_policy>https://www.ratepay.com/legal-payment-dataprivacy/</privacy_policy>
             </ratepay_de_directdebit>
             <ratepay_de_installment>
                 <payment_action>authorize</payment_action>
@@ -47,7 +47,7 @@
                 <title>RatePAY Installment</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
-                <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
+                <privacy_policy>https://www.ratepay.com/legal-payment-dataprivacy/</privacy_policy>
             </ratepay_de_installment>
             <ratepay_de_installment0>
                 <payment_action>authorize</payment_action>
@@ -58,7 +58,7 @@
                 <title>RatePAY 0% Financing</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
-                <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
+                <privacy_policy>https://www.ratepay.com/legal-payment-dataprivacy/</privacy_policy>
             </ratepay_de_installment0>
             <ratepay_at_invoice>
                 <payment_action>authorize</payment_action>
@@ -69,7 +69,7 @@
                 <title>RatePAY Invoice</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
-                <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
+                <privacy_policy>https://www.ratepay.com/legal-payment-dataprivacy/</privacy_policy>
             </ratepay_at_invoice>
             <ratepay_at_directdebit>
                 <payment_action>authorize</payment_action>
@@ -80,7 +80,7 @@
                 <title>RatePAY Directdebit</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
-                <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
+                <privacy_policy>https://www.ratepay.com/legal-payment-dataprivacy/</privacy_policy>
             </ratepay_at_directdebit>
             <ratepay_at_installment>
                 <payment_action>authorize</payment_action>
@@ -91,7 +91,7 @@
                 <title>RatePAY Installment</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
-                <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
+                <privacy_policy>https://www.ratepay.com/legal-payment-dataprivacy/</privacy_policy>
             </ratepay_at_installment>
             <ratepay_at_installment0>
                 <payment_action>authorize</payment_action>
@@ -102,7 +102,7 @@
                 <title>RatePAY 0% Financing</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
-                <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
+                <privacy_policy>https://www.ratepay.com/legal-payment-dataprivacy/</privacy_policy>
             </ratepay_at_installment0>
             <ratepay_ch_invoice>
                 <payment_action>authorize</payment_action>
@@ -113,7 +113,7 @@
                 <title>RatePAY Invoice</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
-                <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
+                <privacy_policy>https://www.ratepay.com/legal-payment-dataprivacy/</privacy_policy>
             </ratepay_ch_invoice>
             <ratepay_nl_invoice>
                 <payment_action>authorize</payment_action>
@@ -124,7 +124,7 @@
                 <title>RatePAY Invoice</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
-                <privacy_policy>https://www.ratepay.com/aanvullende-voorwaarden-en-privacybeleid-nl</privacy_policy>
+                <privacy_policy>https://www.ratepay.com/legal-payment-dataprivacy/</privacy_policy>
             </ratepay_nl_invoice>
             <ratepay_nl_directdebit>
                 <payment_action>authorize</payment_action>
@@ -135,7 +135,7 @@
                 <title>RatePAY Directdebit</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
-                <privacy_policy>https://www.ratepay.com/aanvullende-voorwaarden-en-privacybeleid-nl</privacy_policy>
+                <privacy_policy>https://www.ratepay.com/legal-payment-dataprivacy/</privacy_policy>
             </ratepay_nl_directdebit>
             <ratepay_be_invoice>
                 <payment_action>authorize</payment_action>
@@ -146,7 +146,7 @@
                 <title>RatePAY Invoice</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
-                <privacy_policy>https://www.ratepay.com/additional-general-terms-and-conditions-and-data-protection-notice-be</privacy_policy>
+                <privacy_policy>https://www.ratepay.com/legal-payment-dataprivacy/</privacy_policy>
             </ratepay_be_invoice>
             <ratepay_be_directdebit>
                 <payment_action>authorize</payment_action>
@@ -157,7 +157,7 @@
                 <title>RatePAY Directdebit</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
-                <privacy_policy>https://www.ratepay.com/additional-general-terms-and-conditions-and-data-protection-notice-be</privacy_policy>
+                <privacy_policy>https://www.ratepay.com/legal-payment-dataprivacy/</privacy_policy>
             </ratepay_be_directdebit>
             <!-- START BACKEND ORDERS -->
             <ratepay_de_invoice_backend>
@@ -169,7 +169,7 @@
                 <title>RatePAY Invoice Germany Backend</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
-                <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
+                <privacy_policy>https://www.ratepay.com/legal-payment-dataprivacy/</privacy_policy>
             </ratepay_de_invoice_backend>
             <ratepay_de_directdebit_backend>
                 <payment_action>authorize</payment_action>
@@ -180,7 +180,7 @@
                 <title>RatePAY Directdebit Germany Backend</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
-                <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
+                <privacy_policy>https://www.ratepay.com/legal-payment-dataprivacy/</privacy_policy>
             </ratepay_de_directdebit_backend>
             <ratepay_de_installment_backend>
                 <payment_action>authorize</payment_action>
@@ -191,7 +191,7 @@
                 <title>RatePAY Installment Germany Backend</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
-                <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
+                <privacy_policy>https://www.ratepay.com/legal-payment-dataprivacy/</privacy_policy>
             </ratepay_de_installment_backend>
             <ratepay_de_installment0_backend>
                 <payment_action>authorize</payment_action>
@@ -202,7 +202,7 @@
                 <title>RatePAY 0% Financing Germany Backend</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
-                <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
+                <privacy_policy>https://www.ratepay.com/legal-payment-dataprivacy/</privacy_policy>
             </ratepay_de_installment0_backend>
             <ratepay_at_invoice_backend>
                 <payment_action>authorize</payment_action>
@@ -213,7 +213,7 @@
                 <title>RatePAY Invoice Austria Backend</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
-                <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
+                <privacy_policy>https://www.ratepay.com/legal-payment-dataprivacy/</privacy_policy>
             </ratepay_at_invoice_backend>
             <ratepay_at_directdebit_backend>
                 <payment_action>authorize</payment_action>
@@ -224,7 +224,7 @@
                 <title>RatePAY Directdebit Austria Backend</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
-                <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
+                <privacy_policy>https://www.ratepay.com/legal-payment-dataprivacy/</privacy_policy>
             </ratepay_at_directdebit_backend>
             <ratepay_at_installment_backend>
                 <payment_action>authorize</payment_action>
@@ -235,7 +235,7 @@
                 <title>RatePAY Installment Austria Backend</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
-                <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
+                <privacy_policy>https://www.ratepay.com/legal-payment-dataprivacy/</privacy_policy>
             </ratepay_at_installment_backend>
             <ratepay_at_installment0_backend>
                 <payment_action>authorize</payment_action>
@@ -246,7 +246,7 @@
                 <title>RatePAY 0% Financing Austria Backend</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
-                <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
+                <privacy_policy>https://www.ratepay.com/legal-payment-dataprivacy/</privacy_policy>
             </ratepay_at_installment0_backend>
             <ratepay_ch_invoice_backend>
                 <payment_action>authorize</payment_action>
@@ -257,7 +257,7 @@
                 <title>RatePAY Invoice Switzerland Backend</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
-                <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
+                <privacy_policy>https://www.ratepay.com/legal-payment-dataprivacy/</privacy_policy>
             </ratepay_ch_invoice_backend>
             <ratepay_nl_invoice_backend>
                 <payment_action>authorize</payment_action>
@@ -268,7 +268,7 @@
                 <title>RatePAY Invoice Netherlands Backend</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
-                <privacy_policy>https://www.ratepay.com/aanvullende-voorwaarden-en-privacybeleid-nl</privacy_policy>
+                <privacy_policy>https://www.ratepay.com/legal-payment-dataprivacy/</privacy_policy>
             </ratepay_nl_invoice_backend>
             <ratepay_nl_directdebit_backend>
                 <payment_action>authorize</payment_action>
@@ -279,7 +279,7 @@
                 <title>RatePAY Directdebit Netherlands Backend</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
-                <privacy_policy>https://www.ratepay.com/aanvullende-voorwaarden-en-privacybeleid-nl</privacy_policy>
+                <privacy_policy>https://www.ratepay.com/legal-payment-dataprivacy/</privacy_policy>
             </ratepay_nl_directdebit_backend>
             <ratepay_be_invoice_backend>
                 <payment_action>authorize</payment_action>
@@ -290,7 +290,7 @@
                 <title>RatePAY Invoice Belgium Backend</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
-                <privacy_policy>https://www.ratepay.com/additional-general-terms-and-conditions-and-data-protection-notice-be</privacy_policy>
+                <privacy_policy>https://www.ratepay.com/legal-payment-dataprivacy/</privacy_policy>
             </ratepay_be_invoice_backend>
             <ratepay_be_directdebit_backend>
                 <payment_action>authorize</payment_action>
@@ -301,7 +301,7 @@
                 <title>RatePAY Directdebit Belgium Backend</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
-                <privacy_policy>https://www.ratepay.com/additional-general-terms-and-conditions-and-data-protection-notice-be</privacy_policy>
+                <privacy_policy>https://www.ratepay.com/legal-payment-dataprivacy/</privacy_policy>
             </ratepay_be_directdebit_backend>
         </payment>
     </default>
