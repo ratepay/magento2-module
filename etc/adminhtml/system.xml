@@ -17,6 +17,10 @@
                     <config_path>payment/ratepay_general/creditmemo_discount_type</config_path>
                     <tooltip>Standard item means that the goodwill refund will be transferred as an ordinary item in the item list with the article-number "adj-ref" this has the sideeffect that only one goodwill refund per order can be executed. Special item sends the goodwill refund as a discount. This way multiple goodwill refunds can be executed per order.</tooltip>
                 </field>
+                <field id="privacy_policy" translate="label" type="text" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Ratepay-Datenschutzerklärung Url</label>
+                    <config_path>payment/ratepay_general/privacy_policy</config_path>
+                </field>
                 <group id="de" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
                        showInStore="1">
                     <label>Germany</label>
@@ -238,11 +242,6 @@
                             <label>Sort Order</label>
                             <frontend_class>validate-number</frontend_class>
                             <config_path>payment/ratepay_de_directdebit/sort_order</config_path>
-                        </field>
-                        <field id="privacy_policy" translate="label" type="text" sortOrder="1000" showInDefault="1"
-                               showInWebsite="1" showInStore="0">
-                            <label>RatePAY-Datenschutzerklärung Url</label>
-                            <config_path>payment/ratepay_de_directdebit/privacy_policy</config_path>
                         </field>
                     </group>
                     <group id="installment" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1"
@@ -711,11 +710,6 @@
                             <label>Sort Order</label>
                             <frontend_class>validate-number</frontend_class>
                             <config_path>payment/ratepay_at_directdebit/sort_order</config_path>
-                        </field>
-                        <field id="privacy_policy" translate="label" type="text" sortOrder="1000" showInDefault="1"
-                               showInWebsite="1" showInStore="0">
-                            <label>RatePAY-Datenschutzerklärung Url</label>
-                            <config_path>payment/ratepay_at_directdebit/privacy_policy</config_path>
                         </field>
                     </group>
                     <group id="installment" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1"
@@ -1299,11 +1293,6 @@
                             <frontend_class>validate-number</frontend_class>
                             <config_path>payment/ratepay_nl_directdebit/sort_order</config_path>
                         </field>
-                        <field id="privacy_policy" translate="label" type="text" sortOrder="1000" showInDefault="1"
-                               showInWebsite="1" showInStore="0">
-                            <label>RatePAY-Datenschutzerklärung Url</label>
-                            <config_path>payment/ratepay_nl_directdebit/privacy_policy</config_path>
-                        </field>
                     </group>
                 </group>
                 <group id="be" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1"
@@ -1526,11 +1515,6 @@
                             <frontend_class>validate-number</frontend_class>
                             <config_path>payment/ratepay_be_directdebit/sort_order</config_path>
                         </field>
-                        <field id="privacy_policy" translate="label" type="text" sortOrder="1000" showInDefault="1"
-                               showInWebsite="1" showInStore="0">
-                            <label>RatePAY-Datenschutzerklärung Url</label>
-                            <config_path>payment/ratepay_be_directdebit/privacy_policy</config_path>
-                        </field>
                     </group>
                 </group>
             </group>
@@ -1752,11 +1736,6 @@
                             <label>Sort Order</label>
                             <frontend_class>validate-number</frontend_class>
                             <config_path>payment/ratepay_de_directdebit_backend/sort_order</config_path>
-                        </field>
-                        <field id="privacy_policy" translate="label" type="text" sortOrder="1000" showInDefault="1"
-                               showInWebsite="1" showInStore="0">
-                            <label>RatePAY-Datenschutzerklärung Url</label>
-                            <config_path>payment/ratepay_de_directdebit_backend/privacy_policy</config_path>
                         </field>
                     </group>
                     <group id="installment" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1"
@@ -2225,11 +2204,6 @@
                             <label>Sort Order</label>
                             <frontend_class>validate-number</frontend_class>
                             <config_path>payment/ratepay_at_directdebit_backend/sort_order</config_path>
-                        </field>
-                        <field id="privacy_policy" translate="label" type="text" sortOrder="1000" showInDefault="1"
-                               showInWebsite="1" showInStore="0">
-                            <label>RatePAY-Datenschutzerklärung Url</label>
-                            <config_path>payment/ratepay_at_directdebit_backend/privacy_policy</config_path>
                         </field>
                     </group>
                     <group id="installment" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1"
@@ -2813,11 +2787,6 @@
                             <frontend_class>validate-number</frontend_class>
                             <config_path>payment/ratepay_nl_directdebit_backend/sort_order</config_path>
                         </field>
-                        <field id="privacy_policy" translate="label" type="text" sortOrder="1000" showInDefault="1"
-                               showInWebsite="1" showInStore="0">
-                            <label>RatePAY-Datenschutzerklärung Url</label>
-                            <config_path>payment/ratepay_nl_directdebit_backend/privacy_policy</config_path>
-                        </field>
                     </group>
                 </group>
                 <group id="be" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1"
@@ -3039,11 +3008,6 @@
                             <label>Sort Order</label>
                             <frontend_class>validate-number</frontend_class>
                             <config_path>payment/ratepay_be_directdebit_backend/sort_order</config_path>
-                        </field>
-                        <field id="privacy_policy" translate="label" type="text" sortOrder="1000" showInDefault="1"
-                               showInWebsite="1" showInStore="0">
-                            <label>RatePAY-Datenschutzerklärung Url</label>
-                            <config_path>payment/ratepay_be_directdebit_backend/privacy_policy</config_path>
                         </field>
                     </group>
                 </group>

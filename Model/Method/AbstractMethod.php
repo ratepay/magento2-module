@@ -342,7 +342,6 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
             return false;
         }
 
-
         $address = $quote->getBillingAddress();
         if (!$this->canUseForCountryDelivery($address->getCountryId())) {
             return false;
@@ -473,7 +472,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         }
 
         if(strpos($message, 'zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis') !== false){
-            $message = $message . "\n\n" . $this->rpDataHelper->getRpConfigData($this->_code, 'privacy_policy');
+            $message = $message . "\n\n" . $this->rpDataHelper->getRpConfigData('ratepay_general', 'privacy_policy');
         }
 
         return strip_tags($message);
