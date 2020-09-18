@@ -111,7 +111,7 @@
                 </fieldset>
                 <fieldset data-bind="attr: {class: 'fieldset payment items calculator ' + getCode()}">
                     <div class="rpContainer">
-                        <!-- ko if: hasAllowedMonths() -->
+                        <!-- ko if: hasAllowedMonths() && !hasSingleAllowedMonth() -->
                             <div class="row">
                                 <div class="col-md-10">
                                     <!-- ko i18n: 'rp_calculation_intro_part1'--><!-- /ko -->
@@ -135,7 +135,7 @@
                                                 <div class="btn-group btn-group-justified" role="group" aria-label="...">
                                                     <!-- ko foreach: getAllowedMonths() -->
                                                         <div class="btn-group btn-group-sm" role="group">
-                                                            <button type="button" data-bind="attr: {value: $data, id: 'piRpInput-buttonMonth-' + $data}, text: $data, click: function() { $parent.updateInstallmentPlan('time', $data, $parent.getCode()) }" class="btn btn-default rp-btn-runtime" role="group"></button>
+                                                            <button type="button" data-bind="attr: {value: $data, id: 'piRpInput-buttonMonth-' + $data}, text: $data, click: function() { $parent.updateInstallmentPlan('time', $data, $parent.getCode(), true) }" class="btn btn-default rp-btn-runtime" role="group"></button>
                                                         </div>
                                                     <!--/ko-->
                                                 </div>

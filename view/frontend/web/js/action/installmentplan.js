@@ -8,7 +8,7 @@ define([
 ], function ($, urlBuilder, storage, fullScreenLoader) {
     'use strict';
 
-    return function (calcType, calcValue, methodCode, paymentRenderer) {
+    return function (calcType, calcValue, methodCode, paymentRenderer, showMessage) {
         var serviceUrl;
         var request = {
             calcType: calcType,
@@ -36,10 +36,12 @@ define([
                     $('#' + methodCode + '_ResultContainer').html(response.installment_html);
                     $('#' + methodCode + '_ContentSwitch').show();
                     paymentRenderer.setIsInstallmentPlanSet(true);
-                    if (calcType == 'time') {
-                        paymentRenderer.messageContainer.addSuccessMessage({'message': 'The runtime has been updated successfully.'});
-                    } else if(calcType == 'rate') {
-                        paymentRenderer.messageContainer.addSuccessMessage({'message': 'The installment amount has been updated successfully.'});
+                    if (showMessage === true) {
+                        if (calcType == 'time') {
+                            paymentRenderer.messageContainer.addSuccessMessage({'message': 'The runtime has been updated successfully.'});
+                        } else if(calcType == 'rate') {
+                            paymentRenderer.messageContainer.addSuccessMessage({'message': 'The installment amount has been updated successfully.'});
+                        }
                     }
                 } else {
                     alert(response.errormessage);
