@@ -17,10 +17,6 @@
                     <config_path>payment/ratepay_general/creditmemo_discount_type</config_path>
                     <tooltip>Standard item means that the goodwill refund will be transferred as an ordinary item in the item list with the article-number "adj-ref" this has the sideeffect that only one goodwill refund per order can be executed. Special item sends the goodwill refund as a discount. This way multiple goodwill refunds can be executed per order.</tooltip>
                 </field>
-                <field id="privacy_policy" translate="label" type="text" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Ratepay-Datenschutzerklärung Url</label>
-                    <config_path>payment/ratepay_general/privacy_policy</config_path>
-                </field>
                 <group id="de" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
                        showInStore="1">
                     <label>Germany</label>
@@ -246,7 +242,7 @@
                     </group>
                     <group id="installment" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1"
                            showInStore="1">
-                        <label>Installment</label>
+                        <label>Instalment</label>
                         <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1"
                                showInWebsite="1"
                                showInStore="0">
@@ -714,7 +710,7 @@
                     </group>
                     <group id="installment" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1"
                            showInStore="1">
-                        <label>Installment</label>
+                        <label>Instalment</label>
                         <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1"
                                showInWebsite="1"
                                showInStore="0">
@@ -1740,7 +1736,7 @@
                     </group>
                     <group id="installment" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1"
                            showInStore="1">
-                        <label>Installment Backend</label>
+                        <label>Instalment Backend</label>
                         <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1"
                                showInWebsite="1"
                                showInStore="0">
@@ -2208,7 +2204,7 @@
                     </group>
                     <group id="installment" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1"
                            showInStore="1">
-                        <label>Installment Backend</label>
+                        <label>Instalment Backend</label>
                         <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1"
                                showInWebsite="1"
                                showInStore="0">

@@ -75,8 +75,8 @@ Austria,Österreich,module,RatePAY_Payment
 Switzerland,Schweiz,module,RatePAY_Payment
 RatePAY Invoice,RatePAY Rechnung,module,RatePAY_Payment
 RatePAY Directdebit,RatePAY SEPA-Lastschrift,module,RatePAY_Payment
-RatePAY Installment,RatePAY Rate,module,RatePAY_Payment
 RatePAY 0% Financing,RatePAY 0% Finanzierung,module,RatePAY_Payment
+Ratepay Instalment,Ratepay Rate,module,RatePAY_Payment
 Active,Aktiv,module,RatePAY_Payment
 Inactive,Inaktiv,module,RatePAY_Payment
 Phased Out,Abgelaufen,module,RatePAY_Payment

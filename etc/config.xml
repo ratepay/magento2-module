@@ -4,10 +4,6 @@
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
         <payment>
-            <ratepay_general>
-                <snippet_id>ratepay</snippet_id>
-                <privacy_policy>https://www.ratepay.com/legal-payment-dataprivacy/</privacy_policy>
-            </ratepay_general>
             <ratepay_invoice>
                 <model>RatePAY\Payment\Model\Method\Invoice</model>
             </ratepay_invoice>
@@ -46,7 +42,7 @@
                 <sandbox>1</sandbox>
                 <model>RatePAY\Payment\Model\Method\DE\Installment</model>
                 <order_status>pending</order_status>
-                <title>RatePAY Installment</title>
+                <title>RatePAY Instalment</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
             </ratepay_de_installment>
@@ -86,7 +82,7 @@
                 <sandbox>1</sandbox>
                 <model>RatePAY\Payment\Model\Method\AT\Installment</model>
                 <order_status>pending</order_status>
-                <title>RatePAY Installment</title>
+                <title>Ratepay Instalment</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
             </ratepay_at_installment>
@@ -177,7 +173,7 @@
                 <sandbox>1</sandbox>
                 <model>RatePAY\Payment\Model\Method\DE\InstallmentBackend</model>
                 <order_status>pending</order_status>
-                <title>RatePAY Installment Germany Backend</title>
+                <title>Ratepay Instalment Germany Backend</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
             </ratepay_de_installment_backend>
@@ -217,7 +213,7 @@
                 <sandbox>1</sandbox>
                 <model>RatePAY\Payment\Model\Method\AT\InstallmentBackend</model>
                 <order_status>pending</order_status>
-                <title>RatePAY Installment Austria Backend</title>
+                <title>Ratepay Instalment Austria Backend</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
             </ratepay_at_installment_backend>

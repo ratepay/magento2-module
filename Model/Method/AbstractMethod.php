@@ -470,11 +470,6 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         if(empty($message)) {
             $message = __('Automated Data Procedure Error');
         }
-
-        if(strpos($message, 'zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis') !== false){
-            $message = $message . "\n\n" . $this->rpDataHelper->getRpConfigData('ratepay_general', 'privacy_policy');
-        }
-
         return strip_tags($message);
     }
 

@@ -74,8 +74,8 @@ Austria,Austria,module,RatePAY_Payment
 Switzerland,Switzerland,module,RatePAY_Payment
 RatePAY Invoice,RatePAY invoice,module,RatePAY_Payment
 RatePAY Directdebit,RatePAY SEPA direct debit,module,RatePAY_Payment
-RatePAY Installment,RatePAY installment,module,RatePAY_Payment
 RatePAY 0% Financing,RatePAY 0% financing,module,RatePAY_Payment
+Ratepay Instalment,Ratepay instalment,module,RatePAY_Payment
 Active,active,module,RatePAY_Payment
 Inactive,deactivated,module,RatePAY_Payment
 "Phased Out","phased out",module,RatePAY_Payment
