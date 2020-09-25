@@ -16,23 +16,16 @@ define(
                 return (window.checkoutConfig.payment[this.getCode()].differentShippingAddressAllowed === true || (quote.billingAddress() != null && quote.billingAddress().getCacheKey() == quote.shippingAddress().getCacheKey()));
             },
             getCustomerName: function () {
-                if (quote.billingAddress() != null) {
-                    if (this.getCode().indexOf('directdebit') != -1 && quote.billingAddress().company != undefined && quote.billingAddress().company != null && quote.billingAddress().company != "") {
-                        return quote.billingAddress().company
-                    }
-                    if (quote.billingAddress().firstname != undefined) {
-                        return quote.billingAddress().firstname + ' ' + quote.billingAddress().lastname;
-                    }
+                if (quote.billingAddress() != null && quote.billingAddress().firstname != undefined) {
+                    return quote.billingAddress().firstname + ' ' + quote.billingAddress().lastname;
                 }
-                if (customer.customerData != null) {
-                    if (this.getCode().indexOf('directdebit') != -1 && customer.customerData.company != undefined && customer.customerData.company != null && customer.customerData.company != "") {
-                        return customer.customerData.company;
-                    }
-                    if (customer.customerData.firstname != undefined) {
-                        return customer.customerData.firstname + ' ' + customer.customerData.lastname;
-                    }
+                if (customer.customerData != null && customer.customerData.firstname != undefined) {
+                    return customer.customerData.firstname + ' ' + customer.customerData.lastname;
                 }
                 return ''
+            },
+            getB2bAccountholders: function () {
+                return [this.getCompany(), this.getCustomerName()];
             },
             isPhoneVisible: function () {
                 return false;

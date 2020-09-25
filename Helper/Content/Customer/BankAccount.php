@@ -42,6 +42,7 @@ class BankAccount extends \Magento\Framework\App\Helper\AbstractHelper
         $return = false;
 
         $iban = $quoteOrOrder->getPayment()->getAdditionalInformation('rp_iban');
+        $accountHolder = $quoteOrOrder->getPayment()->getAdditionalInformation('rp_accountholder');
         if (!empty($iban)) {
             $return =[
                 'Owner' => $quoteOrOrder->getBillingAddress()->getFirstname() . ' ' . $quoteOrOrder->getBillingAddress()->getLastname(),
@@ -51,7 +52,9 @@ class BankAccount extends \Magento\Framework\App\Helper\AbstractHelper
                 'Iban' => $iban,
                 //'BicSwift' =>
             ];
-            if ($quoteOrOrder->getBillingAddress()->getCompany() != "" && stripos($quoteOrOrder->getPayment()->getMethod(), "directdebit") !== false) {
+            if (!empty($accountHolder)) {
+                $return['Owner'] = $accountHolder;
+            } elseif ($quoteOrOrder->getBillingAddress()->getCompany() != "" && stripos($quoteOrOrder->getPayment()->getMethod(), "directdebit") !== false) {
                 $return['Owner'] = $quoteOrOrder->getBillingAddress()->getCompany();
             }
         }

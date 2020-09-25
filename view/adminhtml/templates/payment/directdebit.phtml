@@ -65,7 +65,18 @@ if ($b2bEnabled === true) {
     <ul style="list-style: none;">
         <li style="margin-bottom: 15px;"><label><b><span><?php echo __('insert bankdata'); ?></span></b></label></li>
         <li><label><span><?php echo __('Account holder'); ?></span></label></li>
-        <li><label><i><span><?php echo $block->getBillingName(); ?></span></i></label></li>
+        <li>
+            <div id="ratepay_<?php echo $code; ?>_accountholder_b2c">
+                <i><span><?php echo $block->getBillingName(); ?></span></i>
+                <input type="hidden" id="ratepay_<?php echo $code; ?>_accountholder_b2c_input" name="payment[rp_accountholder]" value="<?php echo $block->getBillingName(); ?>">
+            </div>
+            <div id="ratepay_<?php echo $code; ?>_accountholder_b2b" style="display: none;">
+                <select id="ratepay_<?php echo $code; ?>_accountholder_b2b_input">
+                    <option><?php echo $block->getCompanyName(); ?></option>
+                    <option><?php echo $block->getBillingName(); ?></option>
+                </select>
+            </div>
+        </li>
     </ul>
     <div class="admin__field _required" style="margin-left: -30px;">
         <label class="label admin__field-label" for="<?php /* @noEscape */ echo $code; ?>_iban">
@@ -115,10 +126,26 @@ if ($b2bEnabled === true) {
                 $jq('#<?php echo $code; ?>_company').val($jq('#order-billing_address_company').val());
                 if ($jq('#order-billing_address_company').val() == '') {
                     $jq('#ratepay_<?php echo $code; ?>_vatid').hide();
+                    $jq('#ratepay_<?php echo $code; ?>_accountholder_b2b').hide();
+                    $jq('#ratepay_<?php echo $code; ?>_accountholder_b2c').show();
                     $jq('#ratepay_<?php echo $code; ?>_birthday').show();
+                    if (document.getElementById('ratepay_<?php echo $code; ?>_accountholder_b2b_input')) {
+                        document.getElementById('ratepay_<?php echo $code; ?>_accountholder_b2b_input').setAttribute("name","disabled");
+                    }
+                    if (document.getElementById('ratepay_<?php echo $code; ?>_accountholder_b2c_input')) {
+                        document.getElementById('ratepay_<?php echo $code; ?>_accountholder_b2c_input').setAttribute("name","payment[rp_accountholder]");
+                    }
                 } else if($jq('#order-billing_address_vat_id').val() == '') {
                     $jq('#ratepay_<?php echo $code; ?>_birthday').hide();
                     $jq('#ratepay_<?php echo $code; ?>_vatid').show();
+                    $jq('#ratepay_<?php echo $code; ?>_accountholder_b2c').hide();
+                    $jq('#ratepay_<?php echo $code; ?>_accountholder_b2b').show();
+                    if (document.getElementById('ratepay_<?php echo $code; ?>_accountholder_b2c_input')) {
+                        document.getElementById('ratepay_<?php echo $code; ?>_accountholder_b2c_input').setAttribute("name","disabled");
+                    }
+                    if (document.getElementById('ratepay_<?php echo $code; ?>_accountholder_b2b_input')) {
+                        document.getElementById('ratepay_<?php echo $code; ?>_accountholder_b2b_input').setAttribute("name","payment[rp_accountholder]");
+                    }
                 } else {
                     if ($jq('#<?php echo $code; ?>_vatid').val() == '') {
                         $jq('#<?php echo $code; ?>_vatid').val($jq('#order-billing_address_vat_id').val());
