@@ -94,7 +94,7 @@ ratepay_terms_block_6, "einverstanden." ,module,RatePAY_Payment
 "Nur SEPA/IBAN Kontodaten","Nur SEPA/IBAN Kontodaten",module,RatePAY_Payment
 "rp_calculation_intro_part1","Im Folgenden können Sie entscheiden, wie Sie die Ratenzahlung gestalten möchten. Legen Sie bequem die Anzahl der Raten und somit ",module,RatePAY_Payment
 "rp_calculation_intro_part2","die Laufzeit",module,RatePAY_Payment
-"rp_calculation_intro_part3"," der Ratenzahlung fest. Oder bestimmen sie einfach die gewünschte ",module,RatePAY_Payment
+"rp_calculation_intro_part3"," der Ratenzahlung fest oder bestimmen sie einfach die gewünschte ",module,RatePAY_Payment
 "rp_calculation_intro_part4","monatliche Ratenhöhe.",module,RatePAY_Payment
 "rp_runtime_title","Laufzeit",module,RatePAY_Payment
 "rp_runtime_description","Anzahl der monatlichen Raten",module,RatePAY_Payment
