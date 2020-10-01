@@ -235,7 +235,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
             $content = $this->_rpLibraryModel->getRequestContent($order, 'PAYMENT_REQUEST');
             $resultRequest = $this->libraryController->callPaymentRequest($head, $content, $order, $sandbox);
             if (!$resultRequest->isSuccessful()) {
-                $message = $this->formatMessage($resultRequest->getCustomerMessage());
+                $message = $resultRequest->getCustomerMessage();
                 if (!$resultRequest->isRetryAdmitted()) {
                     $this->customerSession->setRatePayDeviceIdentToken(null);
                     $this->handleError($resultRequest, $order);

@@ -43,6 +43,12 @@ define(
                     this.messageContainer.addErrorMessage({'message': $t('Please enter a valid IBAN.')});
                     return false;
                 }
+
+                if (this.showSepaBlock() === true && this.useDirectDebit === true && this.sepaAccepted === false) {
+                    this.messageContainer.addErrorMessage({'message': $t('Please confirm the transmission of the necessary data to Ratepay.')});
+                    return false;
+                }
+
                 if (this.isInstallmentPlanSet === false) {
                     this.messageContainer.addErrorMessage({'message': $t('Please select a installment runtime or installment amount.')});
                     return false;
@@ -54,6 +60,7 @@ define(
                 if (validPaymentFirstdays == '2' || Array.isArray(validPaymentFirstdays)) {
                     return true;
                 }
+                this.useDirectDebit = false;
                 return false;
             },
             getAllowedMonths: function () {

@@ -19,6 +19,16 @@ define([
             }
             return true;
         },
+        initialize: function (config, messageContainer) {
+            this._super()
+                .initObservable();
+
+            if (config.name.indexOf('ratepay') !== -1) {
+                this.template = 'RatePAY_Payment/messages';
+            }
+
+            return this;
+        },
         onHiddenChange: function (isHidden) {
             if (this.isRatepayPayment() === false) {
                 return this._super();
@@ -27,9 +37,15 @@ define([
             var self = this;
             // Hide message block if needed
             if (isHidden) {
+                if (this.messageContainer.errorMessages().length > 0 && $('#' + quote.paymentMethod().method).offset() !== undefined) {
+                    $('html, body').animate({
+                        scrollTop: $('#' + quote.paymentMethod().method).offset().top - 20
+                    }, 200);
+                }
+
                 setTimeout(function () {
                     $(self.selector).hide('blind', {}, 500)
-                }, 15000); // show errorbox for 15 seconds instead auf 5 sec standard
+                }, 20000); // show errorbox for 20 seconds instead auf 5 sec standard
             }
         },
         removeAll: function () {
