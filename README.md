@@ -4,7 +4,7 @@
 |Repository | Ratepay Module for Magento 2
 |------|----------
 |Author | Robert Müller
-|Module-Version | `1.2.0`
+|Module-Version | `1.2.1`
 |Compatibility | Magento 2.1.0 - 2.4.0
 |Link | http://www.ratepay.com
 |Mail | integration@ratepay.com
@@ -22,6 +22,16 @@ php bin/magento cache:clean
 ````
 
 ## Changelog
+
+### Version 1.2.1 - Released 2020-10-06
+* Unified Ratepay legal texts
+* Removed privacy policy configuration because it was not used
+* Increased the time payment errors are shown
+* Page will now scroll to payment error if not in view
+* Changed declaration of consent functionality
+* Installment amount will now be preselected if only one runtime is available
+* Accountholder can now be selected between name and company from a dropdownbox in b2b mode
+* Fixed config scope for backend orders
 
 ### Version 1.2.0 - Released 2020-08-12
 * Added compatibility for Magento 2.4.0
