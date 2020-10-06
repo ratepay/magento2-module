@@ -29,7 +29,9 @@ define(
             initialize: function () {
                 this._super();
                 if (this.hasAllowedMonths() === false) {
-                    this.updateInstallmentPlan('time', '3', this.getCode());
+                    this.updateInstallmentPlan('time', '3', this.getCode(), false);
+                } else if(this.hasSingleAllowedMonth()) {
+                    this.updateInstallmentPlan('time', this.getAllowedMonths()[0], this.getCode(), false);
                 }
                 return this;
             },
@@ -72,6 +74,12 @@ define(
                 }
                 return false;
             },
+            hasSingleAllowedMonth: function () {
+                if (this.getAllowedMonths().length === 1) {
+                    return true;
+                }
+                return false;
+            },
             setIsInstallmentPlanSet: function (value) {
                 this.isInstallmentPlanSet = value;
             },
@@ -81,14 +89,14 @@ define(
                 }
                 return false;
             },
-            updateInstallmentPlan: function (calcType, calcValue, methodCode) {
-                getInstallmentPlan(calcType, calcValue, methodCode, this);
+            updateInstallmentPlan: function (calcType, calcValue, methodCode, showMessage) {
+                getInstallmentPlan(calcType, calcValue, methodCode, this, showMessage);
             },
             updateInstallmentPlanAmount: function () {
-                this.updateInstallmentPlan('rate', $('#' + this.getCode() + '-rate')[0].value, this.getCode());
+                this.updateInstallmentPlan('rate', $('#' + this.getCode() + '-rate')[0].value, this.getCode(), true);
             },
             updateInstallmentPlanRuntime: function (data, event) {
-                this.updateInstallmentPlan('time', event.target.value, this.getCode());
+                this.updateInstallmentPlan('time', event.target.value, this.getCode(), true);
             },
             showAgreement: function() {
                 $('#' + this.getCode() + '_sepa_agreement').show();
