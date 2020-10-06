@@ -31,11 +31,11 @@ IBAN,IBAN,module,RatePAY_Payment
 "Mandate Ref","(provided after purchase)",module,RatePAY_Payment
 ratepay_directdebit_sepa_link,Read agreement to the SEPA mandate,module,RatePAY_Payment
 ratepay_directdebit_sepa_terms_block_1,I hereby agree to the forwarding of my data to ,module,RatePAY_Payment
-"Ratepay address","RatePAY GmbH, Franklinstraße 28-29, 10587 Berlin",module,RatePAY_Payment
+"Ratepay address","Ratepay GmbH, Franklinstraße 28-29, 10587 Berlin",module,RatePAY_Payment
 ratepay_directdebit_sepa_terms_block_2, "according to" ,module,RatePAY_Payment
-ratepay_directdebit_sepa_terms_block_3, "and allow this company to withdraw all costs associated with this contract of purchase, by means of direct debit, from the account entered above. I also instruct my credit institute to honour the direct debit requests made by RatePAY GmbH on my account.",module,RatePAY_Payment
+ratepay_directdebit_sepa_terms_block_3, "and allow this company to withdraw all costs associated with this contract of purchase, by means of direct debit, from the account entered above. I also instruct my credit institute to honour the direct debit requests made by Ratepay GmbH on my account.",module,RatePAY_Payment
 ratepay_directdebit_sepa_notice_block_1,Note:,module,RatePAY_Payment
-ratepay_directdebit_sepa_notice_block_2,After the contract has been created, I will be informed of of RatePAY's mandate reference number.,module,RatePAY_Payment
+ratepay_directdebit_sepa_notice_block_2,After the contract has been created, I will be informed of of Ratepay's mandate reference number.,module,RatePAY_Payment
 ratepay_directdebit_sepa_notice_block_3,"Within eight weeks of the debit I may request the reimbursement of my payment. The conditions of my credit institute apply.",module,RatePAY_Payment
 "Place Order","Place order",module,RatePAY_Payment
 "Vat ID","Vat ID",module,RatePAY_Payment
@@ -50,7 +50,7 @@ Enabled,Enabled,module,RatePAY_Payment
 "ProfileID","Profile ID",module,RatePAY_Payment
 "Security Code","Security code",module,RatePAY_Payment
 "Activate Sandbox","Activate sandbox",module,RatePAY_Payment
-"Status RatePAY","Status RatePAY",module,RatePAY_Payment
+"Status Ratepay","Status Ratepay",module,RatePAY_Payment
 Title,Title,module,RatePAY_Payment
 "Specific Countries Billing","Country selection, billing",module,RatePAY_Payment
 "Specific Countries Delivery","Country selection, delivery",module,RatePAY_Payment
@@ -65,21 +65,21 @@ B2B,B2B,module,RatePAY_Payment
 "New Order Status","New order status",module,RatePAY_Payment
 "Sort Order","Sort order",module,RatePAY_Payment
 "Direct Debit","SEPA direct debit",module,RatePAY_Payment
-"RatePAY-Datenschutzerklärung Url","URL of the RatePAY privacy policy",module,RatePAY_Payment
+"Ratepay-Datenschutzerklärung Url","URL of the Ratepay privacy policy",module,RatePAY_Payment
 Installment,Installment,module,RatePAY_Payment
 Rate min,Minimumrate,module,RatePAY_Payment
 "Month Allowed","term (in months)",module,RatePAY_Payment
 "0% Financing","0% financing",module,RatePAY_Payment
 Austria,Austria,module,RatePAY_Payment
 Switzerland,Switzerland,module,RatePAY_Payment
-RatePAY Invoice,RatePAY invoice,module,RatePAY_Payment
-RatePAY Directdebit,RatePAY SEPA direct debit,module,RatePAY_Payment
-RatePAY 0% Financing,RatePAY 0% financing,module,RatePAY_Payment
-Ratepay Instalment,Ratepay instalment,module,RatePAY_Payment
+Ratepay Invoice,RatePAY invoice,module,RatePAY_Payment
+Ratepay Directdebit,Ratepay SEPA direct debit,module,RatePAY_Payment
+Ratepay Instalment,Ratepay installment,module,RatePAY_Payment
+Ratepay 0% Financing,Ratepay 0% financing,module,RatePAY_Payment
 Active,active,module,RatePAY_Payment
 Inactive,deactivated,module,RatePAY_Payment
 "Phased Out","phased out",module,RatePAY_Payment
-"Automated Data Procedure Error","Unfortunately, you cannot use RatePAY to make your payment. This decision has been made through automated data processing. For details, see the additional general terms and conditions and privacy policy for RatePAY payment methods.",module,RatePAY_Payment
+"Automated Data Procedure Error","Unfortunately, you cannot use Ratepay to make your payment. This decision has been made through automated data processing. For details, see the additional general terms and conditions and privacy policy for Ratepay payment methods.",module,RatePAY_Payment
 ratepay_terms_block_1, "For this payment method" ,module,RatePAY_Payment
 ratepay_terms_block_2, "additional GTC and data protection notices" ,module,RatePAY_Payment
 ratepay_terms_block_3, "apply.",module,RatePAY_Payment

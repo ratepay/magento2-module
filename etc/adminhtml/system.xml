@@ -53,7 +53,7 @@
                         <field id="status" translate="label" type="label" sortOrder="36" showInDefault="1"
                                showInWebsite="1"
                                showInStore="1">
-                            <label>Status RatePAY</label>
+                            <label>Status Ratepay</label>
                             <frontend_model>RatePAY\Payment\Block\System\Config\Label\Active</frontend_model>
                             <config_path>payment/ratepay_de_invoice/status</config_path>
                         </field>
@@ -167,7 +167,7 @@
                         <field id="status" translate="label" type="label" sortOrder="36" showInDefault="1"
                                showInWebsite="1"
                                showInStore="1">
-                            <label>Status RatePAY</label>
+                            <label>Status Ratepay</label>
                             <frontend_model>RatePAY\Payment\Block\System\Config\Label\Active</frontend_model>
                             <config_path>payment/ratepay_de_directdebit/status</config_path>
                         </field>
@@ -273,7 +273,7 @@
                         <field id="status" translate="label" type="label" sortOrder="36" showInDefault="1"
                                showInWebsite="1"
                                showInStore="1">
-                            <label>Status RatePAY</label>
+                            <label>Status Ratepay</label>
                             <frontend_model>RatePAY\Payment\Block\System\Config\Label\Active</frontend_model>
                             <config_path>payment/ratepay_de_installment/status</config_path>
                         </field>
@@ -395,7 +395,7 @@
                         <field id="status" translate="label" type="label" sortOrder="36" showInDefault="1"
                                showInWebsite="1"
                                showInStore="1">
-                            <label>Status RatePAY</label>
+                            <label>Status Ratepay</label>
                             <frontend_model>RatePAY\Payment\Block\System\Config\Label\Active</frontend_model>
                             <config_path>payment/ratepay_de_installment0/status</config_path>
                         </field>
@@ -521,7 +521,7 @@
                         <field id="status" translate="label" type="label" sortOrder="36" showInDefault="1"
                                showInWebsite="1"
                                showInStore="1">
-                            <label>Status RatePAY</label>
+                            <label>Status Ratepay</label>
                             <frontend_model>RatePAY\Payment\Block\System\Config\Label\Active</frontend_model>
                             <config_path>payment/ratepay_at_invoice/status</config_path>
                         </field>
@@ -635,7 +635,7 @@
                         <field id="status" translate="label" type="label" sortOrder="36" showInDefault="1"
                                showInWebsite="1"
                                showInStore="1">
-                            <label>Status RatePAY</label>
+                            <label>Status Ratepay</label>
                             <frontend_model>RatePAY\Payment\Block\System\Config\Label\Active</frontend_model>
                             <config_path>payment/ratepay_at_directdebit/status</config_path>
                         </field>
@@ -741,7 +741,7 @@
                         <field id="status" translate="label" type="label" sortOrder="36" showInDefault="1"
                                showInWebsite="1"
                                showInStore="1">
-                            <label>Status RatePAY</label>
+                            <label>Status Ratepay</label>
                             <frontend_model>RatePAY\Payment\Block\System\Config\Label\Active</frontend_model>
                             <config_path>payment/ratepay_at_installment/status</config_path>
                         </field>
@@ -863,7 +863,7 @@
                         <field id="status" translate="label" type="label" sortOrder="36" showInDefault="1"
                                showInWebsite="1"
                                showInStore="1">
-                            <label>Status RatePAY</label>
+                            <label>Status Ratepay</label>
                             <frontend_model>RatePAY\Payment\Block\System\Config\Label\Active</frontend_model>
                             <config_path>payment/ratepay_at_installment0/status</config_path>
                         </field>
@@ -989,7 +989,7 @@
                         <field id="status" translate="label" type="label" sortOrder="36" showInDefault="1"
                                showInWebsite="1"
                                showInStore="1">
-                            <label>Status RatePAY</label>
+                            <label>Status Ratepay</label>
                             <frontend_model>RatePAY\Payment\Block\System\Config\Label\Active</frontend_model>
                             <config_path>payment/ratepay_ch_invoice/status</config_path>
                         </field>
@@ -1105,7 +1105,7 @@
                         <field id="status" translate="label" type="label" sortOrder="36" showInDefault="1"
                                showInWebsite="1"
                                showInStore="1">
-                            <label>Status RatePAY</label>
+                            <label>Status Ratepay</label>
                             <frontend_model>RatePAY\Payment\Block\System\Config\Label\Active</frontend_model>
                             <config_path>payment/ratepay_nl_invoice/status</config_path>
                         </field>
@@ -1217,7 +1217,7 @@
                         <field id="status" translate="label" type="label" sortOrder="36" showInDefault="1"
                                showInWebsite="1"
                                showInStore="1">
-                            <label>Status RatePAY</label>
+                            <label>Status Ratepay</label>
                             <frontend_model>RatePAY\Payment\Block\System\Config\Label\Active</frontend_model>
                             <config_path>payment/ratepay_nl_directdebit/status</config_path>
                         </field>
@@ -1327,7 +1327,7 @@
                         <field id="status" translate="label" type="label" sortOrder="36" showInDefault="1"
                                showInWebsite="1"
                                showInStore="1">
-                            <label>Status RatePAY</label>
+                            <label>Status Ratepay</label>
                             <frontend_model>RatePAY\Payment\Block\System\Config\Label\Active</frontend_model>
                             <config_path>payment/ratepay_be_invoice/status</config_path>
                         </field>
@@ -1439,7 +1439,7 @@
                         <field id="status" translate="label" type="label" sortOrder="36" showInDefault="1"
                                showInWebsite="1"
                                showInStore="1">
-                            <label>Status RatePAY</label>
+                            <label>Status Ratepay</label>
                             <frontend_model>RatePAY\Payment\Block\System\Config\Label\Active</frontend_model>
                             <config_path>payment/ratepay_be_directdebit/status</config_path>
                         </field>
@@ -1547,7 +1547,7 @@
                         <field id="status" translate="label" type="label" sortOrder="36" showInDefault="1"
                                showInWebsite="1"
                                showInStore="1">
-                            <label>Status RatePAY</label>
+                            <label>Status Ratepay</label>
                             <frontend_model>RatePAY\Payment\Block\System\Config\Label\Active</frontend_model>
                             <config_path>payment/ratepay_de_invoice_backend/status</config_path>
                         </field>
@@ -1661,7 +1661,7 @@
                         <field id="status" translate="label" type="label" sortOrder="36" showInDefault="1"
                                showInWebsite="1"
                                showInStore="1">
-                            <label>Status RatePAY</label>
+                            <label>Status Ratepay</label>
                             <frontend_model>RatePAY\Payment\Block\System\Config\Label\Active</frontend_model>
                             <config_path>payment/ratepay_de_directdebit_backend/status</config_path>
                         </field>
@@ -1767,7 +1767,7 @@
                         <field id="status" translate="label" type="label" sortOrder="36" showInDefault="1"
                                showInWebsite="1"
                                showInStore="1">
-                            <label>Status RatePAY</label>
+                            <label>Status Ratepay</label>
                             <frontend_model>RatePAY\Payment\Block\System\Config\Label\Active</frontend_model>
                             <config_path>payment/ratepay_de_installment_backend/status</config_path>
                         </field>
@@ -1889,7 +1889,7 @@
                         <field id="status" translate="label" type="label" sortOrder="36" showInDefault="1"
                                showInWebsite="1"
                                showInStore="1">
-                            <label>Status RatePAY</label>
+                            <label>Status Ratepay</label>
                             <frontend_model>RatePAY\Payment\Block\System\Config\Label\Active</frontend_model>
                             <config_path>payment/ratepay_de_installment0_backend/status</config_path>
                         </field>
@@ -2015,7 +2015,7 @@
                         <field id="status" translate="label" type="label" sortOrder="36" showInDefault="1"
                                showInWebsite="1"
                                showInStore="1">
-                            <label>Status RatePAY</label>
+                            <label>Status Ratepay</label>
                             <frontend_model>RatePAY\Payment\Block\System\Config\Label\Active</frontend_model>
                             <config_path>payment/ratepay_at_invoice_backend/status</config_path>
                         </field>
@@ -2129,7 +2129,7 @@
                         <field id="status" translate="label" type="label" sortOrder="36" showInDefault="1"
                                showInWebsite="1"
                                showInStore="1">
-                            <label>Status RatePAY</label>
+                            <label>Status Ratepay</label>
                             <frontend_model>RatePAY\Payment\Block\System\Config\Label\Active</frontend_model>
                             <config_path>payment/ratepay_at_directdebit_backend/status</config_path>
                         </field>
@@ -2235,7 +2235,7 @@
                         <field id="status" translate="label" type="label" sortOrder="36" showInDefault="1"
                                showInWebsite="1"
                                showInStore="1">
-                            <label>Status RatePAY</label>
+                            <label>Status Ratepay</label>
                             <frontend_model>RatePAY\Payment\Block\System\Config\Label\Active</frontend_model>
                             <config_path>payment/ratepay_at_installment_backend/status</config_path>
                         </field>
@@ -2357,7 +2357,7 @@
                         <field id="status" translate="label" type="label" sortOrder="36" showInDefault="1"
                                showInWebsite="1"
                                showInStore="1">
-                            <label>Status RatePAY</label>
+                            <label>Status Ratepay</label>
                             <frontend_model>RatePAY\Payment\Block\System\Config\Label\Active</frontend_model>
                             <config_path>payment/ratepay_at_installment0_backend/status</config_path>
                         </field>
@@ -2483,7 +2483,7 @@
                         <field id="status" translate="label" type="label" sortOrder="36" showInDefault="1"
                                showInWebsite="1"
                                showInStore="1">
-                            <label>Status RatePAY</label>
+                            <label>Status Ratepay</label>
                             <frontend_model>RatePAY\Payment\Block\System\Config\Label\Active</frontend_model>
                             <config_path>payment/ratepay_ch_invoice_backend/status</config_path>
                         </field>
@@ -2599,7 +2599,7 @@
                         <field id="status" translate="label" type="label" sortOrder="36" showInDefault="1"
                                showInWebsite="1"
                                showInStore="1">
-                            <label>Status RatePAY</label>
+                            <label>Status Ratepay</label>
                             <frontend_model>RatePAY\Payment\Block\System\Config\Label\Active</frontend_model>
                             <config_path>payment/ratepay_nl_invoice_backend/status</config_path>
                         </field>
@@ -2711,7 +2711,7 @@
                         <field id="status" translate="label" type="label" sortOrder="36" showInDefault="1"
                                showInWebsite="1"
                                showInStore="1">
-                            <label>Status RatePAY</label>
+                            <label>Status Ratepay</label>
                             <frontend_model>RatePAY\Payment\Block\System\Config\Label\Active</frontend_model>
                             <config_path>payment/ratepay_nl_directdebit_backend/status</config_path>
                         </field>
@@ -2821,7 +2821,7 @@
                         <field id="status" translate="label" type="label" sortOrder="36" showInDefault="1"
                                showInWebsite="1"
                                showInStore="1">
-                            <label>Status RatePAY</label>
+                            <label>Status Ratepay</label>
                             <frontend_model>RatePAY\Payment\Block\System\Config\Label\Active</frontend_model>
                             <config_path>payment/ratepay_be_invoice_backend/status</config_path>
                         </field>
@@ -2933,7 +2933,7 @@
                         <field id="status" translate="label" type="label" sortOrder="36" showInDefault="1"
                                showInWebsite="1"
                                showInStore="1">
-                            <label>Status RatePAY</label>
+                            <label>Status Ratepay</label>
                             <frontend_model>RatePAY\Payment\Block\System\Config\Label\Active</frontend_model>
                             <config_path>payment/ratepay_be_directdebit_backend/status</config_path>
                         </field>
