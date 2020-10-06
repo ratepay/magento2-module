@@ -67,6 +67,21 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
+     * @param string                                $method
+     * @param string                                $field
+     * @param \Magento\Quote\Api\Data\CartInterface $quote
+     * @return mixed
+     */
+    public function getRpConfigDataForQuote($method, $field, \Magento\Quote\Api\Data\CartInterface $quote = null)
+    {
+        $storeCode = null;
+        if ($quote !== null) {
+            $storeCode = $quote->getStore()->getCode();
+        }
+        return $this->getRpConfigData($method, $field, $storeCode);
+    }
+
+    /**
      * We have to diff the addresses, because same_as_billing is sometimes wrong
      *
      * @param unknown_type $address

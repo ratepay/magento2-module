@@ -101,17 +101,17 @@
                             </div>
                         </fieldset>
                     <!-- /ko -->
-                    <div>
-                        <div>
-                            <!-- ko i18n: 'ratepay_terms_block_1'--><!-- /ko -->
-                            <a target="_blank" href="https://www.ratepay.com/legal/"><!-- ko i18n: 'ratepay_terms_block_2'--><!-- /ko --></a>
-                            <!-- ko i18n: 'ratepay_terms_block_3'--><!-- /ko -->
-                        </div>
+                    <div class="legalText">
+                        <!-- ko i18n: 'ratepay_terms_block_1'--><!-- /ko --> "<!-- ko i18n: 'Place Order'--><!-- /ko -->" <!-- ko i18n: 'ratepay_terms_block_2'--><!-- /ko -->
+                        <a target="_blank" href="https://www.ratepay.com/legal-payment-terms"><!-- ko i18n: 'ratepay_terms_block_3'--><!-- /ko --></a>
+                        <!-- ko i18n: 'ratepay_terms_block_4'--><!-- /ko -->
+                        <a target="_blank" href="https://www.ratepay.com/legal-payment-dataprivacy"><!-- ko i18n: 'ratepay_terms_block_5'--><!-- /ko --></a>
+                        <!-- ko i18n: 'ratepay_terms_block_6'--><!-- /ko -->
                     </div>
                 </fieldset>
                 <fieldset data-bind="attr: {class: 'fieldset payment items calculator ' + getCode()}">
                     <div class="rpContainer">
-                        <!-- ko if: hasAllowedMonths() -->
+                        <!-- ko if: hasAllowedMonths() && !hasSingleAllowedMonth() -->
                             <div class="row">
                                 <div class="col-md-10">
                                     <!-- ko i18n: 'rp_calculation_intro_part1'--><!-- /ko -->
@@ -135,7 +135,7 @@
                                                 <div class="btn-group btn-group-justified" role="group" aria-label="...">
                                                     <!-- ko foreach: getAllowedMonths() -->
                                                         <div class="btn-group btn-group-sm" role="group">
-                                                            <button type="button" data-bind="attr: {value: $data, id: 'piRpInput-buttonMonth-' + $data}, text: $data, click: function() { $parent.updateInstallmentPlan('time', $data, $parent.getCode()) }" class="btn btn-default rp-btn-runtime" role="group"></button>
+                                                            <button type="button" data-bind="attr: {value: $data, id: 'piRpInput-buttonMonth-' + $data}, text: $data, click: function() { $parent.updateInstallmentPlan('time', $data, $parent.getCode(), true) }" class="btn btn-default rp-btn-runtime" role="group"></button>
                                                         </div>
                                                     <!--/ko-->
                                                 </div>
@@ -187,7 +187,19 @@
                             <ul style="list-style: none; margin-left: -40px;">
                                 <li style="margin-bottom: 15px;"><label><b><!-- ko i18n: 'insert bankdata'--><!-- /ko --></b></label></li>
                                 <li><label><b><!-- ko i18n: 'Account holder'--><!-- /ko --></b></label></li>
-                                <li><label><i><!-- ko text: getCustomerName() --><!-- /ko --></i></label></li>
+                                <li>
+                                    <!-- ko if: !isB2BModeUsable() -->
+                                        <i><!-- ko text: getCustomerName() --><!-- /ko --></i>
+                                    <!-- /ko -->
+                                    <!-- ko if: isB2BModeUsable() -->
+                                        <select class="select" name="payment[b2b_accountholder]" style="width:200px;"
+                                                data-bind=" attr: {id: getCode() + '_b2b_accountholder', 'data-container': getCode() + '_b2b_accountholder'},
+                                                            enable: true,
+                                                            options: getB2bAccountholders(),
+                                                            value: b2b_accountholder">
+                                        </select>
+                                    <!-- /ko -->
+                                </li>
                             </ul>
                             <div class="field _required" style="float:left; position: relative; margin: 0 0 5px;">
                                 <label data-bind="attr: {for: getCode() + '_iban'}" class="label">
@@ -196,33 +208,35 @@
                                 <div class="control required">
                                     <input type="text" name="payment[rp_iban]" class="input-text required-entry" value="" data-bind="attr: {id: getCode() + '_iban', autocomplete: off, title: $t('IBAN')}, value: rp_iban" />
                                 </div>
-                                <a data-bind="attr: {id: getCode() + '_sepa_agreement_link'}, click: showAgreement"><!-- ko i18n: 'ratepay_directdebit_sepa_link'--><!-- /ko --></a>
+                                <table>
+                                    <tbody data-bind="attr: {id: getCode() + '_sepa_agreement'}">
+                                        <tr>
+                                            <td style="padding:10px;">
+                                                <input type="checkbox" data-bind="attr: {id: getCode() + '_save_sepa_accepted'}, checked: sepaAccepted" />
+                                            </td>
+                                            <td style="padding:10px 0;">
+                                                <span class="required ratepayagreement">
+                                                    <!-- ko i18n: 'ratepay_directdebit_sepa_terms_block_1'--><!-- /ko -->
+                                                    <!-- ko i18n: 'Ratepay address'--><!-- /ko -->
+                                                    <!-- ko i18n: 'ratepay_directdebit_sepa_terms_block_2'--><!-- /ko -->
+                                                    <a target="_blank" href="https://www.ratepay.com/legal"><!-- ko i18n: 'Ratepay Data Privacy Policy'--><!-- /ko --></a>
+                                                    <!-- ko i18n: 'ratepay_directdebit_sepa_terms_block_3'--><!-- /ko -->
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding:10px 0;" colspan="2">
+                                                <br/>
+                                                <span style="font-weight:bold;"><!-- ko i18n: 'ratepay_directdebit_sepa_notice_block_1'--><!-- /ko --></span>
+                                                <br/>
+                                                <!-- ko i18n: 'ratepay_directdebit_sepa_notice_block_2'--><!-- /ko -->
+                                                <br/>
+                                                <!-- ko i18n: 'ratepay_directdebit_sepa_notice_block_3'--><!-- /ko -->
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                            <table>
-                                <tbody style="display: none;" data-bind="attr: {id: getCode() + '_sepa_agreement'}">
-                                    <tr>
-                                        <td style="padding:10px 0;">
-                                            <span class="required ratepayagreement">
-                                                <!-- ko i18n: 'ratepay_directdebit_sepa_terms_block_1'--><!-- /ko -->
-                                                <!-- ko i18n: 'Ratepay address'--><!-- /ko -->
-                                                <!-- ko i18n: 'ratepay_directdebit_sepa_terms_block_2'--><!-- /ko -->
-                                                <a target="_blank" href="https://www.ratepay.com/legal"><!-- ko i18n: 'Ratepay Data Privacy Policy'--><!-- /ko --></a>
-                                                <!-- ko i18n: 'ratepay_directdebit_sepa_terms_block_3'--><!-- /ko -->
-                                            </span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding:10px 0;">
-                                            <br/>
-                                            <span style="font-weight:bold;"><!-- ko i18n: 'ratepay_directdebit_sepa_notice_block_1'--><!-- /ko --></span>
-                                            <br/>
-                                            <!-- ko i18n: 'ratepay_directdebit_sepa_notice_block_2'--><!-- /ko -->
-                                            <br/>
-                                            <!-- ko i18n: 'ratepay_directdebit_sepa_notice_block_3'--><!-- /ko -->
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
                         </fieldset>
                         <hr>
                         <a data-bind="attr: {id: getCode() + '_sepa_use_banktransfer'}, click: showBankTransfer"><!-- ko i18n: 'I want to transfer the installments myself and not pay by direct debit'--><!-- /ko --></a>
