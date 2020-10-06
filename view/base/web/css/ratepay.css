@@ -192,6 +192,13 @@
     width: 57%!important;
 }
 
+.ratepayagreement.required:after {
+    content: '*';
+    color: #e02b27;
+    font-size: 1.2rem;
+    margin: 0 0 0 5px;
+}
+
 .sp-methods select.ratepayday {width:154px ; margin-right: 7px;}
 .sp-methods select.ratepaymonth {width: 154px ; margin-right: 7px;}
 .sp-methods select.ratepayyear {width: 154px ;}
