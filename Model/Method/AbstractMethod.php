@@ -235,7 +235,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
             $content = $this->_rpLibraryModel->getRequestContent($order, 'PAYMENT_REQUEST');
             $resultRequest = $this->libraryController->callPaymentRequest($head, $content, $order, $sandbox);
             if (!$resultRequest->isSuccessful()) {
-                $message = $this->formatMessage($resultRequest->getCustomerMessage());
+                $message = $resultRequest->getCustomerMessage();
                 if (!$resultRequest->isRetryAdmitted()) {
                     $this->customerSession->setRatePayDeviceIdentToken(null);
                     $this->handleError($resultRequest, $order);
@@ -341,7 +341,6 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         if ($totalAmount < $minAmount || $totalAmount > $maxAmount) {
             return false;
         }
-
 
         $address = $quote->getBillingAddress();
         if (!$this->canUseForCountryDelivery($address->getCountryId())) {
@@ -471,11 +470,6 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         if(empty($message)) {
             $message = __('Automated Data Procedure Error');
         }
-
-        if(strpos($message, 'zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis') !== false){
-            $message = $message . "\n\n" . $this->rpDataHelper->getRpConfigData($this->_code, 'privacy_policy');
-        }
-
         return strip_tags($message);
     }
 
