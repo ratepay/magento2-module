@@ -101,17 +101,17 @@
                             </div>
                         </fieldset>
                     <!-- /ko -->
-                    <div>
-                        <div>
-                            <!-- ko i18n: 'ratepay_terms_block_1'--><!-- /ko -->
-                            <a target="_blank" href="https://www.ratepay.com/legal/"><!-- ko i18n: 'ratepay_terms_block_2'--><!-- /ko --></a>
-                            <!-- ko i18n: 'ratepay_terms_block_3'--><!-- /ko -->
-                        </div>
+                    <div class="legalText">
+                        <!-- ko i18n: 'ratepay_terms_block_1'--><!-- /ko --> "<!-- ko i18n: 'Place Order'--><!-- /ko -->" <!-- ko i18n: 'ratepay_terms_block_2'--><!-- /ko -->
+                        <a target="_blank" href="https://www.ratepay.com/legal-payment-terms"><!-- ko i18n: 'ratepay_terms_block_3'--><!-- /ko --></a>
+                        <!-- ko i18n: 'ratepay_terms_block_4'--><!-- /ko -->
+                        <a target="_blank" href="https://www.ratepay.com/legal-payment-dataprivacy"><!-- ko i18n: 'ratepay_terms_block_5'--><!-- /ko --></a>
+                        <!-- ko i18n: 'ratepay_terms_block_6'--><!-- /ko -->
                     </div>
                 </fieldset>
                 <fieldset data-bind="attr: {class: 'fieldset payment items calculator ' + getCode()}">
                     <div class="rpContainer">
-                        <!-- ko if: hasAllowedMonths() -->
+                        <!-- ko if: hasAllowedMonths() && !hasSingleAllowedMonth() -->
                             <div class="row">
                                 <div class="col-md-10">
                                     <!-- ko i18n: 'rp_calculation_intro_part1'--><!-- /ko -->
@@ -135,7 +135,7 @@
                                                 <div class="btn-group btn-group-justified" role="group" aria-label="...">
                                                     <!-- ko foreach: getAllowedMonths() -->
                                                         <div class="btn-group btn-group-sm" role="group">
-                                                            <button type="button" data-bind="attr: {value: $data, id: 'piRpInput-buttonMonth-' + $data}, text: $data, click: function() { $parent.updateInstallmentPlan('time', $data, $parent.getCode()) }" class="btn btn-default rp-btn-runtime" role="group"></button>
+                                                            <button type="button" data-bind="attr: {value: $data, id: 'piRpInput-buttonMonth-' + $data}, text: $data, click: function() { $parent.updateInstallmentPlan('time', $data, $parent.getCode(), true) }" class="btn btn-default rp-btn-runtime" role="group"></button>
                                                         </div>
                                                     <!--/ko-->
                                                 </div>
@@ -187,7 +187,19 @@
                             <ul style="list-style: none; margin-left: -40px;">
                                 <li style="margin-bottom: 15px;"><label><b><!-- ko i18n: 'insert bankdata'--><!-- /ko --></b></label></li>
                                 <li><label><b><!-- ko i18n: 'Account holder'--><!-- /ko --></b></label></li>
-                                <li><label><i><!-- ko text: getCustomerName() --><!-- /ko --></i></label></li>
+                                <li>
+                                    <!-- ko if: !isB2BModeUsable() -->
+                                        <i><!-- ko text: getCustomerName() --><!-- /ko --></i>
+                                    <!-- /ko -->
+                                    <!-- ko if: isB2BModeUsable() -->
+                                        <select class="select" name="payment[b2b_accountholder]" style="width:200px;"
+                                                data-bind=" attr: {id: getCode() + '_b2b_accountholder', 'data-container': getCode() + '_b2b_accountholder'},
+                                                            enable: true,
+                                                            options: getB2bAccountholders(),
+                                                            value: b2b_accountholder">
+                                        </select>
+                                    <!-- /ko -->
+                                </li>
                             </ul>
                             <div class="field _required" style="float:left; position: relative; margin: 0 0 5px;">
                                 <label data-bind="attr: {for: getCode() + '_iban'}" class="label">

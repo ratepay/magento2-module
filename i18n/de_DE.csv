@@ -75,8 +75,8 @@ Austria,Österreich,module,RatePAY_Payment
 Switzerland,Schweiz,module,RatePAY_Payment
 RatePAY Invoice,RatePAY Rechnung,module,RatePAY_Payment
 RatePAY Directdebit,RatePAY SEPA-Lastschrift,module,RatePAY_Payment
-RatePAY Installment,RatePAY Rate,module,RatePAY_Payment
 RatePAY 0% Financing,RatePAY 0% Finanzierung,module,RatePAY_Payment
+Ratepay Instalment,Ratepay Rate,module,RatePAY_Payment
 Active,Aktiv,module,RatePAY_Payment
 Inactive,Inaktiv,module,RatePAY_Payment
 Phased Out,Abgelaufen,module,RatePAY_Payment
@@ -84,11 +84,17 @@ Phased Out,Abgelaufen,module,RatePAY_Payment
 ratepay_terms_block_1, "Für diese Zahlungsart gelten" ,module,RatePAY_Payment
 ratepay_terms_block_2, "zusätzliche AGB und Datenschutzhinweise" ,module,RatePAY_Payment
 ratepay_terms_block_3, "." ,module,RatePAY_Payment
+ratepay_terms_block_1, "Mit Klicken auf" ,module,RatePAY_Payment
+ratepay_terms_block_2, "erklären Sie sich mit den" ,module,RatePAY_Payment
+ratepay_terms_block_3, "Zahlungsbedingungen unseres Zahlungspartners" ,module,RatePAY_Payment
+ratepay_terms_block_4, "sowie mit der Durchführung einer" ,module,RatePAY_Payment
+ratepay_terms_block_5, "Risikoprüfung durch unseren Zahlungspartner" ,module,RatePAY_Payment
+ratepay_terms_block_6, "einverstanden." ,module,RatePAY_Payment
 "Maximum Oder Total","Maximum order total",module,RatePAY_Payment
 "Nur SEPA/IBAN Kontodaten","Nur SEPA/IBAN Kontodaten",module,RatePAY_Payment
 "rp_calculation_intro_part1","Im Folgenden können Sie entscheiden, wie Sie die Ratenzahlung gestalten möchten. Legen Sie bequem die Anzahl der Raten und somit ",module,RatePAY_Payment
 "rp_calculation_intro_part2","die Laufzeit",module,RatePAY_Payment
-"rp_calculation_intro_part3"," der Ratenzahlung fest. Oder bestimmen sie einfach die gewünschte ",module,RatePAY_Payment
+"rp_calculation_intro_part3"," der Ratenzahlung fest oder bestimmen sie einfach die gewünschte ",module,RatePAY_Payment
 "rp_calculation_intro_part4","monatliche Ratenhöhe.",module,RatePAY_Payment
 "rp_runtime_title","Laufzeit",module,RatePAY_Payment
 "rp_runtime_description","Anzahl der monatlichen Raten",module,RatePAY_Payment

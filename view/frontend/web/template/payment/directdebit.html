@@ -101,24 +101,38 @@
                             </div>
                         </fieldset>
                     <!-- /ko -->
-                    <div>
-                        <div>
-                            <!-- ko i18n: 'ratepay_terms_block_1'--><!-- /ko -->
-                            <a target="_blank" href="https://www.ratepay.com/legal/"><!-- ko i18n: 'ratepay_terms_block_2'--><!-- /ko --></a>
-                            <!-- ko i18n: 'ratepay_terms_block_3'--><!-- /ko -->
-                        </div>
+                    <div class="legalText">
+                        <!-- ko i18n: 'ratepay_terms_block_1'--><!-- /ko --> "<!-- ko i18n: 'Place Order'--><!-- /ko -->" <!-- ko i18n: 'ratepay_terms_block_2'--><!-- /ko -->
+                        <a target="_blank" href="https://www.ratepay.com/legal-payment-terms"><!-- ko i18n: 'ratepay_terms_block_3'--><!-- /ko --></a>
+                        <!-- ko i18n: 'ratepay_terms_block_4'--><!-- /ko -->
+                        <a target="_blank" href="https://www.ratepay.com/legal-payment-dataprivacy"><!-- ko i18n: 'ratepay_terms_block_5'--><!-- /ko --></a>
+                        <!-- ko i18n: 'ratepay_terms_block_6'--><!-- /ko -->
                     </div>
                 </fieldset>
                 <fieldset id="ratepay_bankdata" class="fieldset">
-                    <ul style="list-style: none; margin-bottom: 15px; border: 1px solid #BDBDBD; padding-left: 4px;">
-                        <li><label><!-- ko i18n: 'Ratepay address'--><!-- /ko --></label></li>
-                        <li><label><!-- ko i18n: 'Creditor'--><!-- /ko --><!-- ko i18n: 'Ratepay Creditor ID'--><!-- /ko --></label></li>
-                        <li><label><!-- ko i18n: 'Mandate'--><!-- /ko --><!-- ko i18n: 'Mandate Ref'--><!-- /ko --></label></li>
-                    </ul>
+                    <div class="rpContainer">
+                        <ul style="list-style: none; margin-bottom: 15px; border: 1px solid #BDBDBD; padding-left: 4px;">
+                            <li><label><!-- ko i18n: 'Ratepay address'--><!-- /ko --></label></li>
+                            <li><label><!-- ko i18n: 'Creditor'--><!-- /ko --><!-- ko i18n: 'Ratepay Creditor ID'--><!-- /ko --></label></li>
+                            <li><label><!-- ko i18n: 'Mandate'--><!-- /ko --><!-- ko i18n: 'Mandate Ref'--><!-- /ko --></label></li>
+                        </ul>
+                    </div>
                     <ul style="list-style: none; margin-left: -40px;">
                         <li style="margin-bottom: 15px;"><label><b><!-- ko i18n: 'insert bankdata'--><!-- /ko --></b></label></li>
                         <li><label><b><!-- ko i18n: 'Account holder'--><!-- /ko --></b></label></li>
-                        <li><label><i><!-- ko text: getCustomerName() --><!-- /ko --></i></label></li>
+                        <li>
+                            <!-- ko if: !isB2BModeUsable() -->
+                                <i><!-- ko text: getCustomerName() --><!-- /ko --></i>
+                            <!-- /ko -->
+                            <!-- ko if: isB2BModeUsable() -->
+                                <select class="select" name="payment[b2b_accountholder]" style="width:200px;"
+                                        data-bind=" attr: {id: getCode() + '_b2b_accountholder', 'data-container': getCode() + '_b2b_accountholder'},
+                                                        enable: true,
+                                                        options: getB2bAccountholders(),
+                                                        value: b2b_accountholder">
+                                </select>
+                            <!-- /ko -->
+                        </li>
                     </ul>
                     <div class="field _required" style="float:left; position: relative; margin: 0 0 5px;">
                         <label data-bind="attr: {for: getCode() + '_iban'}" class="label">

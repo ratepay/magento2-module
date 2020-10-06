@@ -21,7 +21,8 @@ define(
                 rp_dob_year: '',
                 rp_vatid: '',
                 rp_iban: '',
-                sepaAccepted: false
+                sepaAccepted: false,
+                b2b_accountholder: ''
             },
             validate: function () {
                 var blParentReturn = this._super();
@@ -46,6 +47,10 @@ define(
                     parentReturn.additional_data = {};
                 }
                 parentReturn.additional_data.rp_iban = this.rp_iban;
+                parentReturn.additional_data.rp_accountholder = this.getCustomerName();
+                if (this.isB2BModeUsable() === true) {
+                    parentReturn.additional_data.rp_accountholder = this.b2b_accountholder;
+                }
                 return parentReturn;
             },
             showAgreement: function() {

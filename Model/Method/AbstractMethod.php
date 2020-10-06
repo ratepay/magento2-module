@@ -235,7 +235,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
             $content = $this->_rpLibraryModel->getRequestContent($order, 'PAYMENT_REQUEST');
             $resultRequest = $this->libraryController->callPaymentRequest($head, $content, $order, $sandbox);
             if (!$resultRequest->isSuccessful()) {
-                $message = $this->formatMessage($resultRequest->getCustomerMessage());
+                $message = $resultRequest->getCustomerMessage();
                 if (!$resultRequest->isRetryAdmitted()) {
                     $this->customerSession->setRatePayDeviceIdentToken(null);
                     $this->handleError($resultRequest, $order);
@@ -330,25 +330,24 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
             return false;
         }
 
-        if (!$this->rpDataHelper->getRpConfigData($this->_code, 'active')) {
+        if (!$this->rpDataHelper->getRpConfigDataForQuote($this->_code, 'active', $quote)) {
             return false;
         }
 
         $totalAmount = $quote->getGrandTotal();
-        $minAmount = $this->rpDataHelper->getRpConfigData($this->_code, 'min_order_total');
-        $maxAmount = $this->rpDataHelper->getRpConfigData($this->_code, 'max_order_total');
+        $minAmount = $this->rpDataHelper->getRpConfigDataForQuote($this->_code, 'min_order_total', $quote);
+        $maxAmount = $this->rpDataHelper->getRpConfigDataForQuote($this->_code, 'max_order_total', $quote);
 
         if ($totalAmount < $minAmount || $totalAmount > $maxAmount) {
             return false;
         }
 
-
         $address = $quote->getBillingAddress();
-        if (!$this->canUseForCountryDelivery($address->getCountryId())) {
+        if (!$this->canUseForCountryDelivery($address->getCountryId(), $quote)) {
             return false;
         }
 
-        $aValidCurrencies = explode(',', $this->rpDataHelper->getRpConfigData($this->_code, 'currency'));
+        $aValidCurrencies = explode(',', $this->rpDataHelper->getRpConfigDataForQuote($this->_code, 'currency', $quote));
         if (in_array($quote->getQuoteCurrencyCode(), $aValidCurrencies) === false) {
             return false;
         }
@@ -359,12 +358,13 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
     /**
      * To check billing country is allowed for the payment method
      *
-     * @param $country
+     * @param                                       $country
+     * @param \Magento\Quote\Api\Data\CartInterface $quote
      * @return bool
      */
-    public function canUseForCountryDelivery($country)
+    public function canUseForCountryDelivery($country, \Magento\Quote\Api\Data\CartInterface $quote = null)
     {
-        $availableCountries = explode(',', $this->rpDataHelper->getRpConfigData($this->_code, 'specificcountry_delivery'));
+        $availableCountries = explode(',', $this->rpDataHelper->getRpConfigDataForQuote($this->_code, 'specificcountry_delivery', $quote));
         if(!in_array($country, $availableCountries)){
             return false;
         }
@@ -440,6 +440,10 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
             $infoInstance->setAdditionalInformation('rp_directdebit', (bool)$additionalData->getRpDirectdebit());
         }
 
+        if (!empty($additionalData->getRpAccountholder())) {
+            $infoInstance->setAdditionalInformation('rp_accountholder', $additionalData->getRpAccountholder());
+        }
+
         $installmentMethods = [
             'ratepay_de_installment',
             'ratepay_at_installment',
@@ -471,11 +475,6 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         if(empty($message)) {
             $message = __('Automated Data Procedure Error');
         }
-
-        if(strpos($message, 'zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis') !== false){
-            $message = $message . "\n\n" . $this->rpDataHelper->getRpConfigData($this->_code, 'privacy_policy');
-        }
-
         return strip_tags($message);
     }
 
