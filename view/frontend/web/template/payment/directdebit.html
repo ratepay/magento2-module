@@ -120,7 +120,19 @@
                     <ul style="list-style: none; margin-left: -40px;">
                         <li style="margin-bottom: 15px;"><label><b><!-- ko i18n: 'insert bankdata'--><!-- /ko --></b></label></li>
                         <li><label><b><!-- ko i18n: 'Account holder'--><!-- /ko --></b></label></li>
-                        <li><label><i><!-- ko text: getCustomerName() --><!-- /ko --></i></label></li>
+                        <li>
+                            <!-- ko if: !isB2BModeUsable() -->
+                                <i><!-- ko text: getCustomerName() --><!-- /ko --></i>
+                            <!-- /ko -->
+                            <!-- ko if: isB2BModeUsable() -->
+                                <select class="select" name="payment[b2b_accountholder]" style="width:200px;"
+                                        data-bind=" attr: {id: getCode() + '_b2b_accountholder', 'data-container': getCode() + '_b2b_accountholder'},
+                                                        enable: true,
+                                                        options: getB2bAccountholders(),
+                                                        value: b2b_accountholder">
+                                </select>
+                            <!-- /ko -->
+                        </li>
                     </ul>
                     <div class="field _required" style="float:left; position: relative; margin: 0 0 5px;">
                         <label data-bind="attr: {for: getCode() + '_iban'}" class="label">

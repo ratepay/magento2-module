@@ -138,6 +138,18 @@ class Base extends \Magento\Payment\Block\Form
     }
 
     /**
+     * @return string
+     */
+    public function getCompanyName()
+    {
+        $billingAddress = $this->getCreateOrderModel()->getQuote()->getBillingAddress();
+        if ($billingAddress) {
+            return $billingAddress->getCompany();
+        }
+        return '';
+    }
+
+    /**
      * @return null|string
      */
     public function getBirthday()

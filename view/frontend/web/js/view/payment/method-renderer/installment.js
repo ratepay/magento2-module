@@ -23,7 +23,9 @@ define(
                 rp_vatid: '',
                 rp_iban: '',
                 isInstallmentPlanSet: false,
-                useDirectDebit: true
+                useDirectDebit: true,
+                sepaAccepted: false,
+                b2b_accountholder: ''
             },
 
             initialize: function () {
@@ -121,6 +123,10 @@ define(
                 }
                 parentReturn.additional_data.rp_iban = this.rp_iban;
                 parentReturn.additional_data.rp_directdebit = this.useDirectDebit;
+                parentReturn.additional_data.rp_accountholder = this.getCustomerName();
+                if (this.isB2BModeUsable() === true) {
+                    parentReturn.additional_data.rp_accountholder = this.b2b_accountholder;
+                }
                 return parentReturn;
             }
         });
