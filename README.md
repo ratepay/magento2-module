@@ -29,7 +29,7 @@ php bin/magento cache:clean
 * Increased the time payment errors are shown
 * Page will now scroll to payment error if not in view
 * Changed declaration of consent functionality
-* Installment amount will now be preselected if only one runtime is available
+* Instalment amount will now be preselected if only one runtime is available
 * Accountholder can now be selected between name and company from a dropdownbox in b2b mode
 * Fixed config scope for backend orders
 
