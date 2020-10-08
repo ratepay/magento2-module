@@ -9,6 +9,7 @@
 namespace RatePAY\Payment\Observer;
 
 use Magento\Framework\Event\ObserverInterface;
+use Magento\Sales\Model\Order\Invoice;
 use RatePAY\Payment\Controller\LibraryController;
 use Magento\Framework\Exception\PaymentException;
 
@@ -79,7 +80,7 @@ class SendRatepayDeliverCallOnInvoice implements ObserverInterface
         if ($inv->getIsUsedForRefund() !== true) { // online refund executes a save on the invoice, which would trigger another confirmation_deliver
             $order = $observer->getEvent()->getData('invoice')->getOrder();
             $paymentMethod = $observer->getEvent()->getData('invoice')->getOrder()->getPayment()->getMethodInstance()->getCode();
-            if(!$this->rpPaymentHelper->isRatepayPayment($paymentMethod)){
+            if(!$this->rpPaymentHelper->isRatepayPayment($paymentMethod) || $inv->getRequestedCaptureCase() == Invoice::NOT_CAPTURE) {
                 return $this;
             }
             $this->sendRatepayDeliverCall($order, $inv, $paymentMethod);
