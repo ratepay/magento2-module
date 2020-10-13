@@ -65,6 +65,7 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $items = [];
 
+        $skuMap = [];
         $itemArray = $quoteOrOrder->getItems();
         foreach ($itemArray as $item) {
 
@@ -84,17 +85,17 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
                     continue;
                 }
 
-				if($item->getOrderItem()->getProductType() === \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
+                if($item->getOrderItem()->getProductType() === \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
                     $bundleQuantity = $this->_getBundleQuantity($quoteOrOrder->getItems(), $item); // bundles always have a qty of 1, which is wrong
                     if ($bundleQuantity !== false) {
                         $quantity = (int)$bundleQuantity;
                     }
 
-					$discount = 0.00;
-					$taxRate = 0;
-					$children = $item->getOrderItem()->getChildrenItems();
-					foreach($children as $ch) {
-					    if ($quoteOrOrder instanceof Creditmemo) {
+                    $discount = 0.00;
+                    $taxRate = 0;
+                    $children = $item->getOrderItem()->getChildrenItems();
+                    foreach($children as $ch) {
+                        if ($quoteOrOrder instanceof Creditmemo) {
                             foreach ($itemArray as $creditmemoItem) {
                                 if ($creditmemoItem->getOrderItemId() == $ch->getId()) {
                                     $discount += $creditmemoItem->getDiscountAmount();
@@ -103,21 +104,29 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
                         } else {
                             $discount += $ch->getDiscountAmount();
                         }
-						$taxRate += $ch->getTaxPercent();
-					}
-					$taxRate = $taxRate / count($children);
-				} else {
+                        $taxRate += $ch->getTaxPercent();
+                    }
+                    $taxRate = $taxRate / count($children);
+                } else {
                     $discount = $item->getDiscountAmount();
                     $taxRate = $item->getOrderItem()->getTaxPercent();
                 }
             } else { // order generation
                 if ($item->getProductType() === \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE && $item->getParentItem()) {
                     $sku = $item->getParentItem()->getSku();
+                    if (isset($skuMap[$item->getParentItem()->getQuoteItemId()])) {
+                        $sku = $skuMap[$item->getParentItem()->getQuoteItemId()];
+                    }
                     $quantity = (int) $item->getParentItem()->getQtyOrdered();
                     $parentItem = true;
+                    error_log('Simple - SKU: '.$sku.' ID: '.$item->getQuoteItemId().' ParentID: '.$item->getParentItem()->getQuoteItemId());
                 } else {
                     $sku = $item->getSku();
                     $quantity = (int) $item->getQtyOrdered();
+
+                    $sku = $this->getUniqueSku($sku, $items);
+                    $skuMap[$item->getQuoteItemId()] = $sku;
+                    error_log('Real - SKU:'.$sku.' ID: '.$item->getQuoteItemId());
                 }
 
                 $discount = $item->getDiscountAmount();
@@ -160,6 +169,25 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
         }
 
         return $return;
+    }
+
+    /**
+     * Adds counter to sku if sku is not unique
+     *
+     * @param  string $sku
+     * @param  array  $items
+     * @return string
+     */
+    protected function getUniqueSku($sku, $items)
+    {
+        if (!isset($items[$sku])) {
+            return $sku;
+        }
+        $i = 2;
+        while(isset($items[$sku.'_'.$i])) {
+            $i++;
+        }
+        return $sku.'_'.$i;
     }
 
     /**
