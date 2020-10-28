@@ -50,7 +50,11 @@ class Addresses extends \Magento\Framework\App\Helper\AbstractHelper
                 if ($this->isHouseNumber($street[1])) {
                     $billingAddress['StreetNumber'] = $street[1];
                 } else {
-                    $billingAddress['Street'] .= ' '.$street[1];
+                    if (!isset($street[2])) {
+                        $billingAddress['StreetAdditional'] = $street[1];
+                    } else {
+                        $billingAddress['Street'] .= ' '.$street[1];
+                    }
                 }
             }
             if (isset($street[2])) {
