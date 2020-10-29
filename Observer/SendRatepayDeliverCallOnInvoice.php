@@ -9,6 +9,7 @@
 namespace RatePAY\Payment\Observer;
 
 use Magento\Framework\Event\ObserverInterface;
+use Magento\Sales\Model\Order\Invoice;
 use RatePAY\Payment\Controller\LibraryController;
 use Magento\Framework\Exception\PaymentException;
 
@@ -33,7 +34,7 @@ class SendRatepayDeliverCallOnInvoice implements ObserverInterface
      * @var LibraryController
      */
     protected $rpLibraryController;
-    
+
     /**
      * @var \Magento\Store\Model\StoreManagerInterface
      */
@@ -68,6 +69,16 @@ class SendRatepayDeliverCallOnInvoice implements ObserverInterface
         $this->storeManager = $storeManager;
     }
 
+    protected function isCommunicationToRatepayAllowed($inv, $order)
+    {
+        if ($inv->getRequestedCaptureCase() == Invoice::NOT_CAPTURE) {
+            return false;
+        }
+        if ($inv->getRequestedCaptureCase() == Invoice::CAPTURE_OFFLINE && (bool)$this->rpDataHelper->getRpConfigDataByPath("ratepay/general/true_offline_mode", $order->getStore()->getCode()) === true) {
+            return false;
+        }
+        return true;
+    }
 
     /**
      * @param \Magento\Framework\Event\Observer $observer
@@ -79,7 +90,7 @@ class SendRatepayDeliverCallOnInvoice implements ObserverInterface
         if ($inv->getIsUsedForRefund() !== true) { // online refund executes a save on the invoice, which would trigger another confirmation_deliver
             $order = $observer->getEvent()->getData('invoice')->getOrder();
             $paymentMethod = $observer->getEvent()->getData('invoice')->getOrder()->getPayment()->getMethodInstance()->getCode();
-            if(!$this->rpPaymentHelper->isRatepayPayment($paymentMethod)){
+            if(!$this->rpPaymentHelper->isRatepayPayment($paymentMethod) || $this->isCommunicationToRatepayAllowed($inv, $order) === false) {
                 return $this;
             }
             $this->sendRatepayDeliverCall($order, $inv, $paymentMethod);

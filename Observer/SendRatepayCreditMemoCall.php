@@ -90,7 +90,7 @@ class SendRatepayCreditMemoCall implements ObserverInterface
        $creditMemo = $observer->getEvent()->getCreditmemo();
        $order = $creditMemo->getOrder();
        $paymentMethod = $order->getPayment()->getMethod();
-        if(!$this->rpPaymentHelper->isRatepayPayment($paymentMethod)){
+        if(!$this->rpPaymentHelper->isRatepayPayment($paymentMethod) || ($creditMemo->getDoTransaction() === false && (bool)$this->rpDataHelper->getRpConfigDataByPath("ratepay/general/true_offline_mode", $order->getStore()->getCode()) === true)) {
             return $this;
         }
 

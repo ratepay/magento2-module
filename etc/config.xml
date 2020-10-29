@@ -3,6 +3,11 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
+        <ratepay>
+            <general>
+                <true_offline_mode>0</true_offline_mode>
+            </general>
+        </ratepay>
         <payment>
             <ratepay_invoice>
                 <model>RatePAY\Payment\Model\Method\Invoice</model>
