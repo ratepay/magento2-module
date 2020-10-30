@@ -338,6 +338,10 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         $minAmount = $this->rpDataHelper->getRpConfigDataForQuote($this->_code, 'min_order_total', $quote);
         $maxAmount = $this->rpDataHelper->getRpConfigDataForQuote($this->_code, 'max_order_total', $quote);
 
+        if (!empty($quote->getBillingAddress()->getCompany()) && $this->getIsB2BModeEnabled($totalAmount)) {
+            $maxAmount = $this->rpDataHelper->getRpConfigData($this->_code, 'limit_max_b2b');
+        }
+
         if ($totalAmount < $minAmount || $totalAmount > $maxAmount) {
             return false;
         }
