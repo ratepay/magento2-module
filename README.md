@@ -23,7 +23,7 @@ php bin/magento cache:clean
 
 ## Changelog
 
-### Version 1.2.2 - Released 2020-11-01
+### Version 1.2.2 - Released 2020-11-02
 * Added True Offline Mode configuration
 * Capture will not be sent if no capture was selected
 * Changed handling of street array for address parameters
