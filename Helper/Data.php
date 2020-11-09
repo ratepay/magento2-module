@@ -51,6 +51,20 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
+     * @param string $path
+     * @param string $storeCode
+     * @return mixed
+     */
+    public function getRpConfigDataByPath($path, $storeCode = null)
+    {
+        if (!$storeCode) {
+            $storeCode = $this->storeManager->getStore()->getCode();
+        }
+        $result = $this->scopeConfig->getValue($path,\Magento\Store\Model\ScopeInterface::SCOPE_STORES, $storeCode);
+        return $result;
+    }
+
+    /**
      * @param string $method
      * @param string $field
      * @param string $storeCode
@@ -58,12 +72,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getRpConfigData($method, $field, $storeCode = null)
     {
-        if (!$storeCode) {
-            $storeCode = $this->storeManager->getStore()->getCode();
-        }
-        $path = 'payment/'.$method.'/'.$field;
-        $result = $this->scopeConfig->getValue($path,\Magento\Store\Model\ScopeInterface::SCOPE_STORES, $storeCode);
-        return $result;
+        return $this->getRpConfigDataByPath('payment/'.$method.'/'.$field);
     }
 
     /**

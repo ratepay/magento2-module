@@ -4,7 +4,7 @@
 |Repository | Ratepay Module for Magento 2
 |------|----------
 |Author | Robert Müller
-|Module-Version | `1.2.1`
+|Module-Version | `1.2.2`
 |Compatibility | Magento 2.1.0 - 2.4.0
 |Link | http://www.ratepay.com
 |Mail | integration@ratepay.com
@@ -22,6 +22,12 @@ php bin/magento cache:clean
 ````
 
 ## Changelog
+
+### Version 1.2.2 - Released 2020-11-02
+* Added True Offline Mode configuration
+* Capture will not be sent if no capture was selected
+* Changed handling of street array for address parameters
+* B2B max order amount will now be considered correctly for b2b orders
 
 ### Version 1.2.1 - Released 2020-10-06
 * Unified Ratepay legal texts

@@ -17,6 +17,12 @@
                     <config_path>payment/ratepay_general/creditmemo_discount_type</config_path>
                     <tooltip>Standard item means that the goodwill refund will be transferred as an ordinary item in the item list with the article-number "adj-ref" this has the sideeffect that only one goodwill refund per order can be executed. Special item sends the goodwill refund as a discount. This way multiple goodwill refunds can be executed per order.</tooltip>
                 </field>
+                <field id="true_offline_mode" translate="label" type="select" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>True Offline Mode</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <config_path>ratepay/general/true_offline_mode</config_path>
+                    <tooltip>With True Offline Mode being enabled, communication with Ratepay when creating an invoice or a creditmemo is disabled. This will make the module behave in the Magento2 standard way. With True Offline Mode being disabled (default) the module will continue to communicate to Ratepay like before, this happens because the module didnt have a differentiation between those modes in the beginning and the customers were not supposed to have to change their workflow later when it was introduced.</tooltip>
+                </field>
                 <group id="de" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
                        showInStore="1">
                     <label>Germany</label>
