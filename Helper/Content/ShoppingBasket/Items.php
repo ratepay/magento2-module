@@ -10,6 +10,7 @@ namespace RatePAY\Payment\Helper\Content\ShoppingBasket;
 
 
 use Magento\Framework\App\Helper\Context;
+use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\Creditmemo;
 use Magento\Tax\Model\Config;
 
@@ -55,6 +56,29 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
         return false;
     }
 
+    protected function isSkuDuplicateInOrder($sSku, $quoteOrOrder)
+    {
+        $iCount = 0;
+
+        $aItemlist = $quoteOrOrder->getItems();
+        if (!$quoteOrOrder instanceof Order) {
+            $aItemlist = $quoteOrOrder->getOrder()->getItems();
+        }
+
+        foreach ($aItemlist as $item) {
+            if (!($item->getProductType() === \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE && $item->getParentItem())) {
+                $itemSku = $item->getSku();
+                if ($itemSku == $sSku) {
+                    $iCount++;
+                }
+            }
+        }
+        if ($iCount > 1) {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Build Items Block of Payment Request
      *
@@ -64,7 +88,6 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
     public function setItems($quoteOrOrder)
     {
         $items = [];
-
         $skuMap = [];
         $itemArray = $quoteOrOrder->getItems();
         foreach ($itemArray as $item) {
@@ -74,11 +97,18 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
             if ($item instanceof \Magento\Sales\Model\Order\Invoice\Item || $item instanceof \Magento\Sales\Model\Order\Creditmemo\Item) { // backend after-sales processes
                 if ($item->getOrderItem()->getProductType() === \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE && $item->getOrderItem()->getParentItem()) {
                     $sku = $item->getOrderItem()->getParentItem()->getSku();
+                    if (isset($skuMap[$item->getOrderItem()->getParentItem()->getQuoteItemId()])) {
+                        $sku = $skuMap[$item->getOrderItem()->getParentItem()->getQuoteItemId()];
+                    }
                     $quantity = (int) $item->getOrderItem()->getParentItem()->getQty();
                     $parentItem = true;
                 } else {
                     $sku = $item->getSku();
                     $quantity = (int) $item->getQty();
+                    if ($this->isSkuDuplicateInOrder($sku, $quoteOrOrder)) {
+                        $sku = $sku.'_'.$item->getOrderItem()->getQuoteItemId();
+                    }
+                    $skuMap[$item->getOrderItem()->getQuoteItemId()] = $sku;
                 }
 
                 if($quantity == 0){
@@ -119,14 +149,13 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
                     }
                     $quantity = (int) $item->getParentItem()->getQtyOrdered();
                     $parentItem = true;
-                    error_log('Simple - SKU: '.$sku.' ID: '.$item->getQuoteItemId().' ParentID: '.$item->getParentItem()->getQuoteItemId());
                 } else {
                     $sku = $item->getSku();
                     $quantity = (int) $item->getQtyOrdered();
-
-                    $sku = $this->getUniqueSku($sku, $items);
+                    if ($this->isSkuDuplicateInOrder($sku, $quoteOrOrder)) {
+                        $sku = $sku.'_'.$item->getQuoteItemId();
+                    }
                     $skuMap[$item->getQuoteItemId()] = $sku;
-                    error_log('Real - SKU:'.$sku.' ID: '.$item->getQuoteItemId());
                 }
 
                 $discount = $item->getDiscountAmount();
@@ -169,25 +198,6 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
         }
 
         return $return;
-    }
-
-    /**
-     * Adds counter to sku if sku is not unique
-     *
-     * @param  string $sku
-     * @param  array  $items
-     * @return string
-     */
-    protected function getUniqueSku($sku, $items)
-    {
-        if (!isset($items[$sku])) {
-            return $sku;
-        }
-        $i = 2;
-        while(isset($items[$sku.'_'.$i])) {
-            $i++;
-        }
-        return $sku.'_'.$i;
     }
 
     /**
