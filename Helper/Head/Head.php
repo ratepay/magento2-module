@@ -80,8 +80,13 @@ class Head extends \Magento\Framework\App\Helper\AbstractHelper
         $profileId = (is_null($profileId) ? $this->rpDataHelper->getRpConfigData($paymentMethod, 'profileId', $storeCode) : $profileId);
         $securityCode = (is_null($securityCode) ? $this->rpDataHelper->getRpConfigData($paymentMethod, 'securityCode', $storeCode) : $securityCode);
 
+        $serverAddr = '';
+        if ($_SERVER && isset($_SERVER['SERVER_ADDR'])) {
+            $serverAddr = $_SERVER['SERVER_ADDR'];
+        }
+
         $headModel->setArray([
-            'SystemId' => $this->storeManager->getStore($quoteOrOrder->getStore()->getId())->getBaseUrl() . ' (' . $_SERVER['SERVER_ADDR'] . ')',
+            'SystemId' => $this->storeManager->getStore($quoteOrOrder->getStore()->getId())->getBaseUrl() . ' (' . $serverAddr . ')',
             'Credential' => [
                 'ProfileId' => $profileId,
                 'Securitycode' => $securityCode
