@@ -261,3 +261,52 @@ div.ratepay-ContentSwitch {
 .ratepay_ala_warning {
     color: crimson;
 }
+
+.ratepay_tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+.ratepay_tooltip .ratepay_tooltiptext {
+    visibility: hidden;
+    width: 200px;
+    background-color: #999;
+    color: #fff;
+    text-align: left;
+    border-radius: 6px;
+    padding: 10px 10px;
+    position: absolute;
+    z-index: 1;
+    top: -5px;
+    left: 107%;
+}
+
+.ratepay_tooltip .ratepay_tooltiptext A {
+    color: #FFF;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.ratepay_tooltip .ratepay_tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 16px;
+    right: 100%;
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent #999 transparent transparent;
+}
+.ratepay_tooltip:hover .ratepay_tooltiptext {
+    visibility: visible;
+}
+
+.ratepay_overlay {
+    position:absolute;
+    width: 726px;
+    border:2px solid black;
+    padding: 10px;
+    z-index: 5000;
+    background-color: #FFFFFF;
+}

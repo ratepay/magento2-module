@@ -139,3 +139,12 @@ ratepay_terms_block_6, "einverstanden." ,module,RatePAY_Payment
 "I want to settle the installments by direct debit","Ich möchte die Ratenzahlung per Lastschrift begleichen",module,RatePAY_Payment
 "Orders with different billing- and shipping-addresses are not supported for this payment method.","Unterschiedliche Rechnungs- und Lieferadressen werden von dieser Zahlungsart nicht unterstützt.",module,RatePAY_Payment
 "Return previous adjustments","Vorherige Erstattungen/Gebühren retournieren",module,RatePAY_Payment
+"Bank data management","Zahlungsdaten-Verwaltung",module,RatePAY_Payment
+"You have no saved bank data.","Sie haben noch keine gespeicherten Zahlungsdaten",module,RatePAY_Payment
+"ratepay_directdebit_save_bankdata_text","Mit Auswahl dieser Option kann Ihr nächster Kauf bei uns schneller und einfacher abgewickelt werden. Sie können Ihre Zahlungsdaten jederzeit ändern oder entfernen.",module,RatePAY_Payment
+"ratepay_directdebit_save_bankdata_link","Weitere Informationen",module,RatePAY_Payment
+"ratepay_directdebit_save_bankdata_overlay_1","Wenn Sie „Zahlungsdaten merken“ auswählen, werden Ihre Zahlungsinformationen für zukünftige Käufe bei uns gespeichert. So können Sie bei uns gekaufte Artikel schnell und einfach bezahlen, ohne Ihre Zahlungsdaten für Ihre nächsten Käufe bei uns erneut einzugeben. Bei der nächsten Kaufabwicklung können Sie die gespeicherten Zahlungsdaten jederzeit ändern oder entfernen. Diese Einstellungen können Sie auch in Ihrem",module,RatePAY_Payment
+"ratepay_directdebit_save_bankdata_overlay_2","Kundenkonto",module,RatePAY_Payment
+"ratepay_directdebit_save_bankdata_overlay_3","vornehmen.",module,RatePAY_Payment
+"Save payment data","Zahlungsdaten merken",module,RatePAY_Payment
+"Close window","Fenster schließen",module,RatePAY_Payment

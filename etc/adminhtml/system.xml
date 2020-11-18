@@ -23,7 +23,35 @@
                     <config_path>ratepay/general/true_offline_mode</config_path>
                     <tooltip>With True Offline Mode being enabled, communication with Ratepay when creating an invoice or a creditmemo is disabled. This will make the module behave in the Magento2 standard way. With True Offline Mode being disabled (default) the module will continue to communicate to Ratepay like before, this happens because the module didnt have a differentiation between those modes in the beginning and the customers were not supposed to have to change their workflow later when it was introduced.</tooltip>
                 </field>
-                <group id="de" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
+                <field id="bams_enabled" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Remember IBAN (BAMS)</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <config_path>ratepay/general/bams_enabled</config_path>
+                    <tooltip>BAMS is the Bank Account Management Service of Ratepay. This enables the customer to save have IBAN data so that he doesnt have to enter it every time. The data is not saved on your server. It is saved on a secure server by Ratepay and addressed via a reference id.</tooltip>
+                </field>
+                <field id="bams_client_id" translate="label" type="text" sortOrder="18" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>BAMS Client Id</label>
+                    <config_path>ratepay/general/bams_client_id</config_path>
+                    <depends>
+                        <field id="bams_enabled">1</field>
+                    </depends>
+                </field>
+                <field id="bams_client_secret" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>BAMS Client Secret</label>
+                    <config_path>ratepay/general/bams_client_secret</config_path>
+                    <depends>
+                        <field id="bams_enabled">1</field>
+                    </depends>
+                </field>
+                <field id="bams_sandbox" translate="label" type="select" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>BAMS Activate Sandbox</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <config_path>ratepay/general/bams_sandbox</config_path>
+                    <depends>
+                        <field id="bams_enabled">1</field>
+                    </depends>
+                </field>
+                <group id="de" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1"
                        showInStore="1">
                     <label>Germany</label>
                     <group id="invoice" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1"
@@ -491,7 +519,7 @@
                         </field>
                     </group>
                 </group>
-                <group id="at" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1"
+                <group id="at" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1"
                        showInStore="1">
                     <label>Austria</label>
                     <group id="invoice" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1"
@@ -959,7 +987,7 @@
                         </field>
                     </group>
                 </group>
-                <group id="ch" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1"
+                <group id="ch" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1"
                        showInStore="1">
                     <label>Switzerland</label>
                     <group id="invoice" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1"
@@ -1075,7 +1103,7 @@
                         </field>
                     </group>
                 </group>
-                <group id="nl" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1"
+                <group id="nl" translate="label" type="text" sortOrder="130" showInDefault="1" showInWebsite="1"
                        showInStore="1">
                     <label>Netherlands</label>
                     <group id="invoice" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1"
@@ -1297,7 +1325,7 @@
                         </field>
                     </group>
                 </group>
-                <group id="be" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1"
+                <group id="be" translate="label" type="text" sortOrder="140" showInDefault="1" showInWebsite="1"
                        showInStore="1">
                     <label>Belgium</label>
                     <group id="invoice" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1"
