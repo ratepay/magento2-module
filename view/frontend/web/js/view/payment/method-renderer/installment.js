@@ -126,18 +126,19 @@ define(
                 if (parentReturn.additional_data === null) {
                     parentReturn.additional_data = {};
                 }
-                parentReturn.additional_data.rp_iban = this.rp_iban;
                 parentReturn.additional_data.rp_directdebit = this.useDirectDebit;
-                parentReturn.additional_data.rp_accountholder = this.getCustomerName();
-                if (this.isB2BModeUsable() === true) {
-                    parentReturn.additional_data.rp_accountholder = this.b2b_accountholder;
-                }
-
                 parentReturn.additional_data.rp_rememberiban = false;
-                if (this.isSavedIbanSelected()) {
-                    parentReturn.additional_data.rp_iban_reference = this.getSavedIbanReference();
-                } else if (this.rememberIban === true) {
-                    parentReturn.additional_data.rp_rememberiban = true;
+                if (this.useDirectDebit === true) {
+                    parentReturn.additional_data.rp_iban = this.rp_iban;
+                    parentReturn.additional_data.rp_accountholder = this.getCustomerName();
+                    if (this.isB2BModeUsable() === true) {
+                        parentReturn.additional_data.rp_accountholder = this.b2b_accountholder;
+                    }
+                    if (this.isSavedIbanSelected()) {
+                        parentReturn.additional_data.rp_iban_reference = this.getSavedIbanReference();
+                    } else if (this.rememberIban === true) {
+                        parentReturn.additional_data.rp_rememberiban = true;
+                    }
                 }
                 return parentReturn;
             }
