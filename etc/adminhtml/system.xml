@@ -43,6 +43,9 @@
                         <field id="bams_enabled">1</field>
                     </depends>
                 </field>
+                <field id="bams_oauth_check" translate="label" sortOrder="21" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>RatePAY\Payment\Block\System\Config\BamsOauthCheck</frontend_model>
+                </field>
                 <field id="bams_sandbox" translate="label" type="select" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>BAMS Activate Sandbox</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>

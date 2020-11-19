@@ -57,7 +57,7 @@ class Bankdata extends \Magento\Framework\View\Element\Template
     public function getSavedBankData()
     {
         $iCustomerId = $this->customerSession->getCustomerId();
-        $aBankAccounts = $this->getStoredBankAccounts->getBankDataForAllDebitProfiles($iCustomerId);
+        $aBankAccounts = $this->getStoredBankAccounts->getBankDataForAllIbanProfiles($iCustomerId);
         if (empty($aBankAccounts)) {
             return false;
         }

@@ -13,7 +13,11 @@ class GetStoredBankAccounts extends Base
      */
     protected $aDebitMethods = [
         'ratepay_de_directdebit',
+        'ratepay_de_installment',
+        'ratepay_de_installment0',
         'ratepay_at_directdebit',
+        'ratepay_at_installment',
+        'ratepay_at_installment0',
         'ratepay_nl_directdebit',
         'ratepay_be_directdebit',
     ];
@@ -63,12 +67,31 @@ class GetStoredBankAccounts extends Base
     }
 
     /**
+     * Removes duplicate entries
+     *
+     * @param  array $aBankdata
+     * @return array
+     */
+    protected function removeDuplicateData($aBankdata)
+    {
+        $aHashList = [];
+        $aReturn = [];
+        foreach ($aBankdata as $aData) {
+            if (!in_array($aData['hash'], $aHashList)) {
+                $aReturn[] = $aData;
+                $aHashList[] = $aData['hash'];
+            }
+        }
+        return $aReturn;
+    }
+
+    /**
      * Requests bank data for all debit profiles
      *
      * @param  int $iCustomerNr
      * @return array
      */
-    public function getBankDataForAllDebitProfiles($iCustomerNr)
+    public function getBankDataForAllIbanProfiles($iCustomerNr)
     {
         $aDebitProfiles = $this->getAvailableDebitProfiles();
         $aReturn = [];
@@ -78,6 +101,7 @@ class GetStoredBankAccounts extends Base
                 $aReturn = array_merge($aReturn, $aBankAccounts);
             }
         }
+        $aReturn = $this->removeDuplicateData($aReturn);
         return $aReturn;
     }
 

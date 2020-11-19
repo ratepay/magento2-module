@@ -82,13 +82,17 @@ class RechnungConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
     ];
 
     /**
-     * Array with all ratepay debit payment methods
+     * Array with all ratepay iban payment methods
      *
      * @var array
      */
-    protected $debitPaymentTypes = [
+    protected $rememberIbanPaymentTypes = [
         \RatePAY\Payment\Model\Method\DE\Directdebit::METHOD_CODE,
+        \RatePAY\Payment\Model\Method\DE\Installment::METHOD_CODE,
+        \RatePAY\Payment\Model\Method\DE\Installment0::METHOD_CODE,
         \RatePAY\Payment\Model\Method\AT\Directdebit::METHOD_CODE,
+        \RatePAY\Payment\Model\Method\AT\Installment::METHOD_CODE,
+        \RatePAY\Payment\Model\Method\AT\Installment0::METHOD_CODE,
         \RatePAY\Payment\Model\Method\NL\Directdebit::METHOD_CODE,
         \RatePAY\Payment\Model\Method\BE\Directdebit::METHOD_CODE,
     ];
@@ -131,7 +135,7 @@ class RechnungConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
         $config = array_merge_recursive($config, $this->getRatepayGeneralConfig());
 
         if ($this->isRememberIbanAllowed()) {
-            $config = array_merge_recursive($config, $this->getDebitConfig($this->customerSession->getCustomerId()));
+            $config = array_merge_recursive($config, $this->getRememberIbanConfig($this->customerSession->getCustomerId()));
         }
         return $config;
     }
@@ -163,7 +167,6 @@ class RechnungConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
                 $sMethodCode => [
                     'b2bActive' => (bool)$this->rpDataHelper->getRpConfigData($sMethodCode, 'b2b'),
                     'differentShippingAddressAllowed' => $this->getIsDifferentShippingAddressAllowed($sMethodCode),
-                    'rememberIbanEnabled' => $this->isRememberIbanAllowed(),
                 ],
             ],
         ] : [];
@@ -189,6 +192,7 @@ class RechnungConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
             'payment' => [
                 'ratepay' => [
                     'manageBankdataUrl' => $this->urlBuilder->getUrl("ratepay/customer/bankdata"),
+                    'rememberIbanEnabled' => $this->isRememberIbanAllowed(),
                 ],
             ],
         ];
@@ -230,7 +234,7 @@ class RechnungConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
      * @param int    $iCustomerId
      * @return array
      */
-    protected function getSingleDebitConfig($sMethodCode, $iCustomerId)
+    protected function getSingleRememberIbanConfig($sMethodCode, $iCustomerId)
     {
         return ($this->isPaymentMethodActive($sMethodCode)) ? [
             'payment' => [
@@ -287,11 +291,11 @@ class RechnungConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
      * @param int $iCustomerId
      * @return array
      */
-    protected function getDebitConfig($iCustomerId)
+    protected function getRememberIbanConfig($iCustomerId)
     {
         $config = [];
-        foreach ($this->debitPaymentTypes as $debitPaymentType) {
-            $config = array_merge_recursive($config, $this->getSingleDebitConfig($debitPaymentType, $iCustomerId));
+        foreach ($this->rememberIbanPaymentTypes as $debitPaymentType) {
+            $config = array_merge_recursive($config, $this->getSingleRememberIbanConfig($debitPaymentType, $iCustomerId));
         }
         return $config;
     }

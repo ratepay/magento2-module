@@ -25,7 +25,9 @@ define(
                 isInstallmentPlanSet: false,
                 useDirectDebit: true,
                 sepaAccepted: false,
-                b2b_accountholder: ''
+                b2b_accountholder: '',
+                rp_reference: '',
+                rememberIban: false
             },
 
             initialize: function () {
@@ -34,6 +36,9 @@ define(
                     this.updateInstallmentPlan('time', '3', this.getCode(), false);
                 } else if(this.hasSingleAllowedMonth()) {
                     this.updateInstallmentPlan('time', this.getAllowedMonths()[0], this.getCode(), false);
+                }
+                if (this.isRememberIBANEnabled()) {
+                    this.rp_iban = this.getDefaultIban();
                 }
                 return this;
             },
@@ -126,6 +131,13 @@ define(
                 parentReturn.additional_data.rp_accountholder = this.getCustomerName();
                 if (this.isB2BModeUsable() === true) {
                     parentReturn.additional_data.rp_accountholder = this.b2b_accountholder;
+                }
+
+                parentReturn.additional_data.rp_rememberiban = false;
+                if (this.isSavedIbanSelected()) {
+                    parentReturn.additional_data.rp_iban_reference = this.getSavedIbanReference();
+                } else if (this.rememberIban === true) {
+                    parentReturn.additional_data.rp_rememberiban = true;
                 }
                 return parentReturn;
             }

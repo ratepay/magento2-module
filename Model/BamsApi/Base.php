@@ -108,7 +108,7 @@ abstract class Base
      *
      * @return array|false
      */
-    protected function getAuthToken()
+    public function getAuthToken()
     {
         if ($this->aAuthToken === null) {
             $aRequest = [

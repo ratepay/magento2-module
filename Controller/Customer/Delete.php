@@ -55,7 +55,7 @@ class Delete extends \Magento\Framework\App\Action\Action
         $sDeleteHash = $this->getRequest()->getParam('hash');
 
         $iCustomerId = $this->customerSession->getCustomerId();
-        $aBankAccounts = $this->getStoredBankAccounts->getBankDataForAllDebitProfiles($iCustomerId);
+        $aBankAccounts = $this->getStoredBankAccounts->getBankDataForAllIbanProfiles($iCustomerId);
         foreach ($aBankAccounts as $aBankData) {
             if ($aBankData['hash'] == $sDeleteHash) {
                 $this->deleteBankAccount->sendRequest($iCustomerId, $aBankData['profile'], $aBankData['bank_account_reference']);
