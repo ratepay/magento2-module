@@ -112,8 +112,8 @@ abstract class Base
     {
         if ($this->aAuthToken === null) {
             $aRequest = [
-                'client_id' => 'snbFcxD4Rxt2O4YqeGqDls9yrGWYhmQ0',
-                'client_secret' => 'IHa7jiW0hMlH0VsoxDTZ03XH76NED7RwFvJLsmmUXg9fkowhiVQqp7EA84WoYT1Q',
+                'client_id' => $this->rpDataHelper->getRpConfigDataByPath("ratepay/general/bams_client_id"),
+                'client_secret' => $this->rpDataHelper->getRpConfigDataByPath("ratepay/general/bams_client_secret"),
                 'audience' => $this->getBamsApiUrl(),
                 'grant_type' => 'client_credentials'
             ];
