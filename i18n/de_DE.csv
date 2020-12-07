@@ -141,11 +141,11 @@ ratepay_terms_block_6, "einverstanden." ,module,RatePAY_Payment
 "Return previous adjustments","Vorherige Erstattungen/Gebühren retournieren",module,RatePAY_Payment
 "Bank data management","Zahlungsdaten-Verwaltung",module,RatePAY_Payment
 "You have no saved bank data.","Sie haben noch keine gespeicherten Zahlungsdaten",module,RatePAY_Payment
-"ratepay_directdebit_save_bankdata_text","Mit Auswahl dieser Option kann Ihr nächster Kauf bei uns schneller und einfacher abgewickelt werden. Sie können Ihre Zahlungsdaten jederzeit ändern oder entfernen.",module,RatePAY_Payment
+"ratepay_directdebit_save_bankdata_text","Mit Auswahl dieser Option kann Ihr nächster Kauf bei uns schneller und einfacher abgewickelt werden. Sie können Ihre Zahlungsdaten jederzeit entfernen.",module,RatePAY_Payment
 "ratepay_directdebit_save_bankdata_link","Weitere Informationen",module,RatePAY_Payment
-"ratepay_directdebit_save_bankdata_overlay_1","Wenn Sie „Zahlungsdaten merken“ auswählen, werden Ihre Zahlungsinformationen für zukünftige Käufe bei uns gespeichert. So können Sie bei uns gekaufte Artikel schnell und einfach bezahlen, ohne Ihre Zahlungsdaten für Ihre nächsten Käufe bei uns erneut einzugeben. Bei der nächsten Kaufabwicklung können Sie die gespeicherten Zahlungsdaten jederzeit ändern oder entfernen. Diese Einstellungen können Sie auch in Ihrem",module,RatePAY_Payment
+"ratepay_directdebit_save_bankdata_overlay_1","Wenn Sie „Zahlungsdaten merken“ auswählen, werden Ihre Zahlungsinformationen für zukünftige Käufe gespeichert. So können Sie gekaufte Artikel schnell und einfach bezahlen, ohne Ihre Zahlungsdaten für Ihre nächsten Käufe erneut einzugeben. Die gespeicherten Zahlungsdaten können Sie jederzeit in Ihrem",module,RatePAY_Payment
 "ratepay_directdebit_save_bankdata_overlay_2","Kundenkonto",module,RatePAY_Payment
-"ratepay_directdebit_save_bankdata_overlay_3","vornehmen.",module,RatePAY_Payment
+"ratepay_directdebit_save_bankdata_overlay_3","entfernen.",module,RatePAY_Payment
 "Save payment data","Zahlungsdaten merken",module,RatePAY_Payment
 "Close window","Fenster schließen",module,RatePAY_Payment
 "Connection was established successfully.","Verbindung konnte erfolgreich aufgebaut werden.",module,RatePAY_Payment
