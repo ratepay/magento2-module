@@ -4,7 +4,7 @@
 |Repository | Ratepay Module for Magento 2
 |------|----------
 |Author | Robert Müller
-|Module-Version | `1.2.2`
+|Module-Version | `1.2.3`
 |Compatibility | Magento 2.1.0 - 2.4.0
 |Link | http://www.ratepay.com
 |Mail | integration@ratepay.com
@@ -22,6 +22,10 @@ php bin/magento cache:clean
 ````
 
 ## Changelog
+
+### Version 1.2.3 - Released 2021-11-02
+* Added mechanism to create a unique sku when sku is duplicate
+* Fixed problem with event triggers in cronjobs
 
 ### Version 1.2.2 - Released 2020-11-02
 * Added True Offline Mode configuration
