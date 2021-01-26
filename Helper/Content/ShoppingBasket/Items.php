@@ -10,6 +10,7 @@ namespace RatePAY\Payment\Helper\Content\ShoppingBasket;
 
 
 use Magento\Framework\App\Helper\Context;
+use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\Creditmemo;
 use Magento\Tax\Model\Config;
 
@@ -55,6 +56,29 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
         return false;
     }
 
+    protected function isSkuDuplicateInOrder($sSku, $quoteOrOrder)
+    {
+        $iCount = 0;
+
+        $aItemlist = $quoteOrOrder->getItems();
+        if (!$quoteOrOrder instanceof Order) {
+            $aItemlist = $quoteOrOrder->getOrder()->getItems();
+        }
+
+        foreach ($aItemlist as $item) {
+            if (!($item->getProductType() === \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE && $item->getParentItem())) {
+                $itemSku = $item->getSku();
+                if ($itemSku == $sSku) {
+                    $iCount++;
+                }
+            }
+        }
+        if ($iCount > 1) {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Build Items Block of Payment Request
      *
@@ -64,7 +88,7 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
     public function setItems($quoteOrOrder)
     {
         $items = [];
-
+        $skuMap = [];
         $itemArray = $quoteOrOrder->getItems();
         foreach ($itemArray as $item) {
 
@@ -73,28 +97,35 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
             if ($item instanceof \Magento\Sales\Model\Order\Invoice\Item || $item instanceof \Magento\Sales\Model\Order\Creditmemo\Item) { // backend after-sales processes
                 if ($item->getOrderItem()->getProductType() === \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE && $item->getOrderItem()->getParentItem()) {
                     $sku = $item->getOrderItem()->getParentItem()->getSku();
+                    if (isset($skuMap[$item->getOrderItem()->getParentItem()->getQuoteItemId()])) {
+                        $sku = $skuMap[$item->getOrderItem()->getParentItem()->getQuoteItemId()];
+                    }
                     $quantity = (int) $item->getOrderItem()->getParentItem()->getQty();
                     $parentItem = true;
                 } else {
                     $sku = $item->getSku();
                     $quantity = (int) $item->getQty();
+                    if ($this->isSkuDuplicateInOrder($sku, $quoteOrOrder)) {
+                        $sku = $sku.'_'.$item->getOrderItem()->getQuoteItemId();
+                    }
+                    $skuMap[$item->getOrderItem()->getQuoteItemId()] = $sku;
                 }
 
                 if($quantity == 0){
                     continue;
                 }
 
-				if($item->getOrderItem()->getProductType() === \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
+                if($item->getOrderItem()->getProductType() === \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
                     $bundleQuantity = $this->_getBundleQuantity($quoteOrOrder->getItems(), $item); // bundles always have a qty of 1, which is wrong
                     if ($bundleQuantity !== false) {
                         $quantity = (int)$bundleQuantity;
                     }
 
-					$discount = 0.00;
-					$taxRate = 0;
-					$children = $item->getOrderItem()->getChildrenItems();
-					foreach($children as $ch) {
-					    if ($quoteOrOrder instanceof Creditmemo) {
+                    $discount = 0.00;
+                    $taxRate = 0;
+                    $children = $item->getOrderItem()->getChildrenItems();
+                    foreach($children as $ch) {
+                        if ($quoteOrOrder instanceof Creditmemo) {
                             foreach ($itemArray as $creditmemoItem) {
                                 if ($creditmemoItem->getOrderItemId() == $ch->getId()) {
                                     $discount += $creditmemoItem->getDiscountAmount();
@@ -103,21 +134,28 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
                         } else {
                             $discount += $ch->getDiscountAmount();
                         }
-						$taxRate += $ch->getTaxPercent();
-					}
-					$taxRate = $taxRate / count($children);
-				} else {
+                        $taxRate += $ch->getTaxPercent();
+                    }
+                    $taxRate = $taxRate / count($children);
+                } else {
                     $discount = $item->getDiscountAmount();
                     $taxRate = $item->getOrderItem()->getTaxPercent();
                 }
             } else { // order generation
                 if ($item->getProductType() === \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE && $item->getParentItem()) {
                     $sku = $item->getParentItem()->getSku();
+                    if (isset($skuMap[$item->getParentItem()->getQuoteItemId()])) {
+                        $sku = $skuMap[$item->getParentItem()->getQuoteItemId()];
+                    }
                     $quantity = (int) $item->getParentItem()->getQtyOrdered();
                     $parentItem = true;
                 } else {
                     $sku = $item->getSku();
                     $quantity = (int) $item->getQtyOrdered();
+                    if ($this->isSkuDuplicateInOrder($sku, $quoteOrOrder)) {
+                        $sku = $sku.'_'.$item->getQuoteItemId();
+                    }
+                    $skuMap[$item->getQuoteItemId()] = $sku;
                 }
 
                 $discount = $item->getDiscountAmount();
