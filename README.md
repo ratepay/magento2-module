@@ -23,7 +23,7 @@ php bin/magento cache:clean
 
 ## Changelog
 
-### Version 1.2.3 - Released 2021-11-02
+### Version 1.2.3 - Released 2021-01-26
 * Added mechanism to create a unique sku when sku is duplicate
 * Fixed problem with event triggers in cronjobs
 
