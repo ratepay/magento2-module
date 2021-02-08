@@ -6,6 +6,7 @@
         <ratepay>
             <general>
                 <true_offline_mode>0</true_offline_mode>
+                <capture_event>triggerOnInvoice</capture_event>
             </general>
         </ratepay>
         <payment>

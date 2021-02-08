@@ -3,6 +3,9 @@
     <event name="sales_order_invoice_save_after">
         <observer name="ratepay_order_invoice_save_after" instance="RatePAY\Payment\Observer\SendRatepayDeliverCallOnInvoice"/>
     </event>
+    <event name="sales_order_shipment_save_after">
+        <observer name="ratepay_order_shipment_save_after" instance="RatePAY\Payment\Observer\SendRatepayDeliverCallOnShipment"/>
+    </event>
     <event name="order_cancel_after">
         <observer name="ratepay_order_cancel_observer" instance="RatePAY\Payment\Observer\SendRatepayCancelCall"/>
     </event>

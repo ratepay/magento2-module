@@ -23,6 +23,12 @@
                     <config_path>ratepay/general/true_offline_mode</config_path>
                     <tooltip>With True Offline Mode being enabled, communication with Ratepay when creating an invoice or a creditmemo is disabled. This will make the module behave in the Magento2 standard way. With True Offline Mode being disabled (default) the module will continue to communicate to Ratepay like before, this happens because the module didnt have a differentiation between those modes in the beginning and the customers were not supposed to have to change their workflow later when it was introduced.</tooltip>
                 </field>
+                <field id="capture_event" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Event of capture transmission</label>
+                    <source_model>RatePAY\Payment\Model\Source\CaptureEvent</source_model>
+                    <config_path>ratepay/general/capture_event</config_path>
+                    <tooltip>Determines when the capture call is sent to Ratepay API</tooltip>
+                </field>
                 <group id="de" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
                        showInStore="1">
                     <label>Germany</label>
