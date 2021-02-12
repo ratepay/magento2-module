@@ -72,7 +72,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getRpConfigData($method, $field, $storeCode = null)
     {
-        return $this->getRpConfigDataByPath('payment/'.$method.'/'.$field);
+        return $this->getRpConfigDataByPath('payment/'.$method.'/'.$field, $storeCode);
     }
 
     /**
