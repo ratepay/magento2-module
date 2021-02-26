@@ -14,7 +14,11 @@ use RatePAY\Payment\Controller\LibraryController;
 use RatePAY\Payment\Helper\Validator;
 use Magento\Framework\Exception\PaymentException;
 use RatePAY\Payment\Model\Exception\DisablePaymentMethodException;
+use RatePAY\Payment\Model\Handler\Cancel;
+use RatePAY\Payment\Model\Handler\Capture;
+use RatePAY\Payment\Model\Handler\Refund;
 use RatePAY\Payment\Model\ResourceModel\HidePaymentType;
+use Magento\Sales\Model\Order\Invoice;
 
 abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMethod
 {
@@ -66,6 +70,13 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
      * @var bool
      */
     protected $_canRefundInvoicePartial = true;
+
+    /**
+     * Payment Method feature
+     *
+     * @var bool
+     */
+    protected $_canVoid = true;
 
     /**
      * @var \RatePAY\Payment\Model\LibraryModel
@@ -131,6 +142,27 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
     protected $hidePaymentType;
 
     /**
+     * Ratepay capture handler
+     *
+     * @var Capture
+     */
+    protected $captureHandler;
+
+    /**
+     * Ratepay refund handler
+     *
+     * @var Refund
+     */
+    protected $refundHandler;
+
+    /**
+     * Ratepay cancel handler
+     *
+     * @var Cancel
+     */
+    protected $cancelHandler;
+
+    /**
      * AbstractMethod constructor.
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
@@ -148,6 +180,9 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \RatePAY\Payment\Controller\LibraryController $libraryController
      * @param \RatePAY\Payment\Model\ResourceModel\HidePaymentType $hidePaymentType
+     * @param \RatePAY\Payment\Model\Handler\Capture $captureHandler
+     * @param \RatePAY\Payment\Model\Handler\Refund $refundHandler
+     * @param \RatePAY\Payment\Model\Handler\Cancel $cancelHandler
      * @param \Magento\Framework\Model\ResourceModel\AbstractResource|null $resource
      * @param \Magento\Framework\Data\Collection\AbstractDb|null $resourceCollection
      * @param array $data
@@ -169,6 +204,9 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         \Magento\Customer\Model\Session $customerSession,
         \RatePAY\Payment\Controller\LibraryController $libraryController,
         \RatePAY\Payment\Model\ResourceModel\HidePaymentType $hidePaymentType,
+        \RatePAY\Payment\Model\Handler\Capture $captureHandler,
+        \RatePAY\Payment\Model\Handler\Refund $refundHandler,
+        \RatePAY\Payment\Model\Handler\Cancel $cancelHandler,
         \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
         array $data = [])
@@ -194,6 +232,9 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         $this->customerSession = $customerSession;
         $this->libraryController = $libraryController;
         $this->hidePaymentType = $hidePaymentType;
+        $this->captureHandler = $captureHandler;
+        $this->refundHandler = $refundHandler;
+        $this->cancelHandler = $cancelHandler;
     }
 
     /**
@@ -255,6 +296,70 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
             $this->customerSession->setRatePayDeviceIdentToken(null);
             throw new PaymentException(__($message)); // RatePAY Error Message
         }
+    }
+
+    /**
+     * Capture payment abstract method
+     *
+     * @param  \Magento\Payment\Model\InfoInterface $payment
+     * @param  float                                $amount
+     * @return AbstractMethod
+     */
+    public function capture(\Magento\Payment\Model\InfoInterface $payment, $amount)
+    {
+        $parentReturn = parent::capture($payment, $amount);
+        if ($payment->getParentTransactionId()) {
+            $this->captureHandler->executeRatepayCapture($payment, $amount);
+        }
+        return $parentReturn;
+    }
+
+    /**
+     * Refund payment abstract method
+     *
+     * @param  InfoInterface $payment
+     * @param  float         $amount
+     * @return AbstractMethod
+     */
+    public function refund(\Magento\Payment\Model\InfoInterface $payment, $amount)
+    {
+        $parentReturn = parent::refund($payment, $amount);
+        $this->refundHandler->executeRatepayRefund($payment, $amount);
+        return $parentReturn;
+    }
+
+
+    /**
+     * Cancel payment abstract method
+     *
+     * @param \Magento\Framework\DataObject|InfoInterface $payment
+     * @return $this
+     * @api
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @deprecated 100.2.0
+     */
+    public function cancel(\Magento\Payment\Model\InfoInterface $payment)
+    {
+        $parentReturn = parent::cancel($payment);
+        $this->cancelHandler->executeRatepayCancel($payment);
+        return $parentReturn;
+    }
+
+    /**
+     * Void payment abstract method
+     *
+     * @param \Magento\Framework\DataObject|InfoInterface $payment
+     * @return $this
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @api
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @deprecated 100.2.0
+     */
+    public function void(\Magento\Payment\Model\InfoInterface $payment)
+    {
+        $parentReturn = parent::void($payment);
+        $this->cancelHandler->executeRatepayCancel($payment);
+        return $parentReturn;
     }
 
     /**
