@@ -77,7 +77,7 @@ class SendConfirmationDeliver
      *
      * @param object $order
      * @param object $shipment
-     * @return array|null
+     * @return \RatePAY\Model\Request\SubModel\Head\External\Tracking|null
      */
     private function getTrackingInfo($order, $shipment = null)
     {
@@ -92,15 +92,19 @@ class SendConfirmationDeliver
 
         if ($shipment) {
             $aAllTracks = $shipment->getAllTracks();
-            foreach ($aAllTracks as $oTrack) {
-                if (!isset($trackInfo['Id'])) {
-                    $trackInfo['Id'] = [];
+            if (!empty($aAllTracks)) {
+                $oTracking = new \RatePAY\Model\Request\SubModel\Head\External\Tracking;
+                foreach ($aAllTracks as $oTrack) {
+                    $oId = new \RatePAY\Model\Request\SubModel\Head\External\Tracking\Id;
+                    $oId->setId($oTrack->getTrackNumber());
+                    $oId->setProvider($this->getValidCarrierCode($oTrack->getCarrierCode()));
+
+                    $oTracking->addId($oId);
                 }
-                $trackInfo['Id'] = $oTrack->getTrackNumber();
-                $trackInfo['Provider'] = $this->getValidCarrierCode($oTrack->getCarrierCode());
-                break;
+                return $oTracking;
             }
         }
+
         return $trackInfo;
     }
 
