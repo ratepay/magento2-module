@@ -57,6 +57,51 @@ define(
                 }
                 return false;
             },
+            getSavedMaskedIban: function() {
+                if (window.checkoutConfig.payment[this.getCode()].savedBankData !== undefined && window.checkoutConfig.payment[this.getCode()].savedBankData !== false) {
+                    return window.checkoutConfig.payment[this.getCode()].savedBankData.iban;
+                }
+                return false;
+            },
+            getSavedIbanReference: function() {
+                if (window.checkoutConfig.payment[this.getCode()].savedBankData !== undefined && window.checkoutConfig.payment[this.getCode()].savedBankData !== false) {
+                    return window.checkoutConfig.payment[this.getCode()].savedBankData.bank_account_reference;
+                }
+                return false;
+            },
+            isSavedIbanSelected: function() {
+                if (this.rp_iban == this.getSavedMaskedIban() && this.getSavedMaskedIban() != "") {
+                    return true;
+                }
+                return false;
+            },
+            getDefaultIban: function() {
+                var savedIban = this.getSavedMaskedIban();
+                if (savedIban !== false) {
+                    return savedIban;
+                }
+                return '';
+            },
+            onChangeIban: function(data, event) {
+                if (event.target.value == this.getSavedMaskedIban()) {
+                    $('#' + this.getCode() + '_rememberIban').hide();
+                } else {
+                    $('#' + this.getCode() + '_rememberIban').show();
+                }
+                return true;
+            },
+            displaySaveBankdataOverlay: function() {
+                $('#' + this.getCode() + '_overlay').show();
+            },
+            removeSaveBankdataOverlay: function() {
+                $('#' + this.getCode() + '_overlay').hide();
+            },
+            isRememberIBANEnabled: function() {
+                return window.checkoutConfig.payment.ratepay.rememberIbanEnabled;
+            },
+            getManageBankdataUrl: function() {
+                return window.checkoutConfig.payment.ratepay.manageBankdataUrl;
+            },
             getData: function() {
                 var returnData = {
                     'method': this.getCode(),

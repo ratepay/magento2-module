@@ -1,0 +1,5 @@
+<?php if ($block->getStatus() === true): ?>
+    <div style="background-color:palegreen;padding:5px;border:2px solid green;""><?php echo __('Connection was established successfully.'); ?></div>
+<?php elseif($block->getStatus() === false): ?>
+    <div style="background-color:lightcoral;padding:5px;border:2px solid crimson;"><?php echo __('Connection could not be established.'); ?></div>
+<?php endif; ?>

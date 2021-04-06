@@ -13,6 +13,7 @@ use Magento\Framework\App\Area;
 use RatePAY\Payment\Controller\LibraryController;
 use RatePAY\Payment\Helper\Validator;
 use Magento\Framework\Exception\PaymentException;
+use RatePAY\Payment\Model\BamsApi\StoreBankAccount;
 use RatePAY\Payment\Model\Exception\DisablePaymentMethodException;
 use RatePAY\Payment\Model\ResourceModel\HidePaymentType;
 
@@ -131,6 +132,13 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
     protected $hidePaymentType;
 
     /**
+     * BAMS StoreBankAccount request model
+     *
+     * @var StoreBankAccount
+     */
+    protected $storeBankAccount;
+
+    /**
      * AbstractMethod constructor.
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
@@ -148,6 +156,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \RatePAY\Payment\Controller\LibraryController $libraryController
      * @param \RatePAY\Payment\Model\ResourceModel\HidePaymentType $hidePaymentType
+     * @param \RatePAY\Payment\Model\BamsApi\StoreBankAccount $storeBankAccount
      * @param \Magento\Framework\Model\ResourceModel\AbstractResource|null $resource
      * @param \Magento\Framework\Data\Collection\AbstractDb|null $resourceCollection
      * @param array $data
@@ -169,6 +178,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         \Magento\Customer\Model\Session $customerSession,
         \RatePAY\Payment\Controller\LibraryController $libraryController,
         \RatePAY\Payment\Model\ResourceModel\HidePaymentType $hidePaymentType,
+        \RatePAY\Payment\Model\BamsApi\StoreBankAccount $storeBankAccount,
         \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
         array $data = [])
@@ -194,6 +204,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         $this->customerSession = $customerSession;
         $this->libraryController = $libraryController;
         $this->hidePaymentType = $hidePaymentType;
+        $this->storeBankAccount = $storeBankAccount;
     }
 
     /**
@@ -435,9 +446,25 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         $methodCode = $infoInstance->getMethod();
 
         $debitMethods = ['ratepay_de_directdebit', 'ratepay_at_directdebit', 'ratepay_nl_directdebit', 'ratepay_be_directdebit'];
-        if (in_array($methodCode, $debitMethods) || !empty($additionalData->getRpIban())) { // getRpIban used for installments
+        $sIban = $additionalData->getRpIban();
+        if (in_array($methodCode, $debitMethods) || !empty($sIban)) { // getRpIban used for installments
             $this->rpValidator->validateIban($additionalData);
-            $infoInstance->setAdditionalInformation('rp_iban', $additionalData->getRpIban());
+            $sIbanReference = false;
+            if ((bool)$this->rpDataHelper->getRpConfigDataByPath('ratepay/general/bams_enabled') === true) {
+                if ($additionalData->getRpRememberiban()) {
+                    $sOwner = $order->getBillingAddress()->getFirstname() . ' ' . $order->getBillingAddress()->getLastname();
+                    $sIbanReference = $this->storeBankAccount->sendRequest($order->getCustomerId(), $this->getProfileId(), $sOwner, $sIban);
+                }
+
+                if ($additionalData->getRpIbanReference()) {
+                    $sIbanReference = $additionalData->getRpIbanReference();
+                }
+            }
+            if ($sIbanReference !== false) {
+                $infoInstance->setAdditionalInformation('rp_iban_reference', $sIbanReference);
+            } else {
+                $infoInstance->setAdditionalInformation('rp_iban', $sIban);
+            }
         }
 
         if ($additionalData->getRpDirectdebit() !== null) {
@@ -467,6 +494,17 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         }
 
         return $this;
+    }
+
+    /**
+     * Returns profile id for current payment method
+     *
+     * @param string|null $storeCode
+     * @return string
+     */
+    protected function getProfileId($storeCode = null)
+    {
+        return $this->rpDataHelper->getRpConfigData($this->getCode(), 'profileId', $storeCode);
     }
 
     /**

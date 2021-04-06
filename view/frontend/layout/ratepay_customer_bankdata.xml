@@ -1,0 +1,11 @@
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="customer_account"/>
+    <head>
+        <css src="RatePAY_Payment::css/ratepay.css"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="RatePAY\Payment\Block\Customer\Bankdata" name="ratepay.customer.bankdata" cacheable="false" template="customer/bankdata.phtml" />
+        </referenceContainer>
+    </body>
+</page>
