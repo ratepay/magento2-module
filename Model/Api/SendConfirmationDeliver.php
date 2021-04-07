@@ -71,25 +71,72 @@ class SendConfirmationDeliver
     }
 
     /**
-     * Returns trackinfo request parameter array
+     * Loads shipment info from order or from current post request when data was added directly to invoice
+     * In the second case the data cant be loaded through the invoice or order model, because it is added to the database AFTER this method is executed
      *
-     * Problem: Documentation suggests that multiple tracking codes can be sent, but der Ratepay API lib didnt let me add multiple tracking codes so only first code is sent
-     *
-     * @param object $order
-     * @param object $shipment
-     * @return \RatePAY\Model\Request\SubModel\Head\External\Tracking|null
+     * @param $order
+     * @return array|bool|mixed
      */
-    private function getTrackingInfo($order, $shipment = null)
+    protected function getShipments($order)
     {
-        $trackInfo = null;
+        $aReturn = false;
 
-        if ($shipment === null) {
-            $aShipments = $order->getShipmentsCollection()->getItems();
-            if (!empty($aShipments)) {
-                $shipment = array_shift($aShipments);
+        $aShipments = $order->getShipmentsCollection()->getItems();
+        if (!empty($aShipments)) {
+            $shipment = array_shift($aShipments);
+            $aAllTracks = $shipment->getAllTracks();
+            if (!empty($aAllTracks)) {
+                $aReturn = [];
+                foreach ($aAllTracks as $oTrack) {
+                    $aReturn[] = [
+                        'number' => $oTrack->getTrackNumber(),
+                        'carrier_code' => $oTrack->getCarrierCode(),
+                    ];
+                }
             }
         }
 
+        if (!$aReturn) {
+            $data = $this->rpDataHelper->getRequestParameter('invoice');
+            $tracking = $this->rpDataHelper->getRequestParameter('tracking');
+            if (!empty($data['do_shipment']) && !empty($tracking)) {
+                $aReturn = $tracking;
+            }
+        }
+
+        return $aReturn;
+    }
+
+    /**
+     * Returns trackinfo request parameter array
+     *
+     * @param object $order
+     * @return \RatePAY\Model\Request\SubModel\Head\External\Tracking|null
+     */
+    private function getTrackingInfo($order)
+    {
+        /*
+        $trackInfo = null;
+        $shipment = null;
+
+        $aShipments = $order->getShipmentsCollection()->getItems();
+        if (!empty($aShipments)) {
+            $shipment = array_shift($aShipments);
+        }
+*/
+        $aShipmentData = $this->getShipments($order);
+        if (!empty($aShipmentData)) {
+            $oTracking = new \RatePAY\Model\Request\SubModel\Head\External\Tracking;
+            foreach ($aShipmentData as $aShipment) {
+                $oId = new \RatePAY\Model\Request\SubModel\Head\External\Tracking\Id;
+                $oId->setId($aShipment['number']);
+                $oId->setProvider($this->getValidCarrierCode($aShipment['carrier_code']));
+
+                $oTracking->addId($oId);
+            }
+            return $oTracking;
+        }
+/*
         if ($shipment) {
             $aAllTracks = $shipment->getAllTracks();
             if (!empty($aAllTracks)) {
@@ -104,8 +151,9 @@ class SendConfirmationDeliver
                 return $oTracking;
             }
         }
+*/
 
-        return $trackInfo;
+        return null;
     }
 
     /**
@@ -114,20 +162,16 @@ class SendConfirmationDeliver
      * @param object $order
      * @param string $paymentMethod
      * @param object|null $inv
-     * @param object|null $shipment
      * @return \RatePAY\RequestBuilder
      */
-    public function sendRatepayDeliverCall($order, $paymentMethod, $inv = null, $shipment = null)
+    public function sendRatepayDeliverCall($order, $paymentMethod, $inv = null)
     {
         if ($inv === null) {
             $inv = $order;
-            if ($shipment !== null) {
-                $inv = $shipment;
-            }
         }
 
         $sandbox = (bool)$this->rpDataHelper->getRpConfigData($paymentMethod, 'sandbox', $this->storeManager->getStore()->getId());
-        $head = $this->rpLibraryModel->getRequestHead($order, 'CONFIRMATION_DELIVER', null, null, null, null, $this->getTrackingInfo($order, $shipment));
+        $head = $this->rpLibraryModel->getRequestHead($order, 'CONFIRMATION_DELIVER', null, null, null, null, $this->getTrackingInfo($order));
         $content = $this->rpLibraryModel->getRequestContent($inv, 'CONFIRMATION_DELIVER');
 
         return $this->rpLibraryController->callConfirmationDeliver($head, $content, $order, $sandbox);
