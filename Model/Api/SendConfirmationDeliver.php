@@ -115,15 +115,6 @@ class SendConfirmationDeliver
      */
     private function getTrackingInfo($order)
     {
-        /*
-        $trackInfo = null;
-        $shipment = null;
-
-        $aShipments = $order->getShipmentsCollection()->getItems();
-        if (!empty($aShipments)) {
-            $shipment = array_shift($aShipments);
-        }
-*/
         $aShipmentData = $this->getShipments($order);
         if (!empty($aShipmentData)) {
             $oTracking = new \RatePAY\Model\Request\SubModel\Head\External\Tracking;
@@ -136,23 +127,6 @@ class SendConfirmationDeliver
             }
             return $oTracking;
         }
-/*
-        if ($shipment) {
-            $aAllTracks = $shipment->getAllTracks();
-            if (!empty($aAllTracks)) {
-                $oTracking = new \RatePAY\Model\Request\SubModel\Head\External\Tracking;
-                foreach ($aAllTracks as $oTrack) {
-                    $oId = new \RatePAY\Model\Request\SubModel\Head\External\Tracking\Id;
-                    $oId->setId($oTrack->getTrackNumber());
-                    $oId->setProvider($this->getValidCarrierCode($oTrack->getCarrierCode()));
-
-                    $oTracking->addId($oId);
-                }
-                return $oTracking;
-            }
-        }
-*/
-
         return null;
     }
 
