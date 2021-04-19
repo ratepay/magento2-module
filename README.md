@@ -4,7 +4,7 @@
 |Repository | Ratepay Module for Magento 2
 |------|----------
 |Author | Robert Müller
-|Module-Version | `1.2.4`
+|Module-Version | `1.2.5`
 |Compatibility | Magento 2.1.0 - 2.4.x
 |Link | http://www.ratepay.com
 |Mail | integration@ratepay.com
@@ -22,6 +22,11 @@ php bin/magento cache:clean
 ````
 
 ## Changelog
+
+### Version 1.2.5 - Released 2021-04-19
+* Refactored capture-, refund- and cancel-mechanisms to use the mage-core way through the payment model instead of custom event triggers
+* Added possibility to transfer multiple tracking codes to Ratepay
+* Added possibility to use the tracking code form inside of the create invoice form to transfer tracking codes to Ratepay
 
 ### Version 1.2.4 - Released 2021-02-12
 * Fixed a problem with config scope not being used correctly in certain situations
