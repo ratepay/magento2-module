@@ -403,6 +403,9 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         // clear the data first, to refresh it later in this method
         $infoInstance->unsAdditionalInformation('rp_company');
         $infoInstance->unsAdditionalInformation('rp_vatid');
+        $infoInstance->unsAdditionalInformation('rp_iban_reference');
+        $infoInstance->unsAdditionalInformation('rp_accountholder');
+        $infoInstance->unsAdditionalInformation('rp_iban');
 
         if (!$data instanceof \Magento\Framework\DataObject) {
             $data = new \Magento\Framework\DataObject($data);
