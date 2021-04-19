@@ -26,7 +26,7 @@ php bin/magento cache:clean
 ### Version 1.2.5 - Released 2021-04-19
 * Refactored capture-, refund- and cancel-mechanisms to use the mage-core way through the payment model instead of custom event triggers
 * Added possibility to transfer multiple tracking codes to Ratepay
-* Added possibility to use the tracking code form inside of the create invoice form to transfer tracking codes to Ratepay
+* Added possibility to use the tracking code form inside of the create invoice form to transfer tracking codes to Ratepay  
 IMPORTANT: Most of the events.xml files have been deleted in the refactoring of the payment events. When updating the module manually you
 should delete the old module files and copy the new version in freshly to not have the old event triggers in the system to interfere with the new mechanism.
 If the module is installed with Composer the update process should handle this correctly by itself.
