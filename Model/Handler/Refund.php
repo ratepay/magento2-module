@@ -1,29 +1,17 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: SebastianN
- * Date: 17.07.17
- * Time: 15:21
- */
 
-namespace RatePAY\Payment\Observer;
+namespace RatePAY\Payment\Model\Handler;
 
-
+use RatePAY\Payment\Model\Source\CreditmemoDiscountType;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\PaymentException;
-use RatePAY\Payment\Model\Source\CreditmemoDiscountType;
 
-class SendRatepayCreditMemoCall implements ObserverInterface
+class Refund
 {
     /**
      * @var \RatePAY\Payment\Helper\Data
      */
     protected $rpDataHelper;
-
-    /**
-     * @var \RatePAY\Payment\Helper\Payment
-     */
-    protected $rpPaymentHelper;
 
     /**
      * @var \RatePAY\Payment\Model\LibraryModel
@@ -34,11 +22,6 @@ class SendRatepayCreditMemoCall implements ObserverInterface
      * @var \RatePAY\Payment\Controller\LibraryController
      */
     protected $rpLibraryController;
-
-    /**
-     * @var \Magento\Store\Model\StoreManagerInterface
-     */
-    protected $storeManager;
 
     /**
      * @var \RatePAY\Payment\Model\ResourceModel\OrderAdjustment
@@ -58,47 +41,42 @@ class SendRatepayCreditMemoCall implements ObserverInterface
     /**
      * SendRatepayCreditMemoCall constructor.
      * @param \RatePAY\Payment\Helper\Data $rpDataHelper
-     * @param \RatePAY\Payment\Helper\Payment $rpPaymentHelper
      * @param \RatePAY\Payment\Model\LibraryModel $rpLibraryModel
      * @param \RatePAY\Payment\Controller\LibraryController $rpLibraryController
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \RatePAY\Payment\Model\ResourceModel\OrderAdjustment $orderAdjustment
      */
     function __construct(
         \RatePAY\Payment\Helper\Data $rpDataHelper,
-        \RatePAY\Payment\Helper\Payment $rpPaymentHelper,
         \RatePAY\Payment\Model\LibraryModel $rpLibraryModel,
         \RatePAY\Payment\Controller\LibraryController $rpLibraryController,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \RatePAY\Payment\Model\ResourceModel\OrderAdjustment $orderAdjustment
     )
     {
         $this->rpDataHelper = $rpDataHelper;
-        $this->rpPaymentHelper = $rpPaymentHelper;
         $this->rpLibraryModel = $rpLibraryModel;
         $this->rpLibraryController = $rpLibraryController;
-        $this->storeManager = $storeManager;
         $this->orderAdjustment = $orderAdjustment;
     }
 
     /**
-     * @param \Magento\Framework\Event\Observer $observer
-     * @return $this
+     * @param  \Magento\Payment\Model\InfoInterface $payment
+     * @param  float                                $amount
+     * @return bool
      */
-    public function execute(\Magento\Framework\Event\Observer $observer)
+    public function executeRatepayRefund(\Magento\Payment\Model\InfoInterface $payment, $amount)
     {
-       $creditMemo = $observer->getEvent()->getCreditmemo();
-       $order = $creditMemo->getOrder();
-       $paymentMethod = $order->getPayment()->getMethod();
-        if(!$this->rpPaymentHelper->isRatepayPayment($paymentMethod) || ($creditMemo->getDoTransaction() === false && (bool)$this->rpDataHelper->getRpConfigDataByPath("ratepay/general/true_offline_mode", $order->getStore()->getCode()) === true)) {
-            return $this;
+        $creditMemo = $payment->getCreditmemo();
+        $order = $payment->getOrder();
+        $paymentMethod = $payment->getMethod();
+        if($creditMemo->getDoTransaction() === false && (bool)$this->rpDataHelper->getRpConfigDataByPath("ratepay/general/true_offline_mode", $order->getStore()->getCode()) === true) {
+            return;
         }
 
         if ($this->isReturnPreviousAdjustmentsCheckboxChecked() === false) {
             $this->addAdjustmentsToDb($order, $creditMemo);
         }
 
-        $this->callRatepayReturn($order, $creditMemo, $paymentMethod);
+        return $this->callRatepayReturn($order, $creditMemo, $paymentMethod);
     }
 
     /**
@@ -183,7 +161,7 @@ class SendRatepayCreditMemoCall implements ObserverInterface
      */
     public function callRatepayReturn($order, $creditMemo, $paymentMethod)
     {
-        if ($this->rpDataHelper->getRpConfigData($paymentMethod, 'status', $this->storeManager->getStore()->getId()) == 1) {
+        if ($this->rpDataHelper->getRpConfigData($paymentMethod, 'status', $order->getStore()->getId()) == 1) {
             throw new PaymentException(__('Processing failed'));
         }
 
@@ -200,7 +178,7 @@ class SendRatepayCreditMemoCall implements ObserverInterface
         }
 
         if ($blReturnProducts === true) {
-            $sandbox = (bool)$this->rpDataHelper->getRpConfigData($paymentMethod, 'sandbox', $this->storeManager->getStore()->getId());
+            $sandbox = (bool)$this->rpDataHelper->getRpConfigData($paymentMethod, 'sandbox', $order->getStore()->getId());
             $head = $this->rpLibraryModel->getRequestHead($order, 'PAYMENT_CHANGE');
 
             $adjustments = null;
@@ -218,7 +196,6 @@ class SendRatepayCreditMemoCall implements ObserverInterface
                 $this->orderAdjustment->setAdjustmentsToReturned($order->getId());
             }
         }
-
         return true;
     }
 
@@ -230,16 +207,14 @@ class SendRatepayCreditMemoCall implements ObserverInterface
      */
     public function callRatepayCredit($order, $creditMemo, $paymentMethod)
     {
-        $sandbox = (bool)$this->rpDataHelper->getRpConfigData($paymentMethod, 'sandbox', $this->storeManager->getStore()->getId());
+        $sandbox = (bool)$this->rpDataHelper->getRpConfigData($paymentMethod, 'sandbox', $order->getStore()->getId());
         $head = $this->rpLibraryModel->getRequestHead($order, 'PAYMENT_CHANGE');
         $content = $this->rpLibraryModel->getRequestContent($order, 'PAYMENT_CHANGE', null, null, null, $this->rpLibraryModel->addAdjustments($creditMemo, $this->artNumRefund, $this->artNumFee));
 
         $creditRequest = $this->rpLibraryController->callPaymentChange($head, $content, 'credit', $order, $sandbox);
-
         if (!$creditRequest->isSuccessful()) {
             throw new PaymentException(__('Credit was not successfull'));
         }
-
         return true;
     }
 }

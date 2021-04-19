@@ -1,28 +1,17 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: SebastianN
- * Date: 13.07.17
- * Time: 10:03
- */
 
-namespace RatePAY\Payment\Observer;
+namespace RatePAY\Payment\Model\Handler;
 
 use \Psr\Log\LoggerInterface;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\PaymentException;
 
-class SendRatepayCancelCall implements ObserverInterface
+class Cancel
 {
     /**
      * @var \RatePAY\Payment\Helper\Data
      */
     protected $rpDataHelper;
-
-    /**
-     * @var \RatePAY\Payment\Helper\Payment
-     */
-    protected $rpPaymentHelper;
 
     /**
      * @var \RatePAY\Payment\Model\LibraryModel
@@ -35,45 +24,32 @@ class SendRatepayCancelCall implements ObserverInterface
     protected $rpLibraryController;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
-     */
-    protected $storeManager;
-
-    /**
      * SendRatepayCancelCall constructor.
      * @param \RatePAY\Payment\Helper\Data $rpDataHelper
-     * @param \RatePAY\Payment\Helper\Payment $rpPaymentHelper
      * @param \Ratepay\Payment\Model\LibraryModel $rpLibraryModel
      * @param \RatePAY\Payment\Controller\LibraryController $rpLibraryController
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     function __construct(
         \RatePAY\Payment\Helper\Data $rpDataHelper,
-        \RatePAY\Payment\Helper\Payment $rpPaymentHelper,
         \RatePAY\Payment\Model\LibraryModel $rpLibraryModel,
-        \RatePAY\Payment\Controller\LibraryController $rpLibraryController,
-        \Magento\Store\Model\StoreManagerInterface $storeManager)
-    {
+        \RatePAY\Payment\Controller\LibraryController $rpLibraryController
+    ) {
         $this->rpDataHelper = $rpDataHelper;
-        $this->rpPaymentHelper = $rpPaymentHelper;
         $this->rpLibraryModel = $rpLibraryModel;
         $this->rpLibraryController = $rpLibraryController;
-        $this->storeManager = $storeManager;
 
     }
 
     /**
-     * @param \Magento\Framework\Event\Observer $observer
-     * @return $this
+     * @param \Magento\Payment\Model\InfoInterface $payment
+     * @return bool
      */
-    public function execute(\Magento\Framework\Event\Observer $observer)
+    public function executeRatepayCancel(\Magento\Payment\Model\InfoInterface $payment)
     {
-        $order = $observer->getEvent()->getOrder();
-        $paymentMethod = $order->getPayment()->getMethodInstance()->getCode();
-        if(!$this->rpPaymentHelper->isRatepayPayment($paymentMethod)){
-            return $this;
-        }
-        $this->sendRatepayCancelCall($order, $paymentMethod);
+        $order = $payment->getOrder();
+        $paymentMethod = $payment->getMethodInstance()->getCode();
+
+        return $this->sendRatepayCancelCall($order, $paymentMethod);
     }
 
     /**
@@ -83,14 +59,13 @@ class SendRatepayCancelCall implements ObserverInterface
      */
     public function sendRatepayCancelCall($order, $paymentMethod)
     {
-        $sandbox = (bool)$this->rpDataHelper->getRpConfigData($paymentMethod, 'sandbox', $this->storeManager->getStore()->getId());
+        $sandbox = (bool)$this->rpDataHelper->getRpConfigData($paymentMethod, 'sandbox', $order->getStore()->getId());
         $head = $this->rpLibraryModel->getRequestHead($order, 'PAYMENT_CHANGE');
         $content = $this->rpLibraryModel->getRequestContent($order, 'PAYMENT_CHANGE', [], 0);
         $cancellationRequest = $this->rpLibraryController->callPaymentChange($head, $content, 'cancellation', $order, $sandbox);
         if (!$cancellationRequest->isSuccessful()){
             throw new PaymentException(__('Cancellation was not successsfull'));
-        } else {
-            return true;
         }
+        return true;
     }
 }
