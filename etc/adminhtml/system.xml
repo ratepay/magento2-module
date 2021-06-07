@@ -23,6 +23,15 @@
                     <config_path>ratepay/general/true_offline_mode</config_path>
                     <tooltip>With True Offline Mode being enabled, communication with Ratepay when creating an invoice or a creditmemo is disabled. This will make the module behave in the Magento2 standard way. With True Offline Mode being disabled (default) the module will continue to communicate to Ratepay like before, this happens because the module didnt have a differentiation between those modes in the beginning and the customers were not supposed to have to change their workflow later when it was introduced.</tooltip>
                 </field>
+                <field id="street_field_usage" translate="label" type="select" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Street field usage</label>
+                    <source_model>RatePAY\Payment\Model\Source\StreetFieldUsage</source_model>
+                    <config_path>ratepay/general/street_field_usage</config_path>
+                    <tooltip>Only applicable when 2 or more street input fields are configured in Magento2 customer configuration. Configure here if the content of the second street input is used as house number or additional info if it was filled by the customer.</tooltip>
+                    <depends>
+                        <field id="customer/address/street_lines" separator=",">2,3,4</field>
+                    </depends>
+                </field>
                 <group id="de" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
                        showInStore="1">
                     <label>Germany</label>
