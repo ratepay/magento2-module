@@ -56,16 +56,16 @@ class Addresses extends \Magento\Framework\App\Helper\AbstractHelper
     protected function addStreetParams($billingAddress, $street)
     {
         if (is_array($street)) {
-            $sStreet = array_shift($street);
+            $sStreet = array_shift($street); // extract first street line
             $billingAddress['Street'] = $sStreet;
             if (!empty($street)) {
+                if ($this->rpDataHelper->getRpConfigDataByPath("ratepay/general/street_field_usage") == StreetFieldUsage::HOUSENR) {
+                    $sHouseNr = array_shift($street); // extract second street line
+                    $billingAddress['StreetNumber'] = $sHouseNr;
+                }
                 $sImplodeString = implode(" ", $street);
                 if (!empty($sImplodeString)) {
-                    if ($this->rpDataHelper->getRpConfigDataByPath("ratepay/general/street_field_usage") == StreetFieldUsage::HOUSENR) {
-                        $billingAddress['StreetNumber'] = $sImplodeString;
-                    } elseif ($this->rpDataHelper->getRpConfigDataByPath("ratepay/general/street_field_usage") == StreetFieldUsage::ADDITIONAL) {
-                        $billingAddress['StreetAdditional'] = $sImplodeString;
-                    }
+                    $billingAddress['StreetAdditional'] = $sImplodeString;
                 }
             }
         }

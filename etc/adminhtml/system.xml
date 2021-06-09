@@ -27,7 +27,7 @@
                     <label>Street field usage</label>
                     <source_model>RatePAY\Payment\Model\Source\StreetFieldUsage</source_model>
                     <config_path>ratepay/general/street_field_usage</config_path>
-                    <tooltip>Only applicable when 2 or more street input fields are configured in Magento2 customer configuration. Configure here if the content of the second street input is used as house number or additional info if it was filled by the customer.</tooltip>
+                    <tooltip><![CDATA[Only applicable when 2 or more street lines are configured in customer configuration.<br><br><b>House number:</b> The second street line will be interpreted as the house number, 3rd and 4th street input will be interpreted as additional information.<br><br><b>Additional info:</b> Street lines 2 - 4 will be interpreted as additional information]]></tooltip>
                     <depends>
                         <field id="customer/address/street_lines" separator=",">2,3,4</field>
                     </depends>
