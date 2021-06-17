@@ -6,6 +6,7 @@
         <ratepay>
             <general>
                 <true_offline_mode>0</true_offline_mode>
+                <street_field_usage>housenr</street_field_usage>
             </general>
         </ratepay>
         <payment>

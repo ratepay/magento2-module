@@ -8,17 +8,28 @@
 
 namespace RatePAY\Payment\Helper\Content\Customer;
 
-
 use Magento\Framework\App\Helper\Context;
+use RatePAY\Payment\Model\Source\StreetFieldUsage;
+
 class Addresses extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
+     * @var \RatePAY\Payment\Helper\Data
+     */
+    protected $rpDataHelper;
+
+    /**
      * Addresses constructor.
      * @param Context $context
+     * @param \RatePAY\Payment\Helper\Data $rpHelper
      */
-    public function __construct(Context $context)
-    {
+    public function __construct(
+        Context $context,
+        \RatePAY\Payment\Helper\Data $rpHelper
+    ) {
         parent::__construct($context);
+
+        $this->rpDataHelper = $rpHelper;
     }
 
     /**
@@ -45,20 +56,17 @@ class Addresses extends \Magento\Framework\App\Helper\AbstractHelper
     protected function addStreetParams($billingAddress, $street)
     {
         if (is_array($street)) {
-            $billingAddress['Street'] = $street[0];
-            if (isset($street[1])) {
-                if ($this->isHouseNumber($street[1])) {
-                    $billingAddress['StreetNumber'] = $street[1];
-                } else {
-                    if (!isset($street[2])) {
-                        $billingAddress['StreetAdditional'] = $street[1];
-                    } else {
-                        $billingAddress['Street'] .= ' '.$street[1];
-                    }
+            $sStreet = array_shift($street); // extract first street line
+            $billingAddress['Street'] = trim($sStreet);
+            if (!empty($street)) {
+                if ($this->rpDataHelper->getRpConfigDataByPath("ratepay/general/street_field_usage") == StreetFieldUsage::HOUSENR) {
+                    $sHouseNr = array_shift($street); // extract second street line
+                    $billingAddress['StreetNumber'] = trim($sHouseNr);
                 }
-            }
-            if (isset($street[2])) {
-                $billingAddress['StreetAdditional'] = $street[2];
+                $sImplodeString = implode(" ", $street);
+                if (!empty($sImplodeString)) {
+                    $billingAddress['StreetAdditional'] = trim($sImplodeString);
+                }
             }
         }
         return $billingAddress;
@@ -92,7 +100,7 @@ class Addresses extends \Magento\Framework\App\Helper\AbstractHelper
             'CountryCode' => $quoteOrOrder->getShippingAddress()->getCountryId(),
         ];
         $deliveryAddress = $this->addStreetParams($deliveryAddress, $quoteOrOrder->getShippingAddress()->getStreet());
-        
+
         $content = [
             ['Address' => $billingAddress],
             ['Address' => $deliveryAddress],
