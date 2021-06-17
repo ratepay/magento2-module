@@ -57,15 +57,15 @@ class Addresses extends \Magento\Framework\App\Helper\AbstractHelper
     {
         if (is_array($street)) {
             $sStreet = array_shift($street); // extract first street line
-            $billingAddress['Street'] = $sStreet;
+            $billingAddress['Street'] = trim($sStreet);
             if (!empty($street)) {
                 if ($this->rpDataHelper->getRpConfigDataByPath("ratepay/general/street_field_usage") == StreetFieldUsage::HOUSENR) {
                     $sHouseNr = array_shift($street); // extract second street line
-                    $billingAddress['StreetNumber'] = $sHouseNr;
+                    $billingAddress['StreetNumber'] = trim($sHouseNr);
                 }
                 $sImplodeString = implode(" ", $street);
                 if (!empty($sImplodeString)) {
-                    $billingAddress['StreetAdditional'] = $sImplodeString;
+                    $billingAddress['StreetAdditional'] = trim($sImplodeString);
                 }
             }
         }
