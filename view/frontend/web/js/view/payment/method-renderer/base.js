@@ -30,6 +30,9 @@ define(
             isPhoneVisible: function () {
                 return false;
             },
+            isSandboxModeEnabled: function () {
+                return window.checkoutConfig.payment[this.getCode()].sandboxMode;
+            },
             isDobSet: function () {
                 if (customer.customerData.dob == undefined || customer.customerData.dob === null) {
                     return false;

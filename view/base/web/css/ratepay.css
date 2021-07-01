@@ -261,3 +261,13 @@ div.ratepay-ContentSwitch {
 .ratepay_ala_warning {
     color: crimson;
 }
+.ratepay-sandbox-message {
+    background: yellow;
+    color: black;
+    border: 3px dashed red;
+    font-weight: bold;
+    text-align: center;
+    font-size:14px;
+    padding-top: 10px;
+    margin-bottom: 1rem;
+}
