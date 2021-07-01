@@ -290,6 +290,9 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
             }
             $payment->setAdditionalInformation('descriptor', $resultRequest->getDescriptor());
             $this->customerSession->setRatePayDeviceIdentToken(null);
+            if ($sandbox === true) {
+                $order->setRatepaySandboxUsed(1);
+            }
             return $this;
         } else {
             $message = $this->formatMessage($resultInit->getReasonMessage());

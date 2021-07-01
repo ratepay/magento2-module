@@ -89,6 +89,7 @@ class RechnungConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
         $config = array_merge_recursive([], $this->getInvoiceConfig());
         $config = array_merge_recursive($config, $this->getInstallmentConfig());
         $config = array_merge_recursive($config, $this->getB2BConfig());
+        $config = array_merge_recursive($config, $this->getRatepaySandboxConfig());
         return $config;
     }
 
@@ -122,6 +123,26 @@ class RechnungConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
             $config = array_merge_recursive($config, $this->getSingleB2BConfig($paymentType));
         }
         return $config;
+    }
+
+    protected function getRatepaySandboxConfig()
+    {
+        $config = [];
+        foreach ($this->allRatePayMethods as $paymentType) {
+            $config = array_merge_recursive($config, $this->getSingleSandboxConfig($paymentType));
+        }
+        return $config;
+    }
+
+    protected function getSingleSandboxConfig($sMethodCode)
+    {
+        return ($this->isPaymentMethodActive($sMethodCode)) ? [
+            'payment' => [
+                $sMethodCode => [
+                    'sandboxMode' => (bool)$this->rpDataHelper->getRpConfigData($sMethodCode, 'sandbox'),
+                ],
+            ],
+        ] : [];
     }
 
     /**

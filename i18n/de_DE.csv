@@ -12,6 +12,8 @@
 "INT credentials in live mode","Sie beabsichtigen Test-Zugangsdaten für den Live-Betrieb zu verwenden. Möchten Sie fortfahren?",module,RatePAY_Payment
 "No Ajax Connection","Keine Ajax Verbindung",module,RatePAY_Payment
 "Sandbox Notifcation","Sandbox Benachrichtigung",module,RatePAY_Payment
+"This is a Ratepay sandbox order.","Dies ist eine Ratepay Testbestellung.",module,RatePAY_Payment
+"Testmode activated, please DONT use this payment method and get in contact with the merchant.","Testmodus aktiviert, bitte nutzen Sie diese Zahlart NICHT für die Bestellung und informieren den Händler über diese Nachricht.",module,RatePAY_Payment
 "Tax/VAT number","USt-IdNr.",module,RatePAY_Payment
 Alter,Ändern,module,RatePAY_Payment
 Phone,Telefon,module,RatePAY_Payment
