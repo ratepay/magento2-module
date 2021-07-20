@@ -517,6 +517,11 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         }
 
         $additionalData = $data->getData(\Magento\Quote\Api\Data\PaymentInterface::KEY_ADDITIONAL_DATA);
+        if (empty($additionalData)) {
+            // this doesn't seem to be a assignData call after order is created - so skip validations
+            return $this;
+        }
+
         if (!is_object($additionalData)) {
             $additionalData = new \Magento\Framework\DataObject($additionalData ?: []);
         }
