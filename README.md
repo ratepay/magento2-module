@@ -4,7 +4,7 @@
 |Repository | Ratepay Module for Magento 2
 |------|----------
 |Author | Robert Müller
-|Module-Version | `1.2.5`
+|Module-Version | `1.2.6`
 |Compatibility | Magento 2.1.0 - 2.4.x
 |Link | http://www.ratepay.com
 |Mail | integration@ratepay.com
@@ -22,6 +22,11 @@ php bin/magento cache:clean
 ````
 
 ## Changelog
+
+### Version 1.2.6 - Released 2021-07-21
+* Added config option for street line usage
+* Added an info box to the frontend when order will be created in sandbox mode and to the backend when sandbox mode was used for selected order.
+* Fixed a problem in Magento 2.4.0+ with validation on payment selection on frontend
 
 ### Version 1.2.5 - Released 2021-04-19
 * Refactored capture-, refund- and cancel-mechanisms to use the mage-core way through the payment model instead of custom event triggers
