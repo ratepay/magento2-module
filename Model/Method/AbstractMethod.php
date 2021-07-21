@@ -521,6 +521,11 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
             $additionalData = new \Magento\Framework\DataObject($additionalData ?: []);
         }
 
+        if ($additionalData->getRpDobDay() === null && $additionalData->getRpDobMonth() === null && $additionalData->getRpDobYear() === null) {
+            // this doesn't seem to be a assignData call after order is created - so skip following validations
+            return $this;
+        }
+
         $company = $order->getBillingAddress()->getCompany();
         if (!empty($additionalData->getRpCompany())) {
             $company = $additionalData->getRpCompany();
