@@ -130,6 +130,7 @@ ratepay_terms_block_6, "einverstanden." ,module,RatePAY_Payment
 "rp_total_amount","Gesamtbetrag",module,RatePAY_Payment
 "rp_mouseover_total_amount","Summe der vom K&auml;ufer zu zahlenden Betr&auml;ge aus Warenwert, Vertragsabschlussgeb&uuml;hr und Zinsen.",module,RatePAY_Payment
 "Please enter a valid IBAN.","Bitte geben Sie eine korrekte IBAN ein.",module,RatePAY_Payment
+"Please confirm the transmission of the necessary data to Ratepay.","Bitte bestätigen Sie die Übermittlung der erforderlichen Daten an Ratepay.",module,RatePAY_Payment
 "Please select a installment runtime or installment amount.","Bitte wählen Sie eine Raten-Laufzeit oder Ratenhöhe.",module,RatePAY_Payment
 "-- Please select runtime --","-- Bitte Laufzeit wählen --",module,RatePAY_Payment
 "The runtime has been updated successfully.","Die Laufzeit wurde erfolgreich angepasst.",module,RatePAY_Payment
@@ -141,3 +142,26 @@ ratepay_terms_block_6, "einverstanden." ,module,RatePAY_Payment
 "I want to settle the installments by direct debit","Ich möchte die Ratenzahlung per Lastschrift begleichen",module,RatePAY_Payment
 "Orders with different billing- and shipping-addresses are not supported for this payment method.","Unterschiedliche Rechnungs- und Lieferadressen werden von dieser Zahlungsart nicht unterstützt.",module,RatePAY_Payment
 "Return previous adjustments","Vorherige Erstattungen/Gebühren retournieren",module,RatePAY_Payment
+"Bank data management","Zahlungsdaten-Verwaltung",module,RatePAY_Payment
+"You have no saved bank data.","Sie haben noch keine gespeicherten Zahlungsdaten",module,RatePAY_Payment
+"ratepay_directdebit_save_bankdata_text","Mit Auswahl dieser Option kann Ihr nächster Kauf bei uns schneller und einfacher abgewickelt werden. Sie können Ihre Zahlungsdaten jederzeit entfernen.",module,RatePAY_Payment
+"ratepay_directdebit_save_bankdata_link","Weitere Informationen",module,RatePAY_Payment
+"ratepay_directdebit_save_bankdata_overlay_1","Wenn Sie „Zahlungsdaten merken“ auswählen, werden Ihre Zahlungsinformationen für zukünftige Käufe gespeichert. So können Sie gekaufte Artikel schnell und einfach bezahlen, ohne Ihre Zahlungsdaten für Ihre nächsten Käufe erneut einzugeben. Die gespeicherten Zahlungsdaten können Sie jederzeit in Ihrem",module,RatePAY_Payment
+"ratepay_directdebit_save_bankdata_overlay_2","Kundenkonto",module,RatePAY_Payment
+"ratepay_directdebit_save_bankdata_overlay_3","entfernen.",module,RatePAY_Payment
+"Save payment data","Zahlungsdaten merken",module,RatePAY_Payment
+"Close window","Fenster schließen",module,RatePAY_Payment
+"Maximum Order Total B2B","Maximalwert für Gesamtbestellung B2B",module,RatePAY_Payment
+"Connection was established successfully.","Verbindung konnte erfolgreich aufgebaut werden.",module,RatePAY_Payment
+"Connection could not be established.","Verbindung konnte nicht aufgebaut werden.",module,RatePAY_Payment
+"Event of capture transmission","Auslösungszeitpunkt für Übermittlung des Captures",module,RatePAY_Payment
+"Send capture when creating the invoice","Capture bei Erstellung der Rechnung übermitteln",module,RatePAY_Payment
+"Send capture when creating the shipment","Capture bei Erstellung des Versands übermitteln",module,RatePAY_Payment
+"Determines when the capture call is sent to Ratepay API","Legt fest zu welchem Zeitpunkt der Capture call an die Ratepay API gesendet wird.",module,RatePAY_Payment
+"Active payment types","Aktive Zahlarten",module,RatePAY_Payment
+"Ratepay_invoice","Rechnung",module,RatePAY_Payment
+"Ratepay_installment","Finanzierung",module,RatePAY_Payment
+"Ratepay_installment0","0% Finanzierung",module,RatePAY_Payment
+"Ratepay_elv","SEPA-Lastschrift",module,RatePAY_Payment
+"Ratepay_0","Nein",module,RatePAY_Payment
+"Ratepay_1","Ja",module,RatePAY_Payment

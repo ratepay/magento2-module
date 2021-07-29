@@ -30,6 +30,11 @@ class InstallmentPlan implements InstallmentPlanInterface
     protected $rpDataHelper;
 
     /**
+     * @var \Magento\Payment\Helper\Data
+     */
+    protected $paymentHelper;
+
+    /**
      * @var \RatePAY\Payment\Block\Checkout\InstallmentPlan
      */
     protected $block;
@@ -41,6 +46,7 @@ class InstallmentPlan implements InstallmentPlanInterface
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \RatePAY\Payment\Controller\LibraryController $rpLibraryController
      * @param \RatePAY\Payment\Helper\Data $rpDataHelper
+     * @param \Magento\Payment\Helper\Data $paymentHelper
      * @param \RatePAY\Payment\Block\Checkout\InstallmentPlan $block
      */
     public function __construct(
@@ -48,12 +54,14 @@ class InstallmentPlan implements InstallmentPlanInterface
         \Magento\Checkout\Model\Session $checkoutSession,
         \RatePAY\Payment\Controller\LibraryController $rpLibraryController,
         \RatePAY\Payment\Helper\Data $rpDataHelper,
+        \Magento\Payment\Helper\Data $paymentHelper,
         \RatePAY\Payment\Block\Checkout\InstallmentPlan $block
     ) {
         $this->responseFactory = $responseFactory;
         $this->checkoutSession = $checkoutSession;
         $this->rpLibraryController = $rpLibraryController;
         $this->rpDataHelper = $rpDataHelper;
+        $this->paymentHelper = $paymentHelper;
         $this->block = $block;
     }
 
@@ -109,9 +117,10 @@ class InstallmentPlan implements InstallmentPlanInterface
      * @return mixed
      */
     protected function getInstallmentPlanFromRatepay($calculationType, $calculationValue, $grandTotal, $methodCode) {
-        $profileId = $this->rpDataHelper->getRpConfigData($methodCode, 'profileId');
-        $securitycode = $this->rpDataHelper->getRpConfigData($methodCode, 'securityCode');
-        $sandbox = $this->rpDataHelper->getRpConfigData($methodCode, 'sandbox');
+        $oProfile = $this->paymentHelper->getMethodInstance($methodCode)->getMatchingProfile();
+        $profileId = $oProfile->getData('profile_id');
+        $securitycode = $oProfile->getSecurityCode();
+        $sandbox = $oProfile->getSandboxMode();
 
         $configurationRequest = $this->rpLibraryController->getInstallmentPlan($profileId, $securitycode, $sandbox, $grandTotal, $calculationType, $calculationValue);
 

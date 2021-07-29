@@ -39,23 +39,31 @@ class Refund
     protected $artNumFee;
 
     /**
+     * @var \RatePAY\Payment\Helper\ProfileConfig
+     */
+    protected $profileConfigHelper;
+
+    /**
      * SendRatepayCreditMemoCall constructor.
      * @param \RatePAY\Payment\Helper\Data $rpDataHelper
      * @param \RatePAY\Payment\Model\LibraryModel $rpLibraryModel
      * @param \RatePAY\Payment\Controller\LibraryController $rpLibraryController
      * @param \RatePAY\Payment\Model\ResourceModel\OrderAdjustment $orderAdjustment
+     * @param \RatePAY\Payment\Helper\ProfileConfig $profileConfigHelper
      */
     function __construct(
         \RatePAY\Payment\Helper\Data $rpDataHelper,
         \RatePAY\Payment\Model\LibraryModel $rpLibraryModel,
         \RatePAY\Payment\Controller\LibraryController $rpLibraryController,
-        \RatePAY\Payment\Model\ResourceModel\OrderAdjustment $orderAdjustment
+        \RatePAY\Payment\Model\ResourceModel\OrderAdjustment $orderAdjustment,
+        \RatePAY\Payment\Helper\ProfileConfig $profileConfigHelper
     )
     {
         $this->rpDataHelper = $rpDataHelper;
         $this->rpLibraryModel = $rpLibraryModel;
         $this->rpLibraryController = $rpLibraryController;
         $this->orderAdjustment = $orderAdjustment;
+        $this->profileConfigHelper = $profileConfigHelper;
     }
 
     /**
@@ -76,7 +84,7 @@ class Refund
             $this->addAdjustmentsToDb($order, $creditMemo);
         }
 
-        return $this->callRatepayReturn($order, $creditMemo, $paymentMethod);
+        return $this->callRatepayReturn($order, $creditMemo, $payment->getMethodInstance());
     }
 
     /**
@@ -159,9 +167,9 @@ class Refund
      * @param $paymentMethod
      * @return bool
      */
-    public function callRatepayReturn($order, $creditMemo, $paymentMethod)
+    public function callRatepayReturn($order, $creditMemo, $methodInstance)
     {
-        if ($this->rpDataHelper->getRpConfigData($paymentMethod, 'status', $order->getStore()->getId()) == 1) {
+        if (!$order->getRatepayProfileId()) {
             throw new PaymentException(__('Processing failed'));
         }
 
@@ -171,15 +179,23 @@ class Refund
 
         $blReturnProducts = true;
         if ($this->isReturnPreviousAdjustmentsCheckboxChecked() === false && ($creditMemo->getAdjustmentPositive() > 0 || $creditMemo->getAdjustmentNegative() > 0)) {
-            $this->callRatepayCredit($order, $creditMemo, $paymentMethod);
+            $this->callRatepayCredit($order, $creditMemo, $methodInstance);
             if ($this->getCreditMemoQuantity($creditMemo) <= 0) {
                 $blReturnProducts = false;
             }
         }
 
         if ($blReturnProducts === true) {
-            $sandbox = (bool)$this->rpDataHelper->getRpConfigData($paymentMethod, 'sandbox', $order->getStore()->getId());
-            $head = $this->rpLibraryModel->getRequestHead($order, 'PAYMENT_CHANGE');
+            $sProfileId = null;
+            $sSecurityCode = null;
+            $blSandbox = false;
+            if ($order->getRatepayProfileId()) {
+                $sProfileId = $order->getRatepayProfileId();
+                $sSecurityCode = $this->profileConfigHelper->getSecurityCodeForProfileId($sProfileId, $methodInstance->getCode());
+                $blSandbox = $this->profileConfigHelper->getSandboxModeForProfileId($sProfileId, $methodInstance->getCode());
+            }
+
+            $head = $this->rpLibraryModel->getRequestHead($order, 'PAYMENT_CHANGE', null, null, $sProfileId, $sSecurityCode);
 
             $adjustments = null;
             if ($this->isReturnPreviousAdjustmentsCheckboxChecked() === true) {
@@ -187,7 +203,7 @@ class Refund
             }
             $content = $this->rpLibraryModel->getRequestContent($creditMemo, "PAYMENT_CHANGE", null, null, null, null, $adjustments);
 
-            $returnRequest = $this->rpLibraryController->callPaymentChange($head, $content, 'return', $order, $sandbox);
+            $returnRequest = $this->rpLibraryController->callPaymentChange($head, $content, 'return', $order, $blSandbox);
             if (!$returnRequest->isSuccessful()) {
                 throw new PaymentException(__('Refund was not successfull'));
             }
@@ -202,16 +218,24 @@ class Refund
     /**
      * @param $order
      * @param $creditMemo
-     * @param $paymentMethod
+     * @param $methodInstance
      * @return bool
      */
-    public function callRatepayCredit($order, $creditMemo, $paymentMethod)
+    public function callRatepayCredit($order, $creditMemo, $methodInstance)
     {
-        $sandbox = (bool)$this->rpDataHelper->getRpConfigData($paymentMethod, 'sandbox', $order->getStore()->getId());
-        $head = $this->rpLibraryModel->getRequestHead($order, 'PAYMENT_CHANGE');
+        $sProfileId = null;
+        $sSecurityCode = null;
+        $blSandbox = false;
+        if ($order->getRatepayProfileId()) {
+            $sProfileId = $order->getRatepayProfileId();
+            $sSecurityCode = $this->profileConfigHelper->getSecurityCodeForProfileId($sProfileId, $methodInstance->getCode());
+            $blSandbox = $this->profileConfigHelper->getSandboxModeForProfileId($sProfileId, $methodInstance->getCode());
+        }
+
+        $head = $this->rpLibraryModel->getRequestHead($order, 'PAYMENT_CHANGE', null, null, $sProfileId, $sSecurityCode);
         $content = $this->rpLibraryModel->getRequestContent($order, 'PAYMENT_CHANGE', null, null, null, $this->rpLibraryModel->addAdjustments($creditMemo, $this->artNumRefund, $this->artNumFee));
 
-        $creditRequest = $this->rpLibraryController->callPaymentChange($head, $content, 'credit', $order, $sandbox);
+        $creditRequest = $this->rpLibraryController->callPaymentChange($head, $content, 'credit', $order, $blSandbox);
         if (!$creditRequest->isSuccessful()) {
             throw new PaymentException(__('Credit was not successfull'));
         }

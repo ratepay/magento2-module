@@ -50,6 +50,11 @@
             <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
         </arguments>
     </type>
+    <type name="RatePAY\Payment\Model\Method\AbstractMethod">
+        <arguments>
+            <argument name="backendCheckoutSession" xsi:type="object">Magento\Backend\Model\Session\Quote\Proxy</argument>
+        </arguments>
+    </type>
     <type name="Magento\Payment\Model\Checks\TotalMinMax">
         <plugin name="RatePAY_Payment_Plugin_TotalMixMax" type="RatePAY\Payment\Plugin\TotalMinMax" sortOrder="10" />
     </type>

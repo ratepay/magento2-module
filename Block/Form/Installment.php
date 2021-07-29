@@ -23,7 +23,12 @@ class Installment extends Base
      */
     protected function getValidPaymentFirstdays()
     {
-        $validPaymentFirstdays = $this->rpDataHelper->getRpConfigData($this->getMethodCode(), 'valid_payment_firstday');
+        $oProfile = $this->getMethod()->getMatchingProfile();
+        if (!$oProfile) {
+            return [];
+        }
+
+        $validPaymentFirstdays = $oProfile->getData("valid_payment_firstday");
         if(strpos($validPaymentFirstdays, ',') !== false) {
             $validPaymentFirstdays = explode(',', $validPaymentFirstdays);
         }

@@ -60,8 +60,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         if (!$storeCode) {
             $storeCode = $this->storeManager->getStore()->getCode();
         }
-        $result = $this->scopeConfig->getValue($path,\Magento\Store\Model\ScopeInterface::SCOPE_STORES, $storeCode);
-        return $result;
+        return $this->scopeConfig->getValue($path,\Magento\Store\Model\ScopeInterface::SCOPE_STORES, $storeCode);
     }
 
     /**

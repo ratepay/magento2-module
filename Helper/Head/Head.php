@@ -38,6 +38,11 @@ class Head extends \Magento\Framework\App\Helper\AbstractHelper
      */
     protected $moduleList;
 
+    /**
+     * @var \Magento\Payment\Helper\Data
+     */
+    protected $paymentHelper;
+
 
     /**
      * Head constructor.
@@ -46,13 +51,16 @@ class Head extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\ProductMetadataInterface $productMetadata
      * @param \Magento\Framework\Module\ModuleListInterface $moduleList
+     * @param \Magento\Payment\Helper\Data $paymentHelper
      */
-    public function __construct(Context $context,
-                                \RatePAY\Payment\Helper\Data $rpHelper,
-                                \Magento\Store\Model\StoreManagerInterface $storeManager,
-                                \Magento\Framework\App\ProductMetadataInterface $productMetadata,
-                                \Magento\Framework\Module\ModuleListInterface $moduleList)
-    {
+    public function __construct(
+        Context $context,
+        \RatePAY\Payment\Helper\Data $rpHelper,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\App\ProductMetadataInterface $productMetadata,
+        \Magento\Framework\Module\ModuleListInterface $moduleList,
+        \Magento\Payment\Helper\Data $paymentHelper
+    ) {
         parent::__construct($context);
 
         $this->rpDataHelper = $rpHelper;
@@ -60,6 +68,7 @@ class Head extends \Magento\Framework\App\Helper\AbstractHelper
         $this->remoteAddress = $context->getRemoteAddress();
         $this->productMetadata = $productMetadata;
         $this->moduleList = $moduleList;
+        $this->paymentHelper = $paymentHelper;
     }
 
     /**
@@ -76,9 +85,12 @@ class Head extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $storeCode = $quoteOrOrder->getStore()->getCode();
 
-        $paymentMethod = (is_null($fixedPaymentMethod) ? $quoteOrOrder->getPayment()->getMethod() : $fixedPaymentMethod);
-        $profileId = (is_null($profileId) ? $this->rpDataHelper->getRpConfigData($paymentMethod, 'profileId', $storeCode) : $profileId);
-        $securityCode = (is_null($securityCode) ? $this->rpDataHelper->getRpConfigData($paymentMethod, 'securityCode', $storeCode) : $securityCode);
+        $sMethodCode = (is_null($fixedPaymentMethod) ? $quoteOrOrder->getPayment()->getMethod() : $fixedPaymentMethod);
+        if ($profileId === null || $securityCode === null) {
+            $method = $this->paymentHelper->getMethodInstance($sMethodCode);
+        }
+        $profileId = (is_null($profileId) ? $method->getMatchingProfile(null, $storeCode)->getData('profile_id') : $profileId);
+        $securityCode = (is_null($securityCode) ? $method->getMatchingProfile(null, $storeCode)->getSecurityCode() : $securityCode);
 
         $serverAddr = '';
         if ($_SERVER && isset($_SERVER['SERVER_ADDR'])) {

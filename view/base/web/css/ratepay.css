@@ -261,6 +261,60 @@ div.ratepay-ContentSwitch {
 .ratepay_ala_warning {
     color: crimson;
 }
+
+.ratepay_tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+.ratepay_tooltip .ratepay_tooltiptext {
+    visibility: hidden;
+    width: 200px;
+    background-color: #999;
+    color: #fff;
+    text-align: left;
+    border-radius: 6px;
+    padding: 10px 10px;
+    position: absolute;
+    z-index: 1;
+    top: -5px;
+    left: 107%;
+}
+
+.ratepay_tooltip .ratepay_tooltiptext A {
+    color: #FFF;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.ratepay_tooltip .ratepay_tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 16px;
+    right: 100%;
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent #999 transparent transparent;
+}
+.ratepay_tooltip:hover .ratepay_tooltiptext {
+    visibility: visible;
+}
+
+.ratepay_overlay {
+    position:absolute;
+    width: 726px;
+    border:2px solid black;
+    padding: 10px;
+    z-index: 5000;
+    background-color: #FFFFFF;
+}
+
+.ratepay-section .ratepay-logo {background: url("../images/ratepay_logo_200px.png")  no-repeat 0 50% / 18rem auto;height: 50px; width: auto; padding-left: 20rem; display:inline-block; vertical-align: middle;}
+.ratepay-section .button-container {float: right;}
+.ratepay-section .payment-text { display: inline-block; vertical-align: middle; width: 50%}
+
 .ratepay-sandbox-message {
     background: yellow;
     color: black;
@@ -271,3 +325,17 @@ div.ratepay-ContentSwitch {
     padding-top: 10px;
     margin-bottom: 1rem;
 }
+
+.ratepay-profile-config {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.ratepay-profile-config td, .ratepay-profile-config th {
+    border: 1px solid #ddd;
+    padding: 8px!important;
+}
+
+.ratepay-profile-config tr:nth-child(even){background-color: #f2f2f2;}
+
+.ratepay-profile-config tr:hover {background-color: #ddd;}

@@ -55,7 +55,6 @@ class Payment extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $methodCode = $quoteOrOrder->getPayment()->getMethod();
         $id = (is_null($fixedPaymentMethod) ? $methodCode : $fixedPaymentMethod);
-        $id = $this->_rpPaymentHelper->getRpMethodWithoutCountry($id);
         $content = [
             'Method' => $this->_rpPaymentHelper->convertMethodToProduct($id), // "installment", "elv", "prepayment"
             'Amount' => round($quoteOrOrder->getGrandTotal(), 2)

@@ -133,3 +133,14 @@ ratepay_terms_block_6, "." ,module,RatePAY_Payment
 "The installment amount has been updated successfully.","The installment amount has been updated successfully.",module,RatePAY_Payment
 "Show details","Show details",module,RatePAY_Payment
 "Hide details","Hide details",module,RatePAY_Payment
+"ratepay_directdebit_save_bankdata_text","Selecting this option will make your next purchase from us faster and easier. You can remove your payment details at any time.",module,RatePAY_Payment
+"ratepay_directdebit_save_bankdata_link","Further information",module,RatePAY_Payment
+"ratepay_directdebit_save_bankdata_overlay_1","If you select „Save payment data“, your payment information will be saved for future purchases. This allows you to quickly and easily pay for items purchased without having to re-enter your payment data for your next purchases. The saved payment data can be removed at any time in your",module,RatePAY_Payment
+"ratepay_directdebit_save_bankdata_overlay_2","customer account.",module,RatePAY_Payment
+"ratepay_directdebit_save_bankdata_overlay_3","",module,RatePAY_Payment
+"Ratepay_invoice","Invoice",module,RatePAY_Payment
+"Ratepay_installment","Instalment",module,RatePAY_Payment
+"Ratepay_installment0","0% Instalment",module,RatePAY_Payment
+"Ratepay_elv","Direct Debit",module,RatePAY_Payment
+"Ratepay_0","No",module,RatePAY_Payment
+"Ratepay_1","Yes",module,RatePAY_Payment
