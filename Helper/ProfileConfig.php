@@ -27,11 +27,6 @@ class ProfileConfig extends \Magento\Framework\App\Helper\AbstractHelper
     protected $profileConfigResource;
 
     /**
-     * @var \Magento\Checkout\Model\Session
-     */
-    protected $checkoutSession;
-
-    /**
      * @var \RatePAY\Payment\Model\Entities\ProfileConfigurationFactory
      */
     protected $profileConfigFactory;
@@ -39,7 +34,6 @@ class ProfileConfig extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Payment constructor.
      * @param \Magento\Framework\App\Helper\Context $context
-     * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \RatePAY\Payment\Controller\LibraryController $libraryController
      * @param \RatePAY\Payment\Model\LibraryModel $libraryModel
      * @param \RatePAY\Payment\Model\ResourceModel\ProfileConfiguration $profileConfigResource
@@ -48,7 +42,6 @@ class ProfileConfig extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
-        \Magento\Checkout\Model\Session $checkoutSession,
         \RatePAY\Payment\Controller\LibraryController $libraryController,
         \RatePAY\Payment\Model\LibraryModel $libraryModel,
         \RatePAY\Payment\Model\ResourceModel\ProfileConfiguration $profileConfigResource,
@@ -59,7 +52,6 @@ class ProfileConfig extends \Magento\Framework\App\Helper\AbstractHelper
         $this->libraryController = $libraryController;
         $this->libraryModel = $libraryModel;
         $this->profileConfigResource = $profileConfigResource;
-        $this->checkoutSession = $checkoutSession;
         $this->ratepayHelper = $ratepayHelper;
         $this->profileConfigFactory = $profileConfigFactory;
     }
@@ -72,7 +64,7 @@ class ProfileConfig extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function importProfileConfiguration($sProfileId, $sSecurityCode, $blSandbox)
     {
-        $oHead = $this->libraryModel->getRequestHead($this->checkoutSession->getQuote(), null, null, null, $sProfileId, $sSecurityCode);
+        $oHead = $this->libraryModel->getRequestHead(null, null, null, null, $sProfileId, $sSecurityCode);
 
         $oProfileRequest = $this->libraryController->callProfileRequest($oHead, (bool)$blSandbox);
         if($oProfileRequest->isSuccessful()) {

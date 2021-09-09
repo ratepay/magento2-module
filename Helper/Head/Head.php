@@ -83,22 +83,29 @@ class Head extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function setHead($quoteOrOrder, $headModel, $fixedPaymentMethod = null, $profileId = null, $securityCode = null)
     {
-        $storeCode = $quoteOrOrder->getStore()->getCode();
-
-        $sMethodCode = (is_null($fixedPaymentMethod) ? $quoteOrOrder->getPayment()->getMethod() : $fixedPaymentMethod);
         if ($profileId === null || $securityCode === null) {
+            $sMethodCode = ((is_null($fixedPaymentMethod) && $quoteOrOrder) ? $quoteOrOrder->getPayment()->getMethod() : $fixedPaymentMethod);
             $method = $this->paymentHelper->getMethodInstance($sMethodCode);
+            $storeCode = null;
+            if ($quoteOrOrder) {
+                $storeCode = $quoteOrOrder->getStore()->getCode();
+            }
+            $profileId = (is_null($profileId) ? $method->getMatchingProfile(null, $storeCode)->getData('profile_id') : $profileId);
+            $securityCode = (is_null($securityCode) ? $method->getMatchingProfile(null, $storeCode)->getSecurityCode() : $securityCode);
         }
-        $profileId = (is_null($profileId) ? $method->getMatchingProfile(null, $storeCode)->getData('profile_id') : $profileId);
-        $securityCode = (is_null($securityCode) ? $method->getMatchingProfile(null, $storeCode)->getSecurityCode() : $securityCode);
 
         $serverAddr = '';
         if ($_SERVER && isset($_SERVER['SERVER_ADDR'])) {
             $serverAddr = $_SERVER['SERVER_ADDR'];
         }
 
+        $storeId = null;
+        if ($quoteOrOrder) {
+            $storeId = $quoteOrOrder->getStore()->getId();
+        }
+
         $headModel->setArray([
-            'SystemId' => $this->storeManager->getStore($quoteOrOrder->getStore()->getId())->getBaseUrl() . ' (' . $serverAddr . ')',
+            'SystemId' => $this->storeManager->getStore($storeId)->getBaseUrl() . ' (' . $serverAddr . ')',
             'Credential' => [
                 'ProfileId' => $profileId,
                 'Securitycode' => $securityCode
