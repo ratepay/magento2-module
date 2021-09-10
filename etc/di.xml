@@ -63,17 +63,6 @@
             <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
         </arguments>
     </type>
-    <type name="RatePAY\Payment\Helper\Content\Customer\Contacts">
-        <arguments>
-            <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
-        </arguments>
-    </type>
-    <type name="RatePAY\Payment\Helper\Content\Customer\Customer">
-        <arguments>
-            <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
-            <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
-        </arguments>
-    </type>
     <type name="RatePAY\Payment\Model\RechnungConfigProvider">
         <arguments>
             <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
@@ -103,16 +92,6 @@
             <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
         </arguments>
     </type>
-    <type name="RatePAY\Payment\Controller\LibraryController">
-        <arguments>
-            <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
-        </arguments>
-    </type>
-    <type name="RatePAY\Payment\Helper\Content\Payment\Payment">
-        <arguments>
-            <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
-        </arguments>
-    </type>
     <type name="RatePAY\Payment\Plugin\CreditmemoService">
         <arguments>
             <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
@@ -130,11 +109,6 @@
         </arguments>
     </type>
     <type name="RatePAY\Payment\Controller\Customer\Delete">
-        <arguments>
-            <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
-        </arguments>
-    </type>
-    <type name="RatePAY\Payment\Helper\Head\Additional">
         <arguments>
             <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
         </arguments>
