@@ -165,3 +165,6 @@ ratepay_terms_block_6, "einverstanden." ,module,RatePAY_Payment
 "Ratepay_elv","SEPA-Lastschrift",module,RatePAY_Payment
 "Ratepay_0","Nein",module,RatePAY_Payment
 "Ratepay_1","Ja",module,RatePAY_Payment
+"Available runtimes","Verfügbare Laufzeiten",module,RatePAY_Payment
+"<div class='ratepay-logo'></div><div class='payment-text'>Ratepay is the leading white-label-payment-solution-provider offering the most popular deferred payment methods to sizable online shops in the DACH region. The white label solution optimizes your conversion and ensures that you own your customer journey from the landing page to the checkout.</div>","<div class='ratepay-logo'></div><div class='payment-text'>123</div>",module,RatePAY_Payment
+"<![CDATA[<div class='ratepay-logo'></div><div class='payment-text'>Ratepay is the leading white-label-payment-solution-provider offering the most popular deferred payment methods to sizable online shops in the DACH region. The white label solution optimizes your conversion and ensures that you own your customer journey from the landing page to the checkout.</div>]]>","<div class='ratepay-logo'></div><div class='payment-text'>ABC</div>",module,RatePAY_Payment

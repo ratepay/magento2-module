@@ -55,7 +55,14 @@ $aProfileConfigs = $this->getProfileConfigs();
                         <?php endif; ?>
                     </td>
                 </tr>
-
+                <?php if ($oProfile->isInstalmentActive()): ?>
+                    <tr>
+                        <td class="label"><?php echo __('Available runtimes'); ?></td>
+                        <td>
+                            <?php echo str_replace(",", ", ", $oProfile->getData("month_allowed")); ?>
+                        </td>
+                    </tr>
+                <?php endif; ?>
                 <tr>
                     <td class="label"><?php echo __('B2B'); ?></td>
                     <td>
@@ -102,9 +109,9 @@ $aProfileConfigs = $this->getProfileConfigs();
             require(['prototype'], function(){
 
                 //<![CDATA[
-                function updateProfileConfigurations() {
+                function updateProfileConfigurations(isBackendConfig) {
                     new Ajax.Request('<?php echo $this->getProfileRefreshUrl() ?>', {
-                        parameters: {isBackendConfig: <?php echo (int)$this->isBackendPaymentConfiguration(); ?>},
+                        parameters: {isBackendConfig: isBackendConfig},
                         onSuccess: function(response) {
                             try {
                                 if (response.responseText != 'false' && response.responseText.isJSON()) {
@@ -131,7 +138,7 @@ $aProfileConfigs = $this->getProfileConfigs();
         </script>
         <div class="actions actions-validate-vat">
             <div id="validation_result" class="message-validation hidden"></div>
-            <button onclick="javascript:updateProfileConfigurations(); return false;" class="action-validate-vat" type="button">
+            <button onclick="javascript:updateProfileConfigurations(<?php echo (int)$this->isBackendPaymentConfiguration(); ?>); return false;" class="action-validate-vat" type="button">
                 <span><?php echo $block->escapeHtml(__('Refresh Profile configurations')) ?></span>
             </button>
         </div>

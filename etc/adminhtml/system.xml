@@ -2,8 +2,8 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
         <section id="payment">
-            <group id="ratepay_config" translate="label" type="text" sortOrder="999" showInDefault="1" showInWebsite="1" showInStore="1">
-                <comment><![CDATA[<div class="ratepay-logo"></div><div class="payment-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. <br/>Etiam commodo tristique odio, eu tincidunt lectus convallis sit amet. <br/>Praesent sit amet lectus pretium, sodales nisi ut, ornare libero. Donec finibus venenatis lectus, eu pretium eros.</div>]]></comment>
+            <group id="ratepay_config" translate="label,comment" type="text" sortOrder="999" showInDefault="1" showInWebsite="1" showInStore="1">
+                <comment><![CDATA[<div class="ratepay-logo"></div><div class="payment-text">Ratepay is the leading white-label-payment-solution-provider offering the most popular deferred payment methods to sizable online shops in the DACH region. The white label solution optimizes your conversion and ensures that you own your customer journey from the landing page to the checkout.</div>]]></comment>
                 <fieldset_css>complex ratepay-section</fieldset_css>
                 <frontend_model>Magento\Paypal\Block\Adminhtml\System\Config\Fieldset\Payment</frontend_model>
                 <group id="ratepay" translate="label" type="text" sortOrder="999" showInDefault="1" showInWebsite="1" showInStore="1">

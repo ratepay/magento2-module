@@ -17,14 +17,33 @@ class ProfileConfiguration extends \Magento\Framework\Model\ResourceModel\Db\Abs
         $this->_init(ProfileConfigTable::TABLE_NAME, 'profile_id');
     }
 
-    protected function getDataFromResponse($aProfileConfigResponse, $sKey, $sSubArray, $sDefault = '')
+    /**
+     * @param array  $aProfileConfigResponse
+     * @param string $sKey
+     * @param string $sSubArray
+     * @param string $sDefault
+     * @param bool   $blYesNoToInt
+     * @return string
+     */
+    protected function getDataFromResponse($aProfileConfigResponse, $sKey, $sSubArray, $sDefault = '', $blYesNoToInt = false)
     {
         if (isset($aProfileConfigResponse[$sSubArray][$sKey])) {
-            return (string)$aProfileConfigResponse[$sSubArray][$sKey];
+            $sValue = (string)$aProfileConfigResponse[$sSubArray][$sKey];
+            if ($blYesNoToInt === true) {
+                $sValue = str_ireplace("yes", 1, $sValue);
+                $sValue = str_ireplace("no", 0, $sValue);
+            }
+            return $sValue;
         }
         return $sDefault;
     }
 
+    /**
+     * Convert API response array to db table format
+     *
+     * @param  array $aProfileConfigResponse
+     * @return array
+     */
     protected function formatConfigData($aProfileConfigResponse)
     {
         $aReturnData = [];
@@ -37,11 +56,11 @@ class ProfileConfiguration extends \Magento\Framework\Model\ResourceModel\Db\Abs
         $aReturnData['activation_status_installment']       = $this->getDataFromResponse($aProfileConfigResponse, 'activation-status-installment',      'merchantConfig');
         $aReturnData['activation_status_elv']               = $this->getDataFromResponse($aProfileConfigResponse, 'activation-status-elv',              'merchantConfig');
         $aReturnData['activation_status_prepayment']        = $this->getDataFromResponse($aProfileConfigResponse, 'activation-status-prepayment',       'merchantConfig');
-        $aReturnData['eligibility_ratepay_invoice']         = $this->getDataFromResponse($aProfileConfigResponse, 'eligibility-ratepay-invoice',        'merchantConfig');
-        $aReturnData['eligibility_ratepay_installment']     = $this->getDataFromResponse($aProfileConfigResponse, 'eligibility-ratepay-installment',    'merchantConfig');
-        $aReturnData['eligibility_ratepay_elv']             = $this->getDataFromResponse($aProfileConfigResponse, 'eligibility-ratepay-elv',            'merchantConfig');
-        $aReturnData['eligibility_ratepay_prepayment']      = $this->getDataFromResponse($aProfileConfigResponse, 'eligibility-ratepay-prepayment',     'merchantConfig');
-        $aReturnData['eligibility_ratepay_pq_full']         = $this->getDataFromResponse($aProfileConfigResponse, 'eligibility-ratepay-pq-full',        'merchantConfig');
+        $aReturnData['eligibility_ratepay_invoice']         = $this->getDataFromResponse($aProfileConfigResponse, 'eligibility-ratepay-invoice',        'merchantConfig', '', true);
+        $aReturnData['eligibility_ratepay_installment']     = $this->getDataFromResponse($aProfileConfigResponse, 'eligibility-ratepay-installment',    'merchantConfig', '', true);
+        $aReturnData['eligibility_ratepay_elv']             = $this->getDataFromResponse($aProfileConfigResponse, 'eligibility-ratepay-elv',            'merchantConfig', '', true);
+        $aReturnData['eligibility_ratepay_prepayment']      = $this->getDataFromResponse($aProfileConfigResponse, 'eligibility-ratepay-prepayment',     'merchantConfig', '', true);
+        $aReturnData['eligibility_ratepay_pq_full']         = $this->getDataFromResponse($aProfileConfigResponse, 'eligibility-ratepay-pq-full',        'merchantConfig', '', true);
         $aReturnData['tx_limit_invoice_min']                = $this->getDataFromResponse($aProfileConfigResponse, 'tx-limit-invoice-min',               'merchantConfig');
         $aReturnData['tx_limit_invoice_max']                = $this->getDataFromResponse($aProfileConfigResponse, 'tx-limit-invoice-max',               'merchantConfig');
         $aReturnData['tx_limit_invoice_max_b2b']            = $this->getDataFromResponse($aProfileConfigResponse, 'tx-limit-invoice-max-b2b',           'merchantConfig');
@@ -54,16 +73,16 @@ class ProfileConfiguration extends \Magento\Framework\Model\ResourceModel\Db\Abs
         $aReturnData['tx_limit_prepayment_min']             = $this->getDataFromResponse($aProfileConfigResponse, 'tx-limit-prepayment-min',            'merchantConfig');
         $aReturnData['tx_limit_prepayment_max']             = $this->getDataFromResponse($aProfileConfigResponse, 'tx-limit-prepayment-max',            'merchantConfig');
         $aReturnData['tx_limit_prepayment_max_b2b']         = $this->getDataFromResponse($aProfileConfigResponse, 'tx-limit-prepayment-max-b2b',        'merchantConfig');
-        $aReturnData['b2b_invoice']                         = $this->getDataFromResponse($aProfileConfigResponse, 'b2b-invoice',                        'merchantConfig');
-        $aReturnData['b2b_elv']                             = $this->getDataFromResponse($aProfileConfigResponse, 'b2b-elv',                            'merchantConfig');
-        $aReturnData['b2b_installment']                     = $this->getDataFromResponse($aProfileConfigResponse, 'b2b-installment',                    'merchantConfig');
-        $aReturnData['b2b_prepayment']                      = $this->getDataFromResponse($aProfileConfigResponse, 'b2b-prepayment',                     'merchantConfig');
-        $aReturnData['b2b_PQ_full']                         = $this->getDataFromResponse($aProfileConfigResponse, 'b2b-PQ-full',                        'merchantConfig');
-        $aReturnData['delivery_address_invoice']            = $this->getDataFromResponse($aProfileConfigResponse, 'delivery-address-invoice',           'merchantConfig');
-        $aReturnData['delivery_address_installment']        = $this->getDataFromResponse($aProfileConfigResponse, 'delivery-address-installment',       'merchantConfig');
-        $aReturnData['delivery_address_elv']                = $this->getDataFromResponse($aProfileConfigResponse, 'delivery-address-elv',               'merchantConfig');
-        $aReturnData['delivery_address_prepayment']         = $this->getDataFromResponse($aProfileConfigResponse, 'delivery-address-prepayment',        'merchantConfig');
-        $aReturnData['delivery_address_PQ_full']            = $this->getDataFromResponse($aProfileConfigResponse, 'delivery-address-PQ-full',           'merchantConfig');
+        $aReturnData['b2b_invoice']                         = $this->getDataFromResponse($aProfileConfigResponse, 'b2b-invoice',                        'merchantConfig', '', true);
+        $aReturnData['b2b_elv']                             = $this->getDataFromResponse($aProfileConfigResponse, 'b2b-elv',                            'merchantConfig', '', true);
+        $aReturnData['b2b_installment']                     = $this->getDataFromResponse($aProfileConfigResponse, 'b2b-installment',                    'merchantConfig', '', true);
+        $aReturnData['b2b_prepayment']                      = $this->getDataFromResponse($aProfileConfigResponse, 'b2b-prepayment',                     'merchantConfig', '', true);
+        $aReturnData['b2b_PQ_full']                         = $this->getDataFromResponse($aProfileConfigResponse, 'b2b-PQ-full',                        'merchantConfig', '', true);
+        $aReturnData['delivery_address_invoice']            = $this->getDataFromResponse($aProfileConfigResponse, 'delivery-address-invoice',           'merchantConfig', '', true);
+        $aReturnData['delivery_address_installment']        = $this->getDataFromResponse($aProfileConfigResponse, 'delivery-address-installment',       'merchantConfig', '', true);
+        $aReturnData['delivery_address_elv']                = $this->getDataFromResponse($aProfileConfigResponse, 'delivery-address-elv',               'merchantConfig', '', true);
+        $aReturnData['delivery_address_prepayment']         = $this->getDataFromResponse($aProfileConfigResponse, 'delivery-address-prepayment',        'merchantConfig', '', true);
+        $aReturnData['delivery_address_PQ_full']            = $this->getDataFromResponse($aProfileConfigResponse, 'delivery-address-PQ-full',           'merchantConfig', '', true);
         $aReturnData['country_code_billing']                = $this->getDataFromResponse($aProfileConfigResponse, 'country-code-billing',               'merchantConfig');
         $aReturnData['country_code_delivery']               = $this->getDataFromResponse($aProfileConfigResponse, 'country-code-delivery',              'merchantConfig');
         $aReturnData['interestrate_min']                    = $this->getDataFromResponse($aProfileConfigResponse, 'interestrate-min',                   'installmentConfig');

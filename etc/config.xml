@@ -56,7 +56,7 @@
                 <model>RatePAY\Payment\Model\Method\InvoiceBackend</model>
                 <sandbox>1</sandbox>
                 <order_status>pending</order_status>
-                <title>Ratepay Invoice Germany Backend</title>
+                <title>Ratepay Invoice Backend</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
             </ratepay_invoice_backend>
@@ -66,7 +66,7 @@
                 <sandbox>1</sandbox>
                 <model>RatePAY\Payment\Model\Method\DirectdebitBackend</model>
                 <order_status>pending</order_status>
-                <title>Ratepay Directdebit Germany Backend</title>
+                <title>Ratepay Directdebit Backend</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
             </ratepay_directdebit_backend>
@@ -76,7 +76,7 @@
                 <sandbox>1</sandbox>
                 <model>RatePAY\Payment\Model\Method\InstallmentBackend</model>
                 <order_status>pending</order_status>
-                <title>Ratepay Installment Germany Backend</title>
+                <title>Ratepay Instalment Backend</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
             </ratepay_installment_backend>
@@ -86,7 +86,7 @@
                 <sandbox>1</sandbox>
                 <model>RatePAY\Payment\Model\Method\Installment0Backend</model>
                 <order_status>pending</order_status>
-                <title>Ratepay 0% Financing Germany Backend</title>
+                <title>Ratepay 0% Financing Backend</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
             </ratepay_installment0_backend>

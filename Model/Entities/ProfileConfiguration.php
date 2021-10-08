@@ -77,6 +77,22 @@ class ProfileConfiguration extends AbstractModel
         return $aActiveProducts;
     }
 
+    /**
+     * Check if a instalment method is active in this profile
+     *
+     * @return bool
+     */
+    public function isInstalmentActive()
+    {
+        $aActiveProducts = $this->getActiveProducts();
+        foreach ($aActiveProducts as $sProduct) {
+            if (stripos($sProduct, "instal") !== false) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function getProductData($sKey, $sIdentifier, $blIsMethodCode = false)
     {
         if ($blIsMethodCode === true) {
