@@ -54,7 +54,7 @@ define(
                 }
 
                 if (this.isInstallmentPlanSet === false) {
-                    this.messageContainer.addErrorMessage({'message': $t('Please select a installment runtime or installment amount.')});
+                    this.messageContainer.addErrorMessage({'message': $t('Please select a instalment runtime or instalment amount.')});
                     return false;
                 }
                 return true;

@@ -40,7 +40,7 @@ define([
                         if (calcType == 'time') {
                             paymentRenderer.messageContainer.addSuccessMessage({'message': 'The runtime has been updated successfully.'});
                         } else if(calcType == 'rate') {
-                            paymentRenderer.messageContainer.addSuccessMessage({'message': 'The installment amount has been updated successfully.'});
+                            paymentRenderer.messageContainer.addSuccessMessage({'message': 'The instalment amount has been updated successfully.'});
                         }
                     }
                 } else {

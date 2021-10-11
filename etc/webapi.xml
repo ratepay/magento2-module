@@ -6,4 +6,10 @@
             <resource ref="anonymous" />
         </resources>
     </route>
+    <route url="/V1/carts/mine/ratepay-installmentPlanBackend" method="POST">
+        <service class="RatePAY\Payment\Api\InstallmentPlanInterface" method="getInstallmentPlanBackend"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
 </routes>

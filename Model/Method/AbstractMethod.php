@@ -153,6 +153,13 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
     protected $hidePaymentType;
 
     /**
+     * BAMS StoreBankAccount request model
+     *
+     * @var StoreBankAccount
+     */
+    protected $storeBankAccount;
+
+    /**
      * Ratepay capture handler
      *
      * @var Capture
@@ -197,6 +204,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \RatePAY\Payment\Controller\LibraryController $libraryController
      * @param \RatePAY\Payment\Model\ResourceModel\HidePaymentType $hidePaymentType
+     * @param \RatePAY\Payment\Model\BamsApi\StoreBankAccount $storeBankAccount
      * @param \RatePAY\Payment\Model\Handler\Capture $captureHandler
      * @param \RatePAY\Payment\Model\Handler\Refund $refundHandler
      * @param \RatePAY\Payment\Model\Handler\Cancel $cancelHandler
@@ -223,6 +231,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         \Magento\Customer\Model\Session $customerSession,
         \RatePAY\Payment\Controller\LibraryController $libraryController,
         \RatePAY\Payment\Model\ResourceModel\HidePaymentType $hidePaymentType,
+        \RatePAY\Payment\Model\BamsApi\StoreBankAccount $storeBankAccount,
         \RatePAY\Payment\Model\Handler\Capture $captureHandler,
         \RatePAY\Payment\Model\Handler\Refund $refundHandler,
         \RatePAY\Payment\Model\Handler\Cancel $cancelHandler,
@@ -253,6 +262,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         $this->customerSession = $customerSession;
         $this->libraryController = $libraryController;
         $this->hidePaymentType = $hidePaymentType;
+        $this->storeBankAccount = $storeBankAccount;
         $this->captureHandler = $captureHandler;
         $this->refundHandler = $refundHandler;
         $this->cancelHandler = $cancelHandler;
@@ -435,15 +445,17 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
     /**
      * @param  \Magento\Quote\Api\Data\CartInterface|null $oQuote
      * @param  string|null $sStoreCode
+     * @param  double $dGrandTotal
+     * @param  string $sBillingCountryId
      * @return \RatePAY\Payment\Model\Entities\ProfileConfiguration|false
      */
-    public function getMatchingProfile(\Magento\Quote\Api\Data\CartInterface $oQuote = null, $sStoreCode = null)
+    public function getMatchingProfile(\Magento\Quote\Api\Data\CartInterface $oQuote = null, $sStoreCode = null, $dGrandTotal = null, $sBillingCountryId = null)
     {
         if ($this->profile === null) { #
             if ($oQuote === null) {
-                if ($this->isBackend() === false) {
+                if ($this->isBackendMethod() === false) {
                     $oQuote = $this->checkoutSession->getQuote();
-                } elseif ($this->isBackend() === true) {
+                } else {
                     $oQuote = $this->backendCheckoutSession->getQuote();
                 }
             }
@@ -451,7 +463,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
                 $sStoreCode = $oQuote->getStore()->getCode();
             }
 
-            $this->profile = $this->profileConfig->getMatchingProfile($oQuote, $this->getCode(), $sStoreCode);
+            $this->profile = $this->profileConfig->getMatchingProfile($oQuote, $this->getCode(), $sStoreCode, $dGrandTotal, $sBillingCountryId);
         }
         return $this->profile;
     }

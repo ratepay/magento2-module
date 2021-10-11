@@ -76,6 +76,36 @@ class InstallmentPlan implements InstallmentPlanInterface
      */
     public function getInstallmentPlan($calcType, $calcValue, $grandTotal, $methodCode)
     {
+        return $this->getInstallmentPlanResponse($calcType, $calcValue, $grandTotal, $methodCode);
+    }
+
+    /**
+     * Return installment plan details
+     *
+     * @param string $calcType
+     * @param string $calcValue
+     * @param float $grandTotal
+     * @param string $methodCode
+     * @param string $billingCountryId
+     * @return \RatePAY\Payment\Service\V1\Data\InstallmentPlanResponse
+     */
+    public function getInstallmentPlanBackend($calcType, $calcValue, $grandTotal, $methodCode, $billingCountryId)
+    {
+        return $this->getInstallmentPlanResponse($calcType, $calcValue, $grandTotal, $methodCode, $billingCountryId);
+    }
+
+    /**
+     * Return installment plan details
+     *
+     * @param string $calcType
+     * @param string $calcValue
+     * @param float $grandTotal
+     * @param string $methodCode
+     * @param string $billingCountryId
+     * @return \RatePAY\Payment\Service\V1\Data\InstallmentPlanResponse
+     */
+    protected function getInstallmentPlanResponse($calcType, $calcValue, $grandTotal, $methodCode, $billingCountryId = null)
+    {
         /** @var \RatePAY\Payment\Service\V1\Data\InstallmentPlanResponse $response */
         $response = $this->responseFactory->create();
         $response->setData('success', false);
@@ -85,12 +115,13 @@ class InstallmentPlan implements InstallmentPlanInterface
             $sessionGrandTotal = $grandTotal; // needed for backend orders
         }
 
-        if (empty($calcType) || floatval($calcValue) < 0) {
-            $response->setData('errormessage', 'calc data invalid');
+        if (empty($calcType) || floatval($calcValue) <= 0) {
+            $response->setData('errormessage', 'Calc data invalid');
+            return $response;
         }
 
         try {
-            $installmentPlan = $this->getInstallmentPlanFromRatepay($calcType, (int)$calcValue, $sessionGrandTotal, $methodCode);
+            $installmentPlan = $this->getInstallmentPlanFromRatepay($calcType, (int)$calcValue, $sessionGrandTotal, $methodCode, $billingCountryId);
             if ($installmentPlan !== false) {
                 $this->block->setInstallmentData(json_decode($installmentPlan, true));
                 $this->block->setMethodCode($methodCode);
@@ -114,14 +145,18 @@ class InstallmentPlan implements InstallmentPlanInterface
      * @param string $calculationValue
      * @param float $grandTotal
      * @param string $methodCode
+     * @param string $billingCountryId
      * @return mixed
      */
-    protected function getInstallmentPlanFromRatepay($calculationType, $calculationValue, $grandTotal, $methodCode) {
-        $oProfile = $this->paymentHelper->getMethodInstance($methodCode)->getMatchingProfile();
+    protected function getInstallmentPlanFromRatepay($calculationType, $calculationValue, $grandTotal, $methodCode, $billingCountryId = null) {
+        $oProfile = $this->paymentHelper->getMethodInstance($methodCode)->getMatchingProfile(null, null, $grandTotal, $billingCountryId);
+        if (!$oProfile) {
+            return false;
+        }
+
         $profileId = $oProfile->getData('profile_id');
         $securitycode = $oProfile->getSecurityCode();
         $sandbox = $oProfile->getSandboxMode();
-
         $configurationRequest = $this->rpLibraryController->getInstallmentPlan($profileId, $securitycode, $sandbox, $grandTotal, $calculationType, $calculationValue);
 
         $installmentPlan = json_decode($configurationRequest, true);
@@ -130,7 +165,6 @@ class InstallmentPlan implements InstallmentPlanInterface
         $this->checkoutSession->setData('ratepayInstallmentAmount_'.$methodCode, $installmentPlan['rate']);
         $this->checkoutSession->setData('ratepayLastInstallmentAmount_'.$methodCode, $installmentPlan['lastRate']);
         $this->checkoutSession->setData('ratepayInterestRate_'.$methodCode, $installmentPlan['interestRate']);
-
         return $configurationRequest;
     }
 }

@@ -45,7 +45,12 @@ function updateInstallmentPlanAmount(restUrl, grandTotal, methodCode) {
     require([
         'jquery'
     ], function ($) {
-        updateInstallmentPlan(restUrl, 'rate', $('#' + methodCode + '-rate')[0].value, grandTotal, methodCode);
+        var calcValue = $('#' + methodCode + '-rate')[0].value;
+        if (parseFloat(calcValue) > 0) {
+            updateInstallmentPlan(restUrl, 'rate', calcValue, grandTotal, methodCode);
+        } else {
+            alert("Please enter a valid instalment value");
+        }
     });
 }
 
@@ -53,7 +58,10 @@ function updateInstallmentPlanRuntime(restUrl, grandTotal, methodCode) {
     require([
         'jquery'
     ], function ($) {
-        updateInstallmentPlan(restUrl, 'time', $('#' + methodCode + '-time')[0].value, grandTotal, methodCode);
+        var calcValue = $('#' + methodCode + '-time')[0].value;
+        if (parseFloat(calcValue) > 0) {
+            updateInstallmentPlan(restUrl, 'time', calcValue, grandTotal, methodCode);
+        }
     });
 }
 
@@ -61,14 +69,18 @@ function updateInstallmentPlan(restUrl, calcType, calcValue, grandTotal, methodC
     require([
         'jquery'
     ], function ($) {
+        var billingCountryId = "";
+        if ($("#order-billing_address_country_id")){
+            billingCountryId = $("#order-billing_address_country_id").val();
+        }
         var request = {
             calcType: calcType,
             calcValue: calcValue,
             grandTotal: grandTotal,
-            methodCode: methodCode
+            methodCode: methodCode,
+            billingCountryId: billingCountryId
         };
         var data = JSON.stringify(request);
-
         $.ajax({
             url: restUrl,
             type: 'POST',

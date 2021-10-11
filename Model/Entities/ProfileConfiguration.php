@@ -225,9 +225,11 @@ class ProfileConfiguration extends AbstractModel
      *
      * @param \Magento\Quote\Api\Data\CartInterface $oQuote
      * @param string                                $sMethodCode
+     * @param double                                $dTotalAmount
+     * @param string                                $sBillingCountryId
      * @return bool
      */
-    public function isApplicableForQuote(\Magento\Quote\Api\Data\CartInterface $oQuote, $sMethodCode)
+    public function isApplicableForQuote(\Magento\Quote\Api\Data\CartInterface $oQuote, $sMethodCode, $dTotalAmount = null, $sBillingCountryId = null)
     {
         $sProduct = $this->getRatepayProduct($sMethodCode);
 
@@ -242,11 +244,16 @@ class ProfileConfiguration extends AbstractModel
         }
 
         // check country
-        if (!in_array($oQuote->getBillingAddress()->getCountryId(), explode(",", $this->getData("country_code_billing")))) {
+        if ($sBillingCountryId === null) {
+            $sBillingCountryId = $oQuote->getBillingAddress()->getCountryId();
+        }
+        if (!in_array($sBillingCountryId, explode(",", $this->getData("country_code_billing")))) {
             return false;
         }
 
-        $dTotalAmount = $oQuote->getGrandTotal();
+        if ($dTotalAmount === null) {
+            $dTotalAmount = $oQuote->getGrandTotal();
+        }
         $dMinAmount = $this->getProductData("tx_limit_?_min", $sMethodCode, true);
         $dMaxAmount = $this->getProductData("tx_limit_?_max", $sMethodCode, true);
         if (!empty($oQuote->getBillingAddress()->getCompany()) && ((bool)$this->getProductData("b2b_?", $sMethodCode, true) === true && ($dTotalAmount === null || $dTotalAmount <= $this->getProductData("tx_limit_?_max_b2b", $sMethodCode)))) {

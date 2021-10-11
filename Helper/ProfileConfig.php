@@ -179,19 +179,20 @@ class ProfileConfig extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Quote\Api\Data\CartInterface $oQuote
      * @param string                                $sMethodCode
      * @param string                                $sStoreCode
+     * @param double                                $dGrandTotal
+     * @param string                                $sBillingCountryId
      * @return ProfileConfiguration|false
      */
-    public function getMatchingProfile(\Magento\Quote\Api\Data\CartInterface $oQuote, $sMethodCode, $sStoreCode = null)
+    public function getMatchingProfile(\Magento\Quote\Api\Data\CartInterface $oQuote, $sMethodCode, $sStoreCode = null, $dGrandTotal = null, $sBillingCountryId = null)
     {
         $aProfileData = $this->getConfiguredProfiles($sMethodCode, $sStoreCode);
-
         foreach ($aProfileData as $aProfile) {
             /** @var ProfileConfiguration $oProfileConfig */
             $oProfileConfig = $this->profileConfigFactory->create();
             $oProfileConfig->load($aProfile['profileId']);
             $oProfileConfig->setSandboxMode((bool)$aProfile['sandbox']);
             $oProfileConfig->setSecurityCode($aProfile['securityCode']);
-            if ($oProfileConfig->isApplicableForQuote($oQuote, $sMethodCode) === true) {
+            if ($oProfileConfig->isApplicableForQuote($oQuote, $sMethodCode, $dGrandTotal, $sBillingCountryId) === true) {
                 return $oProfileConfig;
             }
         }

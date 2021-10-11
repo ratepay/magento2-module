@@ -171,8 +171,8 @@ if ($b2bEnabled === true) {
         <br>
     <?php endif; ?>
     <hr>
-    <a id="<?php echo $code; ?>_sepa_use_banktransfer" onclick="showBankTransfer('<?php echo $code; ?>')"><?php echo __('I want to transfer the installments myself and not pay by direct debit'); ?></a>
-    <a id="<?php echo $code; ?>_sepa_use_directdebit" onclick="showDirectDebit('<?php echo $code; ?>')" style="display: none;"><?php echo __('I want to settle the installments by direct debit'); ?></a>
+    <a id="<?php echo $code; ?>_sepa_use_banktransfer" onclick="showBankTransfer('<?php echo $code; ?>')"><?php echo __('I want to transfer the instalments myself and not pay by direct debit'); ?></a>
+    <a id="<?php echo $code; ?>_sepa_use_directdebit" onclick="showDirectDebit('<?php echo $code; ?>')" style="display: none;"><?php echo __('I want to settle the instalments by direct debit'); ?></a>
     <input type="hidden" id="<?php echo $code; ?>_directdebit" name="payment[rp_directdebit]" value="1">
     <input type="submit" name="Submit" style="display: none;">
 </fieldset>

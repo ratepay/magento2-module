@@ -36,7 +36,7 @@
                 <sandbox>1</sandbox>
                 <model>RatePAY\Payment\Model\Method\Installment</model>
                 <order_status>pending</order_status>
-                <title>Ratepay Installment</title>
+                <title>Ratepay Instalment</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
             </ratepay_installment>

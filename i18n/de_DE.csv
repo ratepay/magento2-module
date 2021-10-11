@@ -70,6 +70,7 @@ B2B,B2B,module,RatePAY_Payment
 "Direct Debit","SEPA-Lastschrift",module,RatePAY_Payment
 "Ratepay-Datenschutzerklärung Url","Ratepay-Datenschutzerklärung Url",module,RatePAY_Payment
 Installment,Ratenzahlung,module,RatePAY_Payment
+Instalment,Ratenzahlung,module,RatePAY_Payment
 Rate min,Minimumrate,module,RatePAY_Payment
 "Month Allowed","Laufzeiten (in Monaten)",module,RatePAY_Payment
 "0% Financing","0% Finanzierung",module,RatePAY_Payment
@@ -131,15 +132,15 @@ ratepay_terms_block_6, "einverstanden." ,module,RatePAY_Payment
 "rp_mouseover_total_amount","Summe der vom K&auml;ufer zu zahlenden Betr&auml;ge aus Warenwert, Vertragsabschlussgeb&uuml;hr und Zinsen.",module,RatePAY_Payment
 "Please enter a valid IBAN.","Bitte geben Sie eine korrekte IBAN ein.",module,RatePAY_Payment
 "Please confirm the transmission of the necessary data to Ratepay.","Bitte bestätigen Sie die Übermittlung der erforderlichen Daten an Ratepay.",module,RatePAY_Payment
-"Please select a installment runtime or installment amount.","Bitte wählen Sie eine Raten-Laufzeit oder Ratenhöhe.",module,RatePAY_Payment
+"Please select a instalment runtime or instalment amount.","Bitte wählen Sie eine Raten-Laufzeit oder Ratenhöhe.",module,RatePAY_Payment
 "-- Please select runtime --","-- Bitte Laufzeit wählen --",module,RatePAY_Payment
 "The runtime has been updated successfully.","Die Laufzeit wurde erfolgreich angepasst.",module,RatePAY_Payment
-"The installment amount has been updated successfully.","Die Ratenhöhe wurde erfolgreich angepasst.",module,RatePAY_Payment
+"The instalment amount has been updated successfully.","Die Ratenhöhe wurde erfolgreich angepasst.",module,RatePAY_Payment
 "Show details","Zeige Details",module,RatePAY_Payment
 "Hide details","Schließe Details",module,RatePAY_Payment
 "Bundles can only be refunded completely","Bundle-Produkte können nur vollständig retourniert werden",module,RatePAY_Payment
-"I want to transfer the installments myself and not pay by direct debit","Ich möchte die Ratenzahlung selbst vornehmen und nicht per Lastschrift begleichen",module,RatePAY_Payment
-"I want to settle the installments by direct debit","Ich möchte die Ratenzahlung per Lastschrift begleichen",module,RatePAY_Payment
+"I want to transfer the instalments myself and not pay by direct debit","Ich möchte die Ratenzahlung selbst vornehmen und nicht per Lastschrift begleichen",module,RatePAY_Payment
+"I want to settle the instalments by direct debit","Ich möchte die Ratenzahlung per Lastschrift begleichen",module,RatePAY_Payment
 "Orders with different billing- and shipping-addresses are not supported for this payment method.","Unterschiedliche Rechnungs- und Lieferadressen werden von dieser Zahlungsart nicht unterstützt.",module,RatePAY_Payment
 "Return previous adjustments","Vorherige Erstattungen/Gebühren retournieren",module,RatePAY_Payment
 "Bank data management","Zahlungsdaten-Verwaltung",module,RatePAY_Payment
