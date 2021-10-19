@@ -60,15 +60,19 @@ define(
                 return true;
             },
             showSepaBlock: function () {
-                var validPaymentFirstdays = window.checkoutConfig.payment[this.getCode()].validPaymentFirstdays;
-                if (validPaymentFirstdays == '2' || Array.isArray(validPaymentFirstdays)) {
+                var config = this.getPaymentConfig();
+                if (config && (config.validPaymentFirstdays == '2' || Array.isArray(config.validPaymentFirstdays))) {
                     return true;
                 }
                 this.useDirectDebit = false;
                 return false;
             },
             getAllowedMonths: function () {
-                return window.checkoutConfig.payment[this.getCode()].allowedMonths;
+                var config = this.getPaymentConfig();
+                if (config) {
+                    return config.allowedMonths;
+                }
+                return [];
             },
             hasAllowedMonths: function () {
                 if (this.getAllowedMonths().length > 0) {
