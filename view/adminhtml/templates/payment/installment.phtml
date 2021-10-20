@@ -17,11 +17,11 @@ if ($b2bEnabled === true) {
 <fieldset class="admin__fieldset payment-method" id="payment_form_<?php /* @noEscape */ echo $code; ?>" style="display:none">
     <?php if ($block->isPhoneVisible()): ?>
         <div class="admin__field _required">
-            <label class="label admin__field-label" for="<?php /* @noEscape */ echo $code; ?>_iban">
+            <label class="label admin__field-label" for="<?php /* @noEscape */ echo $code; ?>_phone">
                 <span><?php echo $block->escapeHtml(__('Phone')); ?></span>
             </label>
             <div class="admin__field-control control">
-                <input id="<?php /* @noEscape */ echo $code; ?>_iban" name="payment[rp_phone]" value="<?php echo $block->getInfoData('rp_phone'); ?>">
+                <input id="<?php /* @noEscape */ echo $code; ?>_phone" name="payment[rp_phone]" value="<?php echo $block->getInfoData('rp_phone'); ?>">
             </div>
         </div>
     <?php endif; ?>
@@ -168,11 +168,10 @@ if ($b2bEnabled === true) {
                 </tbody>
             </table>
         </div>
-        <br>
+        <hr>
+        <a id="<?php echo $code; ?>_sepa_use_banktransfer" onclick="showBankTransfer('<?php echo $code; ?>')"><?php echo __('I want to transfer the instalments myself and not pay by direct debit'); ?></a>
+        <a id="<?php echo $code; ?>_sepa_use_directdebit" onclick="showDirectDebit('<?php echo $code; ?>')" style="display: none;"><?php echo __('I want to settle the instalments by direct debit'); ?></a>
     <?php endif; ?>
-    <hr>
-    <a id="<?php echo $code; ?>_sepa_use_banktransfer" onclick="showBankTransfer('<?php echo $code; ?>')"><?php echo __('I want to transfer the instalments myself and not pay by direct debit'); ?></a>
-    <a id="<?php echo $code; ?>_sepa_use_directdebit" onclick="showDirectDebit('<?php echo $code; ?>')" style="display: none;"><?php echo __('I want to settle the instalments by direct debit'); ?></a>
     <input type="hidden" id="<?php echo $code; ?>_directdebit" name="payment[rp_directdebit]" value="1">
     <input type="submit" name="Submit" style="display: none;">
 </fieldset>

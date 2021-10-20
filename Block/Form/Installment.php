@@ -28,7 +28,7 @@ class Installment extends Base
             return [];
         }
 
-        $validPaymentFirstdays = $oProfile->getData("valid_payment_firstday");
+        $validPaymentFirstdays = $oProfile->getData("valid_payment_firstdays");
         if(strpos($validPaymentFirstdays, ',') !== false) {
             $validPaymentFirstdays = explode(',', $validPaymentFirstdays);
         }
