@@ -35,13 +35,33 @@ class Installment0 extends AbstractMethod
      */
     public function getAllowedMonths($basketAmount)
     {
-        $oProfile = $this->getMatchingProfile();
-        if (!$oProfile) {
+        $aProfiles = $this->getMatchingProfiles();
+        if (empty($aProfiles)) {
             return [];
         }
 
+        $allowedRuntimes = [];
+        foreach ($aProfiles as $oProfile) {
+            $tmp = $this->getAllowedMonthsForProfile($basketAmount, $oProfile);
+            $allowedRuntimes = array_merge($allowedRuntimes, $tmp);
+        }
+        $allowedRuntimes = array_unique($allowedRuntimes);
+        sort($allowedRuntimes, SORT_NUMERIC);
+
+        return $allowedRuntimes;
+    }
+
+    /**
+     * Returns allowed runtimes for given profile
+     *
+     * @param  double                                               $basketAmount
+     * @param  \RatePAY\Payment\Model\Entities\ProfileConfiguration $oProfile
+     * @return array
+     */
+    public function getAllowedMonthsForProfile($basketAmount, $oProfile)
+    {
         $rateMinNormal = $oProfile->getProductData('rate_min_normal', $this->getCode(), true);
-        $runtimes = explode(",", $oProfile->getProductData('month_allowed', $this->getCode(), true));
+        $runtimes = explode(",", $oProfile->getData('month_allowed'));
         $interestrateMonth = ((float)$oProfile->getProductData('interestrate_default', $this->getCode(), true) / 12) / 100;
 
         $allowedRuntimes = [];
@@ -61,6 +81,7 @@ class Installment0 extends AbstractMethod
                 }
             }
         }
+
         return $allowedRuntimes;
     }
 
@@ -84,5 +105,56 @@ class Installment0 extends AbstractMethod
         }
 
         return true;
+    }
+
+    /**
+     * @param  \Magento\Quote\Api\Data\CartInterface|null $oQuote
+     * @param  string|null $sStoreCode
+     * @param  double $dGrandTotal
+     * @param  string $sBillingCountryId
+     * @param  int $installmentRuntime
+     * @return \RatePAY\Payment\Model\Entities\ProfileConfiguration|false
+     */
+    public function getMatchingProfile(\Magento\Quote\Api\Data\CartInterface $oQuote = null, $sStoreCode = null, $dGrandTotal = null, $sBillingCountryId = null, $installmentRuntime = null)
+    {
+        if ($this->profile === null) {
+            if ($oQuote === null) {
+                if ($this->isBackendMethod() === false) {
+                    $oQuote = $this->checkoutSession->getQuote();
+                } else {
+                    $oQuote = $this->backendCheckoutSession->getQuote();
+                }
+            }
+            if ($sStoreCode === null) {
+                $sStoreCode = $oQuote->getStore()->getCode();
+            }
+
+            if (empty($installmentRuntime) && !empty($this->checkoutSession->getData('ratepayInstallmentNumber_'.$this->getCode()))) {
+                $installmentRuntime = $this->checkoutSession->getData('ratepayInstallmentNumber_'.$this->getCode());
+            }
+
+            if (!empty($installmentRuntime)) {
+                if (empty($dGrandTotal)) {
+                    $dGrandTotal = $oQuote->getGrandTotal();
+                }
+
+                $aProfiles = $this->getMatchingProfiles($oQuote, $sStoreCode, $dGrandTotal, $sBillingCountryId);
+                if (empty($aProfiles)) {
+                    $this->profile = false;
+                    return $this->profile;
+                }
+
+                foreach ($aProfiles as $oMatchingProfile) {
+                    $aAllowedMonths = $this->getAllowedMonthsForProfile($dGrandTotal, $oMatchingProfile);
+                    if (in_array($installmentRuntime, $aAllowedMonths)) {
+                        $this->profile = $oMatchingProfile;
+                        return $this->profile;
+                    }
+                }
+            }
+
+            $this->profile = $this->profileConfig->getMatchingProfile($oQuote, $this->getCode(), $sStoreCode, $dGrandTotal, $sBillingCountryId);
+        }
+        return $this->profile;
     }
 }

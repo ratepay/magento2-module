@@ -178,6 +178,11 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
     protected $profile = null;
 
     /**
+     * @var \RatePAY\Payment\Model\Entities\ProfileConfiguration[]|null
+     */
+    protected $profiles = null;
+
+    /**
      * AbstractMethod constructor.
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
@@ -436,11 +441,12 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
      * @param  string|null $sStoreCode
      * @param  double $dGrandTotal
      * @param  string $sBillingCountryId
+     * @param  int $installmentRuntime
      * @return \RatePAY\Payment\Model\Entities\ProfileConfiguration|false
      */
-    public function getMatchingProfile(\Magento\Quote\Api\Data\CartInterface $oQuote = null, $sStoreCode = null, $dGrandTotal = null, $sBillingCountryId = null)
+    public function getMatchingProfile(\Magento\Quote\Api\Data\CartInterface $oQuote = null, $sStoreCode = null, $dGrandTotal = null, $sBillingCountryId = null, $installmentRuntime = null)
     {
-        if ($this->profile === null) { #
+        if ($this->profile === null) {
             if ($oQuote === null) {
                 if ($this->isBackendMethod() === false) {
                     $oQuote = $this->checkoutSession->getQuote();
@@ -455,6 +461,32 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
             $this->profile = $this->profileConfig->getMatchingProfile($oQuote, $this->getCode(), $sStoreCode, $dGrandTotal, $sBillingCountryId);
         }
         return $this->profile;
+    }
+
+    /**
+     * @param  \Magento\Quote\Api\Data\CartInterface|null $oQuote
+     * @param  string|null $sStoreCode
+     * @param  double $dGrandTotal
+     * @param  string $sBillingCountryId
+     * @return \RatePAY\Payment\Model\Entities\ProfileConfiguration[]|false
+     */
+    public function getMatchingProfiles(\Magento\Quote\Api\Data\CartInterface $oQuote = null, $sStoreCode = null, $dGrandTotal = null, $sBillingCountryId = null)
+    {
+        if ($this->profiles === null) {
+            if ($oQuote === null) {
+                if ($this->isBackendMethod() === false) {
+                    $oQuote = $this->checkoutSession->getQuote();
+                } else {
+                    $oQuote = $this->backendCheckoutSession->getQuote();
+                }
+            }
+            if ($sStoreCode === null) {
+                $sStoreCode = $oQuote->getStore()->getCode();
+            }
+
+            $this->profiles = $this->profileConfig->getAllMatchingProfiles($oQuote, $this->getCode(), $sStoreCode, $dGrandTotal, $sBillingCountryId);
+        }
+        return $this->profiles;
     }
 
     /**
@@ -688,6 +720,18 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
      * @return array
      */
     public function getAllowedMonths($basketAmount)
+    {
+        return [];
+    }
+
+    /**
+     * Returns allowed runtimes for given profile
+     *
+     * @param  double                                               $basketAmount
+     * @param  \RatePAY\Payment\Model\Entities\ProfileConfiguration $oProfile
+     * @return array
+     */
+    public function getAllowedMonthsForProfile($basketAmount, $oProfile)
     {
         return [];
     }

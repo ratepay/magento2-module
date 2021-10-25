@@ -138,6 +138,38 @@ class InstallmentPlan implements InstallmentPlanInterface
         return $response;
     }
 
+    protected function getProfiles($calculationType, $calculationValue, $grandTotal, $methodCode, $billingCountryId = null)
+    {
+        if (stripos($methodCode, "installment0") !== false) {
+            if ($calculationType == "time") {
+                return [$this->paymentHelper->getMethodInstance($methodCode)->getMatchingProfile(null, null, $grandTotal, $billingCountryId, $calculationValue)];
+            } elseif ($calculationType == "rate") {
+                return $this->paymentHelper->getMethodInstance($methodCode)->getMatchingProfiles(null, null, $grandTotal, $billingCountryId);
+            }
+        }
+        return [$this->paymentHelper->getMethodInstance($methodCode)->getMatchingProfile(null, null, $grandTotal, $billingCountryId)];
+    }
+
+    protected function selectInstallmentPlan($responses, $calculationType, $calculationValue, $grandTotal)
+    {
+        $return = $responses[0];
+        if (count($responses) > 1) {
+            $dDiff = false;
+            foreach ($responses as $response) {
+                $installmentPlan = json_decode($response, true);
+                $dCurrentDiff = $calculationValue - $installmentPlan['rate'];
+                if ($dCurrentDiff < 0) {
+                    $dCurrentDiff = $dCurrentDiff * -1;
+                }
+                if ($dDiff === false || $dCurrentDiff < $dDiff) {
+                    $dDiff = $dCurrentDiff;
+                    $return = $response;
+                }
+            }
+        }
+        return $return;
+    }
+
     /**
      * get installment plan
      *
@@ -149,15 +181,20 @@ class InstallmentPlan implements InstallmentPlanInterface
      * @return mixed
      */
     protected function getInstallmentPlanFromRatepay($calculationType, $calculationValue, $grandTotal, $methodCode, $billingCountryId = null) {
-        $oProfile = $this->paymentHelper->getMethodInstance($methodCode)->getMatchingProfile(null, null, $grandTotal, $billingCountryId);
-        if (!$oProfile) {
+        $aProfiles = $this->getProfiles($calculationType, $calculationValue, $grandTotal, $methodCode, $billingCountryId);
+        if (empty($aProfiles)) {
             return false;
         }
 
-        $profileId = $oProfile->getData('profile_id');
-        $securitycode = $oProfile->getSecurityCode();
-        $sandbox = $oProfile->getSandboxMode();
-        $configurationRequest = $this->rpLibraryController->getInstallmentPlan($profileId, $securitycode, $sandbox, $grandTotal, $calculationType, $calculationValue);
+        $responses = [];
+        foreach ($aProfiles as $oProfile) {
+            $profileId = $oProfile->getData('profile_id');
+            $securitycode = $oProfile->getSecurityCode();
+            $sandbox = $oProfile->getSandboxMode();
+            $responses[] = $this->rpLibraryController->getInstallmentPlan($profileId, $securitycode, $sandbox, $grandTotal, $calculationType, $calculationValue);
+        }
+
+        $configurationRequest = $this->selectInstallmentPlan($responses, $calculationType, $calculationValue, $grandTotal);
 
         $installmentPlan = json_decode($configurationRequest, true);
         $this->checkoutSession->setData('ratepayPaymentAmount_'.$methodCode, $installmentPlan['totalAmount']);
