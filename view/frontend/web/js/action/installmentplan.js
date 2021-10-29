@@ -33,6 +33,21 @@ define([
         ).done(
             function (response) {
                 if (response.success === true) {
+                    var installmentPlan = JSON.parse(response.installment_plan);
+                    if (installmentPlan && installmentPlan.validPaymentFirstdays !== undefined && methodCode.indexOf("_installment0") !== -1 && window.checkoutConfig.payment[methodCode] !== undefined) {
+                        if (installmentPlan.validPaymentFirstdays.indexOf(",") !== -1) {
+                            window.checkoutConfig.payment[methodCode].validPaymentFirstdays = installmentPlan.validPaymentFirstdays.split(",");
+                        } else {
+                            window.checkoutConfig.payment[methodCode].validPaymentFirstdays = installmentPlan.validPaymentFirstdays;
+                        }
+                        paymentRenderer.togglePaymentTypeSelector();
+                        window.checkoutConfig.payment[methodCode].defaultPaymentFirstday = installmentPlan.defaultPaymentFirstday;
+                        if (installmentPlan.defaultPaymentFirstday == "2") {
+                            paymentRenderer.showDirectDebit();
+                        } else if (installmentPlan.defaultPaymentFirstday == "28") {
+                            paymentRenderer.showBankTransfer();
+                        }
+                    }
                     $('#' + methodCode + '_ResultContainer').html(response.installment_html);
                     $('#' + methodCode + '_ContentSwitch').show();
                     paymentRenderer.setIsInstallmentPlanSet(true);

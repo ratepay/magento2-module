@@ -95,7 +95,24 @@ function updateInstallmentPlan(restUrl, calcType, calcValue, grandTotal, methodC
                 if (response.success === true) {
                     $('#' + methodCode + '_ResultContainer').html(response.installment_html);
                     $('#' + methodCode + '_ContentSwitch').show();
-                    //paymentRenderer.setIsInstallmentPlanSet(true);
+
+                    var installmentPlan = JSON.parse(response.installment_plan);
+                    if (installmentPlan && installmentPlan.validPaymentFirstdays !== undefined && methodCode.indexOf("_installment0") !== -1) {
+                        if (installmentPlan.validPaymentFirstdays.indexOf(",") !== -1) {
+                            $('#' + methodCode + "_payment_type_selector").show();
+                        } else {
+                            $('#' + methodCode + "_payment_type_selector").hide();
+                        }
+                        if (installmentPlan.defaultPaymentFirstday == "2") {
+                            $('#ratepay_rate_sepa_block_' + methodCode).show();
+                            $('#' + methodCode + '_sepa_use_banktransfer').show();
+                            $('#' + methodCode + '_sepa_use_directdebit').hide();
+                        } else if (installmentPlan.defaultPaymentFirstday == "28") {
+                            $('#ratepay_rate_sepa_block_' + methodCode).hide();
+                            $('#' + methodCode + '_sepa_use_banktransfer').hide();
+                            $('#' + methodCode + '_sepa_use_directdebit').show();
+                        }
+                    }
                 } else {
                     alert(response.errormessage);
                 }

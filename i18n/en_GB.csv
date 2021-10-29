@@ -145,4 +145,5 @@ ratepay_terms_block_6, "." ,module,RatePAY_Payment
 "Ratepay_elv","Direct Debit",module,RatePAY_Payment
 "Ratepay_0","No",module,RatePAY_Payment
 "Ratepay_1","Yes",module,RatePAY_Payment
+"Ratepay Default","Default",module,RatePAY_Payment
 "Only applicable when 2 or more street lines are configured in customer configuration. House number: The second street line will be interpreted as the house number, 3rd and 4th street input will be interpreted as additional information. Additional info: Street lines 2 - 4 will be interpreted as additional information","Only applicable when 2 or more street lines are configured in customer configuration.<br><br><b>House number:</b> The second street line will be interpreted as the house number, 3rd and 4th street input will be interpreted as additional information.<br><br><b>Additional info:</b> Street lines 2 - 4 will be interpreted as additional information",module,RatePAY_Payment

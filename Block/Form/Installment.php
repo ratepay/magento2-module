@@ -21,7 +21,7 @@ class Installment extends Base
     /**
      * @return array|string
      */
-    protected function getValidPaymentFirstdays()
+    public function getValidPaymentFirstdays()
     {
         $oProfile = $this->getMethod()->getMatchingProfile();
         if (!$oProfile) {
@@ -33,6 +33,19 @@ class Installment extends Base
             $validPaymentFirstdays = explode(',', $validPaymentFirstdays);
         }
         return $validPaymentFirstdays;
+    }
+
+    /**
+     * @return array|string
+     */
+    public function getPaymentFirstday()
+    {
+        $oProfile = $this->getMethod()->getMatchingProfile();
+        if (!$oProfile) {
+            return [];
+        }
+
+        return $oProfile->getData("payment_firstday");
     }
 
     /**

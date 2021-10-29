@@ -160,7 +160,8 @@ class RechnungConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
             'payment' => [
                 $sMethodCode => [
                     'allowedMonths' => $this->getAllowedMonths($sMethodCode),
-                    'validPaymentFirstdays' => $this->getValidPaymentFirstdays($sMethodCode)
+                    'validPaymentFirstdays' => $this->getValidPaymentFirstdays($sMethodCode),
+                    'defaultPaymentFirstday' => $this->getMethod($sMethodCode)->getMatchingProfile()->getData("payment_firstday"),
                 ],
             ],
         ] : [];

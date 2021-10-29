@@ -123,11 +123,11 @@ class InstallmentPlan implements InstallmentPlanInterface
         try {
             $installmentPlan = $this->getInstallmentPlanFromRatepay($calcType, (int)$calcValue, $sessionGrandTotal, $methodCode, $billingCountryId);
             if ($installmentPlan !== false) {
-                $this->block->setInstallmentData(json_decode($installmentPlan, true));
+                $this->block->setInstallmentData($installmentPlan);
                 $this->block->setMethodCode($methodCode);
 
                 $response->setData('success', true);
-                $response->setData('installmentPlan', $installmentPlan);
+                $response->setData('installmentPlan', json_encode($installmentPlan));
                 $response->setData('installmentHtml', $this->block->toHtml());
             } else {
                 $response->setData('errormessage', 'quote not found');
@@ -155,15 +155,14 @@ class InstallmentPlan implements InstallmentPlanInterface
         $return = $responses[0];
         if (count($responses) > 1) {
             $dDiff = false;
-            foreach ($responses as $response) {
-                $installmentPlan = json_decode($response, true);
+            foreach ($responses as $installmentPlan) {
                 $dCurrentDiff = $calculationValue - $installmentPlan['rate'];
                 if ($dCurrentDiff < 0) {
                     $dCurrentDiff = $dCurrentDiff * -1;
                 }
                 if ($dDiff === false || $dCurrentDiff < $dDiff) {
                     $dDiff = $dCurrentDiff;
-                    $return = $response;
+                    $return = $installmentPlan;
                 }
             }
         }
@@ -191,17 +190,18 @@ class InstallmentPlan implements InstallmentPlanInterface
             $profileId = $oProfile->getData('profile_id');
             $securitycode = $oProfile->getSecurityCode();
             $sandbox = $oProfile->getSandboxMode();
-            $responses[] = $this->rpLibraryController->getInstallmentPlan($profileId, $securitycode, $sandbox, $grandTotal, $calculationType, $calculationValue);
+            $installmentPlan = json_decode($this->rpLibraryController->getInstallmentPlan($profileId, $securitycode, $sandbox, $grandTotal, $calculationType, $calculationValue), true);;
+            $installmentPlan['validPaymentFirstdays'] = $oProfile->getData('valid_payment_firstdays');
+            $installmentPlan['defaultPaymentFirstday'] = $oProfile->getData('payment_firstday');
+            $responses[] = $installmentPlan;
         }
 
-        $configurationRequest = $this->selectInstallmentPlan($responses, $calculationType, $calculationValue, $grandTotal);
-
-        $installmentPlan = json_decode($configurationRequest, true);
+        $installmentPlan = $this->selectInstallmentPlan($responses, $calculationType, $calculationValue, $grandTotal);
         $this->checkoutSession->setData('ratepayPaymentAmount_'.$methodCode, $installmentPlan['totalAmount']);
         $this->checkoutSession->setData('ratepayInstallmentNumber_'.$methodCode, $installmentPlan['numberOfRatesFull']);
         $this->checkoutSession->setData('ratepayInstallmentAmount_'.$methodCode, $installmentPlan['rate']);
         $this->checkoutSession->setData('ratepayLastInstallmentAmount_'.$methodCode, $installmentPlan['lastRate']);
         $this->checkoutSession->setData('ratepayInterestRate_'.$methodCode, $installmentPlan['interestRate']);
-        return $configurationRequest;
+        return $installmentPlan;
     }
 }
