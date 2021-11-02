@@ -98,7 +98,7 @@ class Refund
         if ($creditMemo->getAdjustmentPositive() > 0) {
             $this->artNumRefund = 'adj-ref'.$this->orderAdjustment->getNextArticleNumberCounter($order->getId(), 'positive');
             $is_specialitem = false;
-            if ($this->rpDataHelper->getRpConfigData('ratepay_general', 'creditmemo_discount_type') == CreditmemoDiscountType::SPECIAL_ITEM) {
+            if ($this->rpDataHelper->getRpConfigData('ratepay_general', 'creditmemo_discount_type', $order->getStore()->getId()) == CreditmemoDiscountType::SPECIAL_ITEM) {
                 $is_specialitem = true;
             }
             $this->orderAdjustment->addOrderAdjustment($order->getId(), 'positive', $this->artNumRefund, $creditMemo->getAdjustmentPositive(), $creditMemo->getBaseAdjustmentPositive(), $is_specialitem);
