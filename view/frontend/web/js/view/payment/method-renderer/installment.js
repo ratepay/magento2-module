@@ -35,9 +35,6 @@ define(
                 } else {
                     this.updateInstallmentPlan('time', this.getAllowedMonths()[0], this.getCode(), false);
                 }
-                if (this.isRememberIBANEnabled()) {
-                    this.rp_iban = this.getDefaultIban();
-                }
                 return this;
             },
             isDirectDebitDefault: function () {
