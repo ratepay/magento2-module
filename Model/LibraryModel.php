@@ -69,7 +69,7 @@ class LibraryModel
         $content = [];
 
         if ($creditmemo->getAdjustmentPositive() > 0) {
-            if ($this->rpDataHelper->getRpConfigData('ratepay_general', 'creditmemo_discount_type') == CreditmemoDiscountType::SPECIAL_ITEM) {
+            if ($this->rpDataHelper->getRpConfigData('ratepay_general', 'creditmemo_discount_type', $creditmemo->getOrder()->getStore()->getId()) == CreditmemoDiscountType::SPECIAL_ITEM) {
                 $content['Discount'] = $this->rpContentBasketDiscountHelper->setDiscount((float) $creditmemo->getAdjustmentPositive() * -1, 'Adjustment Refund');
             } else {
                 $content['Items'][] = ['Item' => $this->addAdjustment((float) $creditmemo->getAdjustmentPositive() * -1, 'Adjustment Refund', $artNumRefund)];
