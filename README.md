@@ -25,7 +25,7 @@ php bin/magento cache:clean
 
 ### Version 1.2.7 - Released 2021-11-02
 * Added CSP whitelist file
-* Fixed wrong config scope in certain situation when reading config data
+* Fixed wrong config scope in certain situations when reading config data
 * Made Ratepay links in backend error boxes clickable
 
 ### Version 1.2.6 - Released 2021-07-21
