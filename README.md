@@ -4,7 +4,7 @@
 |Repository | Ratepay Module for Magento 2
 |------|----------
 |Author | Robert Müller
-|Module-Version | `1.2.6`
+|Module-Version | `1.2.7`
 |Compatibility | Magento 2.1.0 - 2.4.x
 |Link | http://www.ratepay.com
 |Mail | integration@ratepay.com
@@ -22,6 +22,11 @@ php bin/magento cache:clean
 ````
 
 ## Changelog
+
+### Version 1.2.7 - Released 2021-11-02
+* Added CSP whitelist file
+* Fixed wrong config scope in certain situation when reading config data
+* Made Ratepay links in backend error boxes clickable
 
 ### Version 1.2.6 - Released 2021-07-21
 * Added config option for street line usage
