@@ -252,10 +252,10 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         $order = $this->getQuoteOrOrder();
 
         $head = $this->_rpLibraryModel->getRequestHead($order);
-        $sandbox = (bool)$this->rpDataHelper->getRpConfigData($this->_code, 'sandbox');
+        $sandbox = (bool)$this->rpDataHelper->getRpConfigData($this->_code, 'sandbox', $order->getStore()->getId());
         $company = $order->getBillingAddress()->getCompany();
 
-        if (!$this->rpDataHelper->getRpConfigData($this->_code, 'b2b') && !empty($company)) {
+        if (!$this->rpDataHelper->getRpConfigData($this->_code, 'b2b', $order->getStore()->getId()) && !empty($company)) {
             throw new PaymentException(__('b2b not allowed'));
         }
 
@@ -263,7 +263,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         $shippingAddress = $order->getShippingAddress();
         $diff = array_diff($this->rpDataHelper->getImportantAddressData($shippingAddress), $this->rpDataHelper->getImportantAddressData($billingAddress));
 
-        if (!$this->rpDataHelper->getRpConfigData($this->_code, 'delivery_address') && count($diff)) {
+        if (!$this->rpDataHelper->getRpConfigData($this->_code, 'delivery_address', $order->getStore()->getId()) && count($diff)) {
             throw new PaymentException(__('ala not allowed'));
         }
 
@@ -446,8 +446,8 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         $minAmount = $this->rpDataHelper->getRpConfigDataForQuote($this->_code, 'min_order_total', $quote);
         $maxAmount = $this->rpDataHelper->getRpConfigDataForQuote($this->_code, 'max_order_total', $quote);
 
-        if (!empty($quote->getBillingAddress()->getCompany()) && $this->getIsB2BModeEnabled($totalAmount)) {
-            $maxAmount = $this->rpDataHelper->getRpConfigData($this->_code, 'limit_max_b2b');
+        if (!empty($quote->getBillingAddress()->getCompany()) && $this->getIsB2BModeEnabled($totalAmount, $quote)) {
+            $maxAmount = $this->rpDataHelper->getRpConfigDataForQuote($this->_code, 'limit_max_b2b', $quote);
         }
 
         if ($totalAmount < $minAmount || $totalAmount > $maxAmount) {
@@ -598,10 +598,10 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         return strip_tags($message);
     }
 
-    public function getIsB2BModeEnabled($grandTotal = null)
+    public function getIsB2BModeEnabled($grandTotal = null, $quote = null)
     {
-        $blB2BEnabled = (bool)$this->rpDataHelper->getRpConfigData($this->_code, 'b2b');
-        $dB2BMax = $this->rpDataHelper->getRpConfigData($this->_code, 'limit_max_b2b');
+        $blB2BEnabled = (bool)$this->rpDataHelper->getRpConfigDataForQuote($this->_code, 'b2b', $quote);
+        $dB2BMax = $this->rpDataHelper->getRpConfigDataForQuote($this->_code, 'limit_max_b2b', $quote);
         if ($blB2BEnabled === true && ($grandTotal === null || ($grandTotal <= $dB2BMax))) {
             return true;
         }
