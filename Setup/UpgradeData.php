@@ -81,6 +81,7 @@ class UpgradeData implements UpgradeDataInterface
             ->order(['scope_id', 'scope']);
         $result = $setup->getConnection()->fetchAssoc($select);
 
+        $iDefaultSandbox = 0;
         foreach ($result as $item) {
             $sScopeKey = $item['scope'].$this->scopeKeyDelimiter.$item['scope_id'];
             if (array_key_exists($sScopeKey, $aReturn) === false) {
@@ -94,6 +95,10 @@ class UpgradeData implements UpgradeDataInterface
             }
             if (stripos($item['path'], "sandbox") !== false) {
                 $aReturn[$sScopeKey]['sandbox'] = $item['value'];
+                $iDefaultSandbox = $item['value'];
+            }
+            if (!isset($aReturn[$sScopeKey]['sandbox'])) {
+                $aReturn[$sScopeKey]['sandbox'] = $iDefaultSandbox;
             }
         }
 
@@ -129,7 +134,11 @@ class UpgradeData implements UpgradeDataInterface
         foreach ($aOldConfig as $sScopeKey => $aUniqueProfiles) {
             foreach ($aUniqueProfiles as $sKey => $aUniqueProfile) {
                 if (in_array($sKey, $aImported) === false) {
-                    $blResult = $this->profileConfigHelper->importProfileConfiguration($aUniqueProfile['profileId'], $aUniqueProfile['securityCode'], (bool)$aUniqueProfile['sandbox']);
+                    try {
+                        $blResult = $this->profileConfigHelper->importProfileConfiguration($aUniqueProfile['profileId'], $aUniqueProfile['securityCode'], (bool)$aUniqueProfile['sandbox']);
+                    } catch(\Exception $exc) {
+                        $blResult = false;
+                    }
                     $aImported[] = $sKey;
                     if ($blResult === false) {
                         unset($aUniqueProfiles[$sKey]);
@@ -223,7 +232,7 @@ class UpgradeData implements UpgradeDataInterface
                 ['type' => Table::TYPE_TEXT, 'length' => 64, 'default' => '']
             );
         }
-        if (version_compare($context->getVersion(), '1.2.6', '<=')) { // pre update version is less than or equal to 1.2.6
+        if (version_compare($context->getVersion(), '1.3.0', '<')) { // pre update version is less than or equal to 1.3.0
             $this->migrateToNewConfig($setup);
         }
 

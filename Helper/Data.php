@@ -18,25 +18,33 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $directoryList;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreResolver
      */
-    protected $storeManager;
+    protected $storeResolver;
+
+    /**
+     * @var \Magento\Framework\App\State\Proxy
+     */
+    protected $state;
 
     /**
      * Data constructor.
      *
      * @param Context $context
      * @param \Magento\Framework\App\Filesystem\DirectoryList $directoryList
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreResolver $storeResolver
+     * @param \Magento\Framework\App\State\Proxy $state
      */
     public function __construct(
         Context $context,
         \Magento\Framework\App\Filesystem\DirectoryList $directoryList,
-        \Magento\Store\Model\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreResolver $storeResolver,
+        \Magento\Framework\App\State\Proxy $state
     ) {
         parent::__construct($context);
         $this->directoryList = $directoryList;
-        $this->storeManager = $storeManager;
+        $this->storeResolver = $storeResolver;
+        $this->state = $state;
     }
 
     /**
@@ -51,6 +59,23 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
+     * Trying to get the correct storeCode
+     * Getting the correct current storeCode in Magento2 is horror
+     *
+     * @return mixed
+     */
+    protected function resolveCurrentStoreCode()
+    {
+        if ($this->state->getAreaCode() == \Magento\Framework\App\Area::AREA_ADMINHTML) {
+            $storeCode = $this->getRequestParameter('store');
+            if ($storeCode !== null) {
+                return $storeCode;
+            }
+        }
+        return $this->storeResolver->getCurrentStoreId();
+    }
+
+    /**
      * @param string $path
      * @param string $storeCode
      * @return mixed
@@ -58,7 +83,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function getRpConfigDataByPath($path, $storeCode = null)
     {
         if (!$storeCode) {
-            $storeCode = $this->storeManager->getStore()->getCode();
+            $storeCode = $this->resolveCurrentStoreCode();
         }
         return $this->scopeConfig->getValue($path,\Magento\Store\Model\ScopeInterface::SCOPE_STORES, $storeCode);
     }
