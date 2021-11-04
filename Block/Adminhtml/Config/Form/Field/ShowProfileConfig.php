@@ -85,4 +85,15 @@ class ShowProfileConfig extends \Magento\Config\Block\System\Config\Form\Field\F
         }
         return false;
     }
+    
+    /**
+     * Check if inheritance checkbox has to be rendered
+     *
+     * @param \Magento\Framework\Data\Form\Element\AbstractElement $element
+     * @return bool
+     */
+    protected function _isInheritCheckboxRequired(\Magento\Framework\Data\Form\Element\AbstractElement $element)
+    {
+        return false;
+    }
 }
