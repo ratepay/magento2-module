@@ -20,16 +20,24 @@ class Capture
     protected $rpConfirmationDelivery;
 
     /**
+     * @var \Magento\SalesSequence\Model\Manager
+     */
+    protected $sequenceManager;
+
+    /**
      * SendRatepayDeliverCallOnInvoice constructor.
      * @param \RatePAY\Payment\Helper\Data $rpDataHelper
      * @param \RatePAY\Payment\Model\Api\SendConfirmationDeliver $rpConfirmationDelivery
+     * @param \Magento\SalesSequence\Model\Manager $sequenceManager
      */
     public function __construct(
         \RatePAY\Payment\Helper\Data $rpDataHelper,
-        \RatePAY\Payment\Model\Api\SendConfirmationDeliver $rpConfirmationDelivery
+        \RatePAY\Payment\Model\Api\SendConfirmationDeliver $rpConfirmationDelivery,
+        \Magento\SalesSequence\Model\Manager $sequenceManager
     ) {
         $this->rpDataHelper = $rpDataHelper;
         $this->rpConfirmationDelivery = $rpConfirmationDelivery;
+        $this->sequenceManager = $sequenceManager;
     }
 
     protected function isCommunicationToRatepayAllowed($inv, $order)
@@ -55,10 +63,36 @@ class Capture
             $order = $payment->getOrder();
             $paymentMethod = $payment->getMethodInstance()->getCode();
             if($this->isCommunicationToRatepayAllowed($inv, $order)) {
+                if ($inv instanceof Invoice && empty($inv->getIncrementId())) {
+                    $this->registerInvoiceIncrementId($inv);
+                }
                 return $this->sendRatepayDeliverCall($order, $inv, $paymentMethod);
             }
         }
         return false;
+    }
+
+    /**
+     * Sets incrementId of invoice so that it can be transmitted to Ratepay
+     * This would normally happen later in the process in the \Magento\Sales\Model\ResourceModel\EntityAbstract->_beforeSave() method
+     * This might not be 100% clean but I didnt find another way to achieve this in Mage2 core
+     *
+     * @param  Invoice $inv
+     * @return void
+     */
+    protected function registerInvoiceIncrementId(Invoice &$inv)
+    {
+        $store = $inv->getStore();
+        $storeId = $store->getId();
+        if ($storeId === null) {
+            $storeId = $store->getGroup()->getDefaultStoreId();
+        }
+        $inv->setIncrementId(
+            $this->sequenceManager->getSequence(
+                $inv->getEntityType(),
+                $storeId
+            )->getNextValue()
+        );
     }
 
     /**
