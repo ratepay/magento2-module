@@ -81,9 +81,17 @@ class SendConfirmationDeliver
     {
         $aReturn = false;
 
+        if (!$aReturn) {
+            $data = $this->rpDataHelper->getRequestParameter('invoice');
+            $tracking = $this->rpDataHelper->getRequestParameter('tracking');
+            if (!empty($data['do_shipment']) && !empty($tracking)) {
+                return $tracking;
+            }
+        }
+
         $aShipments = $order->getShipmentsCollection()->getItems();
         if (!empty($aShipments)) {
-            $shipment = array_shift($aShipments);
+            $shipment = array_pop($aShipments);
             $aAllTracks = $shipment->getAllTracks();
             if (!empty($aAllTracks)) {
                 $aReturn = [];
@@ -95,15 +103,6 @@ class SendConfirmationDeliver
                 }
             }
         }
-
-        if (!$aReturn) {
-            $data = $this->rpDataHelper->getRequestParameter('invoice');
-            $tracking = $this->rpDataHelper->getRequestParameter('tracking');
-            if (!empty($data['do_shipment']) && !empty($tracking)) {
-                $aReturn = $tracking;
-            }
-        }
-
         return $aReturn;
     }
 
