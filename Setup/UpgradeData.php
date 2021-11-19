@@ -232,7 +232,7 @@ class UpgradeData implements UpgradeDataInterface
                 ['type' => Table::TYPE_TEXT, 'length' => 64, 'default' => '']
             );
         }
-        if (version_compare($context->getVersion(), '1.3.0', '<')) { // pre update version is less than or equal to 1.3.0
+        if (version_compare($context->getVersion(), '2.0.0', '<')) { // pre update version is less than 2.0.0
             $this->migrateToNewConfig($setup);
         }
 
