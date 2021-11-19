@@ -184,6 +184,7 @@ ratepay_terms_block_6, "einverstanden." ,module,RatePAY_Payment
 "Special item","Spezial-Position",module,RatePAY_Payment
 "Payment type for instalment","Zahltyp für Ratenzahlung",module,RatePAY_Payment
 "Ratepay Default","Standard",module,RatePAY_Payment
+"Module version","Modul-Version",module,RatePAY_Payment
 "Device Fingerprint Snippet-Id","Geräte Fingerabdruck Snippet-Id",module,RatePAY_Payment
 "No profiles configured yet","Keine Profile konfiguriert",module,RatePAY_Payment
 "Ratepay street field usage tooltip","Only applicable when 2 or more street lines are configured in customer configuration.<br><br><b>House number:</b> The second street line will be interpreted as the house number, 3rd and 4th street input will be interpreted as additional information.<br><br><b>Additional info:</b> Street lines 2 - 4 will be interpreted as additional information",module,RatePAY_Payment

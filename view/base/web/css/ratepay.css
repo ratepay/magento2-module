@@ -339,3 +339,9 @@ div.ratepay-ContentSwitch {
 .ratepay-profile-config tr:nth-child(even){background-color: #f2f2f2;}
 
 .ratepay-profile-config tr:hover {background-color: #ddd;}
+
+#ratepay_version_number {
+    display: none;
+    margin-top: 1em;
+    color: #aaa;
+}
