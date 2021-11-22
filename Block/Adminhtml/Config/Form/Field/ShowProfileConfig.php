@@ -64,6 +64,9 @@ class ShowProfileConfig extends \Magento\Config\Block\System\Config\Form\Field\F
         return $this->profileConfigHelper->getProfileData($sPseudoMethodCode);
     }
 
+    /**
+     * @return string
+     */
     public function getProfileRefreshUrl()
     {
         return $this->_urlBuilder->getUrl('ratepay/system_config/refresh');
@@ -85,7 +88,7 @@ class ShowProfileConfig extends \Magento\Config\Block\System\Config\Form\Field\F
         }
         return false;
     }
-    
+
     /**
      * Check if inheritance checkbox has to be rendered
      *
