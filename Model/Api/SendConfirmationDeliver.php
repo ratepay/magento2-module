@@ -143,6 +143,8 @@ class SendConfirmationDeliver
             $inv = $order;
         }
 
+        $inv->setShippingDescription($order->getShippingDescription());
+
         $sandbox = (bool)$this->rpDataHelper->getRpConfigData($paymentMethod, 'sandbox', $order->getStore()->getId());
         $head = $this->rpLibraryModel->getRequestHead($order, 'CONFIRMATION_DELIVER', null, null, null, null, $this->getTrackingInfo($order));
         $content = $this->rpLibraryModel->getRequestContent($inv, 'CONFIRMATION_DELIVER');
