@@ -167,6 +167,7 @@ class SendConfirmationDeliver
             $sSecurityCode = $this->profileConfigHelper->getSecurityCodeForProfileId($sProfileId, $paymentMethod);
             $blSandbox = $this->profileConfigHelper->getSandboxModeForProfileId($sProfileId, $paymentMethod);
         }
+        $inv->setShippingDescription($order->getShippingDescription());
 
         $head = $this->rpLibraryModel->getRequestHead($order, 'CONFIRMATION_DELIVER', null, null, $sProfileId, $sSecurityCode, $this->getTrackingInfo($order));
         $content = $this->rpLibraryModel->getRequestContent($inv, 'CONFIRMATION_DELIVER');
