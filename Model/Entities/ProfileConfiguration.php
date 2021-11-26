@@ -227,9 +227,10 @@ class ProfileConfiguration extends AbstractModel
      * @param string                                $sMethodCode
      * @param double                                $dTotalAmount
      * @param string                                $sBillingCountryId
+     * @param string                                $sCurrency
      * @return bool
      */
-    public function isApplicableForQuote(\Magento\Quote\Api\Data\CartInterface $oQuote, $sMethodCode, $dTotalAmount = null, $sBillingCountryId = null)
+    public function isApplicableForQuote(\Magento\Quote\Api\Data\CartInterface $oQuote, $sMethodCode, $dTotalAmount = null, $sBillingCountryId = null, $sCurrency = null)
     {
         $sProduct = $this->getRatepayProduct($sMethodCode);
 
@@ -239,7 +240,10 @@ class ProfileConfiguration extends AbstractModel
         }
 
         // check currency
-        if (!in_array($oQuote->getQuoteCurrencyCode(), explode(",", $this->getData("currency")))) {
+        if ($sCurrency === null) {
+            $sCurrency = $oQuote->getQuoteCurrencyCode();
+        }
+        if (!in_array($sCurrency, explode(",", $this->getData("currency")))) {
             return false;
         }
 

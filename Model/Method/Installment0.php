@@ -112,10 +112,11 @@ class Installment0 extends AbstractMethod
      * @param  string|null $sStoreCode
      * @param  double $dGrandTotal
      * @param  string $sBillingCountryId
+     * @param  string $sCurrency
      * @param  int $installmentRuntime
      * @return \RatePAY\Payment\Model\Entities\ProfileConfiguration|false
      */
-    public function getMatchingProfile(\Magento\Quote\Api\Data\CartInterface $oQuote = null, $sStoreCode = null, $dGrandTotal = null, $sBillingCountryId = null, $installmentRuntime = null)
+    public function getMatchingProfile(\Magento\Quote\Api\Data\CartInterface $oQuote = null, $sStoreCode = null, $dGrandTotal = null, $sBillingCountryId = null, $sCurrency = null, $installmentRuntime = null)
     {
         if ($this->profile === null) {
             if ($oQuote === null) {
@@ -138,7 +139,7 @@ class Installment0 extends AbstractMethod
                     $dGrandTotal = $oQuote->getGrandTotal();
                 }
 
-                $aProfiles = $this->getMatchingProfiles($oQuote, $sStoreCode, $dGrandTotal, $sBillingCountryId);
+                $aProfiles = $this->getMatchingProfiles($oQuote, $sStoreCode, $dGrandTotal, $sBillingCountryId, $sCurrency);
                 if (empty($aProfiles)) {
                     $this->profile = false;
                     return $this->profile;
@@ -153,7 +154,7 @@ class Installment0 extends AbstractMethod
                 }
             }
 
-            $this->profile = $this->profileConfig->getMatchingProfile($oQuote, $this->getCode(), $sStoreCode, $dGrandTotal, $sBillingCountryId);
+            $this->profile = $this->profileConfig->getMatchingProfile($oQuote, $this->getCode(), $sStoreCode, $dGrandTotal, $sBillingCountryId, $sCurrency);
         }
         return $this->profile;
     }

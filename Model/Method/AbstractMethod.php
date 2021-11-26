@@ -441,10 +441,11 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
      * @param  string|null $sStoreCode
      * @param  double $dGrandTotal
      * @param  string $sBillingCountryId
+     * @param  string $currency
      * @param  int $installmentRuntime
      * @return \RatePAY\Payment\Model\Entities\ProfileConfiguration|false
      */
-    public function getMatchingProfile(\Magento\Quote\Api\Data\CartInterface $oQuote = null, $sStoreCode = null, $dGrandTotal = null, $sBillingCountryId = null, $installmentRuntime = null)
+    public function getMatchingProfile(\Magento\Quote\Api\Data\CartInterface $oQuote = null, $sStoreCode = null, $dGrandTotal = null, $sBillingCountryId = null, $currency = null, $installmentRuntime = null)
     {
         if ($this->profile === null) {
             if ($oQuote === null) {
@@ -458,7 +459,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
                 $sStoreCode = $oQuote->getStore()->getCode();
             }
 
-            $this->profile = $this->profileConfig->getMatchingProfile($oQuote, $this->getCode(), $sStoreCode, $dGrandTotal, $sBillingCountryId);
+            $this->profile = $this->profileConfig->getMatchingProfile($oQuote, $this->getCode(), $sStoreCode, $dGrandTotal, $sBillingCountryId, $currency);
         }
         return $this->profile;
     }
@@ -468,9 +469,10 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
      * @param  string|null $sStoreCode
      * @param  double $dGrandTotal
      * @param  string $sBillingCountryId
+     * @param  string $sCurrency
      * @return \RatePAY\Payment\Model\Entities\ProfileConfiguration[]|false
      */
-    public function getMatchingProfiles(\Magento\Quote\Api\Data\CartInterface $oQuote = null, $sStoreCode = null, $dGrandTotal = null, $sBillingCountryId = null)
+    public function getMatchingProfiles(\Magento\Quote\Api\Data\CartInterface $oQuote = null, $sStoreCode = null, $dGrandTotal = null, $sBillingCountryId = null, $sCurrency = null)
     {
         if ($this->profiles === null) {
             if ($oQuote === null) {
@@ -484,7 +486,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
                 $sStoreCode = $oQuote->getStore()->getCode();
             }
 
-            $this->profiles = $this->profileConfig->getAllMatchingProfiles($oQuote, $this->getCode(), $sStoreCode, $dGrandTotal, $sBillingCountryId);
+            $this->profiles = $this->profileConfig->getAllMatchingProfiles($oQuote, $this->getCode(), $sStoreCode, $dGrandTotal, $sBillingCountryId, $sCurrency);
         }
         return $this->profiles;
     }
@@ -539,10 +541,11 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
      */
     public function getConfigData($field, $storeId = null)
     {
-        $oProfile = $this->getMatchingProfile();
         if ($field == "min_order_total") {
+            $oProfile = $this->getMatchingProfile();
             return $oProfile ? $oProfile->getProductData("tx_limit_?_min", $this->getCode(), true) : null;
         } elseif ($field == "max_order_total") {
+            $oProfile = $this->getMatchingProfile();
             return $oProfile ? $oProfile->getProductData("tx_limit_?_max", $this->getCode(), true) : null;
         }
         return parent::getConfigData($field, $storeId);
@@ -571,12 +574,12 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
      */
     protected function handleInstallmentSessionParams($additionalData, $methodCode)
     {
-        if ($additionalData->getRpTotalamount()) {
-            $this->checkoutSession->setData('ratepayPaymentAmount_'.$methodCode, $additionalData->getRpTotalamount());
-            $this->checkoutSession->setData('ratepayInstallmentNumber_'.$methodCode, $additionalData->getRpNumberofratesfull());
-            $this->checkoutSession->setData('ratepayInstallmentAmount_'.$methodCode, $additionalData->getRpRate());
-            $this->checkoutSession->setData('ratepayLastInstallmentAmount_'.$methodCode, $additionalData->getRpLastrate());
-            $this->checkoutSession->setData('ratepayInterestRate_'.$methodCode, $additionalData->getRpInterestrate());
+        if ($additionalData->getData('rp_'.$methodCode.'_totalamount')) {
+            $this->checkoutSession->setData('ratepayPaymentAmount_'.$methodCode, $additionalData->getData('rp_'.$methodCode.'_totalamount'));
+            $this->checkoutSession->setData('ratepayInstallmentNumber_'.$methodCode, $additionalData->getData('rp_'.$methodCode.'_numberofratesfull'));
+            $this->checkoutSession->setData('ratepayInstallmentAmount_'.$methodCode, $additionalData->getData('rp_'.$methodCode.'_rate'));
+            $this->checkoutSession->setData('ratepayLastInstallmentAmount_'.$methodCode, $additionalData->getData('rp_'.$methodCode.'_lastrate'));
+            $this->checkoutSession->setData('ratepayInterestRate_'.$methodCode, $additionalData->getData('rp_'.$methodCode.'_interestrate'));
         }
     }
 
@@ -632,7 +635,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         $methodCode = $infoInstance->getMethod();
 
         $sIban = $additionalData->getRpIban();
-        if ($infoInstance->getMethod() == Directdebit::METHOD_CODE || !empty($sIban)) { // getRpIban used for installments
+        if ($this instanceof Directdebit || !empty($sIban) || $additionalData->getRpDirectdebit() == "1") { // getRpIban used for installments
             $this->rpValidator->validateIban($additionalData);
             $infoInstance->setAdditionalInformation('rp_iban', $sIban);
         }

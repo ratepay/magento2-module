@@ -73,12 +73,17 @@ function updateInstallmentPlan(restUrl, calcType, calcValue, grandTotal, methodC
         if ($("#order-billing_address_country_id")){
             billingCountryId = $("#order-billing_address_country_id").val();
         }
+        var currency = "";
+        if ($("#currency_switcher")){
+            currency = $("#currency_switcher").val();
+        }
         var request = {
             calcType: calcType,
             calcValue: calcValue,
             grandTotal: grandTotal,
             methodCode: methodCode,
-            billingCountryId: billingCountryId
+            billingCountryId: billingCountryId,
+            currency: currency
         };
         var data = JSON.stringify(request);
         $.ajax({
