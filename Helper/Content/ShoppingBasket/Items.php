@@ -90,6 +90,7 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
         $items = [];
         $skuMap = [];
         $itemArray = $quoteOrOrder->getItems();
+        $store = $quoteOrOrder->getStore();
         foreach ($itemArray as $item) {
 
             $parentItem = false;
@@ -183,9 +184,9 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
             }
             if ($discount > 0) {
                 if (!isset($items[$sku]['Discount']) || $items[$sku]['Discount'] == 0) {
-                    $items[$sku]['Discount'] = $this->getDiscount($discount, $quantity, $item->getRowTotalInclTax(), $items[$sku]['TaxRate']);
+                    $items[$sku]['Discount'] = $this->getDiscount($discount, $quantity, $item->getRowTotalInclTax(), $items[$sku]['TaxRate'], $store);
                 } else {
-                    $items[$sku]['Discount'] += $this->getDiscount($discount, $quantity, $item->getRowTotalInclTax(), $items[$sku]['TaxRate']);
+                    $items[$sku]['Discount'] += $this->getDiscount($discount, $quantity, $item->getRowTotalInclTax(), $items[$sku]['TaxRate'], $store);
                 }
             }
 
@@ -210,16 +211,16 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
      * @param  double $quantity
      * @param  double $total
      * @param  double $vat
+     * @param \Magento\Store\Model\Store $store
      * @return double
      */
-    protected function getDiscount($discount, $quantity, $total, $vat)
+    protected function getDiscount($discount, $quantity, $total, $vat, $store)
     {
-        if ($this->taxConfig->discountTax() === false) { // discountTax() === false equates to config "Apply Discount On Prices" = "Excluding Tax"
+        if ($this->taxConfig->discountTax($store) === false) { // discountTax() === false equates to config "Apply Discount On Prices" = "Excluding Tax"
             $discount = $discount * ((100 + $vat) / 100);
         }
         $dSingleDiscount = $discount / $quantity;
-        #$dSingleDiscount = round($dSingleDiscount, 2); // cutting of the decimals would result in rounding problems
+
         return $dSingleDiscount;
     }
-
 }
