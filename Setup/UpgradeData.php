@@ -120,7 +120,11 @@ class UpgradeData implements UpgradeDataInterface
                     if (!isset($aOldConfig[$sScopeKey])) {
                         $aOldConfig[$sScopeKey] = [];
                     }
-                    $aOldConfig[$sScopeKey][$aProfile['profileId']] = $aProfile;
+                    $sKey = $aProfile['profileId'];
+                    if ($blUseBackendMethods === true) {
+                        $sKey .= "_backend";
+                    }
+                    $aOldConfig[$sScopeKey][$sKey] = $aProfile;
                 }
             }
         }
@@ -133,13 +137,13 @@ class UpgradeData implements UpgradeDataInterface
         $aImported = [];
         foreach ($aOldConfig as $sScopeKey => $aUniqueProfiles) {
             foreach ($aUniqueProfiles as $sKey => $aUniqueProfile) {
-                if (in_array($sKey, $aImported) === false) {
+                if (in_array($aUniqueProfile['profileId'], $aImported) === false) {
                     try {
                         $blResult = $this->profileConfigHelper->importProfileConfiguration($aUniqueProfile['profileId'], $aUniqueProfile['securityCode'], (bool)$aUniqueProfile['sandbox']);
                     } catch(\Exception $exc) {
                         $blResult = false;
                     }
-                    $aImported[] = $sKey;
+                    $aImported[] = $aUniqueProfile['profileId'];
                     if ($blResult === false) {
                         unset($aUniqueProfiles[$sKey]);
                     }
