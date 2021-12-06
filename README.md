@@ -4,7 +4,7 @@
 |Repository | Ratepay Module for Magento 2
 |------|----------
 |Author | Robert Müller
-|Module-Version | `1.2.8`
+|Module-Version | `1.2.9`
 |Compatibility | Magento 2.1.0 - 2.4.x
 |Link | http://www.ratepay.com
 |Mail | integration@ratepay.com
@@ -22,6 +22,11 @@ php bin/magento cache:clean
 ````
 
 ## Changelog
+
+### Version 1.2.9 - Released 2021-12-06
+* Fixed scope context in discount tax detection
+* Fixed validation problems for backend orders
+* Added missing shipping description to confirmation deliver call
 
 ### Version 1.2.8 - Released 2021-11-18
 * Fixed transmission of Tracking Id when added directly in invoice
