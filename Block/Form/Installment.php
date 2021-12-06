@@ -61,6 +61,6 @@ class Installment extends Base
      */
     public function getRestUrl()
     {
-        return $this->_urlBuilder->getDirectUrl('rest/default/V1/carts/mine/ratepay-installmentPlan?isAjax=1');
+        return $this->_urlBuilder->getDirectUrl('rest/V1/carts/mine/ratepay-installmentPlan?isAjax=1');
     }
 }

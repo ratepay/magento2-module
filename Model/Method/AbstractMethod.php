@@ -490,12 +490,12 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
      */
     protected function handleInstallmentSessionParams($additionalData, $methodCode)
     {
-        if ($additionalData->getRpTotalamount()) {
-            $this->checkoutSession->setData('ratepayPaymentAmount_'.$methodCode, $additionalData->getRpTotalamount());
-            $this->checkoutSession->setData('ratepayInstallmentNumber_'.$methodCode, $additionalData->getRpNumberofratesfull());
-            $this->checkoutSession->setData('ratepayInstallmentAmount_'.$methodCode, $additionalData->getRpRate());
-            $this->checkoutSession->setData('ratepayLastInstallmentAmount_'.$methodCode, $additionalData->getRpLastrate());
-            $this->checkoutSession->setData('ratepayInterestRate_'.$methodCode, $additionalData->getRpInterestrate());
+        if ($additionalData->getData('rp_'.$methodCode.'_totalamount')) {
+            $this->checkoutSession->setData('ratepayPaymentAmount_'.$methodCode, $additionalData->getData('rp_'.$methodCode.'_totalamount'));
+            $this->checkoutSession->setData('ratepayInstallmentNumber_'.$methodCode, $additionalData->getData('rp_'.$methodCode.'_numberofratesfull'));
+            $this->checkoutSession->setData('ratepayInstallmentAmount_'.$methodCode, $additionalData->getData('rp_'.$methodCode.'_rate'));
+            $this->checkoutSession->setData('ratepayLastInstallmentAmount_'.$methodCode, $additionalData->getData('rp_'.$methodCode.'_lastrate'));
+            $this->checkoutSession->setData('ratepayInterestRate_'.$methodCode, $additionalData->getData('rp_'.$methodCode.'_interestrate'));
         }
     }
 
@@ -550,10 +550,10 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
 
         $methodCode = $infoInstance->getMethod();
 
-        $debitMethods = ['ratepay_de_directdebit', 'ratepay_at_directdebit', 'ratepay_nl_directdebit', 'ratepay_be_directdebit'];
-        if (in_array($methodCode, $debitMethods) || !empty($additionalData->getRpIban())) { // getRpIban used for installments
+        $sIban = $additionalData->getRpIban();
+        if ($this instanceof Directdebit || !empty($sIban) || $additionalData->getRpDirectdebit() == "1") { // getRpIban used for installments
             $this->rpValidator->validateIban($additionalData);
-            $infoInstance->setAdditionalInformation('rp_iban', $additionalData->getRpIban());
+            $infoInstance->setAdditionalInformation('rp_iban', $sIban);
         }
 
         if ($additionalData->getRpDirectdebit() !== null) {
