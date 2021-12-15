@@ -4,7 +4,7 @@
 |Repository | Ratepay Module for Magento 2
 |------|----------
 |Author | Robert Müller
-|Module-Version | `1.2.9`
+|Module-Version | `1.2.10`
 |Compatibility | Magento 2.1.0 - 2.4.x
 |Link | http://www.ratepay.com
 |Mail | integration@ratepay.com
@@ -22,6 +22,9 @@ php bin/magento cache:clean
 ````
 
 ## Changelog
+
+### Version 1.2.10 - Released 2021-12-15
+* Removed DeviceFingerPrint scripts from backend orders
 
 ### Version 1.2.9 - Released 2021-12-06
 * Fixed scope context in discount tax detection
