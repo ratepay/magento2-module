@@ -285,6 +285,10 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
                     $this->addPaymentMethodToDisabledMethods($sMethodCode);
                     throw new DisablePaymentMethodException(__($message), $sMethodCode); // RatePAY Error Message
                 } else {
+                    $sReason = $resultRequest->getReasonMessage();
+                    if (empty($message) && stripos($sReason, "IBAN is invalid") !== false) {
+                        $message = __($sReason);
+                    }
                     throw new PaymentException(__($message)); // RatePAY Error Message
                 }
             }

@@ -133,3 +133,4 @@ ratepay_terms_block_6, "." ,module,RatePAY_Payment
 "The installment amount has been updated successfully.","The installment amount has been updated successfully.",module,RatePAY_Payment
 "Show details","Show details",module,RatePAY_Payment
 "Hide details","Hide details",module,RatePAY_Payment
+"Validation failed: Bank-account parameter IBAN is invalid.","Validation failed: IBAN is invalid.",module,RatePAY_Payment
