@@ -139,6 +139,7 @@ ratepay_terms_block_6, "." ,module,RatePAY_Payment
 "ratepay_directdebit_save_bankdata_overlay_1","If you select „Save payment data“, your payment information will be saved for future purchases. This allows you to quickly and easily pay for items purchased without having to re-enter your payment data for your next purchases. The saved payment data can be removed at any time in your",module,RatePAY_Payment
 "ratepay_directdebit_save_bankdata_overlay_2","customer account.",module,RatePAY_Payment
 "ratepay_directdebit_save_bankdata_overlay_3","",module,RatePAY_Payment
+"Validation failed: Bank-account parameter IBAN is invalid.","Validation failed: IBAN is invalid.",module,RatePAY_Payment
 "Ratepay_invoice","Invoice",module,RatePAY_Payment
 "Ratepay_installment","Instalment",module,RatePAY_Payment
 "Ratepay_installment0","0% Instalment",module,RatePAY_Payment
