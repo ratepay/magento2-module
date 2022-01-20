@@ -89,4 +89,23 @@ class Installment extends Base
     {
         return $this->getCreateOrderModel()->getQuote()->getGrandTotal();
     }
+
+    /**
+     * Returns current currency code
+     *
+     * @return string
+     */
+    public function ratepayGetCurrentCurrencyCode()
+    {
+        $oQuote = $this->getCreateOrderModel()->getQuote();
+        if (!$oQuote) {
+            return '';
+        }
+
+        $oStore = $oQuote->getStore();
+        if (!$oStore) {
+            return '';
+        }
+        return $oStore->getCurrentCurrencyCode();
+    }
 }

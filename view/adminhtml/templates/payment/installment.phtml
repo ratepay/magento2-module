@@ -14,6 +14,8 @@ if ($b2bEnabled === true) {
 
 $allowedMonths = $block->getAllowedMonths();
 
+$currency = $block->ratepayGetCurrentCurrencyCode();
+
 ?>
 
 <fieldset class="admin__fieldset payment-method" id="payment_form_<?php /* @noEscape */ echo $code; ?>" style="display:none">
@@ -77,7 +79,7 @@ $allowedMonths = $block->getAllowedMonths();
                         <span><?php echo $block->escapeHtml(__('rp_runtime_description')); ?></span>
                     </label>
                     <div class="admin__field-control control">
-                        <select id="<?php echo $code.'-time'; ?>" onchange="updateInstallmentPlanRuntime('<?php echo $block->getRestUrl(); ?>', <?php echo $ratePayGrandTotal; ?>, '<?php echo $code; ?>')" style="width: 163px;">
+                        <select id="<?php echo $code.'-time'; ?>" onchange="updateInstallmentPlanRuntime('<?php echo $block->getRestUrl(); ?>', <?php echo $ratePayGrandTotal; ?>, '<?php echo $code; ?>', '<?php echo $currency; ?>')" style="width: 163px;">
                             <?php foreach ($allowedMonths as $i => $value): ?>
                                 <option value="<?php echo $value; ?>" <?php echo $i == 0 ? 'selected' : '' ?>><?php echo $value; ?></option>
                             <?php endforeach; ?>
@@ -94,7 +96,7 @@ $allowedMonths = $block->getAllowedMonths();
                     <div class="admin__field-control control">
                         <input id="<?php echo $code.'-rate'; ?>" type="text" class="form-control" aria-label="Amount" /><br>
                         <span class="input-group-btn">
-                            <button id="<?php echo $code.'_Input-button'; ?>" type="button" onclick="updateInstallmentPlanAmount('<?php echo $block->getRestUrl(); ?>', <?php echo $ratePayGrandTotal; ?>, '<?php echo $code; ?>')" class="btn btn-default" role="group">
+                            <button id="<?php echo $code.'_Input-button'; ?>" type="button" onclick="updateInstallmentPlanAmount('<?php echo $block->getRestUrl(); ?>', <?php echo $ratePayGrandTotal; ?>, '<?php echo $code; ?>', '<?php echo $currency; ?>')" class="btn btn-default" role="group">
                                 <?php echo __('rp_calculate_rate'); ?>
                             </button>
                         </span>
@@ -189,9 +191,9 @@ $allowedMonths = $block->getAllowedMonths();
     ], function ($) {
         $(document).ready(function() {
             <?php if ($block->hasAllowedMonths() === false): ?>
-                updateInstallmentPlan('<?php echo $block->getRestUrl(); ?>', 'time', '3', <?php echo $ratePayGrandTotal; ?>, '<?php echo $code; ?>');
+                updateInstallmentPlan('<?php echo $block->getRestUrl(); ?>', 'time', '3', <?php echo $ratePayGrandTotal; ?>, '<?php echo $code; ?>', '<?php echo $currency; ?>');
             <?php else: ?>
-                updateInstallmentPlan('<?php echo $block->getRestUrl(); ?>', 'time', <?php echo $allowedMonths[0]; ?>, <?php echo $ratePayGrandTotal; ?>, '<?php echo $code; ?>');
+                updateInstallmentPlan('<?php echo $block->getRestUrl(); ?>', 'time', <?php echo $allowedMonths[0]; ?>, <?php echo $ratePayGrandTotal; ?>, '<?php echo $code; ?>', '<?php echo $currency; ?>');
             <?php endif; ?>
         });
     });

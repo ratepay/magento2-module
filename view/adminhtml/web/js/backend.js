@@ -41,31 +41,31 @@ function showDirectDebit(code) {
     });
 }
 
-function updateInstallmentPlanAmount(restUrl, grandTotal, methodCode) {
+function updateInstallmentPlanAmount(restUrl, grandTotal, methodCode, currency) {
     require([
         'jquery'
     ], function ($) {
         var calcValue = $('#' + methodCode + '-rate')[0].value;
         if (parseFloat(calcValue) > 0) {
-            updateInstallmentPlan(restUrl, 'rate', calcValue, grandTotal, methodCode);
+            updateInstallmentPlan(restUrl, 'rate', calcValue, grandTotal, methodCode, currency);
         } else {
             alert("Please enter a valid instalment value");
         }
     });
 }
 
-function updateInstallmentPlanRuntime(restUrl, grandTotal, methodCode) {
+function updateInstallmentPlanRuntime(restUrl, grandTotal, methodCode, currency) {
     require([
         'jquery'
     ], function ($) {
         var calcValue = $('#' + methodCode + '-time')[0].value;
         if (parseFloat(calcValue) > 0) {
-            updateInstallmentPlan(restUrl, 'time', calcValue, grandTotal, methodCode);
+            updateInstallmentPlan(restUrl, 'time', calcValue, grandTotal, methodCode, currency);
         }
     });
 }
 
-function updateInstallmentPlan(restUrl, calcType, calcValue, grandTotal, methodCode) {
+function updateInstallmentPlan(restUrl, calcType, calcValue, grandTotal, methodCode, currency) {
     require([
         'jquery'
     ], function ($) {
@@ -73,8 +73,8 @@ function updateInstallmentPlan(restUrl, calcType, calcValue, grandTotal, methodC
         if ($("#order-billing_address_country_id")){
             billingCountryId = $("#order-billing_address_country_id").val();
         }
-        var currency = "";
-        if ($("#currency_switcher")){
+
+        if ($("#currency_switcher") && $("#currency_switcher").val() !== undefined && $("#currency_switcher").val() != ""){
             currency = $("#currency_switcher").val();
         }
         var request = {
