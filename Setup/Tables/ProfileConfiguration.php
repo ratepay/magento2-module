@@ -62,7 +62,7 @@ class ProfileConfiguration
             'month_number_max'                      => ['type' => Table::TYPE_INTEGER,  'length' => 2,      'option' => ['nullable' => true, 'default' => NULL]],
             'month_longrun'                         => ['type' => Table::TYPE_INTEGER,  'length' => 2,      'option' => ['nullable' => true, 'default' => NULL]],
             'amount_min_longrun'                    => ['type' => Table::TYPE_INTEGER,  'length' => 2,      'option' => ['nullable' => true, 'default' => NULL]],
-            'month_allowed'                         => ['type' => Table::TYPE_TEXT,     'length' => 32,     'option' => ['nullable' => true, 'default' => NULL]],
+            'month_allowed'                         => ['type' => Table::TYPE_TEXT,     'length' => 255,    'option' => ['nullable' => true, 'default' => NULL]],
             'valid_payment_firstdays'               => ['type' => Table::TYPE_TEXT,     'length' => 32,     'option' => ['nullable' => true, 'default' => NULL]],
             'payment_firstday'                      => ['type' => Table::TYPE_TEXT,     'length' => 32,     'option' => ['nullable' => true, 'default' => NULL]],
             'payment_amount'                        => ['type' => Table::TYPE_DECIMAL,  'length' => '20,4', 'option' => ['nullable' => true, 'default' => NULL]],

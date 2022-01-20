@@ -134,6 +134,7 @@
                                         </div>
                                         <div class="panel-body">
                                             <!-- ko if: useMonthDropdown() -->
+                                                <select class="rp-term-select" data-bind="options: getAllowedMonths(), event: {change: updateInstallmentPlanRuntime}"></select>
                                             <!--/ko-->
                                             <!-- ko ifnot: useMonthDropdown() -->
                                                 <div class="btn-group btn-group-justified" role="group" aria-label="...">
