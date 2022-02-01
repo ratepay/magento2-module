@@ -23,6 +23,12 @@ php bin/magento cache:clean
 
 ## Changelog
 
+### Version 2.0.0 - Released 2022-02-01
+* The profile configuration has been refactored completely ( there will be a migration when you are updating from a pre 2.0.0 version )
+* 0% instalments now support multiple runtimes
+* Bugfix regarding error messages
+* Visual adjustments to instalment calculator
+
 ### Version 1.2.10 - Released 2021-12-15
 * Removed DeviceFingerPrint scripts from backend orders
 
