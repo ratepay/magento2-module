@@ -192,6 +192,19 @@
     width: 57%!important;
 }
 
+@media (max-width: 1261px) {
+    .rp-input-rate {
+        width: 90%!important;
+    }
+
+    .rp-btn-rate {
+        margin-top: 10px;
+        margin-left: 12px;
+        width: 90%;
+        display: block;
+    }
+}
+
 .ratepayagreement.required:after {
     content: '*';
     color: #e02b27;
