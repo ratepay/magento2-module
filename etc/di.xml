@@ -8,6 +8,8 @@
     </type>
     <preference for="RatePAY\Payment\Api\InstallmentPlanInterface" type="RatePAY\Payment\Service\V1\InstallmentPlan" />
     <preference for="RatePAY\Payment\Api\Data\InstallmentPlanResponseInterface" type="RatePAY\Payment\Service\V1\Data\InstallmentPlanResponse" />
+    <preference for="RatePAY\Payment\Api\CheckoutConfigInterface" type="RatePAY\Payment\Service\V1\CheckoutConfig" />
+    <preference for="RatePAY\Payment\Api\Data\CheckoutConfigResponseInterface" type="RatePAY\Payment\Service\V1\Data\CheckoutConfigResponse" />
     <type name="Magento\Framework\Webapi\ErrorProcessor">
         <plugin name="RatePAY_Payment_plugin_WebapiErrorProcessor" type="RatePAY\Payment\Plugin\WebapiErrorProcessor" sortOrder="1"/>
     </type>
@@ -30,12 +32,64 @@
     <type name="Magento\Sales\Model\Service\CreditmemoService">
         <plugin name="RatePAY_Payment_plugin_CreditmemoService" type="RatePAY\Payment\Plugin\CreditmemoService" sortOrder="1" />
     </type>
-    <type name="RatePAY\Payment\Controller\LibraryController">
+    <type name="RatePAY\Payment\Block\Form\Base">
+        <arguments>
+            <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
+            <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="RatePAY\Payment\Block\Form\Dfp">
+        <arguments>
+            <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
+            <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="RatePAY\Payment\Controller\Checkout\B2b">
         <arguments>
             <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
         </arguments>
     </type>
-    <type name="RatePAY\Payment\Helper\Content\Payment\Payment">
+    <type name="RatePAY\Payment\Controller\Checkout\InstallmentConfiguration">
+        <arguments>
+            <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="RatePAY\Payment\Controller\Checkout\InstallmentPlan">
+        <arguments>
+            <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="RatePAY\Payment\Helper\Validator">
+        <arguments>
+            <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
+            <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="RatePAY\Payment\Model\RechnungConfigProvider">
+        <arguments>
+            <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
+            <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="RatePAY\Payment\Model\Method\AbstractMethod">
+        <arguments>
+            <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
+            <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
+            <argument name="backendCheckoutSession" xsi:type="object">Magento\Backend\Model\Session\Quote\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="RatePAY\Payment\Observer\OrderPaymentPlaceEnd">
+        <arguments>
+            <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
+            <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="RatePAY\Payment\Plugin\MethodList">
+        <arguments>
+            <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="RatePAY\Payment\Service\V1\InstallmentPlan">
         <arguments>
             <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
         </arguments>
@@ -50,6 +104,18 @@
             <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
         </arguments>
     </type>
+
+    <type name="RatePAY\Payment\Block\Customer\Bankdata">
+        <arguments>
+            <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="RatePAY\Payment\Controller\Customer\Delete">
+        <arguments>
+            <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
+
     <type name="Magento\Payment\Model\Checks\TotalMinMax">
         <plugin name="RatePAY_Payment_Plugin_TotalMixMax" type="RatePAY\Payment\Plugin\TotalMinMax" sortOrder="10" />
     </type>

@@ -10,55 +10,19 @@ define(
         'use strict';
         rendererList.push(
             {
-                type: 'ratepay_de_invoice',
+                type: 'ratepay_invoice',
                 component: 'RatePAY_Payment/js/view/payment/method-renderer/invoice'
             },
             {
-                type:'ratepay_at_invoice',
-                component:'RatePAY_Payment/js/view/payment/method-renderer/invoice'
-            },
-            {
-                type:'ratepay_ch_invoice',
-                component:'RatePAY_Payment/js/view/payment/method-renderer/invoice'
-            },
-            {
-                type:'ratepay_nl_invoice',
-                component:'RatePAY_Payment/js/view/payment/method-renderer/invoice'
-            },
-            {
-                type:'ratepay_be_invoice',
-                component:'RatePAY_Payment/js/view/payment/method-renderer/invoice'
-            },
-            {
-                type:'ratepay_de_directdebit',
+                type:'ratepay_directdebit',
                 component:'RatePAY_Payment/js/view/payment/method-renderer/directdebit'
             },
             {
-                type:'ratepay_at_directdebit',
-                component:'RatePAY_Payment/js/view/payment/method-renderer/directdebit'
-            },
-            {
-                type:'ratepay_nl_directdebit',
-                component:'RatePAY_Payment/js/view/payment/method-renderer/directdebit'
-            },
-            {
-                type:'ratepay_be_directdebit',
-                component:'RatePAY_Payment/js/view/payment/method-renderer/directdebit'
-            },
-            {
-                type:'ratepay_de_installment',
+                type:'ratepay_installment',
                 component:'RatePAY_Payment/js/view/payment/method-renderer/installment'
             },
             {
-                type:'ratepay_at_installment',
-                component:'RatePAY_Payment/js/view/payment/method-renderer/installment'
-            },
-            {
-                type:'ratepay_de_installment0',
-                component:'RatePAY_Payment/js/view/payment/method-renderer/installment'
-            },
-            {
-                type:'ratepay_at_installment0',
+                type:'ratepay_installment0',
                 component:'RatePAY_Payment/js/view/payment/method-renderer/installment'
             }
         );

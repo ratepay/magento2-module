@@ -35,20 +35,30 @@ class Installment extends AbstractMethod
      */
     public function getAllowedMonths($basketAmount)
     {
-        $rateMinNormal = $this->rpDataHelper->getRpConfigData($this->getCode(), 'rate_min');
-        $runtimes = explode(",", $this->rpDataHelper->getRpConfigData($this->getCode(), 'month_allowed'));
-        $interestrateMonth = ((float)$this->rpDataHelper->getRpConfigData($this->getCode(), 'interestrate_default') / 12) / 100;
+        $oProfile = $this->getMatchingProfile();
+        if (!$oProfile) {
+            return [];
+        }
+
+        $rateMinNormal = $oProfile->getProductData('rate_min_normal', $this->getCode(), true);
+        $runtimes = explode(",", $oProfile->getProductData('month_allowed', $this->getCode(), true));
+        $interestrateMonth = ((float)$oProfile->getProductData('interestrate_default', $this->getCode(), true) / 12) / 100;
 
         $allowedRuntimes = [];
-        foreach ($runtimes as $runtime) {
-            if ($interestrateMonth > 0) { // otherwise division by zero error will happen
-                $rateAmount = $basketAmount * (($interestrateMonth * pow((1 + $interestrateMonth), $runtime)) / (pow((1 + $interestrateMonth), $runtime) - 1));
-            } else {
-                $rateAmount = $basketAmount / $runtime;
-            }
+        if (!empty($runtimes)) {
+            foreach ($runtimes as $runtime) {
+                if (!is_numeric($runtime)) {
+                    continue;
+                }
+                if ($interestrateMonth > 0) { // otherwise division by zero error will happen
+                    $rateAmount = $basketAmount * (($interestrateMonth * pow((1 + $interestrateMonth), $runtime)) / (pow((1 + $interestrateMonth), $runtime) - 1));
+                } else {
+                    $rateAmount = $basketAmount / $runtime;
+                }
 
-            if ($rateAmount >= $rateMinNormal) {
-                $allowedRuntimes[] = $runtime;
+                if ($rateAmount >= $rateMinNormal) {
+                    $allowedRuntimes[] = $runtime;
+                }
             }
         }
         return $allowedRuntimes;

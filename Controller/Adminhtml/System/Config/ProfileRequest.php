@@ -19,11 +19,6 @@ class ProfileRequest extends \Magento\Framework\App\Action\Action
     protected $_resultJsonFactory;
 
     /**
-     * @var \Magento\Checkout\Model\Session
-     */
-    protected $_checkoutSession;
-
-    /**
      * @var \Magento\Config\Model\ResourceModel\Config
      */
     protected $_config;
@@ -47,7 +42,6 @@ class ProfileRequest extends \Magento\Framework\App\Action\Action
      * ProfileRequest constructor.
      * @param Context $context
      * @param \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory
-     * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Config\Model\ResourceModel\Config $config
      * @param \RatePAY\Payment\Model\LibraryModel $rpLibraryModel
      * @param \RatePAY\Payment\Controller\LibraryController $rpLibraryController
@@ -55,7 +49,6 @@ class ProfileRequest extends \Magento\Framework\App\Action\Action
      */
     public function __construct(Context $context,
                                 \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory,
-                                \Magento\Checkout\Model\Session $checkoutSession,
                                 \Magento\Config\Model\ResourceModel\Config $config,
                                 \RatePAY\Payment\Model\LibraryModel $rpLibraryModel,
                                 \RatePAY\Payment\Controller\LibraryController $rpLibraryController,
@@ -64,7 +57,6 @@ class ProfileRequest extends \Magento\Framework\App\Action\Action
         parent::__construct($context);
 
         $this->_resultJsonFactory = $resultJsonFactory;
-        $this->_checkoutSession = $checkoutSession;
         $this->_config = $config;
         $this->_rpLibraryModel = $rpLibraryModel;
         $this->_rpLibraryController = $rpLibraryController;
@@ -161,10 +153,9 @@ class ProfileRequest extends \Magento\Framework\App\Action\Action
      * @param $securityCode
      * @return mixed|\RatePAY\ModelBuilder
      */
-    public function getHead($profileId, $securityCode){
-        $quote = $this->_checkoutSession->getQuote();
-
-        return $this->_rpLibraryModel->getRequestHead($quote, null, null, null, $profileId, $securityCode);
+    public function getHead($profileId, $securityCode)
+    {
+        return $this->_rpLibraryModel->getRequestHead(null, null, null, null, $profileId, $securityCode);
     }
 
     /**

@@ -11,278 +11,85 @@
         </ratepay>
         <payment>
             <ratepay_invoice>
+                <payment_action>authorize</payment_action>
+                <active>0</active>
                 <model>RatePAY\Payment\Model\Method\Invoice</model>
+                <sandbox>1</sandbox>
+                <order_status>pending</order_status>
+                <title>Ratepay Invoice</title>
+                <allowspecific>0</allowspecific>
+                <group>offline</group>
             </ratepay_invoice>
+            <ratepay_directdebit>
+                <payment_action>authorize</payment_action>
+                <active>0</active>
+                <sandbox>1</sandbox>
+                <model>RatePAY\Payment\Model\Method\Directdebit</model>
+                <order_status>pending</order_status>
+                <title>Ratepay Directdebit</title>
+                <allowspecific>0</allowspecific>
+                <group>offline</group>
+            </ratepay_directdebit>
             <ratepay_installment>
+                <payment_action>authorize</payment_action>
+                <active>0</active>
+                <sandbox>1</sandbox>
                 <model>RatePAY\Payment\Model\Method\Installment</model>
+                <order_status>pending</order_status>
+                <title>Ratepay Instalment</title>
+                <allowspecific>0</allowspecific>
+                <group>offline</group>
             </ratepay_installment>
             <ratepay_installment0>
+                <payment_action>authorize</payment_action>
+                <active>0</active>
+                <sandbox>1</sandbox>
                 <model>RatePAY\Payment\Model\Method\Installment0</model>
+                <order_status>pending</order_status>
+                <title>Ratepay 0% Financing</title>
+                <allowspecific>0</allowspecific>
+                <group>offline</group>
             </ratepay_installment0>
-            <ratepay_directdebit>
-                <model>RatePAY\Payment\Model\Method\Directdebit</model>
-            </ratepay_directdebit>
-            <ratepay_de_invoice>
+            <ratepay_invoice_backend>
                 <payment_action>authorize</payment_action>
                 <active>0</active>
-                <model>RatePAY\Payment\Model\Method\DE\Invoice</model>
+                <model>RatePAY\Payment\Model\Method\InvoiceBackend</model>
                 <sandbox>1</sandbox>
                 <order_status>pending</order_status>
-                <title>Ratepay Invoice</title>
+                <title>Ratepay Invoice Backend</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
-            </ratepay_de_invoice>
-            <ratepay_de_directdebit>
+            </ratepay_invoice_backend>
+            <ratepay_directdebit_backend>
                 <payment_action>authorize</payment_action>
                 <active>0</active>
                 <sandbox>1</sandbox>
-                <model>RatePAY\Payment\Model\Method\DE\Directdebit</model>
+                <model>RatePAY\Payment\Model\Method\DirectdebitBackend</model>
                 <order_status>pending</order_status>
-                <title>Ratepay Directdebit</title>
+                <title>Ratepay Directdebit Backend</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
-            </ratepay_de_directdebit>
-            <ratepay_de_installment>
+            </ratepay_directdebit_backend>
+            <ratepay_installment_backend>
                 <payment_action>authorize</payment_action>
                 <active>0</active>
                 <sandbox>1</sandbox>
-                <model>RatePAY\Payment\Model\Method\DE\Installment</model>
+                <model>RatePAY\Payment\Model\Method\InstallmentBackend</model>
                 <order_status>pending</order_status>
-                <title>Ratepay Installment</title>
+                <title>Ratepay Instalment Backend</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
-            </ratepay_de_installment>
-            <ratepay_de_installment0>
+            </ratepay_installment_backend>
+            <ratepay_installment0_backend>
                 <payment_action>authorize</payment_action>
                 <active>0</active>
                 <sandbox>1</sandbox>
-                <model>RatePAY\Payment\Model\Method\DE\Installment0</model>
+                <model>RatePAY\Payment\Model\Method\Installment0Backend</model>
                 <order_status>pending</order_status>
-                <title>Ratepay 0% Financing</title>
+                <title>Ratepay 0% Financing Backend</title>
                 <allowspecific>0</allowspecific>
                 <group>offline</group>
-            </ratepay_de_installment0>
-            <ratepay_at_invoice>
-                <payment_action>authorize</payment_action>
-                <active>0</active>
-                <sandbox>1</sandbox>
-                <model>RatePAY\Payment\Model\Method\AT\Invoice</model>
-                <order_status>pending</order_status>
-                <title>Ratepay Invoice</title>
-                <allowspecific>0</allowspecific>
-                <group>offline</group>
-            </ratepay_at_invoice>
-            <ratepay_at_directdebit>
-                <payment_action>authorize</payment_action>
-                <active>0</active>
-                <sandbox>1</sandbox>
-                <model>RatePAY\Payment\Model\Method\AT\Directdebit</model>
-                <order_status>pending</order_status>
-                <title>Ratepay Directdebit</title>
-                <allowspecific>0</allowspecific>
-                <group>offline</group>
-            </ratepay_at_directdebit>
-            <ratepay_at_installment>
-                <payment_action>authorize</payment_action>
-                <active>0</active>
-                <sandbox>1</sandbox>
-                <model>RatePAY\Payment\Model\Method\AT\Installment</model>
-                <order_status>pending</order_status>
-                <title>Ratepay Installment</title>
-                <allowspecific>0</allowspecific>
-                <group>offline</group>
-            </ratepay_at_installment>
-            <ratepay_at_installment0>
-                <payment_action>authorize</payment_action>
-                <active>0</active>
-                <sandbox>1</sandbox>
-                <model>RatePAY\Payment\Model\Method\AT\Installment0</model>
-                <order_status>pending</order_status>
-                <title>Ratepay 0% Financing</title>
-                <allowspecific>0</allowspecific>
-                <group>offline</group>
-            </ratepay_at_installment0>
-            <ratepay_ch_invoice>
-                <payment_action>authorize</payment_action>
-                <active>0</active>
-                <sandbox>1</sandbox>
-                <model>RatePAY\Payment\Model\Method\CH\Invoice</model>
-                <order_status>pending</order_status>
-                <title>Ratepay Invoice</title>
-                <allowspecific>0</allowspecific>
-                <group>offline</group>
-            </ratepay_ch_invoice>
-            <ratepay_nl_invoice>
-                <payment_action>authorize</payment_action>
-                <active>0</active>
-                <sandbox>1</sandbox>
-                <model>RatePAY\Payment\Model\Method\NL\Invoice</model>
-                <order_status>pending</order_status>
-                <title>Ratepay Invoice</title>
-                <allowspecific>0</allowspecific>
-                <group>offline</group>
-            </ratepay_nl_invoice>
-            <ratepay_nl_directdebit>
-                <payment_action>authorize</payment_action>
-                <active>0</active>
-                <sandbox>1</sandbox>
-                <model>RatePAY\Payment\Model\Method\NL\Directdebit</model>
-                <order_status>pending</order_status>
-                <title>Ratepay Directdebit</title>
-                <allowspecific>0</allowspecific>
-                <group>offline</group>
-            </ratepay_nl_directdebit>
-            <ratepay_be_invoice>
-                <payment_action>authorize</payment_action>
-                <active>0</active>
-                <sandbox>1</sandbox>
-                <model>RatePAY\Payment\Model\Method\BE\Invoice</model>
-                <order_status>pending</order_status>
-                <title>Ratepay Invoice</title>
-                <allowspecific>0</allowspecific>
-                <group>offline</group>
-            </ratepay_be_invoice>
-            <ratepay_be_directdebit>
-                <payment_action>authorize</payment_action>
-                <active>0</active>
-                <sandbox>1</sandbox>
-                <model>RatePAY\Payment\Model\Method\BE\Directdebit</model>
-                <order_status>pending</order_status>
-                <title>Ratepay Directdebit</title>
-                <allowspecific>0</allowspecific>
-                <group>offline</group>
-            </ratepay_be_directdebit>
-            <!-- START BACKEND ORDERS -->
-            <ratepay_de_invoice_backend>
-                <payment_action>authorize</payment_action>
-                <active>0</active>
-                <model>RatePAY\Payment\Model\Method\DE\InvoiceBackend</model>
-                <sandbox>1</sandbox>
-                <order_status>pending</order_status>
-                <title>Ratepay Invoice Germany Backend</title>
-                <allowspecific>0</allowspecific>
-                <group>offline</group>
-            </ratepay_de_invoice_backend>
-            <ratepay_de_directdebit_backend>
-                <payment_action>authorize</payment_action>
-                <active>0</active>
-                <sandbox>1</sandbox>
-                <model>RatePAY\Payment\Model\Method\DE\DirectdebitBackend</model>
-                <order_status>pending</order_status>
-                <title>Ratepay Directdebit Germany Backend</title>
-                <allowspecific>0</allowspecific>
-                <group>offline</group>
-            </ratepay_de_directdebit_backend>
-            <ratepay_de_installment_backend>
-                <payment_action>authorize</payment_action>
-                <active>0</active>
-                <sandbox>1</sandbox>
-                <model>RatePAY\Payment\Model\Method\DE\InstallmentBackend</model>
-                <order_status>pending</order_status>
-                <title>Ratepay Installment Germany Backend</title>
-                <allowspecific>0</allowspecific>
-                <group>offline</group>
-            </ratepay_de_installment_backend>
-            <ratepay_de_installment0_backend>
-                <payment_action>authorize</payment_action>
-                <active>0</active>
-                <sandbox>1</sandbox>
-                <model>RatePAY\Payment\Model\Method\DE\Installment0Backend</model>
-                <order_status>pending</order_status>
-                <title>Ratepay 0% Financing Germany Backend</title>
-                <allowspecific>0</allowspecific>
-                <group>offline</group>
-            </ratepay_de_installment0_backend>
-            <ratepay_at_invoice_backend>
-                <payment_action>authorize</payment_action>
-                <active>0</active>
-                <sandbox>1</sandbox>
-                <model>RatePAY\Payment\Model\Method\AT\InvoiceBackend</model>
-                <order_status>pending</order_status>
-                <title>Ratepay Invoice Austria Backend</title>
-                <allowspecific>0</allowspecific>
-                <group>offline</group>
-            </ratepay_at_invoice_backend>
-            <ratepay_at_directdebit_backend>
-                <payment_action>authorize</payment_action>
-                <active>0</active>
-                <sandbox>1</sandbox>
-                <model>RatePAY\Payment\Model\Method\AT\DirectdebitBackend</model>
-                <order_status>pending</order_status>
-                <title>Ratepay Directdebit Austria Backend</title>
-                <allowspecific>0</allowspecific>
-                <group>offline</group>
-            </ratepay_at_directdebit_backend>
-            <ratepay_at_installment_backend>
-                <payment_action>authorize</payment_action>
-                <active>0</active>
-                <sandbox>1</sandbox>
-                <model>RatePAY\Payment\Model\Method\AT\InstallmentBackend</model>
-                <order_status>pending</order_status>
-                <title>Ratepay Installment Austria Backend</title>
-                <allowspecific>0</allowspecific>
-                <group>offline</group>
-            </ratepay_at_installment_backend>
-            <ratepay_at_installment0_backend>
-                <payment_action>authorize</payment_action>
-                <active>0</active>
-                <sandbox>1</sandbox>
-                <model>RatePAY\Payment\Model\Method\AT\Installment0Backend</model>
-                <order_status>pending</order_status>
-                <title>Ratepay 0% Financing Austria Backend</title>
-                <allowspecific>0</allowspecific>
-                <group>offline</group>
-            </ratepay_at_installment0_backend>
-            <ratepay_ch_invoice_backend>
-                <payment_action>authorize</payment_action>
-                <active>0</active>
-                <sandbox>1</sandbox>
-                <model>RatePAY\Payment\Model\Method\CH\InvoiceBackend</model>
-                <order_status>pending</order_status>
-                <title>Ratepay Invoice Switzerland Backend</title>
-                <allowspecific>0</allowspecific>
-                <group>offline</group>
-            </ratepay_ch_invoice_backend>
-            <ratepay_nl_invoice_backend>
-                <payment_action>authorize</payment_action>
-                <active>0</active>
-                <sandbox>1</sandbox>
-                <model>RatePAY\Payment\Model\Method\NL\InvoiceBackend</model>
-                <order_status>pending</order_status>
-                <title>Ratepay Invoice Netherlands Backend</title>
-                <allowspecific>0</allowspecific>
-                <group>offline</group>
-            </ratepay_nl_invoice_backend>
-            <ratepay_nl_directdebit_backend>
-                <payment_action>authorize</payment_action>
-                <active>0</active>
-                <sandbox>1</sandbox>
-                <model>RatePAY\Payment\Model\Method\NL\DirectdebitBackend</model>
-                <order_status>pending</order_status>
-                <title>Ratepay Directdebit Netherlands Backend</title>
-                <allowspecific>0</allowspecific>
-                <group>offline</group>
-            </ratepay_nl_directdebit_backend>
-            <ratepay_be_invoice_backend>
-                <payment_action>authorize</payment_action>
-                <active>0</active>
-                <sandbox>1</sandbox>
-                <model>RatePAY\Payment\Model\Method\BE\InvoiceBackend</model>
-                <order_status>pending</order_status>
-                <title>Ratepay Invoice Belgium Backend</title>
-                <allowspecific>0</allowspecific>
-                <group>offline</group>
-            </ratepay_be_invoice_backend>
-            <ratepay_be_directdebit_backend>
-                <payment_action>authorize</payment_action>
-                <active>0</active>
-                <sandbox>1</sandbox>
-                <model>RatePAY\Payment\Model\Method\BE\DirectdebitBackend</model>
-                <order_status>pending</order_status>
-                <title>Ratepay Directdebit Belgium Backend</title>
-                <allowspecific>0</allowspecific>
-                <group>offline</group>
-            </ratepay_be_directdebit_backend>
+            </ratepay_installment0_backend>
         </payment>
     </default>
 </config>
