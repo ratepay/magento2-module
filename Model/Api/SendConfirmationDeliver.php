@@ -37,22 +37,38 @@ class SendConfirmationDeliver
     ];
 
     /**
+     * @var \Magento\Payment\Helper\Data
+     */
+    protected $paymentHelper;
+
+    /**
+     * @var \RatePAY\Payment\Helper\ProfileConfig
+     */
+    protected $profileConfigHelper;
+
+    /**
      * SendRatepayDeliverCallOnInvoice constructor.
      * @param \RatePAY\Payment\Model\LibraryModel $rpLibraryModel
      * @param \RatePAY\Payment\Helper\Data $rpDataHelper
      * @param LibraryController $rpLibraryController
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Payment\Helper\Data $paymentHelper
+     * @param \RatePAY\Payment\Helper\ProfileConfig $profileConfigHelper
      */
     public function __construct(
         \RatePAY\Payment\Model\LibraryModel $rpLibraryModel,
         \RatePAY\Payment\Helper\Data $rpDataHelper,
         \RatePAY\Payment\Controller\LibraryController $rpLibraryController,
-        \Magento\Store\Model\StoreManagerInterface $storeManager)
-    {
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Payment\Helper\Data $paymentHelper,
+        \RatePAY\Payment\Helper\ProfileConfig $profileConfigHelper
+    ) {
         $this->rpLibraryModel = $rpLibraryModel;
         $this->rpDataHelper = $rpDataHelper;
         $this->rpLibraryController = $rpLibraryController;
         $this->storeManager = $storeManager;
+        $this->paymentHelper = $paymentHelper;
+        $this->profileConfigHelper = $profileConfigHelper;
     }
 
     /**
@@ -143,12 +159,19 @@ class SendConfirmationDeliver
             $inv = $order;
         }
 
+        $sProfileId = null;
+        $sSecurityCode = null;
+        $blSandbox = false;
+        if ($order->getRatepayProfileId()) {
+            $sProfileId = $order->getRatepayProfileId();
+            $sSecurityCode = $this->profileConfigHelper->getSecurityCodeForProfileId($sProfileId, $paymentMethod);
+            $blSandbox = $this->profileConfigHelper->getSandboxModeForProfileId($sProfileId, $paymentMethod);
+        }
         $inv->setShippingDescription($order->getShippingDescription());
 
-        $sandbox = (bool)$this->rpDataHelper->getRpConfigData($paymentMethod, 'sandbox', $order->getStore()->getId());
-        $head = $this->rpLibraryModel->getRequestHead($order, 'CONFIRMATION_DELIVER', null, null, null, null, $this->getTrackingInfo($order));
+        $head = $this->rpLibraryModel->getRequestHead($order, 'CONFIRMATION_DELIVER', null, null, $sProfileId, $sSecurityCode, $this->getTrackingInfo($order));
         $content = $this->rpLibraryModel->getRequestContent($inv, 'CONFIRMATION_DELIVER');
 
-        return $this->rpLibraryController->callConfirmationDeliver($head, $content, $order, $sandbox);
+        return $this->rpLibraryController->callConfirmationDeliver($head, $content, $order, $blSandbox);
     }
 }

@@ -21,13 +21,31 @@ class Installment extends Base
     /**
      * @return array|string
      */
-    protected function getValidPaymentFirstdays()
+    public function getValidPaymentFirstdays()
     {
-        $validPaymentFirstdays = $this->rpDataHelper->getRpConfigData($this->getMethodCode(), 'valid_payment_firstday');
+        $oProfile = $this->getMethod()->getMatchingProfile();
+        if (!$oProfile) {
+            return [];
+        }
+
+        $validPaymentFirstdays = $oProfile->getData("valid_payment_firstdays");
         if(strpos($validPaymentFirstdays, ',') !== false) {
             $validPaymentFirstdays = explode(',', $validPaymentFirstdays);
         }
         return $validPaymentFirstdays;
+    }
+
+    /**
+     * @return array|string
+     */
+    public function getPaymentFirstday()
+    {
+        $oProfile = $this->getMethod()->getMatchingProfile();
+        if (!$oProfile) {
+            return [];
+        }
+
+        return $oProfile->getData("payment_firstday");
     }
 
     /**
@@ -61,6 +79,33 @@ class Installment extends Base
      */
     public function getRestUrl()
     {
-        return $this->_urlBuilder->getDirectUrl('rest/V1/carts/mine/ratepay-installmentPlan?isAjax=1');
+        return $this->_urlBuilder->getDirectUrl('rest/V1/carts/mine/ratepay-installmentPlanBackend?isAjax=1');
+    }
+
+    /**
+     * @return double
+     */
+    public function getQuoteGrandTotal()
+    {
+        return $this->getCreateOrderModel()->getQuote()->getGrandTotal();
+    }
+
+    /**
+     * Returns current currency code
+     *
+     * @return string
+     */
+    public function ratepayGetCurrentCurrencyCode()
+    {
+        $oQuote = $this->getCreateOrderModel()->getQuote();
+        if (!$oQuote) {
+            return '';
+        }
+
+        $oStore = $oQuote->getStore();
+        if (!$oStore) {
+            return '';
+        }
+        return $oStore->getCurrentCurrencyCode();
     }
 }

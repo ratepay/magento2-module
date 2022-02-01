@@ -4,16 +4,48 @@ define(
         'jquery',
         'Magento_Checkout/js/model/quote',
         'Magento_Customer/js/model/customer',
+        'Magento_Checkout/js/model/url-builder',
+        'RatePAY_Payment/js/action/update-checkout-config',
         'mage/translate'
     ],
-    function (Component, $, quote, customer, $t) {
+    function (Component, $, quote, customer, urlBuilder, updateCheckoutConfig, $t) {
         'use strict';
         return Component.extend({
             currentBillingAddress: quote.billingAddress,
             currentCustomerData: customer.customerData,
 
+
+            getPaymentConfig: function () {
+                if (window.checkoutConfig.payment[this.getCode()] !== undefined) {
+                    return window.checkoutConfig.payment[this.getCode()];
+                }
+                if (window.checkoutConfig.payment.ratepayConfigRefreshed === undefined) {
+                    var data = updateCheckoutConfig(quote.getQuoteId());
+                    window.checkoutConfig.payment.ratepayConfigRefreshed = true;
+                    if (data.responseJSON !== undefined) {
+                        data = data.responseJSON;
+                    }
+                    if (data.success !== undefined && data.success === true && data.checkout_config !== undefined) {
+                        try {
+                            this.updatePaymentConfig(JSON.parse(data.checkout_config));
+                            return this.getPaymentConfig();
+                        } catch (e) {
+                            // response stays false
+                        }
+                    }
+                }
+                return false;
+            },
+            updatePaymentConfig: function (newPaymentConfig) {
+                $.each(newPaymentConfig, function( index, value ) {
+                    if (window.checkoutConfig.payment[index] === undefined) {
+                        window.checkoutConfig.payment[index] = value;
+                    }
+                });
+            },
             isPlaceOrderActionAllowedRatePay: function () {
-                return (window.checkoutConfig.payment[this.getCode()].differentShippingAddressAllowed === true || (quote.billingAddress() != null && quote.billingAddress().getCacheKey() == quote.shippingAddress().getCacheKey()));
+                var config = this.getPaymentConfig();
+                return ((config && config.differentShippingAddressAllowed === true) || (quote.billingAddress() != null && quote.billingAddress().getCacheKey() == quote.shippingAddress().getCacheKey()));
             },
             getCustomerName: function () {
                 if (quote.billingAddress() != null && quote.billingAddress().firstname != undefined) {
@@ -22,7 +54,7 @@ define(
                 if (customer.customerData != null && customer.customerData.firstname != undefined) {
                     return customer.customerData.firstname + ' ' + customer.customerData.lastname;
                 }
-                return ''
+                return '';
             },
             getB2bAccountholders: function () {
                 return [this.getCompany(), this.getCustomerName()];
@@ -31,7 +63,11 @@ define(
                 return false;
             },
             isSandboxModeEnabled: function () {
-                return window.checkoutConfig.payment[this.getCode()].sandboxMode;
+                var config = this.getPaymentConfig();
+                if (config) {
+                    return config.sandboxMode;
+                }
+                return false;
             },
             isDobSet: function () {
                 if (customer.customerData.dob == undefined || customer.customerData.dob === null) {
@@ -46,7 +82,11 @@ define(
                 return false;
             },
             isB2BEnabled: function () {
-                return window.checkoutConfig.payment[this.getCode()].b2bActive;
+                var config = this.getPaymentConfig();
+                if (config) {
+                    return config.b2bActive;
+                }
+                return false;
             },
             isCompanySet: function () {
                 if (quote.billingAddress() != null && quote.billingAddress().company != undefined && quote.billingAddress().company.length > 1) {

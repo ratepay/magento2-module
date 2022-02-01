@@ -32,10 +32,24 @@ define(
                 this._super();
                 if (this.hasAllowedMonths() === false) {
                     this.updateInstallmentPlan('time', '3', this.getCode(), false);
-                } else if(this.hasSingleAllowedMonth()) {
+                } else {
                     this.updateInstallmentPlan('time', this.getAllowedMonths()[0], this.getCode(), false);
                 }
                 return this;
+            },
+            isDirectDebitDefault: function () {
+                var config = this.getPaymentConfig();
+                if (config && config.defaultPaymentFirstday == '2') {
+                    return true;
+                }
+                return false;
+            },
+            isBankTransferDefault: function () {
+                var config = this.getPaymentConfig();
+                if (config && config.defaultPaymentFirstday == '28') {
+                    return true;
+                }
+                return false;
             },
             validate: function () {
                 var blParentReturn = this._super();
@@ -54,21 +68,39 @@ define(
                 }
 
                 if (this.isInstallmentPlanSet === false) {
-                    this.messageContainer.addErrorMessage({'message': $t('Please select a installment runtime or installment amount.')});
+                    this.messageContainer.addErrorMessage({'message': $t('Please select a instalment runtime or instalment amount.')});
                     return false;
                 }
                 return true;
             },
             showSepaBlock: function () {
-                var validPaymentFirstdays = window.checkoutConfig.payment[this.getCode()].validPaymentFirstdays;
-                if (validPaymentFirstdays == '2' || Array.isArray(validPaymentFirstdays)) {
+                var config = this.getPaymentConfig();
+                if (config && (config.validPaymentFirstdays == '2' || Array.isArray(config.validPaymentFirstdays))) {
                     return true;
                 }
                 this.useDirectDebit = false;
                 return false;
             },
+            togglePaymentTypeSelector: function () {
+                if (this.showPaymentTypeSelection() === true) {
+                    $('#' + this.getCode() + '_payment_type_selector').show();
+                } else {
+                    $('#' + this.getCode() + '_payment_type_selector').hide();
+                }
+            },
+            showPaymentTypeSelection: function () {
+                var config = this.getPaymentConfig();
+                if (config && (Array.isArray(config.validPaymentFirstdays))) {
+                    return true;
+                }
+                return false;
+            },
             getAllowedMonths: function () {
-                return window.checkoutConfig.payment[this.getCode()].allowedMonths;
+                var config = this.getPaymentConfig();
+                if (config) {
+                    return config.allowedMonths;
+                }
+                return [];
             },
             hasAllowedMonths: function () {
                 if (this.getAllowedMonths().length > 0) {
