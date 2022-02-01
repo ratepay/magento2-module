@@ -23,6 +23,18 @@ php bin/magento cache:clean
 
 ## Changelog
 
+### Version 1.2.10 - Released 2021-12-15
+* Removed DeviceFingerPrint scripts from backend orders
+
+### Version 1.2.9 - Released 2021-12-06
+* Fixed scope context in discount tax detection
+* Fixed validation problems for backend orders
+* Added missing shipping description to confirmation deliver call
+
+### Version 1.2.8 - Released 2021-11-18
+* Fixed transmission of Tracking Id when added directly in invoice
+* Added mechanism to register invoice increment id earlier in the process to transmit it in capture request
+
 ### Version 1.2.7 - Released 2021-11-02
 * Added CSP whitelist file
 * Fixed wrong config scope in certain situations when reading config data
