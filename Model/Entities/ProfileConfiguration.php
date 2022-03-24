@@ -227,10 +227,11 @@ class ProfileConfiguration extends AbstractModel
      * @param string                                $sMethodCode
      * @param double                                $dTotalAmount
      * @param string                                $sBillingCountryId
+     * @param string                                $sShippingCountryId
      * @param string                                $sCurrency
      * @return bool
      */
-    public function isApplicableForQuote(\Magento\Quote\Api\Data\CartInterface $oQuote, $sMethodCode, $dTotalAmount = null, $sBillingCountryId = null, $sCurrency = null)
+    public function isApplicableForQuote(\Magento\Quote\Api\Data\CartInterface $oQuote, $sMethodCode, $dTotalAmount = null, $sBillingCountryId = null, $sShippingCountryId = null, $sCurrency = null)
     {
         $sProduct = $this->getRatepayProduct($sMethodCode);
 
@@ -255,6 +256,13 @@ class ProfileConfiguration extends AbstractModel
             return false;
         }
 
+        if ($sShippingCountryId === null) {
+            $sShippingCountryId = $oQuote->getShippingAddress()->getCountryId();
+        }
+        if (!in_array($sShippingCountryId, explode(",", $this->getData("country_code_delivery")))) {
+            return false;
+        }
+
         if ($dTotalAmount === null) {
             $dTotalAmount = $oQuote->getGrandTotal();
         }
@@ -268,6 +276,7 @@ class ProfileConfiguration extends AbstractModel
         if ($dTotalAmount < $dMinAmount || $dTotalAmount > $dMaxAmount) {
             return false;
         }
+
         return true;
     }
 }

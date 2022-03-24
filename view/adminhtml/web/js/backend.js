@@ -74,6 +74,11 @@ function updateInstallmentPlan(restUrl, calcType, calcValue, grandTotal, methodC
             billingCountryId = $("#order-billing_address_country_id").val();
         }
 
+        var shippingCountryId = "";
+        if ($("#order-shipping_address_country_id")){
+            shippingCountryId = $("#order-shipping_address_country_id").val();
+        }
+
         if ($("#currency_switcher") && $("#currency_switcher").val() !== undefined && $("#currency_switcher").val() != ""){
             currency = $("#currency_switcher").val();
         }
@@ -83,6 +88,7 @@ function updateInstallmentPlan(restUrl, calcType, calcValue, grandTotal, methodC
             grandTotal: grandTotal,
             methodCode: methodCode,
             billingCountryId: billingCountryId,
+            shippingCountryId: shippingCountryId,
             currency: currency
         };
         var data = JSON.stringify(request);

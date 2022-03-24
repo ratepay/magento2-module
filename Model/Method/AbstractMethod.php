@@ -445,11 +445,12 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
      * @param  string|null $sStoreCode
      * @param  double $dGrandTotal
      * @param  string $sBillingCountryId
+     * @param  string $sShippingCountryId
      * @param  string $currency
      * @param  int $installmentRuntime
      * @return \RatePAY\Payment\Model\Entities\ProfileConfiguration|false
      */
-    public function getMatchingProfile(\Magento\Quote\Api\Data\CartInterface $oQuote = null, $sStoreCode = null, $dGrandTotal = null, $sBillingCountryId = null, $currency = null, $installmentRuntime = null)
+    public function getMatchingProfile(\Magento\Quote\Api\Data\CartInterface $oQuote = null, $sStoreCode = null, $dGrandTotal = null, $sBillingCountryId = null, $sShippingCountryId = null, $currency = null, $installmentRuntime = null)
     {
         if ($this->profile === null) {
             if ($oQuote === null) {
@@ -463,7 +464,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
                 $sStoreCode = $oQuote->getStore()->getCode();
             }
 
-            $this->profile = $this->profileConfig->getMatchingProfile($oQuote, $this->getCode(), $sStoreCode, $dGrandTotal, $sBillingCountryId, $currency);
+            $this->profile = $this->profileConfig->getMatchingProfile($oQuote, $this->getCode(), $sStoreCode, $dGrandTotal, $sBillingCountryId, $sShippingCountryId, $currency);
         }
         return $this->profile;
     }
@@ -473,10 +474,11 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
      * @param  string|null $sStoreCode
      * @param  double $dGrandTotal
      * @param  string $sBillingCountryId
+     * @param  string $sShippingCountryId
      * @param  string $sCurrency
      * @return \RatePAY\Payment\Model\Entities\ProfileConfiguration[]|false
      */
-    public function getMatchingProfiles(\Magento\Quote\Api\Data\CartInterface $oQuote = null, $sStoreCode = null, $dGrandTotal = null, $sBillingCountryId = null, $sCurrency = null)
+    public function getMatchingProfiles(\Magento\Quote\Api\Data\CartInterface $oQuote = null, $sStoreCode = null, $dGrandTotal = null, $sBillingCountryId = null, $sShippingCountryId = null, $sCurrency = null)
     {
         if ($this->profiles === null) {
             if ($oQuote === null) {
@@ -490,7 +492,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
                 $sStoreCode = $oQuote->getStore()->getCode();
             }
 
-            $this->profiles = $this->profileConfig->getAllMatchingProfiles($oQuote, $this->getCode(), $sStoreCode, $dGrandTotal, $sBillingCountryId, $sCurrency);
+            $this->profiles = $this->profileConfig->getAllMatchingProfiles($oQuote, $this->getCode(), $sStoreCode, $dGrandTotal, $sBillingCountryId, $sShippingCountryId, $sCurrency);
         }
         return $this->profiles;
     }
