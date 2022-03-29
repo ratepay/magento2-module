@@ -4,6 +4,7 @@ namespace RatePAY\Payment\Model\Entities;
 
 use Magento\Framework\Model\AbstractModel;
 use RatePAY\Payment\Model\Method\AbstractMethod;
+use Magento\Quote\Model\Quote\Address;
 
 /**
  * Profile configuration entity model
@@ -221,16 +222,43 @@ class ProfileConfiguration extends AbstractModel
     }
 
     /**
+     * Tries to calculate sub-quote sum for a given multishipping address
+     * Only add item row totals at the moment, so shipping price etc. is missing
+     *
+     * @param \Magento\Quote\Api\Data\CartInterface $oQuote
+     * @param Address $oAddress
+     * @return int
+     */
+    protected function calcMultiShippingAddressSum(\Magento\Quote\Api\Data\CartInterface $oQuote, Address $oAddress)
+    {
+        $dAddressSum = 0;
+        foreach ($oAddress->getAllItems() as $oItem) {
+            $dAddressSum += $oItem->getRowTotalInclTax();
+        }
+        $sShippingMethodCode = $oAddress->getShippingMethod();
+        if ($sShippingMethodCode) {
+            $oRate = $oAddress->getShippingRateByCode($sShippingMethodCode);
+            $dShippingPrice = $oRate->getPrice();
+            if ($dShippingPrice) {
+                $dAddressSum += $dShippingPrice;
+            }
+        }
+
+        return $dAddressSum;
+    }
+
+    /**
      * Checks if entity is applicable for current order process
      *
      * @param \Magento\Quote\Api\Data\CartInterface $oQuote
      * @param string                                $sMethodCode
      * @param double                                $dTotalAmount
      * @param string                                $sBillingCountryId
+     * @param string                                $sShippingCountryId
      * @param string                                $sCurrency
      * @return bool
      */
-    public function isApplicableForQuote(\Magento\Quote\Api\Data\CartInterface $oQuote, $sMethodCode, $dTotalAmount = null, $sBillingCountryId = null, $sCurrency = null)
+    public function isApplicableForQuote(\Magento\Quote\Api\Data\CartInterface $oQuote, $sMethodCode, $dTotalAmount = null, $sBillingCountryId = null, $sShippingCountryId = null, $sCurrency = null)
     {
         $sProduct = $this->getRatepayProduct($sMethodCode);
 
@@ -247,12 +275,39 @@ class ProfileConfiguration extends AbstractModel
             return false;
         }
 
+        // if multishipping mode is used and profile does not support ALA it cant be used
+        if ($oQuote->getIsMultiShipping() && $this->getProductData("delivery_address_?", $sMethodCode, true) == false) {
+            return false;
+        }
+
         // check country
         if ($sBillingCountryId === null) {
             $sBillingCountryId = $oQuote->getBillingAddress()->getCountryId();
         }
         if (!in_array($sBillingCountryId, explode(",", $this->getData("country_code_billing")))) {
             return false;
+        }
+
+        if ($sShippingCountryId === null) {
+            $sShippingCountryId = $oQuote->getShippingAddress()->getCountryId();
+        }
+        if (!in_array($sShippingCountryId, explode(",", $this->getData("country_code_delivery")))) {
+            return false;
+        }
+
+        if ($oQuote->getIsMultiShipping()) {
+            $dMultiShippingMinTotal = false;
+            $aAddresses = $oQuote->getAllShippingAddresses();
+            foreach ($aAddresses as $oAddress) {
+                if (!in_array($oAddress->getCountryId(), explode(",", $this->getData("country_code_delivery")))) {
+                    return false;
+                }
+                $dAddressSum = $this->calcMultiShippingAddressSum($oQuote, $oAddress);
+                if ($dAddressSum < $dMultiShippingMinTotal || $dMultiShippingMinTotal === false) {
+                    $dMultiShippingMinTotal = $dAddressSum;
+                }
+            }
+            $dTotalAmount = $dMultiShippingMinTotal;
         }
 
         if ($dTotalAmount === null) {

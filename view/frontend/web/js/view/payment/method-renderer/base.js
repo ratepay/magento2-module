@@ -115,6 +115,19 @@ define(
                     returnData.additional_data.rp_vatid = this.rp_vatid;
                 }
                 return returnData;
+            },
+            addDataMultishipping: function () {
+                var data = this.getData();
+                if (data.additional_data !== undefined) {
+                    for (const [key, value] of Object.entries(data.additional_data)) {
+                        $('<input>').attr({
+                            type: 'hidden',
+                            name: 'payment[additional_data][' + key + ']',
+                            value: value
+                        }).appendTo('#multishipping-billing-form');
+                    }
+                }
+                return true;
             }
         });
     }

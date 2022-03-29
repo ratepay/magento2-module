@@ -105,6 +105,7 @@ ratepay_terms_block_6, "einverstanden." ,module,RatePAY_Payment
 "rp_rate_title","Ratenhöhe",module,RatePAY_Payment
 "rp_rate_description","Höhe der monatlichen Raten",module,RatePAY_Payment
 "rp_calculate_rate","Rate berechnen",module,RatePAY_Payment
+"rp_calculate_rate_short","Berechnen",module,RatePAY_Payment
 "rp_personal_calculation","Pers&ouml;nliche Ratenberechnung",module,RatePAY_Payment
 "rp_reason_code_translation_603","Die Wunschrate entspricht den vorgegebenen Bedingungen.",module,RatePAY_Payment
 "rp_reason_code_translation_671","Die letzte Rate war niedriger als erlaubt. Laufzeit und/oder Rate wurden angepasst.",module,RatePAY_Payment

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="RatePAY_Payment::css/ratepay.css"/>
+    </head>
+    <body>
+        <referenceBlock name="checkout_billing">
+            <arguments>
+                <argument name="form_templates" xsi:type="array">
+                    <item name="ratepay_invoice" xsi:type="string">RatePAY_Payment::multishipping/ratepay_invoice_form.phtml</item>
+                    <item name="ratepay_directdebit" xsi:type="string">RatePAY_Payment::multishipping/ratepay_directdebit_form.phtml</item>
+                    <item name="ratepay_installment" xsi:type="string">RatePAY_Payment::multishipping/ratepay_installment_form.phtml</item>
+                    <item name="ratepay_installment0" xsi:type="string">RatePAY_Payment::multishipping/ratepay_installment0_form.phtml</item>
+                </argument>
+            </arguments>
+        </referenceBlock>
+    </body>
+</page>
