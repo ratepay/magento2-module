@@ -295,8 +295,15 @@ class ProfileConfiguration extends AbstractModel
             return false;
         }
 
+        $dMinAmount = $this->getProductData("tx_limit_?_min", $sMethodCode, true);
+        $dMaxAmount = $this->getProductData("tx_limit_?_max", $sMethodCode, true);
+        if (!empty($oQuote->getBillingAddress()->getCompany()) && ((bool)$this->getProductData("b2b_?", $sMethodCode, true) === true && ($dTotalAmount === null || $dTotalAmount <= $this->getProductData("tx_limit_?_max_b2b", $sMethodCode)))) {
+            $dMaxAmount = $this->getProductData("tx_limit_?_max_b2b", $sMethodCode, true);
+        }
+
         if ($oQuote->getIsMultiShipping()) {
             $dMultiShippingMinTotal = false;
+            $dMultiShippingMaxTotal = false;
             $aAddresses = $oQuote->getAllShippingAddresses();
             foreach ($aAddresses as $oAddress) {
                 if (!in_array($oAddress->getCountryId(), explode(",", $this->getData("country_code_delivery")))) {
@@ -306,23 +313,25 @@ class ProfileConfiguration extends AbstractModel
                 if ($dAddressSum < $dMultiShippingMinTotal || $dMultiShippingMinTotal === false) {
                     $dMultiShippingMinTotal = $dAddressSum;
                 }
+                if ($dAddressSum > $dMultiShippingMaxTotal || $dMultiShippingMaxTotal === false) {
+                    $dMultiShippingMaxTotal = $dAddressSum;
+                }
             }
-            $dTotalAmount = $dMultiShippingMinTotal;
+
+            if ($dMultiShippingMinTotal < $dMinAmount || $dMultiShippingMaxTotal > $dMaxAmount) {
+                return false;
+            }
+        } else {
+            if ($dTotalAmount === null) {
+                $dTotalAmount = $oQuote->getGrandTotal();
+            }
+
+            // check min_/max_basket
+            if ($dTotalAmount < $dMinAmount || $dTotalAmount > $dMaxAmount) {
+                return false;
+            }
         }
 
-        if ($dTotalAmount === null) {
-            $dTotalAmount = $oQuote->getGrandTotal();
-        }
-        $dMinAmount = $this->getProductData("tx_limit_?_min", $sMethodCode, true);
-        $dMaxAmount = $this->getProductData("tx_limit_?_max", $sMethodCode, true);
-        if (!empty($oQuote->getBillingAddress()->getCompany()) && ((bool)$this->getProductData("b2b_?", $sMethodCode, true) === true && ($dTotalAmount === null || $dTotalAmount <= $this->getProductData("tx_limit_?_max_b2b", $sMethodCode)))) {
-            $dMaxAmount = $this->getProductData("tx_limit_?_max_b2b", $sMethodCode, true);
-        }
-
-        // check min_/max_basket
-        if ($dTotalAmount < $dMinAmount || $dTotalAmount > $dMaxAmount) {
-            return false;
-        }
         return true;
     }
 }

@@ -14,6 +14,12 @@ define(
                 template: 'RatePAY_Payment/payment/multishipping/installment',
                 submitButtonSelector: '[id="parent-payment-continue"]',
                 reviewButtonHtml: '',
+            },
+            useMonthDropdown: function () {
+                if (this.getAllowedMonths().length > 7) {
+                    return true;
+                }
+                return false;
             }
         });
     }
