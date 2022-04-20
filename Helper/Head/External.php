@@ -33,7 +33,7 @@ class External extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $headModel->setArray([
             'External' => [
-                'MerchantConsumerId' => $quoteOrOrder->getCustomerId(), // Customer Id
+                'MerchantConsumerId' => $quoteOrOrder->getCustomerId() ?? '', // Customer Id
                 'OrderId' => $quoteOrOrder->getRealOrderId()
             ]
         ]);
