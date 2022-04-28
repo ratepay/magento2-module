@@ -59,9 +59,9 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
                                 \RatePAY\Payment\Helper\Content\Customer\Addresses $rpContentCustomerAddressesHelper,
                                 \RatePAY\Payment\Helper\Content\Customer\Contacts $rpContentCustomerContactsHelper,
                                 \RatePAY\Payment\Helper\Content\Customer\BankAccount $rpContentCustomerBankAccountHelper,
-                                \Magento\Checkout\Model\Session $checkoutSession,
+                                \Magento\Checkout\Model\Session\Proxy $checkoutSession,
                                 CustomerRepositoryInterface $customerRepository,
-                                \Magento\Customer\Model\Session $customerSession,
+                                \Magento\Customer\Model\Session\Proxy $customerSession,
                                 \Magento\Framework\Locale\Resolver $resolver)
     {
         parent::__construct($context);

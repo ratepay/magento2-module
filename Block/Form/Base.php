@@ -172,14 +172,6 @@ class Base extends \Magento\Payment\Block\Form
     }
 
     /**
-     * @return float
-     */
-    public function getQuoteGrandTotal()
-    {
-        return $this->getCreateOrderModel()->getQuote()->getGrandTotal();
-    }
-
-    /**
      * Checks payment configuration for b2b mode
      *
      * @return bool
@@ -188,7 +180,7 @@ class Base extends \Magento\Payment\Block\Form
     {
         $oMethod = $this->getMethod();
         if ($oMethod instanceof \RatePAY\Payment\Model\Method\AbstractMethod) {
-            return $this->getMethod()->getIsB2BModeEnabled($this->getQuoteGrandTotal());
+            return $this->getMethod()->getIsB2BModeEnabled($this->getCreateOrderModel()->getQuote());
         }
         return false;
     }

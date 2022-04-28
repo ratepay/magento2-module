@@ -1,0 +1,157 @@
+<?php
+
+$aProfileConfigs = $this->getProfileConfigs();
+?>
+<div>
+    <?php if (empty($aProfileConfigs)): ?>
+        <?php echo __('No profiles configured yet'); ?>
+    <?php else: ?>
+        <?php foreach ($aProfileConfigs as $oProfile): ?>
+            <strong><?php echo __('ProfileID'); ?>:</strong> <?php echo $oProfile->getData('profile_id'); ?>
+            <table class="ratepay-profile-config">
+                <tr>
+                    <td class="label" width="40%"><?php echo __('Active payment types'); ?></td>
+                    <td width="60%">
+                        <?php foreach ($oProfile->getActiveProducts() as $sProduct): ?>
+                            <?php echo __('Ratepay_'.$sProduct); ?><br>
+                        <?php endforeach; ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label"><?php echo __('Currency'); ?></td>
+                    <td><?php echo $oProfile->getData('currency'); ?></td>
+                </tr>
+                <tr>
+                    <td class="label"><?php echo __('Specific Countries Billing'); ?></td>
+                    <td><?php echo $oProfile->getData('country_code_billing'); ?></td>
+                </tr>
+                <tr>
+                    <td class="label"><?php echo __('Specific Countries Delivery'); ?></td>
+                    <td><?php echo $oProfile->getData('country_code_delivery'); ?></td>
+                </tr>
+                <tr>
+                    <td class="label"><?php echo __('Minimum Order Total'); ?></td>
+                    <td>
+                        <?php $aMinOrderTotals = $oProfile->getMinOrderTotals(); ?>
+                        <?php if ($oProfile->hasDifferentValues($aMinOrderTotals) === false): ?>
+                            <?php echo array_shift($aMinOrderTotals); ?>
+                        <?php else: ?>
+                            <?php foreach ($aMinOrderTotals as $sProduct => $dMinTotal): ?>
+                                <?php echo __('Ratepay_'.$sProduct).": ".$dMinTotal; ?><br>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label"><?php echo __('Maximum Order Total'); ?></td>
+                    <td>
+                        <?php $aMaxOrderTotals = $oProfile->getMaxOrderTotals(); ?>
+                        <?php if ($oProfile->hasDifferentValues($aMaxOrderTotals) === false): ?>
+                            <?php echo array_shift($aMaxOrderTotals); ?>
+                        <?php else: ?>
+                            <?php foreach ($aMaxOrderTotals as $sProduct => $dMaxTotal): ?>
+                                <?php echo __('Ratepay_'.$sProduct).": ".$dMaxTotal; ?><br>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+                <?php if ($oProfile->isInstalmentActive()): ?>
+                    <tr>
+                        <td class="label"><?php echo __('Available runtimes'); ?></td>
+                        <td>
+                            <?php echo str_replace(",", ", ", $oProfile->getData("month_allowed")); ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label"><?php echo __('Payment type for instalment'); ?></td>
+                        <td>
+                            <?php if ($oProfile->getData("valid_payment_firstdays") == "2" || $oProfile->getData("valid_payment_firstdays") == "2,28"): ?>
+                                <?php echo __('Direct Debit'); ?> <?php echo ($oProfile->getData("valid_payment_firstdays") == "2,28" && $oProfile->getData("payment_firstday") == "2") ? '('.__('Ratepay Default').')' : '' ?><br>
+                            <?php endif; ?>
+                            <?php if ($oProfile->getData("valid_payment_firstdays") == "28" || $oProfile->getData("valid_payment_firstdays") == "2,28"): ?>
+                                <?php echo __('Überweisung'); ?> <?php echo ($oProfile->getData("valid_payment_firstdays") == "2,28" && $oProfile->getData("payment_firstday") == "28") ? '('.__('Ratepay Default').')' : '' ?>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                <?php endif; ?>
+                <tr>
+                    <td class="label"><?php echo __('B2B'); ?></td>
+                    <td>
+                        <?php $aB2bValues = $oProfile->getB2bValues(); ?>
+                        <?php if ($oProfile->hasDifferentValues($aB2bValues) === false): ?>
+                            <?php echo __('Ratepay_'.array_shift($aB2bValues)); ?>
+                        <?php else: ?>
+                            <?php foreach ($aB2bValues as $sProduct => $iB2b): ?>
+                                <?php echo __('Ratepay_'.$sProduct).": ".__('Ratepay_'.$iB2b); ?><br>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label"><?php echo __('Maximum Order Total B2B'); ?></td>
+                    <td>
+                        <?php $aMaxOrderTotals = $oProfile->getB2bMaxOrderTotals(); ?>
+                        <?php if ($oProfile->hasDifferentValues($aMaxOrderTotals) === false): ?>
+                            <?php echo array_shift($aMaxOrderTotals); ?>
+                        <?php else: ?>
+                            <?php foreach ($aMaxOrderTotals as $sProduct => $dMaxTotal): ?>
+                                <?php echo __('Ratepay_'.$sProduct).": ".$dMaxTotal; ?><br>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label"><?php echo __('Delivery Address'); ?></td>
+                    <td>
+                        <?php $aValues = $oProfile->getDeliveryAddressValues(); ?>
+                        <?php if ($oProfile->hasDifferentValues($aValues) === false): ?>
+                            <?php echo __('Ratepay_'.array_shift($aValues)); ?>
+                        <?php else: ?>
+                            <?php foreach ($aValues as $sProduct => $iValue): ?>
+                                <?php echo __('Ratepay_'.$sProduct).": ".__('Ratepay_'.$iValue); ?><br>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+            </table><br>
+        <?php endforeach; ?>
+
+        <script>
+            require(['prototype'], function(){
+
+                //<![CDATA[
+                function updateProfileConfigurations(isBackendConfig) {
+                    new Ajax.Request('<?php echo $this->getProfileRefreshUrl() ?>', {
+                        parameters: {isBackendConfig: isBackendConfig},
+                        onSuccess: function(response) {
+                            try {
+                                if (response.responseText != 'false' && response.responseText.isJSON()) {
+                                    response = response.responseText.evalJSON();
+                                    if (response.success == true) {
+                                        location.reload();
+                                    } else {
+                                        alert(response.errormessage);
+                                    }
+                                } else {
+                                    alert('<?php echo __('An unknown error occured.'); ?>');
+                                }
+                            } catch (e) {
+                                alert('<?php echo __('An unknown exception was thrown.'); ?>');
+                            }
+                        }
+                    });
+                }
+
+                window.updateProfileConfigurations = updateProfileConfigurations;
+                //]]>
+
+            });
+        </script>
+        <div class="actions actions-validate-vat">
+            <div id="validation_result" class="message-validation hidden"></div>
+            <button onclick="javascript:updateProfileConfigurations(<?php echo (int)$this->isBackendPaymentConfiguration(); ?>); return false;" class="action-validate-vat" type="button">
+                <span><?php echo $block->escapeHtml(__('Refresh Profile configurations')) ?></span>
+            </button>
+        </div>
+    <?php endif; ?>
+</div>

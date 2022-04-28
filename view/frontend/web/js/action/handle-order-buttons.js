@@ -10,7 +10,7 @@ define([
         $.each(methodList(), function( key, value ) {
             var method = value.method;
             if (method.indexOf("ratepay") != -1) {
-                if (window.checkoutConfig.payment[method].differentShippingAddressAllowed == false) {
+                if (window.checkoutConfig.payment[method] != undefined && window.checkoutConfig.payment[method].differentShippingAddressAllowed == false) {
                     $('INPUT#' + method).parents('.payment-method').find('BUTTON.checkout').prop('disabled', disabledState);
                     if (disabledState === true) {
                         $('INPUT#' + method).parents('.payment-method').find('.ratepay_ala_warning').show();

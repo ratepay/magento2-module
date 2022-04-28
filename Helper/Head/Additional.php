@@ -23,7 +23,7 @@ class Additional extends \Magento\Framework\App\Helper\AbstractHelper
      * @param Context $context
      */
     public function __construct(Context $context,
-                                \Magento\Customer\Model\Session $customerSession)
+                                \Magento\Customer\Model\Session\Proxy $customerSession)
     {
         parent::__construct($context);
 

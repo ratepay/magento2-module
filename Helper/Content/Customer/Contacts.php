@@ -23,7 +23,7 @@ class Contacts extends \Magento\Framework\App\Helper\AbstractHelper
      * @param Context $context
      */
     public function __construct(Context $context,
-                                \Magento\Checkout\Model\Session $checkoutSession)
+                                \Magento\Checkout\Model\Session\Proxy $checkoutSession)
     {
         parent::__construct($context);
         $this->_checkoutSession = $checkoutSession;

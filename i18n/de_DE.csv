@@ -68,8 +68,10 @@ B2B,B2B,module,RatePAY_Payment
 "New Order Status","Neuer Bestellstatus",module,RatePAY_Payment
 "Sort Order","Reihenfolge",module,RatePAY_Payment
 "Direct Debit","SEPA-Lastschrift",module,RatePAY_Payment
+"Bank Transfer","Überweisung",module,RatePAY_Payment
 "Ratepay-Datenschutzerklärung Url","Ratepay-Datenschutzerklärung Url",module,RatePAY_Payment
 Installment,Ratenzahlung,module,RatePAY_Payment
+Instalment,Ratenzahlung,module,RatePAY_Payment
 Rate min,Minimumrate,module,RatePAY_Payment
 "Month Allowed","Laufzeiten (in Monaten)",module,RatePAY_Payment
 "0% Financing","0% Finanzierung",module,RatePAY_Payment
@@ -130,15 +132,65 @@ ratepay_terms_block_6, "einverstanden." ,module,RatePAY_Payment
 "rp_total_amount","Gesamtbetrag",module,RatePAY_Payment
 "rp_mouseover_total_amount","Summe der vom K&auml;ufer zu zahlenden Betr&auml;ge aus Warenwert, Vertragsabschlussgeb&uuml;hr und Zinsen.",module,RatePAY_Payment
 "Please enter a valid IBAN.","Bitte geben Sie eine korrekte IBAN ein.",module,RatePAY_Payment
-"Please select a installment runtime or installment amount.","Bitte wählen Sie eine Raten-Laufzeit oder Ratenhöhe.",module,RatePAY_Payment
+"Please confirm the transmission of the necessary data to Ratepay.","Bitte bestätigen Sie die Übermittlung der erforderlichen Daten an Ratepay.",module,RatePAY_Payment
+"Please select a instalment runtime or instalment amount.","Bitte wählen Sie eine Raten-Laufzeit oder Ratenhöhe.",module,RatePAY_Payment
 "-- Please select runtime --","-- Bitte Laufzeit wählen --",module,RatePAY_Payment
 "The runtime has been updated successfully.","Die Laufzeit wurde erfolgreich angepasst.",module,RatePAY_Payment
-"The installment amount has been updated successfully.","Die Ratenhöhe wurde erfolgreich angepasst.",module,RatePAY_Payment
+"The instalment amount has been updated successfully.","Die Ratenhöhe wurde erfolgreich angepasst.",module,RatePAY_Payment
 "Show details","Zeige Details",module,RatePAY_Payment
 "Hide details","Schließe Details",module,RatePAY_Payment
 "Bundles can only be refunded completely","Bundle-Produkte können nur vollständig retourniert werden",module,RatePAY_Payment
-"I want to transfer the installments myself and not pay by direct debit","Ich möchte die Ratenzahlung selbst vornehmen und nicht per Lastschrift begleichen",module,RatePAY_Payment
-"I want to settle the installments by direct debit","Ich möchte die Ratenzahlung per Lastschrift begleichen",module,RatePAY_Payment
+"I want to transfer the instalments myself and not pay by direct debit","Ich möchte die Ratenzahlung selbst vornehmen und nicht per Lastschrift begleichen",module,RatePAY_Payment
+"I want to settle the instalments by direct debit","Ich möchte die Ratenzahlung per Lastschrift begleichen",module,RatePAY_Payment
 "Orders with different billing- and shipping-addresses are not supported for this payment method.","Unterschiedliche Rechnungs- und Lieferadressen werden von dieser Zahlungsart nicht unterstützt.",module,RatePAY_Payment
 "Return previous adjustments","Vorherige Erstattungen/Gebühren retournieren",module,RatePAY_Payment
 "Validation failed: Bank-account parameter IBAN is invalid.","Validierung fehlgeschlagen: Angegebene IBAN ist ungültig",module,RatePAY_Payment
+"Bank data management","Zahlungsdaten-Verwaltung",module,RatePAY_Payment
+"You have no saved bank data.","Sie haben noch keine gespeicherten Zahlungsdaten",module,RatePAY_Payment
+"ratepay_directdebit_save_bankdata_text","Mit Auswahl dieser Option kann Ihr nächster Kauf bei uns schneller und einfacher abgewickelt werden. Sie können Ihre Zahlungsdaten jederzeit entfernen.",module,RatePAY_Payment
+"ratepay_directdebit_save_bankdata_link","Weitere Informationen",module,RatePAY_Payment
+"ratepay_directdebit_save_bankdata_overlay_1","Wenn Sie „Zahlungsdaten merken“ auswählen, werden Ihre Zahlungsinformationen für zukünftige Käufe gespeichert. So können Sie gekaufte Artikel schnell und einfach bezahlen, ohne Ihre Zahlungsdaten für Ihre nächsten Käufe erneut einzugeben. Die gespeicherten Zahlungsdaten können Sie jederzeit in Ihrem",module,RatePAY_Payment
+"ratepay_directdebit_save_bankdata_overlay_2","Kundenkonto",module,RatePAY_Payment
+"ratepay_directdebit_save_bankdata_overlay_3","entfernen.",module,RatePAY_Payment
+"Save payment data","Zahlungsdaten merken",module,RatePAY_Payment
+"Close window","Fenster schließen",module,RatePAY_Payment
+"Maximum Order Total B2B","Maximalwert für Gesamtbestellung B2B",module,RatePAY_Payment
+"Connection was established successfully.","Verbindung konnte erfolgreich aufgebaut werden.",module,RatePAY_Payment
+"Connection could not be established.","Verbindung konnte nicht aufgebaut werden.",module,RatePAY_Payment
+"Event of capture transmission","Auslösungszeitpunkt für Übermittlung des Captures",module,RatePAY_Payment
+"Send capture when creating the invoice","Capture bei Erstellung der Rechnung übermitteln",module,RatePAY_Payment
+"Send capture when creating the shipment","Capture bei Erstellung des Versands übermitteln",module,RatePAY_Payment
+"Determines when the capture call is sent to Ratepay API","Legt fest zu welchem Zeitpunkt der Capture call an die Ratepay API gesendet wird.",module,RatePAY_Payment
+"Active payment types","Aktive Zahlarten",module,RatePAY_Payment
+"Validation failed: Bank-account parameter IBAN is invalid.","Validierung fehlgeschlagen: Angegebene IBAN ist ungültig",module,RatePAY_Payment
+"Ratepay_invoice","Rechnung",module,RatePAY_Payment
+"Ratepay_installment","Finanzierung",module,RatePAY_Payment
+"Ratepay_installment0","0% Finanzierung",module,RatePAY_Payment
+"Ratepay_elv","SEPA-Lastschrift",module,RatePAY_Payment
+"Ratepay_0","Nein",module,RatePAY_Payment
+"Ratepay_1","Ja",module,RatePAY_Payment
+"Available runtimes","Verfügbare Laufzeiten",module,RatePAY_Payment
+"Profile configuration","Profil Konfiguration",module,RatePAY_Payment
+"Profiles","Profile",module,RatePAY_Payment
+"ProfileID","Profil ID",module,RatePAY_Payment
+"Security Code","Sicherheitscode",module,RatePAY_Payment
+"Sandbox active","Sandbox aktiv",module,RatePAY_Payment
+"Add Profile","Profil hinzufügen",module,RatePAY_Payment
+"Street field usage","Straßen-Feld Nutzung",module,RatePAY_Payment
+"House number","Hausnummer",module,RatePAY_Payment
+"Additional info","Zusatz-Information",module,RatePAY_Payment
+"True Offline Mode","Echter Offline Modus",module,RatePAY_Payment
+"Refresh Profile configurations","Profil Konfigurationen aktualisieren",module,RatePAY_Payment
+"Creditmemo goodwill refund transmission type","Gutschrift Berichtigungserstattung Übertragungs-Art",module,RatePAY_Payment
+"Standard item","Standard-Position",module,RatePAY_Payment
+"Special item","Spezial-Position",module,RatePAY_Payment
+"Payment type for instalment","Zahltyp für Ratenzahlung",module,RatePAY_Payment
+"Ratepay Default","Standard",module,RatePAY_Payment
+"Module version","Modul-Version",module,RatePAY_Payment
+"Device Fingerprint Snippet-Id","Geräte Fingerabdruck Snippet-Id",module,RatePAY_Payment
+"No profiles configured yet","Keine Profile konfiguriert",module,RatePAY_Payment
+"Ratepay street field usage tooltip","Only applicable when 2 or more street lines are configured in customer configuration.<br><br><b>House number:</b> The second street line will be interpreted as the house number, 3rd and 4th street input will be interpreted as additional information.<br><br><b>Additional info:</b> Street lines 2 - 4 will be interpreted as additional information",module,RatePAY_Payment
+"Only applicable when 2 or more street lines are configured in customer configuration. House number: The second street line will be interpreted as the house number, 3rd and 4th street input will be interpreted as additional information. Additional info: Street lines 2 - 4 will be interpreted as additional information","Nur anwendbar wenn 2 oder mehr Straßen-Felder in der Kunden Konfiguration eingestellt sind.<br><br><b>Hausnummer:</b> Das zweite Straßen-Feld wird als Hausnummer interpretiert, das 3. und 4. Straßen-Feld wird als Zusatz-Information interpretiert.<br><br><b>Zusatz-Information:</b> Straßen-Felder 2 - 4 werden als Zusatz-Information interpretiert.",module,RatePAY_Payment
+"With True Offline Mode being enabled, communication with Ratepay when creating an invoice or a creditmemo is disabled. This will make the module behave in the Magento2 standard way. With True Offline Mode being disabled (default) the module will continue to communicate to Ratepay like before, this happens because the module didnt have a differentiation between those modes in the beginning and the customers were not supposed to have to change their workflow later when it was introduced.","Wenn Sie den echten Offline Modus aktivieren, wird die Kommunikation mit Ratepay beim Erstellen von Rechnungen oder Gutschriften deaktiviert. Dadurch verhält sich das Modul in der für Magento2 üblichen Weise. Wenn der echte Offline Modus deaktiviert ist (Standard-Einstellung) kommuniziert der Modul weiterhin mit Ratepay wie zuvor. Dies geschieht, weil das Modul vorher nicht zwischen Online- und Offline-Modus unterschieden hat und die Kunden nicht plötzlich gezwungen sein sollten ihren Workflow umstellen zu müssen bei Einführung der Unterscheidung.",module,RatePAY_Payment
+"Standard item means that the goodwill refund will be transferred as an ordinary item in the item list with the article-number 'adj-ref' this has the sideeffect that only one goodwill refund per order can be executed. Special item sends the goodwill refund as a discount. This way multiple goodwill refunds can be executed per order.","Standard-Position bedeutet, dass die Berichtigungserstattung als eine gewöhnliche Position in der Positions-Liste mit der Artikelnummer 'adj-ref' übertragen wird. Dies hat den Nebeneffekt, dass nur eine Berichtigungserstattung pro Bestellung ausgeführt werden kann. Konfiguriert als Spezial-Position versendet die Berichtigungserstattung als Rabatt. Auf diesem Weg können mehrere Berichtigungserstattungen pro Bestellung durchgeführt werden.",module,RatePAY_Payment
+"Ratepay is the leading white-label-payment-solution-provider offering the most popular deferred payment methods to sizable online shops in the DACH region. The white label solution optimizes your conversion and ensures that you own your customer journey from the landing page to the checkout.","Ratepay ist der führende White-Label-Payment-Lösung-Anbieter, der die beliebtesten Zahlungsmethoden für Online-Shops in der DACH-Region anbietet. Die White-Label-Lösung optimiert Ihre Konversionsrate und stellt eine durchgängige Customer Journey von der Landing Page bis zur Kasse sicher.",module,RatePAY_Payment
