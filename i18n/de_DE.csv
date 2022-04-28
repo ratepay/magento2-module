@@ -144,6 +144,7 @@ ratepay_terms_block_6, "einverstanden." ,module,RatePAY_Payment
 "I want to settle the instalments by direct debit","Ich möchte die Ratenzahlung per Lastschrift begleichen",module,RatePAY_Payment
 "Orders with different billing- and shipping-addresses are not supported for this payment method.","Unterschiedliche Rechnungs- und Lieferadressen werden von dieser Zahlungsart nicht unterstützt.",module,RatePAY_Payment
 "Return previous adjustments","Vorherige Erstattungen/Gebühren retournieren",module,RatePAY_Payment
+"Validation failed: Bank-account parameter IBAN is invalid.","Validierung fehlgeschlagen: Angegebene IBAN ist ungültig",module,RatePAY_Payment
 "Bank data management","Zahlungsdaten-Verwaltung",module,RatePAY_Payment
 "You have no saved bank data.","Sie haben noch keine gespeicherten Zahlungsdaten",module,RatePAY_Payment
 "ratepay_directdebit_save_bankdata_text","Mit Auswahl dieser Option kann Ihr nächster Kauf bei uns schneller und einfacher abgewickelt werden. Sie können Ihre Zahlungsdaten jederzeit entfernen.",module,RatePAY_Payment
