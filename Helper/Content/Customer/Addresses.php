@@ -33,20 +33,6 @@ class Addresses extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
-     * Checks if string might be a house number
-     *
-     * @param  string $string
-     * @return bool
-     */
-    protected function isHouseNumber($string)
-    {
-        if (preg_match("#^\\d+[ /\\-]?\\d*[a-zA-Z]?(?<![/-])$#", trim($string)) === 1) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * Adds street parameters to request
      *
      * @param  array$billingAddress
