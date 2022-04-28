@@ -181,6 +181,7 @@ class ProfileConfig extends \Magento\Framework\App\Helper\AbstractHelper
      * @param string                                $sStoreCode
      * @param double                                $dGrandTotal
      * @param string                                $sBillingCountryId
+     * @param string                                $sShippingCountryId
      * @param string                                $sCurrency
      * @return ProfileConfiguration|false
      */

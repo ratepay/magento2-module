@@ -181,6 +181,7 @@ class InstallmentPlan implements InstallmentPlanInterface
      * @param float $grandTotal
      * @param string $methodCode
      * @param string $billingCountryId
+     * @param string $shippingCountryId
      * @param string $currency
      * @return mixed
      */
