@@ -1,0 +1,254 @@
+<div class="payment-method multishipping" data-bind="css: {'_active': (getCode() == isChecked())}">
+    <div class="payment-method-content">
+        <each args="getRegion('messages')" render=""></each>
+        <fieldset data-bind="attr: {class: 'fieldset payment items ' + getCode(), id: 'payment_form_' + getCode()}">
+            <!-- ko if: isPhoneVisible() -->
+            <div class="field _required">
+                <label data-bind="attr: {for: getCode() + '_phone'}" class="label">
+                    <span><!-- ko i18n: 'Phone'--><!-- /ko --></span>
+                </label>
+                <div class="control required">
+                    <input type="text" name="payment[rp_phone]" class="input-text required" value=""
+                           data-bind="attr: {
+                                         id: getCode() + '_phone',
+                                         autocomplete: off,
+                                         title: $t('Phone')},
+                                         value: currentBillingAddress().telephone"
+                    />
+                </div>
+            </div>
+            <!-- /ko -->
+            <!-- ko if: isSandboxModeEnabled() -->
+            <div class="ratepay-sandbox-message">
+                <p><!-- ko i18n: 'Testmode activated, please DONT use this payment method and get in contact with the merchant.'--><!-- /ko --></p>
+            </div>
+            <!-- /ko -->
+            <fieldset data-bind="attr: {class: 'fieldset payment items dob ' + getCode(), id: 'payment_form_' + getCode()}" style="margin: 0 0 5px; ">
+                <label class="label" data-bind="if: !isB2BModeUsable()">
+                        <span><!-- ko i18n: 'Date of Birth'--><!-- /ko --><br>
+                            <!-- ko if: currentCustomerData.dob -->
+                            <!-- ko text: currentCustomerData.dob --><!-- /ko -->
+                            <!-- /ko -->
+                        </span>
+                </label>
+                <!-- ko if: !isDobSet() && !isB2BModeUsable() -->
+                <fieldset id="ratepay_dob-form" class="fieldset">
+                    <div class="field _required" style="float:left; position: relative; width:60px; margin: 0 0 5px;">
+                        <div class="control">
+                            <input type="text" name="payment[rp_dob_day]" class="input-text required-entry" value=""
+                                   data-bind="attr: {
+                                            id: getCode() + '_dob_day',
+                                            autocomplete: off,
+                                            title: $t('Date of Birth')},
+                                            value: rp_dob_day"
+                            />
+                        </div>
+                        <label data-bind="attr: {for: getCode() + '_dob_day'}" class="label">
+                            <span><!-- ko i18n: 'DD'--><!-- /ko --></span>
+                        </label>
+                    </div>
+                    <div class="field _required" style="float:left; position: relative; width:60px; margin: 0 5px;">
+                        <div class="control">
+                            <input type="text" name="payment[rp_dob_month]" class="input-text" value=""
+                                   data-bind="attr: {
+                                            id: getCode() + '_dob_month',
+                                            autocomplete: off,
+                                            title: $t('Date of Birth')},
+                                            value: rp_dob_month"
+                            />
+                        </div>
+                        <label data-bind="attr: {for: getCode() + '_dob_month'}" class="label">
+                            <span><!-- ko i18n: 'MM'--><!-- /ko --></span>
+                        </label>
+                    </div>
+                    <div class="field _required" style="float:left; position: relative; width:60px; margin: 0 0 5px;">
+                        <div class="control">
+                            <input type="text" name="payment[rp_dob_year]" class="input-text" value=""
+                                   data-bind="attr: {
+                                            id: getCode() + '_dob_year',
+                                            autocomplete: off,
+                                            title: $t('Date of Birth')},
+                                            value: rp_dob_year"
+                            />
+                        </div>
+                        <label data-bind="attr: {for: getCode() + '_dob_year'}" class="label">
+                            <span><!-- ko i18n: 'YYYY'--><!-- /ko --></span>
+                        </label>
+                    </div>
+                </fieldset>
+                <!-- /ko -->
+                <!-- ko if: isB2BModeUsable() -->
+                <fieldset id="ratepay_vat-form" class="fieldset">
+                    <div class="field">
+                        <label data-bind="attr: {for: getCode() + 'vatid'}" class="label">
+                            <span><!-- ko i18n: 'Vat ID'--><!-- /ko --></span>
+                        </label>
+                        <input type="text" name="payment[rp_vatid]" class="input-text" style="width:200px;" value=""
+                               data-bind="attr: {
+                                            id: getCode() + '_vatid',
+                                            autocomplete: off,
+                                            title: $t('VatId')},
+                                            value: rp_vatid"
+                        />
+                    </div>
+                </fieldset>
+                <!-- /ko -->
+                <div class="legalText">
+                    <!-- ko i18n: 'ratepay_terms_block_1'--><!-- /ko --> "<!-- ko i18n: 'Place Order'--><!-- /ko -->" <!-- ko i18n: 'ratepay_terms_block_2'--><!-- /ko -->
+                    <a target="_blank" href="https://www.ratepay.com/legal-payment-terms"><!-- ko i18n: 'ratepay_terms_block_3'--><!-- /ko --></a>
+                    <!-- ko i18n: 'ratepay_terms_block_4'--><!-- /ko -->
+                    <a target="_blank" href="https://www.ratepay.com/legal-payment-dataprivacy"><!-- ko i18n: 'ratepay_terms_block_5'--><!-- /ko --></a>
+                    <!-- ko i18n: 'ratepay_terms_block_6'--><!-- /ko -->
+                </div>
+            </fieldset>
+            <fieldset data-bind="attr: {class: 'fieldset payment items calculator ' + getCode()}">
+                <div class="rpContainer">
+                    <!-- ko if: hasAllowedMonths() && !hasSingleAllowedMonth() -->
+                    <div class="row">
+                        <div class="col-md-10">
+                            <!-- ko i18n: 'rp_calculation_intro_part1'--><!-- /ko -->
+                            <b><!-- ko i18n: 'rp_calculation_intro_part2'--><!-- /ko --></b>
+                            <!-- ko i18n: 'rp_calculation_intro_part3'--><!-- /ko -->
+                            <b><!-- ko i18n: 'rp_calculation_intro_part4'--><!-- /ko --></b>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="panel panel-default">
+                                <div class="panel-heading text-center" id="firstInput">
+                                    <h3><!-- ko i18n: 'rp_runtime_title'--><!-- /ko --></h3>
+                                    <!-- ko i18n: 'rp_runtime_description'--><!-- /ko -->
+                                </div>
+                                <div class="panel-body">
+                                    <!-- ko if: useMonthDropdown() -->
+                                    <select class="rp-term-select" data-bind="options: getAllowedMonths(), event: {change: updateInstallmentPlanRuntime}"></select>
+                                    <!--/ko-->
+                                    <!-- ko ifnot: useMonthDropdown() -->
+                                    <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                                        <!-- ko foreach: getAllowedMonths() -->
+                                        <div class="btn-group btn-group-sm" role="group">
+                                            <button type="button" data-bind="attr: {value: $data, id: 'piRpInput-buttonMonth-' + $data}, text: $data, click: function() { $parent.updateInstallmentPlan('time', $data, $parent.getCode(), true) }" class="btn btn-default rp-btn-runtime" role="group"></button>
+                                        </div>
+                                        <!--/ko-->
+                                    </div>
+                                    <!--/ko-->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="panel panel-default">
+                                <div class="panel-heading text-center" id="secondInput">
+                                    <h3><!-- ko i18n: 'rp_rate_title'--><!-- /ko --></h3>
+                                    <!-- ko i18n: 'rp_rate_description'--><!-- /ko -->
+                                </div>
+                                <div class="panel-body">
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-addon">&euro;</span>
+                                        <input type="text" data-bind="attr: {id: getCode() + '-rate'}" class="form-control rp-input-rate" aria-label="Amount" />
+                                        <span class="input-group-btn">
+                                                    <button type="button" data-bind="attr: {id: getCode() + '_Input-button'}, event: {click: updateInstallmentPlanAmount}" class="btn btn-default rp-btn-rate" role="group">
+                                                        <!-- ko i18n: 'rp_calculate_rate_short'--><!-- /ko -->
+                                                    </button>
+                                                </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/ko-->
+                    <input type="hidden" data-bind="attr: {id: getCode() + '-runtime'}" value="" />
+                    <div class="rpClear"></div>
+                    <div class="ratepay-ContentSwitch" style="display: none;" data-bind="attr: {id: getCode() + '_ContentSwitch'}">
+                        <div class="ratepay-ChooseRuntime">
+                            <div data-bind="attr: {id: getCode() + '_ResultContainer'}">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div data-bind="attr: {id: getCode() + '_Notification'}"></div>
+                </div>
+                <!-- ko if: showSepaBlock() -->
+                <fieldset class="fieldset" data-bind="attr: {id: 'ratepay_rate_sepa_block_' + getCode()}, visible: isDirectDebitDefault()">
+                    <hr />
+
+                    <ul style="list-style: none; margin-bottom: 15px; border: 1px solid #BDBDBD; padding-left: 4px;">
+                        <li><label><!-- ko i18n: 'Ratepay address'--><!-- /ko --></label></li>
+                        <li><label><!-- ko i18n: 'Creditor'--><!-- /ko --><!-- ko i18n: 'Ratepay Creditor ID'--><!-- /ko --></label></li>
+                        <li><label><!-- ko i18n: 'Mandate'--><!-- /ko --><!-- ko i18n: 'Mandate Ref'--><!-- /ko --></label></li>
+                    </ul>
+                    <ul style="list-style: none; margin-left: -40px;">
+                        <li style="margin-bottom: 15px;"><label><b><!-- ko i18n: 'insert bankdata'--><!-- /ko --></b></label></li>
+                        <li><label><b><!-- ko i18n: 'Account holder'--><!-- /ko --></b></label></li>
+                        <li>
+                            <!-- ko if: !isB2BModeUsable() -->
+                            <i><!-- ko text: getCustomerName() --><!-- /ko --></i>
+                            <!-- /ko -->
+                            <!-- ko if: isB2BModeUsable() -->
+                            <select class="select" name="payment[b2b_accountholder]" style="width:200px;"
+                                    data-bind=" attr: {id: getCode() + '_b2b_accountholder', 'data-container': getCode() + '_b2b_accountholder'},
+                                                            enable: true,
+                                                            options: getB2bAccountholders(),
+                                                            value: b2b_accountholder">
+                            </select>
+                            <!-- /ko -->
+                        </li>
+                    </ul>
+                    <div class="field _required" style="float:left; position: relative; margin: 0 0 5px;">
+                        <label data-bind="attr: {for: getCode() + '_iban'}" class="label">
+                            <span><!-- ko i18n: 'IBAN'--><!-- /ko -->:</span>
+                        </label>
+                        <div class="control required">
+                            <input type="text" name="payment[rp_iban]" class="input-text required-entry" value="" data-bind="attr: {id: getCode() + '_iban', autocomplete: off, title: $t('IBAN')}, value: rp_iban" />
+                        </div>
+                        <table>
+                            <tbody data-bind="attr: {id: getCode() + '_sepa_agreement'}">
+                            <tr>
+                                <td style="padding:10px;">
+                                    <input type="checkbox" data-bind="attr: {id: getCode() + '_save_sepa_accepted'}, checked: sepaAccepted" />
+                                </td>
+                                <td style="padding:10px 0;">
+                                                <span class="required ratepayagreement">
+                                                    <!-- ko i18n: 'ratepay_directdebit_sepa_terms_block_1'--><!-- /ko -->
+                                                    <!-- ko i18n: 'Ratepay address'--><!-- /ko -->
+                                                    <!-- ko i18n: 'ratepay_directdebit_sepa_terms_block_2'--><!-- /ko -->
+                                                    <a target="_blank" href="https://www.ratepay.com/legal"><!-- ko i18n: 'Ratepay Data Privacy Policy'--><!-- /ko --></a>
+                                                    <!-- ko i18n: 'ratepay_directdebit_sepa_terms_block_3'--><!-- /ko -->
+                                                </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:10px 0;" colspan="2">
+                                    <br/>
+                                    <span style="font-weight:bold;"><!-- ko i18n: 'ratepay_directdebit_sepa_notice_block_1'--><!-- /ko --></span>
+                                    <br/>
+                                    <!-- ko i18n: 'ratepay_directdebit_sepa_notice_block_2'--><!-- /ko -->
+                                    <br/>
+                                    <!-- ko i18n: 'ratepay_directdebit_sepa_notice_block_3'--><!-- /ko -->
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </fieldset>
+                <div data-bind="attr: {id: getCode() + '_payment_type_selector'}, visible: showPaymentTypeSelection()">
+                    <hr>
+                    <a data-bind="attr: {id: getCode() + '_sepa_use_banktransfer'}, click: showBankTransfer, visible: isDirectDebitDefault()"><!-- ko i18n: 'I want to transfer the instalments myself and not pay by direct debit'--><!-- /ko --></a>
+                    <a data-bind="attr: {id: getCode() + '_sepa_use_directdebit'}, click: showDirectDebit, visible: isBankTransferDefault()"><!-- ko i18n: 'I want to settle the instalments by direct debit'--><!-- /ko --></a>
+                </div>
+                <!--/ko-->
+            </fieldset>
+        </fieldset>
+        <div class="actions-toolbar">
+            <div class="actions-toolbar no-display">
+                <div class="primary">
+                    <button data-button="place-order" data-role="review-save"
+                            type="submit"
+                            data-bind="{click: addDataMultishipping}"
+                            class="action primary checkout">
+                        <span data-bind="i18n: 'Place Order'"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

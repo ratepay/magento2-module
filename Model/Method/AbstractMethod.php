@@ -183,6 +183,11 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
     protected $profiles = null;
 
     /**
+     * @var \RatePAY\Payment\Service\V1\InstallmentPlan\Proxy
+     */
+    protected $installmentPlan;
+
+    /**
      * AbstractMethod constructor.
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
@@ -205,6 +210,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
      * @param \RatePAY\Payment\Model\Handler\Refund $refundHandler
      * @param \RatePAY\Payment\Model\Handler\Cancel $cancelHandler
      * @param \Magento\Backend\Model\Session\Quote $backendCheckoutSession
+     * @param \RatePAY\Payment\Service\V1\InstallmentPlan\Proxy $installmentPlan
      * @param \Magento\Framework\Model\ResourceModel\AbstractResource|null $resource
      * @param \Magento\Framework\Data\Collection\AbstractDb|null $resourceCollection
      * @param array $data
@@ -231,6 +237,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         \RatePAY\Payment\Model\Handler\Refund $refundHandler,
         \RatePAY\Payment\Model\Handler\Cancel $cancelHandler,
         \Magento\Backend\Model\Session\Quote $backendCheckoutSession,
+        \RatePAY\Payment\Service\V1\InstallmentPlan\Proxy $installmentPlan,
         \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
         array $data = [])
@@ -261,6 +268,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         $this->refundHandler = $refundHandler;
         $this->cancelHandler = $cancelHandler;
         $this->backendCheckoutSession = $backendCheckoutSession;
+        $this->installmentPlan = $installmentPlan;
     }
 
     /**
@@ -299,6 +307,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
             $payment->setAdditionalInformation('transactionId', $resultInit->getTransactionId());
             $payment->setTransactionId($resultInit->getTransactionId());
             $payment->setIsTransactionClosed(0);
+            $this->handlePrePaymentRequestTasks($order);
             $head = $this->_rpLibraryModel->getRequestHead($order, 'PAYMENT_REQUEST', $resultInit);
             $content = $this->_rpLibraryModel->getRequestContent($order, 'PAYMENT_REQUEST');
             $resultRequest = $this->libraryController->callPaymentRequest($head, $content, $order, $sandbox);
@@ -328,6 +337,40 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
             $message = $this->formatMessage($resultInit->getReasonMessage());
             $this->customerSession->setRatePayDeviceIdentToken(null);
             throw new PaymentException(__($message)); // RatePAY Error Message
+        }
+    }
+
+    /**
+     * Can be extended by derived payment models to add certain mechanics PRE payment request
+     *
+     * @param  \Magento\Sales\Model\Order $oOrder
+     * @return void
+     */
+    protected function handlePrePaymentRequestTasks(\Magento\Sales\Model\Order $oOrder)
+    {
+        // Hook for extension in the derived payment models
+    }
+
+    /**
+     * Needed for Multishipping mode
+     * Installment plan has to be recalculated for each sub-order
+     *
+     * @param  \Magento\Sales\Model\Order $oOrder
+     * @return void
+     */
+    protected function recalculateInstallmentPlan(\Magento\Sales\Model\Order $oOrder)
+    {
+        $oQuote = $this->checkoutSession->getQuote();
+        if ($oQuote->getIsMultiShipping()) {
+            $calculationType = $this->checkoutSession->getData('ratepayInstallmentCalcType_'.$this->getCode());
+            $calculationValue = $this->checkoutSession->getData('ratepayInstallmentCalcValue_'.$this->getCode());
+
+            try {
+                $this->installmentPlan->getInstallmentPlanFromRatepay($calculationType, $calculationValue, $oOrder->getGrandTotal(), $this->getCode());
+            } catch (\Exception $exc) {
+                error_log($exc->getMessage());
+                throw $exc;
+            }
         }
     }
 
@@ -647,7 +690,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         }
 
         if ($additionalData->getRpDirectdebit() !== null) {
-            $infoInstance->setAdditionalInformation('rp_directdebit', (bool)$additionalData->getRpDirectdebit());
+            $infoInstance->setAdditionalInformation('rp_directdebit', filter_var($additionalData->getRpDirectdebit(), FILTER_VALIDATE_BOOLEAN));
         }
 
         if (!empty($additionalData->getRpAccountholder())) {

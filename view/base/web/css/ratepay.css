@@ -64,6 +64,13 @@
     box-sizing: border-box;
     min-height: 68px;
 }
+.multishipping .col-md-5 {
+    width: 48%;
+    margin: 0 5px;
+}
+.multishipping .rp-input-rate {
+    width: 53%!important;
+}
 .rpClear {
     clear: both;
 }

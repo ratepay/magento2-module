@@ -159,4 +159,15 @@ class Installment0 extends AbstractMethod
         }
         return $this->profile;
     }
+
+    /**
+     * Can be extended by derived payment models to add certain mechanics PRE payment request
+     *
+     * @param  \Magento\Sales\Model\Order $oOrder
+     * @return void
+     */
+    protected function handlePrePaymentRequestTasks(\Magento\Sales\Model\Order $oOrder)
+    {
+        $this->recalculateInstallmentPlan($oOrder);
+    }
 }

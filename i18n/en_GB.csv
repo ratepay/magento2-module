@@ -101,6 +101,7 @@ ratepay_terms_block_6, "." ,module,RatePAY_Payment
 "rp_rate_title","Instalment amount",module,RatePAY_Payment
 "rp_rate_description","Amount of the monthly instalment",module,RatePAY_Payment
 "rp_calculate_rate","Calculate instalment",module,RatePAY_Payment
+"rp_calculate_rate_short","Calculate",module,RatePAY_Payment
 "rp_personal_calculation","Personal calculation",module,RatePAY_Payment
 "rp_reason_code_translation_603","The desired instalment complies to the stated conditions.",module,RatePAY_Payment
 "rp_reason_code_translation_671","The last instalment was lower than permitted. Runtime and/or instalment amount has been adjusted accordingly.",module,RatePAY_Payment

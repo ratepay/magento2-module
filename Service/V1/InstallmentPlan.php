@@ -185,7 +185,7 @@ class InstallmentPlan implements InstallmentPlanInterface
      * @param string $currency
      * @return mixed
      */
-    protected function getInstallmentPlanFromRatepay($calculationType, $calculationValue, $grandTotal, $methodCode, $billingCountryId = null, $shippingCountryId = null, $currency = null) {
+    public function getInstallmentPlanFromRatepay($calculationType, $calculationValue, $grandTotal, $methodCode, $billingCountryId = null, $shippingCountryId = null, $currency = null) {
         $aProfiles = $this->getProfiles($calculationType, $calculationValue, $grandTotal, $methodCode, $billingCountryId, $shippingCountryId, $currency);
         if (empty($aProfiles) || empty($aProfiles[0])) {
             return false;
@@ -208,7 +208,9 @@ class InstallmentPlan implements InstallmentPlanInterface
         $this->checkoutSession->setData('ratepayInstallmentAmount_'.$methodCode, $installmentPlan['rate']);
         $this->checkoutSession->setData('ratepayLastInstallmentAmount_'.$methodCode, $installmentPlan['lastRate']);
         $this->checkoutSession->setData('ratepayInterestRate_'.$methodCode, $installmentPlan['interestRate']);
-        
+        $this->checkoutSession->setData('ratepayInstallmentCalcType_'.$methodCode, $calculationType);
+        $this->checkoutSession->setData('ratepayInstallmentCalcValue_'.$methodCode, $calculationValue);
+
         return $installmentPlan;
     }
 }
