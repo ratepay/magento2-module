@@ -1,20 +1,17 @@
 <?xml version="1.0"?>
-
-<payment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Payment:etc/payment.xsd">
+<payment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Payment:etc/payment.xsd">
     <methods>
-        <method name="ratepay_de_invoice">
+        <method name="ratepay_invoice">
             <allow_multiple_address>1</allow_multiple_address>
         </method>
-        <method name="ratepay_de_directdebit">
+        <method name="ratepay_directdebit">
             <allow_multiple_address>1</allow_multiple_address>
         </method>
-        <method name="ratepay_de_installment">
+        <method name="ratepay_installment">
             <allow_multiple_address>1</allow_multiple_address>
         </method>
-        <method name="ratepay_de_installment0">
+        <method name="ratepay_installment0">
             <allow_multiple_address>1</allow_multiple_address>
         </method>
     </methods>
 </payment>
-

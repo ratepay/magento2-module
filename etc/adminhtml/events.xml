@@ -1,13 +1,7 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
-    <event name="sales_order_invoice_save_after">
-        <observer name="sales_order_invoice_save_after" instance="RatePAY\Payment\Observer\SendRatepayDeliverCallOnInvoice"/>
-    </event>
-    <event name="order_cancel_after">
-        <observer name="ratepay_order_cancel_observer" instance="RatePAY\Payment\Observer\SendRatepayCancelCall"/>
-    </event>
-    <event name="sales_order_creditmemo_refund">
-        <observer name="ratepay_order_creditmemo_refund_observer" instance="RatePAY\Payment\Observer\SendRatepayCreditMemoCall"/>
+    <event name="admin_system_config_changed_section_payment">
+        <observer name="ratepay_admin_system_config_changed_section_payment" instance="RatePAY\Payment\Observer\SystemConfigChangedPayment" />
     </event>
     <event name="admin_system_config_changed_section_payment">
         <observer name="ratepay_admin_system_config_changed_section_payment" instance="RatePAY\Payment\Observer\SystemConfigChangedPayment" />

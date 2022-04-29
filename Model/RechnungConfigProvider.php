@@ -2,10 +2,10 @@
 
 namespace RatePAY\Payment\Model;
 
-use RatePAY\Payment\Model\Method\DE\Directdebit;
-use RatePAY\Payment\Model\Method\DE\Invoice;
-use RatePAY\Payment\Model\Method\DE\Installment;
+use RatePAY\Payment\Model\Method\Directdebit;
+use RatePAY\Payment\Model\Method\Installment;
 use RatePAY\Payment\Model\Method\AbstractMethod;
+use RatePAY\Payment\Model\Method\Invoice;
 
 class RechnungConfigProvider implements \Magento\Checkout\Model\ConfigProviderInterface
 {
@@ -49,24 +49,20 @@ class RechnungConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
     protected $urlBuilder;
 
     /**
+     * @var AbstractMethod[]
+     */
+    protected $aMethodInstances;
+
+    /**
      * Array with all ratepay payment methods
      *
      * @var array
      */
     protected $allRatePayMethods = [
-        \RatePAY\Payment\Model\Method\DE\Invoice::METHOD_CODE,
-        \RatePAY\Payment\Model\Method\DE\Directdebit::METHOD_CODE,
-        \RatePAY\Payment\Model\Method\DE\Installment::METHOD_CODE,
-        \RatePAY\Payment\Model\Method\DE\Installment0::METHOD_CODE,
-        \RatePAY\Payment\Model\Method\AT\Invoice::METHOD_CODE,
-        \RatePAY\Payment\Model\Method\AT\Directdebit::METHOD_CODE,
-        \RatePAY\Payment\Model\Method\AT\Installment::METHOD_CODE,
-        \RatePAY\Payment\Model\Method\AT\Installment0::METHOD_CODE,
-        \RatePAY\Payment\Model\Method\CH\Invoice::METHOD_CODE,
-        \RatePAY\Payment\Model\Method\NL\Invoice::METHOD_CODE,
-        \RatePAY\Payment\Model\Method\NL\Directdebit::METHOD_CODE,
-        \RatePAY\Payment\Model\Method\BE\Invoice::METHOD_CODE,
-        \RatePAY\Payment\Model\Method\BE\Directdebit::METHOD_CODE,
+        \RatePAY\Payment\Model\Method\Invoice::METHOD_CODE,
+        \RatePAY\Payment\Model\Method\Directdebit::METHOD_CODE,
+        \RatePAY\Payment\Model\Method\Installment::METHOD_CODE,
+        \RatePAY\Payment\Model\Method\Installment0::METHOD_CODE,
     ];
 
     /**
@@ -75,10 +71,8 @@ class RechnungConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
      * @var array
      */
     protected $installmentPaymentTypes = [
-        \RatePAY\Payment\Model\Method\DE\Installment::METHOD_CODE,
-        \RatePAY\Payment\Model\Method\DE\Installment0::METHOD_CODE,
-        \RatePAY\Payment\Model\Method\AT\Installment::METHOD_CODE,
-        \RatePAY\Payment\Model\Method\AT\Installment0::METHOD_CODE
+        \RatePAY\Payment\Model\Method\Installment::METHOD_CODE,
+        \RatePAY\Payment\Model\Method\Installment0::METHOD_CODE,
     ];
 
     /**
@@ -87,14 +81,9 @@ class RechnungConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
      * @var array
      */
     protected $rememberIbanPaymentTypes = [
-        \RatePAY\Payment\Model\Method\DE\Directdebit::METHOD_CODE,
-        \RatePAY\Payment\Model\Method\DE\Installment::METHOD_CODE,
-        \RatePAY\Payment\Model\Method\DE\Installment0::METHOD_CODE,
-        \RatePAY\Payment\Model\Method\AT\Directdebit::METHOD_CODE,
-        \RatePAY\Payment\Model\Method\AT\Installment::METHOD_CODE,
-        \RatePAY\Payment\Model\Method\AT\Installment0::METHOD_CODE,
-        \RatePAY\Payment\Model\Method\NL\Directdebit::METHOD_CODE,
-        \RatePAY\Payment\Model\Method\BE\Directdebit::METHOD_CODE,
+        \RatePAY\Payment\Model\Method\Directdebit::METHOD_CODE,
+        \RatePAY\Payment\Model\Method\Installment::METHOD_CODE,
+        \RatePAY\Payment\Model\Method\Installment0::METHOD_CODE,
     ];
 
     /**
@@ -129,9 +118,9 @@ class RechnungConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
      */
     public function getConfig()
     {
-        $config = array_merge_recursive([], $this->getInvoiceConfig());
-        $config = array_merge_recursive($config, $this->getInstallmentConfig());
+        $config = array_merge_recursive([], $this->getInstallmentConfig());
         $config = array_merge_recursive($config, $this->getB2BConfig());
+        $config = array_merge_recursive($config, $this->getRatepaySandboxConfig());
         $config = array_merge_recursive($config, $this->getRatepayGeneralConfig());
 
         if ($this->isRememberIbanAllowed()) {
@@ -153,6 +142,18 @@ class RechnungConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
         }
         return false;
     }
+  
+    /**
+     * @param  string $sMethodCode
+     * @return AbstractMethod
+     */
+    protected function getMethod($sMethodCode)
+    {
+        if (!isset($this->aMethodInstances[$sMethodCode])) {
+            $this->aMethodInstances[$sMethodCode] = $this->paymentHelper->getMethodInstance($sMethodCode);
+        }
+        return $this->aMethodInstances[$sMethodCode];
+    }
 
     /**
      * Add b2b config for given payment method
@@ -165,7 +166,7 @@ class RechnungConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
         return ($this->isPaymentMethodActive($sMethodCode)) ? [
             'payment' => [
                 $sMethodCode => [
-                    'b2bActive' => (bool)$this->rpDataHelper->getRpConfigData($sMethodCode, 'b2b'),
+                    'b2bActive' => (bool)$this->getMethod($sMethodCode)->getMatchingProfile()->getProductData("b2b_?", $sMethodCode, true),
                     'differentShippingAddressAllowed' => $this->getIsDifferentShippingAddressAllowed($sMethodCode),
                 ],
             ],
@@ -201,13 +202,21 @@ class RechnungConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
     /**
      * @return array
      */
-    protected function getInvoiceConfig()
+    protected function getRatepaySandboxConfig()
     {
-        return ($this->isPaymentMethodActive(Invoice::METHOD_CODE)) ? [
+        $config = [];
+        foreach ($this->allRatePayMethods as $paymentType) {
+            $config = array_merge_recursive($config, $this->getSingleSandboxConfig($paymentType));
+        }
+        return $config;
+    }
+
+    protected function getSingleSandboxConfig($sMethodCode)
+    {
+        return ($this->isPaymentMethodActive($sMethodCode)) ? [
             'payment' => [
-                'ratepay_de_invoice' => [
-                    #'mailingAddress' => $this->getMailingAddress(),
-                    #'payableTo' => $this->getPayableTo(),
+                $sMethodCode => [
+                    'sandboxMode' => $this->getMethod($sMethodCode)->getMatchingProfile()->getSandboxMode(),
                 ],
             ],
         ] : [];
@@ -223,7 +232,8 @@ class RechnungConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
             'payment' => [
                 $sMethodCode => [
                     'allowedMonths' => $this->getAllowedMonths($sMethodCode),
-                    'validPaymentFirstdays' => $this->getValidPaymentFirstdays($sMethodCode)
+                    'validPaymentFirstdays' => $this->getValidPaymentFirstdays($sMethodCode),
+                    'defaultPaymentFirstday' => $this->getMethod($sMethodCode)->getMatchingProfile()->getData("payment_firstday"),
                 ],
             ],
         ] : [];
@@ -272,7 +282,7 @@ class RechnungConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
      */
     protected function getIsDifferentShippingAddressAllowed($sMethodCode)
     {
-        return (bool)$this->rpDataHelper->getRpConfigData($sMethodCode, 'delivery_address');
+        return (bool)$this->getMethod($sMethodCode)->getMatchingProfile()->getProductData("delivery_address_?", $sMethodCode, true);
     }
 
     /**
@@ -306,7 +316,7 @@ class RechnungConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
      */
     protected function getAllowedMonths($sMethodCode)
     {
-        $method = $this->paymentHelper->getMethodInstance($sMethodCode);
+        $method = $this->getMethod($sMethodCode);
         if ($method instanceof AbstractMethod) {
             $quoteAmount = $this->checkoutSession->getQuote()->getGrandTotal();
             return $method->getAllowedMonths($quoteAmount);
@@ -315,11 +325,12 @@ class RechnungConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
     }
 
     /**
+     * @param  string
      * @return string|array
      */
     protected function getValidPaymentFirstdays($sMethodCode)
     {
-        $validPaymentFirstdays = $this->rpDataHelper->getRpConfigData($sMethodCode, 'valid_payment_firstday');
+        $validPaymentFirstdays = $this->getMethod($sMethodCode)->getMatchingProfile()->getData("valid_payment_firstdays");
         if(strpos($validPaymentFirstdays, ',') !== false) {
             $validPaymentFirstdays = explode(',', $validPaymentFirstdays);
         }
@@ -332,8 +343,8 @@ class RechnungConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
      */
     protected function isPaymentMethodActive($sMethodCode)
     {
-        $method = $this->paymentHelper->getMethodInstance($sMethodCode);
-        if ($method && $method->isActive()) {
+        $method = $this->getMethod($sMethodCode);
+        if ($method && $method->isActive() && !empty($method->getMatchingProfile())) {
             return true;
         }
         return false;

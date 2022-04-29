@@ -32,7 +32,10 @@ class TotalMinMax
     {
         $blResult = $proceed($paymentMethod, $quote);
         if ($paymentMethod instanceof AbstractMethod && $blResult === false) {
-            if (!empty($quote->getBillingAddress()->getCompany()) && $paymentMethod->getIsB2BModeEnabled($quote->getGrandTotal()) === true) {
+            if ($quote->getIsMultiShipping()) { // applicability will be checked later by another mechanism
+                return true;
+            }
+            if (!empty($quote->getBillingAddress()->getCompany()) && $paymentMethod->getIsB2BModeEnabled($quote) === true) {
                 return true;
             }
         }

@@ -32,6 +32,11 @@
                         </div>
                     </div>
                 <!-- /ko -->
+                <!-- ko if: isSandboxModeEnabled() -->
+                <div class="ratepay-sandbox-message">
+                    <p><!-- ko i18n: 'Testmode activated, please DONT use this payment method and get in contact with the merchant.'--><!-- /ko --></p>
+                </div>
+                <!-- /ko -->
                 <label class="label" data-bind="if: !isB2BModeUsable()">
                     <span><!-- ko i18n: 'Date of Birth'--><!-- /ko --><br>
                         <!-- ko if: currentCustomerData.dob -->

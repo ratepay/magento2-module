@@ -4,8 +4,8 @@
 |Repository | Ratepay Module for Magento 2
 |------|----------
 |Author | Robert Müller
-|Module-Version | `1.2.2`
-|Compatibility | Magento 2.1.0 - 2.4.0
+|Module-Version | `2.1.0`
+|Compatibility | Magento 2.1.0 - 2.4.x
 |Link | http://www.ratepay.com
 |Mail | integration@ratepay.com
 |Documentation | https://ratepay.gitbook.io/magento2/
@@ -22,6 +22,56 @@ php bin/magento cache:clean
 ````
 
 ## Changelog
+
+### Version 2.1.0 - Released 2022-04-28
+* Added compatibility to Magento 2.4.4 and PHP 8.1
+* Added support for the Magento multi shipping feature
+* Fixed availability check for Ratepay profile id concerning the shipping country
+* Fixed missing error message when invalid IBAN was entered
+* Fixed a problem with a checkout layout attribute
+
+### Version 2.0.0 - Released 2022-02-01
+* The profile configuration has been refactored completely ( there will be a migration when you are updating from a pre 2.0.0 version )
+* 0% instalments now support multiple runtimes
+* Bugfix regarding error messages
+* Visual adjustments to instalment calculator
+
+### Version 1.2.10 - Released 2021-12-15
+* Removed DeviceFingerPrint scripts from backend orders
+
+### Version 1.2.9 - Released 2021-12-06
+* Fixed scope context in discount tax detection
+* Fixed validation problems for backend orders
+* Added missing shipping description to confirmation deliver call
+
+### Version 1.2.8 - Released 2021-11-18
+* Fixed transmission of Tracking Id when added directly in invoice
+* Added mechanism to register invoice increment id earlier in the process to transmit it in capture request
+
+### Version 1.2.7 - Released 2021-11-02
+* Added CSP whitelist file
+* Fixed wrong config scope in certain situations when reading config data
+* Made Ratepay links in backend error boxes clickable
+
+### Version 1.2.6 - Released 2021-07-21
+* Added config option for street line usage
+* Added an info box to the frontend when order will be created in sandbox mode and to the backend when sandbox mode was used for selected order.
+* Fixed a problem in Magento 2.4.0+ with validation on payment selection on frontend
+
+### Version 1.2.5 - Released 2021-04-19
+* Refactored capture-, refund- and cancel-mechanisms to use the mage-core way through the payment model instead of custom event triggers
+* Added possibility to transfer multiple tracking codes to Ratepay
+* Added possibility to use the tracking code form inside of the create invoice form to transfer tracking codes to Ratepay  
+IMPORTANT: Most of the events.xml files have been deleted in the refactoring of the payment events. When updating the module manually you
+should delete the old module files and copy the new version in freshly to not have the old event triggers in the system to interfere with the new mechanism.
+If the module is installed with Composer the update process should handle this correctly by itself.
+
+### Version 1.2.4 - Released 2021-02-12
+* Fixed a problem with config scope not being used correctly in certain situations
+
+### Version 1.2.3 - Released 2021-01-26
+* Added mechanism to create a unique sku when sku is duplicate
+* Fixed problem with event triggers in cronjobs
 
 ### Version 1.2.2 - Released 2020-11-02
 * Added True Offline Mode configuration

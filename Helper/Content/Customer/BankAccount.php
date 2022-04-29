@@ -14,24 +14,6 @@ use Magento\Framework\App\Helper\Context;
 class BankAccount extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
-     * @var \Magento\Checkout\Model\Session
-     */
-    protected $_checkoutSession;
-
-    /**
-     * BankAccount constructor.
-     * @param Context $context
-     * @param \Magento\Checkout\Model\Session $checkoutSession
-     */
-    public function __construct(Context $context,
-                                \Magento\Checkout\Model\Session $checkoutSession)
-    {
-        parent::__construct($context);
-
-        $this->_checkoutSession = $checkoutSession;
-    }
-
-    /**
      * Build Bank Account block of payment request in customer block
      *
      * @param $quoteOrOrder

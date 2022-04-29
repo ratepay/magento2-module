@@ -1,0 +1,23 @@
+<script>
+    require([
+        'uiLayout',
+        'jquery'
+    ], function (layout, $) {
+        $(function () {
+            var paymentMethodData = {
+                method: 'ratepay_invoice'
+            };
+            layout([
+                {
+                    component: 'RatePAY_Payment/js/view/payment/method-renderer/multishipping/invoice',
+                    name: 'payment_method_ratepay_invoice',
+                    method: paymentMethodData.method,
+                    item: paymentMethodData
+                }
+            ]);
+
+            $('body').trigger('contentUpdated');
+        })
+    })
+</script>
+<!-- ko template: getTemplate() --><!-- /ko -->

@@ -31,6 +31,11 @@
                         </div>
                     </div>
                 <!-- /ko -->
+                <!-- ko if: isSandboxModeEnabled() -->
+                <div class="ratepay-sandbox-message">
+                    <p><!-- ko i18n: 'Testmode activated, please DONT use this payment method and get in contact with the merchant.'--><!-- /ko --></p>
+                </div>
+                <!-- /ko -->
                 <fieldset data-bind="attr: {class: 'fieldset payment items dob ' + getCode(), id: 'payment_form_' + getCode()}" style="margin: 0 0 5px; ">
                     <label class="label" data-bind="if: !isB2BModeUsable()">
                         <span><!-- ko i18n: 'Date of Birth'--><!-- /ko --><br>
@@ -129,7 +134,7 @@
                                         </div>
                                         <div class="panel-body">
                                             <!-- ko if: useMonthDropdown() -->
-                                                <select class="rp-term-select" data-bind="options: getAllowedMonths(), optionsCaption: $t('-- Please select runtime --'), event: {change: updateInstallmentPlanRuntime}"></select>
+                                                <select class="rp-term-select" data-bind="options: getAllowedMonths(), event: {change: updateInstallmentPlanRuntime}"></select>
                                             <!--/ko-->
                                             <!-- ko ifnot: useMonthDropdown() -->
                                                 <div class="btn-group btn-group-justified" role="group" aria-label="...">
@@ -176,7 +181,7 @@
                         <div data-bind="attr: {id: getCode() + '_Notification'}"></div>
                     </div>
                     <!-- ko if: showSepaBlock() -->
-                        <fieldset class="fieldset" data-bind="attr: {id: 'ratepay_rate_sepa_block_' + getCode()}">
+                        <fieldset class="fieldset" data-bind="attr: {id: 'ratepay_rate_sepa_block_' + getCode()}, visible: isDirectDebitDefault()">
                             <hr />
 
                             <ul style="list-style: none; margin-bottom: 15px; border: 1px solid #BDBDBD; padding-left: 4px;">
@@ -263,9 +268,11 @@
                                 </table>
                             </div>
                         </fieldset>
-                        <hr>
-                        <a data-bind="attr: {id: getCode() + '_sepa_use_banktransfer'}, click: showBankTransfer"><!-- ko i18n: 'I want to transfer the installments myself and not pay by direct debit'--><!-- /ko --></a>
-                        <a data-bind="attr: {id: getCode() + '_sepa_use_directdebit'}, click: showDirectDebit" style="display: none;"><!-- ko i18n: 'I want to settle the installments by direct debit'--><!-- /ko --></a>
+                        <div data-bind="attr: {id: getCode() + '_payment_type_selector'}, visible: showPaymentTypeSelection()">
+                            <hr>
+                            <a data-bind="attr: {id: getCode() + '_sepa_use_banktransfer'}, click: showBankTransfer, visible: isDirectDebitDefault()"><!-- ko i18n: 'I want to transfer the instalments myself and not pay by direct debit'--><!-- /ko --></a>
+                            <a data-bind="attr: {id: getCode() + '_sepa_use_directdebit'}, click: showDirectDebit, visible: isBankTransferDefault()"><!-- ko i18n: 'I want to settle the instalments by direct debit'--><!-- /ko --></a>
+                        </div>
                     <!--/ko-->
                 </fieldset>
             </fieldset>

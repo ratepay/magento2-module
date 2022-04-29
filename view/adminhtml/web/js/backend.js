@@ -41,34 +41,57 @@ function showDirectDebit(code) {
     });
 }
 
-function updateInstallmentPlanAmount(restUrl, grandTotal, methodCode) {
+function updateInstallmentPlanAmount(restUrl, grandTotal, methodCode, currency) {
     require([
         'jquery'
     ], function ($) {
-        updateInstallmentPlan(restUrl, 'rate', $('#' + methodCode + '-rate')[0].value, grandTotal, methodCode);
+        var calcValue = $('#' + methodCode + '-rate')[0].value;
+        if (parseFloat(calcValue) > 0) {
+            updateInstallmentPlan(restUrl, 'rate', calcValue, grandTotal, methodCode, currency);
+        } else {
+            alert("Please enter a valid instalment value");
+        }
     });
 }
 
-function updateInstallmentPlanRuntime(restUrl, grandTotal, methodCode) {
+function updateInstallmentPlanRuntime(restUrl, grandTotal, methodCode, currency) {
     require([
         'jquery'
     ], function ($) {
-        updateInstallmentPlan(restUrl, 'time', $('#' + methodCode + '-time')[0].value, grandTotal, methodCode);
+        var calcValue = $('#' + methodCode + '-time')[0].value;
+        if (parseFloat(calcValue) > 0) {
+            updateInstallmentPlan(restUrl, 'time', calcValue, grandTotal, methodCode, currency);
+        }
     });
 }
 
-function updateInstallmentPlan(restUrl, calcType, calcValue, grandTotal, methodCode) {
+function updateInstallmentPlan(restUrl, calcType, calcValue, grandTotal, methodCode, currency) {
     require([
         'jquery'
     ], function ($) {
+        var billingCountryId = "";
+        if ($("#order-billing_address_country_id")){
+            billingCountryId = $("#order-billing_address_country_id").val();
+        }
+
+        var shippingCountryId = "";
+        if ($("#order-shipping_address_country_id")){
+            shippingCountryId = $("#order-shipping_address_country_id").val();
+        }
+
+        if ($("#currency_switcher") && $("#currency_switcher").val() !== undefined && $("#currency_switcher").val() != ""){
+            currency = $("#currency_switcher").val();
+        }
         var request = {
             calcType: calcType,
             calcValue: calcValue,
             grandTotal: grandTotal,
-            methodCode: methodCode
+            methodCode: methodCode,
+            billingCountryId: billingCountryId,
+            shippingCountryId: shippingCountryId,
+            currency: currency
         };
         var data = JSON.stringify(request);
-
         $.ajax({
             url: restUrl,
             type: 'POST',
@@ -83,7 +106,24 @@ function updateInstallmentPlan(restUrl, calcType, calcValue, grandTotal, methodC
                 if (response.success === true) {
                     $('#' + methodCode + '_ResultContainer').html(response.installment_html);
                     $('#' + methodCode + '_ContentSwitch').show();
-                    //paymentRenderer.setIsInstallmentPlanSet(true);
+
+                    var installmentPlan = JSON.parse(response.installment_plan);
+                    if (installmentPlan && installmentPlan.validPaymentFirstdays !== undefined && methodCode.indexOf("_installment0") !== -1) {
+                        if (installmentPlan.validPaymentFirstdays.indexOf(",") !== -1) {
+                            $('#' + methodCode + "_payment_type_selector").show();
+                        } else {
+                            $('#' + methodCode + "_payment_type_selector").hide();
+                        }
+                        if (installmentPlan.defaultPaymentFirstday == "2") {
+                            $('#ratepay_rate_sepa_block_' + methodCode).show();
+                            $('#' + methodCode + '_sepa_use_banktransfer').show();
+                            $('#' + methodCode + '_sepa_use_directdebit').hide();
+                        } else if (installmentPlan.defaultPaymentFirstday == "28") {
+                            $('#ratepay_rate_sepa_block_' + methodCode).hide();
+                            $('#' + methodCode + '_sepa_use_banktransfer').hide();
+                            $('#' + methodCode + '_sepa_use_directdebit').show();
+                        }
+                    }
                 } else {
                     alert(response.errormessage);
                 }

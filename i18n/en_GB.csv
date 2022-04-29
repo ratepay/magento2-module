@@ -67,6 +67,7 @@ B2B,B2B,module,RatePAY_Payment
 "Direct Debit","SEPA direct debit",module,RatePAY_Payment
 "Ratepay-Datenschutzerklärung Url","URL of the Ratepay privacy policy",module,RatePAY_Payment
 Installment,Installment,module,RatePAY_Payment
+Instalment,Instalment,module,RatePAY_Payment
 Rate min,Minimumrate,module,RatePAY_Payment
 "Month Allowed","term (in months)",module,RatePAY_Payment
 "0% Financing","0% financing",module,RatePAY_Payment
@@ -74,7 +75,7 @@ Austria,Austria,module,RatePAY_Payment
 Switzerland,Switzerland,module,RatePAY_Payment
 Ratepay Invoice,Ratepay invoice,module,RatePAY_Payment
 Ratepay Directdebit,Ratepay SEPA direct debit,module,RatePAY_Payment
-Ratepay Instalment,Ratepay installment,module,RatePAY_Payment
+Ratepay Instalment,Ratepay instalment,module,RatePAY_Payment
 Ratepay 0% Financing,Ratepay 0% financing,module,RatePAY_Payment
 Active,active,module,RatePAY_Payment
 Inactive,deactivated,module,RatePAY_Payment
@@ -91,29 +92,30 @@ ratepay_terms_block_5, "risk check by our payment partner" ,module,RatePAY_Payme
 ratepay_terms_block_6, "." ,module,RatePAY_Payment
 "Maximum Oder Total","Maximum order total",module,RatePAY_Payment
 "Nur SEPA/IBAN Kontodaten","SEPA/IBAN account info only",module,RatePAY_Payment
-"rp_calculation_intro_part1","In the following you will be able to decide, how you want to shape your installment payment. You can comfortable declare the amount of installments and therefore ",module,RatePAY_Payment
+"rp_calculation_intro_part1","In the following you will be able to decide, how you want to shape your instalment payment. You can comfortable declare the amount of instalments and therefore ",module,RatePAY_Payment
 "rp_calculation_intro_part2","the runtime",module,RatePAY_Payment
-"rp_calculation_intro_part3"," of your installment payment. You can also simply declare your desired ",module,RatePAY_Payment
-"rp_calculation_intro_part4","monthly installment amount.",module,RatePAY_Payment
+"rp_calculation_intro_part3"," of your instalment payment. You can also simply declare your desired ",module,RatePAY_Payment
+"rp_calculation_intro_part4","monthly instalment amount.",module,RatePAY_Payment
 "rp_runtime_title","Runtime",module,RatePAY_Payment
-"rp_runtime_description", "Amount of monthly installments",module,RatePAY_Payment
-"rp_rate_title","Installment amount",module,RatePAY_Payment
-"rp_rate_description","Amount of the monthly installment",module,RatePAY_Payment
-"rp_calculate_rate","Calculate installment",module,RatePAY_Payment
+"rp_runtime_description", "Amount of monthly instalments",module,RatePAY_Payment
+"rp_rate_title","Instalment amount",module,RatePAY_Payment
+"rp_rate_description","Amount of the monthly instalment",module,RatePAY_Payment
+"rp_calculate_rate","Calculate instalment",module,RatePAY_Payment
+"rp_calculate_rate_short","Calculate",module,RatePAY_Payment
 "rp_personal_calculation","Personal calculation",module,RatePAY_Payment
-"rp_reason_code_translation_603","The desired installment complies to the stated conditions.",module,RatePAY_Payment
-"rp_reason_code_translation_671","The last installment was lower than permitted. Runtime and/or installment amount has been adjusted accordingly.",module,RatePAY_Payment
-"rp_reason_code_translation_688","The installment was lower than permitted for installment plans with a long runtime. The runtime has been adjusted accordingly.",module,RatePAY_Payment
-"rp_reason_code_translation_689","The installment was lower than permitted for installment plans with a short runtime. The runtime has been adjusted accordingly.",module,RatePAY_Payment
-"rp_reason_code_translation_695","The installment is too high for the minimal available runtime. The installmend has been lowered accordingly.",module,RatePAY_Payment
-"rp_reason_code_translation_696","The desired installment was too low. The installment has been raised accordingly.",module,RatePAY_Payment
-"rp_reason_code_translation_697","There was no fitting runtime available for the desired installment amount. The installment amount has been adjusted accordingly.",module,RatePAY_Payment
-"rp_reason_code_translation_698","The installment was too low for the maximally available runtime. The installment has been raised accordingly.",module,RatePAY_Payment
-"rp_reason_code_translation_699","The installment is too high for the minimally available runtime. The installment has been lowered accordingly.",module,RatePAY_Payment
+"rp_reason_code_translation_603","The desired instalment complies to the stated conditions.",module,RatePAY_Payment
+"rp_reason_code_translation_671","The last instalment was lower than permitted. Runtime and/or instalment amount has been adjusted accordingly.",module,RatePAY_Payment
+"rp_reason_code_translation_688","The instalment was lower than permitted for instalment plans with a long runtime. The runtime has been adjusted accordingly.",module,RatePAY_Payment
+"rp_reason_code_translation_689","The instalment was lower than permitted for instalment plans with a short runtime. The runtime has been adjusted accordingly.",module,RatePAY_Payment
+"rp_reason_code_translation_695","The instalment is too high for the minimal available runtime. The instalment has been lowered accordingly.",module,RatePAY_Payment
+"rp_reason_code_translation_696","The desired instalment was too low. The instalment has been raised accordingly.",module,RatePAY_Payment
+"rp_reason_code_translation_697","There was no fitting runtime available for the desired instalment amount. The instalment amount has been adjusted accordingly.",module,RatePAY_Payment
+"rp_reason_code_translation_698","The instalment was too low for the maximally available runtime. The instalment has been raised accordingly.",module,RatePAY_Payment
+"rp_reason_code_translation_699","The instalment is too high for the minimally available runtime. The instalment has been lowered accordingly.",module,RatePAY_Payment
 "rp_cash_payment_price","Basket amount",module,RatePAY_Payment
 "rp_mouseover_cash_payment_price","Sum of all products in the basket including shipping",module,RatePAY_Payment
 "rp_service_charge","Servicecharge",module,RatePAY_Payment
-"rp_mouseover_service_charge","Service charge occurring one time for installment payment",module,RatePAY_Payment
+"rp_mouseover_service_charge","Service charge occurring one time for instalment payment",module,RatePAY_Payment
 "rp_mouseover_effective_rate","Total amount of the credit as annual percent rate.",module,RatePAY_Payment
 "rp_effective_rate","Annual percentage rate",module,RatePAY_Payment
 "rp_debit_rate","Interest rate",module,RatePAY_Payment
@@ -122,19 +124,29 @@ ratepay_terms_block_6, "." ,module,RatePAY_Payment
 "rp_mouseover_interest_amount","Sum of money resulting from the interest rate.",module,RatePAY_Payment
 "rp_duration_month"," duration in months",module,RatePAY_Payment
 "rp_mouseover_duration_month","Monthly partial amount.",module,RatePAY_Payment
-"rp_last_rate","incl. one final installment &agrave;",module,RatePAY_Payment
-"rp_mouseover_last_rate","Final installment due in the last month.",module,RatePAY_Payment
+"rp_last_rate","incl. one final instalment &agrave;",module,RatePAY_Payment
+"rp_mouseover_last_rate","Final instalment due in the last month.",module,RatePAY_Payment
 "rp_total_amount","Total amount",module,RatePAY_Payment
 "rp_mouseover_total_amount","Sum to be payed by the buyer consisting of basket amount, service charge and interests.",module,RatePAY_Payment
 "Please enter a valid IBAN.","Please enter a valid IBAN.",module,RatePAY_Payment
-"Please select a installment runtime or installment amount.","Please select a installment runtime or installment amount.",module,RatePAY_Payment
+"Please select a instalment runtime or instalment amount.","Please select a instalment runtime or instalment amount.",module,RatePAY_Payment
 "-- Please select runtime --","-- Please select runtime --",module,RatePAY_Payment
 "The runtime has been updated successfully.","The runtime has been updated successfully.",module,RatePAY_Payment
-"The installment amount has been updated successfully.","The installment amount has been updated successfully.",module,RatePAY_Payment
+"The instalment amount has been updated successfully.","The instalment amount has been updated successfully.",module,RatePAY_Payment
 "Show details","Show details",module,RatePAY_Payment
 "Hide details","Hide details",module,RatePAY_Payment
+"Validation failed: Bank-account parameter IBAN is invalid.","Validation failed: IBAN is invalid.",module,RatePAY_Payment
 "ratepay_directdebit_save_bankdata_text","Selecting this option will make your next purchase from us faster and easier. You can remove your payment details at any time.",module,RatePAY_Payment
 "ratepay_directdebit_save_bankdata_link","Further information",module,RatePAY_Payment
 "ratepay_directdebit_save_bankdata_overlay_1","If you select „Save payment data“, your payment information will be saved for future purchases. This allows you to quickly and easily pay for items purchased without having to re-enter your payment data for your next purchases. The saved payment data can be removed at any time in your",module,RatePAY_Payment
 "ratepay_directdebit_save_bankdata_overlay_2","customer account.",module,RatePAY_Payment
 "ratepay_directdebit_save_bankdata_overlay_3","",module,RatePAY_Payment
+"Validation failed: Bank-account parameter IBAN is invalid.","Validation failed: IBAN is invalid.",module,RatePAY_Payment
+"Ratepay_invoice","Invoice",module,RatePAY_Payment
+"Ratepay_installment","Instalment",module,RatePAY_Payment
+"Ratepay_installment0","0% Instalment",module,RatePAY_Payment
+"Ratepay_elv","Direct Debit",module,RatePAY_Payment
+"Ratepay_0","No",module,RatePAY_Payment
+"Ratepay_1","Yes",module,RatePAY_Payment
+"Ratepay Default","Default",module,RatePAY_Payment
+"Only applicable when 2 or more street lines are configured in customer configuration. House number: The second street line will be interpreted as the house number, 3rd and 4th street input will be interpreted as additional information. Additional info: Street lines 2 - 4 will be interpreted as additional information","Only applicable when 2 or more street lines are configured in customer configuration.<br><br><b>House number:</b> The second street line will be interpreted as the house number, 3rd and 4th street input will be interpreted as additional information.<br><br><b>Additional info:</b> Street lines 2 - 4 will be interpreted as additional information",module,RatePAY_Payment

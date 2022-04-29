@@ -72,7 +72,7 @@ class B2b extends \Magento\Framework\App\Action\Action
      * @return bool
      */
     private function _isValidVatId($vatId) {
-        $vatId = trim($vatId);
+        $vatId = trim($vatId ?? '');
         $vatId = strtoupper($vatId);
         $countryPrefix = substr($vatId, 0, 2);
 

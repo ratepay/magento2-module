@@ -35,22 +35,53 @@ class Installment0 extends AbstractMethod
      */
     public function getAllowedMonths($basketAmount)
     {
-        $rateMinNormal = $this->rpDataHelper->getRpConfigData($this->getCode(), 'rate_min');
-        $runtimes = explode(",", $this->rpDataHelper->getRpConfigData($this->getCode(), 'month_allowed'));
-        $interestrateMonth = ((float)$this->rpDataHelper->getRpConfigData($this->getCode(), 'interestrate_default') / 12) / 100;
+        $aProfiles = $this->getMatchingProfiles();
+        if (empty($aProfiles)) {
+            return [];
+        }
 
         $allowedRuntimes = [];
-        foreach ($runtimes as $runtime) {
-            if ($interestrateMonth > 0) { // otherwise division by zero error will happen
-                $rateAmount = $basketAmount * (($interestrateMonth * pow((1 + $interestrateMonth), $runtime)) / (pow((1 + $interestrateMonth), $runtime) - 1));
-            } else {
-                $rateAmount = $basketAmount / $runtime;
-            }
+        foreach ($aProfiles as $oProfile) {
+            $tmp = $this->getAllowedMonthsForProfile($basketAmount, $oProfile);
+            $allowedRuntimes = array_merge($allowedRuntimes, $tmp);
+        }
+        $allowedRuntimes = array_unique($allowedRuntimes);
+        sort($allowedRuntimes, SORT_NUMERIC);
 
-            if ($rateAmount >= $rateMinNormal) {
-                $allowedRuntimes[] = $runtime;
+        return $allowedRuntimes;
+    }
+
+    /**
+     * Returns allowed runtimes for given profile
+     *
+     * @param  double                                               $basketAmount
+     * @param  \RatePAY\Payment\Model\Entities\ProfileConfiguration $oProfile
+     * @return array
+     */
+    public function getAllowedMonthsForProfile($basketAmount, $oProfile)
+    {
+        $rateMinNormal = $oProfile->getProductData('rate_min_normal', $this->getCode(), true);
+        $runtimes = explode(",", $oProfile->getData('month_allowed'));
+        $interestrateMonth = ((float)$oProfile->getProductData('interestrate_default', $this->getCode(), true) / 12) / 100;
+
+        $allowedRuntimes = [];
+        if (!empty($runtimes)) {
+            foreach ($runtimes as $runtime) {
+                if (!is_numeric($runtime)) {
+                    continue;
+                }
+                if ($interestrateMonth > 0) { // otherwise division by zero error will happen
+                    $rateAmount = $basketAmount * (($interestrateMonth * pow((1 + $interestrateMonth), $runtime)) / (pow((1 + $interestrateMonth), $runtime) - 1));
+                } else {
+                    $rateAmount = $basketAmount / $runtime;
+                }
+
+                if ($rateAmount >= $rateMinNormal) {
+                    $allowedRuntimes[] = $runtime;
+                }
             }
         }
+
         return $allowedRuntimes;
     }
 
@@ -74,5 +105,69 @@ class Installment0 extends AbstractMethod
         }
 
         return true;
+    }
+
+    /**
+     * @param  \Magento\Quote\Api\Data\CartInterface|null $oQuote
+     * @param  string|null $sStoreCode
+     * @param  double $dGrandTotal
+     * @param  string $sBillingCountryId
+     * @param  string $sShippingCountryId
+     * @param  string $sCurrency
+     * @param  int $installmentRuntime
+     * @return \RatePAY\Payment\Model\Entities\ProfileConfiguration|false
+     */
+    public function getMatchingProfile(\Magento\Quote\Api\Data\CartInterface $oQuote = null, $sStoreCode = null, $dGrandTotal = null, $sBillingCountryId = null, $sShippingCountryId = null, $sCurrency = null, $installmentRuntime = null)
+    {
+        if ($this->profile === null) {
+            if ($oQuote === null) {
+                if ($this->isBackendMethod() === false) {
+                    $oQuote = $this->checkoutSession->getQuote();
+                } else {
+                    $oQuote = $this->backendCheckoutSession->getQuote();
+                }
+            }
+            if ($sStoreCode === null) {
+                $sStoreCode = $oQuote->getStore()->getCode();
+            }
+
+            if (empty($installmentRuntime) && !empty($this->checkoutSession->getData('ratepayInstallmentNumber_'.$this->getCode()))) {
+                $installmentRuntime = $this->checkoutSession->getData('ratepayInstallmentNumber_'.$this->getCode());
+            }
+
+            if (!empty($installmentRuntime)) {
+                if (empty($dGrandTotal)) {
+                    $dGrandTotal = $oQuote->getGrandTotal();
+                }
+
+                $aProfiles = $this->getMatchingProfiles($oQuote, $sStoreCode, $dGrandTotal, $sBillingCountryId, $sShippingCountryId, $sCurrency);
+                if (empty($aProfiles)) {
+                    $this->profile = false;
+                    return $this->profile;
+                }
+
+                foreach ($aProfiles as $oMatchingProfile) {
+                    $aAllowedMonths = $this->getAllowedMonthsForProfile($dGrandTotal, $oMatchingProfile);
+                    if (in_array($installmentRuntime, $aAllowedMonths)) {
+                        $this->profile = $oMatchingProfile;
+                        return $this->profile;
+                    }
+                }
+            }
+
+            $this->profile = $this->profileConfig->getMatchingProfile($oQuote, $this->getCode(), $sStoreCode, $dGrandTotal, $sBillingCountryId, $sShippingCountryId, $sCurrency);
+        }
+        return $this->profile;
+    }
+
+    /**
+     * Can be extended by derived payment models to add certain mechanics PRE payment request
+     *
+     * @param  \Magento\Sales\Model\Order $oOrder
+     * @return void
+     */
+    protected function handlePrePaymentRequestTasks(\Magento\Sales\Model\Order $oOrder)
+    {
+        $this->recalculateInstallmentPlan($oOrder);
     }
 }

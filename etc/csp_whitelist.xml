@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<csp_whitelist xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Csp:etc/csp_whitelist.xsd">
+    <policies>
+        <policy id="img-src">
+            <values>
+                <value id="ratepay_ratepay_img" type="host">d.ratepay.com</value>
+            </values>
+        </policy>
+        <policy id="script-src">
+            <values>
+                <value id="ratepay_ratepay_script" type="host">d.ratepay.com</value>
+                <value id="ratepay_jsctool_script" type="host">www.jsctool.com</value>
+            </values>
+        </policy>
+        <policy id="style-src">
+            <values>
+                <value id="ratepay_ratepay_style" type="host">d.ratepay.com</value>
+            </values>
+        </policy>
+        <policy id="frame-src">
+            <values>
+                <value id="ratepay_jsctool_frame" type="host">www.jsctool.com</value>
+            </values>
+        </policy>
+        <policy id="connect-src">
+            <values>
+                <value id="ratepay_ratepay_connect" type="host">d.ratepay.com</value>
+                <value id="ratepay_jsctool_connect" type="host">www.jsctool.com</value>
+            </values>
+        </policy>
+    </policies>
+</csp_whitelist>
