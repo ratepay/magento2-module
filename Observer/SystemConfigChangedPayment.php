@@ -23,7 +23,7 @@ class SystemConfigChangedPayment implements ObserverInterface
     /**
      * @var \RatePAY\Payment\Helper\ProfileConfig
      */
-    protected $profileConfigHelper
+    protected $profileConfigHelper;
 
     /**
      * Constructor

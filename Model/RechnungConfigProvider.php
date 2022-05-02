@@ -262,7 +262,7 @@ class RechnungConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
      */
     protected function getSavedBankData($sMethodCode, $iCustomerId)
     {
-        $sProfileId = $this->rpDataHelper->getRpConfigData($sMethodCode, 'profileId');
+        $sProfileId = $this->getMethod($sMethodCode)->getMatchingProfile()->getData("profile_id");
         $aBankData = $this->getStoredBankAccounts->sendRequest($iCustomerId, $sProfileId);
         if (!empty($aBankData)) {
             $aBankData = reset($aBankData); // Returns first element
