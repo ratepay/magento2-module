@@ -80,8 +80,12 @@ class Shipping extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function setShipping($quoteOrOrder)
     {
+        $order = $quoteOrOrder;
+        if ($quoteOrOrder instanceof \Magento\Sales\Model\Order\Creditmemo) {
+            $order = $quoteOrOrder->getOrder();
+        }
         $content = [
-            'Description' => $quoteOrOrder->getShippingDescription(),
+            'Description' => $order->getShippingDescription(),
             'UnitPriceGross' => round($quoteOrOrder->getShippingInclTax(),2),
             'TaxRate' => (float)$this->getShippingVat($quoteOrOrder)
             //'DescriptionAddition' => "Additional information about the shipping"

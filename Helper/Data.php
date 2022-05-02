@@ -132,8 +132,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function getImportantAddressData($address)
     {
         $result = array();
-        $result['city'] = trim($address->getCity());
-        $result['company'] = trim($address->getCompany());
+        $result['city'] = trim($address->getCity() ?? '');
+        $result['company'] = trim($address->getCompany() ?? '');
         $result['prefix'] = $address->getPrefix();
         $result['gender'] = $address->getGender();
         $result['firstname'] = $address->getFirstname();

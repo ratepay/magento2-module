@@ -4,7 +4,7 @@
 |Repository | Ratepay Module for Magento 2
 |------|----------
 |Author | Robert Müller
-|Module-Version | `2.0.0`
+|Module-Version | `2.1.0`
 |Compatibility | Magento 2.1.0 - 2.4.x
 |Link | http://www.ratepay.com
 |Mail | integration@ratepay.com
@@ -22,6 +22,13 @@ php bin/magento cache:clean
 ````
 
 ## Changelog
+
+### Version 2.1.0 - Released 2022-04-28
+* Added compatibility to Magento 2.4.4 and PHP 8.1
+* Added support for the Magento multi shipping feature
+* Fixed availability check for Ratepay profile id concerning the shipping country
+* Fixed missing error message when invalid IBAN was entered
+* Fixed a problem with a checkout layout attribute
 
 ### Version 2.0.0 - Released 2022-02-01
 * The profile configuration has been refactored completely ( there will be a migration when you are updating from a pre 2.0.0 version )

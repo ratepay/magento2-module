@@ -112,11 +112,12 @@ class Installment0 extends AbstractMethod
      * @param  string|null $sStoreCode
      * @param  double $dGrandTotal
      * @param  string $sBillingCountryId
+     * @param  string $sShippingCountryId
      * @param  string $sCurrency
      * @param  int $installmentRuntime
      * @return \RatePAY\Payment\Model\Entities\ProfileConfiguration|false
      */
-    public function getMatchingProfile(\Magento\Quote\Api\Data\CartInterface $oQuote = null, $sStoreCode = null, $dGrandTotal = null, $sBillingCountryId = null, $sCurrency = null, $installmentRuntime = null)
+    public function getMatchingProfile(\Magento\Quote\Api\Data\CartInterface $oQuote = null, $sStoreCode = null, $dGrandTotal = null, $sBillingCountryId = null, $sShippingCountryId = null, $sCurrency = null, $installmentRuntime = null)
     {
         if ($this->profile === null) {
             if ($oQuote === null) {
@@ -139,7 +140,7 @@ class Installment0 extends AbstractMethod
                     $dGrandTotal = $oQuote->getGrandTotal();
                 }
 
-                $aProfiles = $this->getMatchingProfiles($oQuote, $sStoreCode, $dGrandTotal, $sBillingCountryId, $sCurrency);
+                $aProfiles = $this->getMatchingProfiles($oQuote, $sStoreCode, $dGrandTotal, $sBillingCountryId, $sShippingCountryId, $sCurrency);
                 if (empty($aProfiles)) {
                     $this->profile = false;
                     return $this->profile;
@@ -154,8 +155,19 @@ class Installment0 extends AbstractMethod
                 }
             }
 
-            $this->profile = $this->profileConfig->getMatchingProfile($oQuote, $this->getCode(), $sStoreCode, $dGrandTotal, $sBillingCountryId, $sCurrency);
+            $this->profile = $this->profileConfig->getMatchingProfile($oQuote, $this->getCode(), $sStoreCode, $dGrandTotal, $sBillingCountryId, $sShippingCountryId, $sCurrency);
         }
         return $this->profile;
+    }
+
+    /**
+     * Can be extended by derived payment models to add certain mechanics PRE payment request
+     *
+     * @param  \Magento\Sales\Model\Order $oOrder
+     * @return void
+     */
+    protected function handlePrePaymentRequestTasks(\Magento\Sales\Model\Order $oOrder)
+    {
+        $this->recalculateInstallmentPlan($oOrder);
     }
 }
