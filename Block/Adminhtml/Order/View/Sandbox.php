@@ -5,7 +5,6 @@ namespace RatePAY\Payment\Block\Adminhtml\Order\View;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
 
-
 class Sandbox extends Template
 {
     /**

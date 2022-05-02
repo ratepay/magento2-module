@@ -2,7 +2,7 @@
     <td class="label"><?php echo __('Return previous adjustments'); ?></td>
     <td>
         <input type="hidden"   name="creditmemo[ratepay_return_adjustments]" value="0">
-        <input type="checkbox" name="creditmemo[ratepay_return_adjustments]" value="1" id="ratepay_return_adjustments" style="margin-right: 20px;" onchange="handleAjustmentRefund(this, <?php echo $block->getPositiveAdjustmentReturn(); ?>, <?php echo $block->getNegativeAdjustmentReturn(); ?>)" <?php if ($block->isCheckboxChecked()) echo 'checked'; ?>>
+        <input type="checkbox" name="creditmemo[ratepay_return_adjustments]" value="1" id="ratepay_return_adjustments" style="margin-right: 20px;" onchange="handleAjustmentRefund(this, <?php echo $block->getPositiveAdjustmentReturn(); ?>, <?php echo $block->getNegativeAdjustmentReturn(); ?>)" <?php if ($block->isCheckboxChecked()) { echo 'checked';} ?>>
         <span>
             <span class="price"><?= /* @escapeNotVerified */ $block->displayAmount(5, 6) ?></span>
         </span>

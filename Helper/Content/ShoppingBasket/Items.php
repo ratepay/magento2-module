@@ -8,7 +8,6 @@
 
 namespace RatePAY\Payment\Helper\Content\ShoppingBasket;
 
-
 use Magento\Framework\App\Helper\Context;
 use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\Creditmemo;
@@ -112,11 +111,11 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
                     $skuMap[$item->getOrderItem()->getQuoteItemId()] = $sku;
                 }
 
-                if($quantity == 0){
+                if ($quantity == 0) {
                     continue;
                 }
 
-                if($item->getOrderItem()->getProductType() === \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
+                if ($item->getOrderItem()->getProductType() === \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
                     $bundleQuantity = $this->_getBundleQuantity($quoteOrOrder->getItems(), $item); // bundles always have a qty of 1, which is wrong
                     if ($bundleQuantity !== false) {
                         $quantity = (int)$bundleQuantity;
@@ -125,7 +124,7 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
                     $discount = 0.00;
                     $taxRate = 0;
                     $children = $item->getOrderItem()->getChildrenItems();
-                    foreach($children as $ch) {
+                    foreach ($children as $ch) {
                         if ($quoteOrOrder instanceof Creditmemo) {
                             foreach ($itemArray as $creditmemoItem) {
                                 if ($creditmemoItem->getOrderItemId() == $ch->getId()) {

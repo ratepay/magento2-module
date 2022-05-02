@@ -8,7 +8,6 @@
 
 namespace RatePAY\Payment\Helper\Content\ShoppingBasket;
 
-
 use Magento\Framework\App\Helper\Context;
 
 class ShoppingBasket extends \Magento\Framework\App\Helper\AbstractHelper
@@ -34,11 +33,12 @@ class ShoppingBasket extends \Magento\Framework\App\Helper\AbstractHelper
      * @param Shipping $rpContentBasketShippingHelper
      * @param Discount $rpContentBasketDiscountHelper
      */
-    public function __construct(Context $context,
-                                \RatePAY\Payment\Helper\Content\ShoppingBasket\Items $rpContentBasketItemsHelper,
-                                \RatePAY\Payment\Helper\Content\ShoppingBasket\Shipping $rpContentBasketShippingHelper,
-                                \RatePAY\Payment\Helper\Content\ShoppingBasket\Discount $rpContentBasketDiscountHelper)
-    {
+    public function __construct(
+        Context $context,
+        \RatePAY\Payment\Helper\Content\ShoppingBasket\Items $rpContentBasketItemsHelper,
+        \RatePAY\Payment\Helper\Content\ShoppingBasket\Shipping $rpContentBasketShippingHelper,
+        \RatePAY\Payment\Helper\Content\ShoppingBasket\Discount $rpContentBasketDiscountHelper
+    ) {
         parent::__construct($context);
 
         $this->rpContentBasketItemsHelper = $rpContentBasketItemsHelper;

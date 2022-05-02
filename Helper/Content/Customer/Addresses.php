@@ -92,10 +92,10 @@ class Addresses extends \Magento\Framework\App\Helper\AbstractHelper
             ['Address' => $deliveryAddress],
         ];
 
-        if(!empty($quoteOrOrder->getBillingAddress()->getCompany())){
+        if (!empty($quoteOrOrder->getBillingAddress()->getCompany())) {
             $content[0]['Address']['Company'] = $quoteOrOrder->getBillingAddress()->getCompany();
         }
-        if(!empty($quoteOrOrder->getShippingAddress()->getCompany())){
+        if (!empty($quoteOrOrder->getShippingAddress()->getCompany())) {
             $content[1]['Address']['Company'] = $quoteOrOrder->getShippingAddress()->getCompany();
         }
 

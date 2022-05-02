@@ -8,7 +8,6 @@
 
 namespace RatePAY\Payment\Model\Method;
 
-
 class Installment0 extends AbstractMethod
 {
     const METHOD_CODE = 'ratepay_installment0';

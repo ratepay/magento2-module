@@ -94,7 +94,7 @@ $currency = $block->ratepayGetCurrentCurrencyCode();
                         <span><?php echo $block->escapeHtml(__('rp_rate_description')); ?></span>
                     </label>
                     <div class="admin__field-control control">
-                        <input id="<?php echo $code.'-rate'; ?>" type="text" class="form-control" aria-label="Amount" /><br>
+                        <input id="<?php echo $code.'-rate'; ?>" type="text" class="form-control" aria-label="Amount"><br>
                         <span class="input-group-btn">
                             <button id="<?php echo $code.'_Input-button'; ?>" type="button" onclick="updateInstallmentPlanAmount('<?php echo $block->getRestUrl(); ?>', <?php echo $ratePayGrandTotal; ?>, '<?php echo $code; ?>', '<?php echo $currency; ?>')" class="btn btn-default" role="group">
                                 <?php echo __('rp_calculate_rate'); ?>
@@ -104,7 +104,7 @@ $currency = $block->ratepayGetCurrentCurrencyCode();
                 </div>
             </div>
         <?php endif; ?>
-        <input id="<?php echo $code.'-runtime'; ?>" type="hidden" value="" />
+        <input id="<?php echo $code.'-runtime'; ?>" type="hidden" value="">
         <div class="rpClear"></div>
         <div id="<?php echo $code.'_ContentSwitch'; ?>" class="ratepay-ContentSwitch" style="display: none;">
             <div class="ratepay-ChooseRuntime">
@@ -161,9 +161,9 @@ $currency = $block->ratepayGetCurrentCurrencyCode();
                 </tr>
                 <tr>
                     <td style="padding:10px 0;">
-                        <br/>
-                        <span style="font-weight:bold;"><?php echo __('ratepay_directdebit_sepa_notice_block_1'); ?></span><br/>
-                        <?php echo __('ratepay_directdebit_sepa_notice_block_2'); ?><br/>
+                        <br>
+                        <span style="font-weight:bold;"><?php echo __('ratepay_directdebit_sepa_notice_block_1'); ?></span><br>
+                        <?php echo __('ratepay_directdebit_sepa_notice_block_2'); ?><br>
                         <?php echo __('ratepay_directdebit_sepa_notice_block_3'); ?>
                     </td>
                 </tr>

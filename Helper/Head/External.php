@@ -8,7 +8,6 @@
 
 namespace RatePAY\Payment\Helper\Head;
 
-
 use Magento\Framework\App\Helper\Context;
 
 class External extends \Magento\Framework\App\Helper\AbstractHelper

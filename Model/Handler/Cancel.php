@@ -45,7 +45,6 @@ class Cancel
         $this->rpLibraryModel = $rpLibraryModel;
         $this->rpLibraryController = $rpLibraryController;
         $this->profileConfigHelper = $profileConfigHelper;
-
     }
 
     /**
@@ -78,7 +77,7 @@ class Cancel
         $head = $this->rpLibraryModel->getRequestHead($order, 'PAYMENT_CHANGE', null, null, $sProfileId, $sSecurityCode);
         $content = $this->rpLibraryModel->getRequestContent($order, 'PAYMENT_CHANGE', [], 0);
         $cancellationRequest = $this->rpLibraryController->callPaymentChange($head, $content, 'cancellation', $order, $blSandbox);
-        if (!$cancellationRequest->isSuccessful()){
+        if (!$cancellationRequest->isSuccessful()) {
             throw new PaymentException(__('Cancellation was not successsfull'));
         }
         return true;
