@@ -8,7 +8,6 @@
 
 namespace RatePAY\Payment\Helper\Head;
 
-
 use Magento\Framework\App\Helper\Context;
 
 class Head extends \Magento\Framework\App\Helper\AbstractHelper
@@ -22,11 +21,6 @@ class Head extends \Magento\Framework\App\Helper\AbstractHelper
      * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
-
-    /**
-     * @var \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress
-     */
-    protected $remoteAddress;
 
     /**
      * @var \Magento\Framework\App\ProductMetadataInterface
@@ -51,7 +45,7 @@ class Head extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\ProductMetadataInterface $productMetadata
      * @param \Magento\Framework\Module\ModuleListInterface $moduleList
-     * @param \Magento\Payment\Helper\Data\Proxy $paymentHelper
+     * @param \Magento\Payment\Helper\Data $paymentHelper
      */
     public function __construct(
         Context $context,
@@ -59,13 +53,12 @@ class Head extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\ProductMetadataInterface $productMetadata,
         \Magento\Framework\Module\ModuleListInterface $moduleList,
-        \Magento\Payment\Helper\Data\Proxy $paymentHelper
+        \Magento\Payment\Helper\Data $paymentHelper
     ) {
         parent::__construct($context);
 
         $this->rpDataHelper = $rpHelper;
         $this->storeManager = $storeManager;
-        $this->remoteAddress = $context->getRemoteAddress();
         $this->productMetadata = $productMetadata;
         $this->moduleList = $moduleList;
         $this->paymentHelper = $paymentHelper;

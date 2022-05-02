@@ -8,7 +8,6 @@
 
 namespace RatePAY\Payment\Helper\Content\Payment;
 
-
 use Magento\Framework\App\Helper\Context;
 
 class Payment extends \Magento\Framework\App\Helper\AbstractHelper
@@ -31,12 +30,12 @@ class Payment extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Payment constructor.
      * @param Context $context
-     * @param \Magento\Checkout\Model\Session\Proxy $checkoutSession
+     * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \RatePAY\Payment\Helper\Payment $rpPaymentHelper
      */
     public function __construct(
         Context $context,
-        \Magento\Checkout\Model\Session\Proxy $checkoutSession,
+        \Magento\Checkout\Model\Session $checkoutSession,
         \RatePAY\Payment\Helper\Payment $rpPaymentHelper
     ) {
         parent::__construct($context);
