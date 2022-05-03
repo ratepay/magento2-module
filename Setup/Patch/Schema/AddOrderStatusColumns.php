@@ -6,12 +6,12 @@ use Magento\Framework\Setup\SchemaSetupInterface;
 use Magento\Framework\Setup\Patch\SchemaPatchInterface;
 use Magento\Sales\Setup\SalesSetupFactory;
 use Magento\Framework\DB\Ddl\Table;
-use Magento\Framework\Setup\Patch\PatchVersionInterface;
+use Magento\Framework\Setup\ModuleDataSetupInterface;
 
 /**
  * Class AddOrderStatusColumns.
  */
-class AddOrderStatusColumns implements SchemaPatchInterface, PatchVersionInterface
+class AddOrderStatusColumns implements SchemaPatchInterface
 {
     /**
      * @var SchemaSetupInterface
@@ -26,18 +26,27 @@ class AddOrderStatusColumns implements SchemaPatchInterface, PatchVersionInterfa
     protected $salesSetupFactory;
 
     /**
+     * @var ModuleDataSetupInterface
+     */
+    protected $moduleDataSetup;
+
+    /**
      * AddOrderStatusColumns constructor.
      *
      * @param SchemaSetupInterface $schemaSetup
-     * @param SalesSetupFactory $salesSetupFactory,
+     * @param SalesSetupFactory $salesSetupFactory
+     * @param ModuleDataSetupInterface $moduleDataSetup
+
      */
     public function __construct(
         SchemaSetupInterface $schemaSetup,
-        SalesSetupFactory $salesSetupFactory
+        SalesSetupFactory $salesSetupFactory,
+        ModuleDataSetupInterface $moduleDataSetup
     )
     {
         $this->schemaSetup = $schemaSetup;
         $this->salesSetupFactory = $salesSetupFactory;
+        $this->moduleDataSetup = $moduleDataSetup;
     }
 
     /**
@@ -46,7 +55,7 @@ class AddOrderStatusColumns implements SchemaPatchInterface, PatchVersionInterfa
     public function apply()
     {
         $this->schemaSetup->startSetup();
-        $setup = $this->schemaSetup;
+        $setup = $this->moduleDataSetup;
 
         $salesInstaller = $this->salesSetupFactory->create(['resourceName' => 'sales_setup', 'setup' => $setup]);
         if (!$setup->getConnection()->tableColumnExists($setup->getTable('sales_order'), 'ratepay_sandbox_used')) {
@@ -81,13 +90,5 @@ class AddOrderStatusColumns implements SchemaPatchInterface, PatchVersionInterfa
     public function getAliases()
     {
         return [];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getVersion()
-    {
-        return '2.0.0';
     }
 }

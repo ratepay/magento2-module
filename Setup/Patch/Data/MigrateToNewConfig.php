@@ -4,18 +4,22 @@ namespace RatePAY\Payment\Setup\Patch\Data;
 
 use Magento\Framework\Setup\ModuleDataSetupInterface;
 use Magento\Framework\Setup\Patch\DataPatchInterface;
-use Magento\Framework\Setup\Patch\PatchVersionInterface;
 use RatePAY\Payment\Model\Method\AbstractMethod;
 
 /**
  * Class MigrateToNewConfig.
  */
-class MigrateToNewConfig implements DataPatchInterface, PatchVersionInterface
+class MigrateToNewConfig implements DataPatchInterface
 {
     /**
      * @var ModuleDataSetupInterface
      */
     private $moduleDataSetup;
+
+    /**
+     * @var \RatePAY\Payment\Helper\ProfileConfig
+     */
+    protected $profileConfigHelper;
 
     /**
      * Array of the old ratepay payment configuration method codes
@@ -49,11 +53,14 @@ class MigrateToNewConfig implements DataPatchInterface, PatchVersionInterface
      * MigrateToNewConfig constructor.
      *
      * @param ModuleDataSetupInterface $moduleDataSetup
+     * @param \RatePAY\Payment\Helper\ProfileConfig $profileConfigHelper
      */
     public function __construct(
-        ModuleDataSetupInterface $moduleDataSetup
+        ModuleDataSetupInterface $moduleDataSetup,
+        \RatePAY\Payment\Helper\ProfileConfig $profileConfigHelper
     ) {
         $this->moduleDataSetup = $moduleDataSetup;
+        $this->profileConfigHelper = $profileConfigHelper;
     }
 
     protected function getOldProfileDataByMethodCode($sMethodCode)
@@ -122,6 +129,7 @@ class MigrateToNewConfig implements DataPatchInterface, PatchVersionInterface
     protected function moveOldProfilesToNewConfig($blUseBackendMethods, $sNewConfigPath)
     {
         $aOldConfig = $this->getOldProfileConfig($blUseBackendMethods);
+        error_log(print_r($aOldConfig, true).PHP_EOL, 3, BP."/setup.log");
         $aImported = [];
         foreach ($aOldConfig as $sScopeKey => $aUniqueProfiles) {
             foreach ($aUniqueProfiles as $sKey => $aUniqueProfile) {
@@ -138,15 +146,13 @@ class MigrateToNewConfig implements DataPatchInterface, PatchVersionInterface
                 }
             }
             list($scope, $scopeId) = explode($this->scopeKeyDelimiter, $sScopeKey);
-            $this->moduleDataSetup->getConnection()->insert(
-                $this->moduleDataSetup->getTable('core_config_data'),
-                [
-                    'scope' => $scope,
-                    'scope_id' => $scopeId,
-                    'path' => $sNewConfigPath,
-                    'value' => json_encode($aUniqueProfiles),
-                ]
-            );
+            $aData = [
+                'scope' => $scope,
+                'scope_id' => $scopeId,
+                'path' => $sNewConfigPath,
+                'value' => json_encode($aUniqueProfiles),
+            ];
+            $this->moduleDataSetup->getConnection()->insertOnDuplicate($this->moduleDataSetup->getTable('core_config_data'), $aData);
         }
     }
 
@@ -223,13 +229,5 @@ class MigrateToNewConfig implements DataPatchInterface, PatchVersionInterface
     public function getAliases()
     {
         return [];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getVersion()
-    {
-        return '2.0.0';
     }
 }
