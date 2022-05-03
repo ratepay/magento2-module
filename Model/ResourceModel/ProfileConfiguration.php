@@ -14,7 +14,7 @@ class ProfileConfiguration extends \Magento\Framework\Model\ResourceModel\Db\Abs
      */
     protected function _construct()
     {
-        $this->_init(ProfileConfigTable::TABLE_NAME, 'profile_id');
+        $this->_init('ratepay_profile_configuration', 'profile_id');
     }
 
     /**
