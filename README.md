@@ -23,6 +23,9 @@ php bin/magento cache:clean
 
 ## Changelog
 
+### Version 2.1.1
+* Refactored some things for Magento Marketplace
+
 ### Version 2.1.0 - Released 2022-04-28
 * Added compatibility to Magento 2.4.4 and PHP 8.1
 * Added support for the Magento multi shipping feature
