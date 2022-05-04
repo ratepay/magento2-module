@@ -102,7 +102,8 @@ class InstallmentPlan extends \Magento\Framework\App\Action\Action
      * @param null $template
      * @return mixed
      */
-    private function getInstallmentPlan($orderAmount, $calculationType, $calculationValue, $template = null) {
+    private function getInstallmentPlan($orderAmount, $calculationType, $calculationValue, $template = null)
+    {
         $quote = $this->_checkoutSession->getQuote();
         if (!$quote || !$quote->getId()) {
             return false;

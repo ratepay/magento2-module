@@ -10,7 +10,7 @@ namespace RatePAY\Payment\Block\System\Config;
 
 use Magento\Backend\Block\Template\Context;
 use Magento\Config\Block\System\Config\Form\Field;
-use Magento\Framework\Data\Form\Element\AbstractElement;;
+use Magento\Framework\Data\Form\Element\AbstractElement;
 
 class ProfileRequest extends Field
 {
@@ -126,7 +126,8 @@ class ProfileRequest extends Field
      * @param $id
      * @return string
      */
-    private function _getRpMethod($id) {
+    private function _getRpMethod($id)
+    {
         $pos = strpos($id, 'ratepay');
         $method = substr($id, $pos);
         if (stripos($id, '_backend') !== false) {

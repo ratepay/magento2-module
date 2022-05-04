@@ -8,7 +8,6 @@
 
 namespace RatePAY\Payment\Helper\Head;
 
-
 use Magento\Framework\App\Helper\Context;
 
 class Additional extends \Magento\Framework\App\Helper\AbstractHelper
@@ -20,11 +19,13 @@ class Additional extends \Magento\Framework\App\Helper\AbstractHelper
 
     /**
      * Additional constructor.
-     * @param Context $context
+     * @param Context                           $context
+     * @param \Magento\Customer\Model\Session   $customerSession
      */
-    public function __construct(Context $context,
-                                \Magento\Customer\Model\Session\Proxy $customerSession)
-    {
+    public function __construct(
+        Context $context,
+        \Magento\Customer\Model\Session $customerSession
+    ) {
         parent::__construct($context);
 
         $this->customerSession = $customerSession;

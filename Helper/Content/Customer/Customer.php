@@ -8,7 +8,6 @@
 
 namespace RatePAY\Payment\Helper\Content\Customer;
 
-
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Framework\App\Helper\Context;
 
@@ -51,21 +50,26 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
 
     /**
      * Customer constructor.
-     * @param Context $context
-     * @param Addresses $rpContentCustomerAddressesHelper
-     * @param Contacts $rpContentCustomerContactsHelper
+     * @param Context                                               $context
+     * @param \RatePAY\Payment\Helper\Content\Customer\Addresses    $rpContentCustomerAddressesHelper,
+     * @param \RatePAY\Payment\Helper\Content\Customer\Contacts     $rpContentCustomerContactsHelper,
+     * @param \RatePAY\Payment\Helper\Content\Customer\BankAccount  $rpContentCustomerBankAccountHelper,
+     * @param \Magento\Checkout\Model\Session                       $checkoutSession,
+     * @param CustomerRepositoryInterface                           $customerRepository,
+     * @param \Magento\Customer\Model\Session                       $customerSession,
+     * @param \Magento\Framework\Locale\Resolver                    $resolver
      */
-    public function __construct(Context $context,
-                                \RatePAY\Payment\Helper\Content\Customer\Addresses $rpContentCustomerAddressesHelper,
-                                \RatePAY\Payment\Helper\Content\Customer\Contacts $rpContentCustomerContactsHelper,
-                                \RatePAY\Payment\Helper\Content\Customer\BankAccount $rpContentCustomerBankAccountHelper,
-                                \Magento\Checkout\Model\Session\Proxy $checkoutSession,
-                                CustomerRepositoryInterface $customerRepository,
-                                \Magento\Customer\Model\Session\Proxy $customerSession,
-                                \Magento\Framework\Locale\Resolver $resolver)
-    {
+    public function __construct(
+        Context $context,
+        \RatePAY\Payment\Helper\Content\Customer\Addresses $rpContentCustomerAddressesHelper,
+        \RatePAY\Payment\Helper\Content\Customer\Contacts $rpContentCustomerContactsHelper,
+        \RatePAY\Payment\Helper\Content\Customer\BankAccount $rpContentCustomerBankAccountHelper,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        CustomerRepositoryInterface $customerRepository,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Framework\Locale\Resolver $resolver
+    ) {
         parent::__construct($context);
-        $this->_remoteAddress = $context->getRemoteAddress();
         $this->rpContentCustomerAddressesHelper = $rpContentCustomerAddressesHelper;
         $this->rpContentCustomerContactsHelper = $rpContentCustomerContactsHelper;
         $this->rpContentCustomerBankAccountHelper = $rpContentCustomerBankAccountHelper;
@@ -83,15 +87,15 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function setCustomer($quoteOrOrder)
     {
-        if($this->customerSession->isLoggedIn()) {
+        if ($this->customerSession->isLoggedIn()) {
             $dob = $this->customerRepository->getById($this->customerSession->getCustomerId())->getDob();
         } else {
             $dob = $this->checkoutSession->getRatepayDob();
         }
 
-        $locale = substr($this->store->getLocale(),0,2);
+        $locale = substr($this->store->getLocale(), 0, 2);
         if (empty($locale)) {
-            $locale = substr($this->store->getDefaultLocale(),0,2);
+            $locale = substr($this->store->getDefaultLocale(), 0, 2);
         }
 
         $content = [
@@ -111,7 +115,7 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
         ];
 
         $bankAccount = $this->rpContentCustomerBankAccountHelper->getBankAccount($quoteOrOrder);
-        if(!empty($bankAccount)){
+        if (!empty($bankAccount)) {
             $content['BankAccount'] = $bankAccount;
         }
         if (!empty($quoteOrOrder->getPayment()->getAdditionalInformation('rp_company'))) {

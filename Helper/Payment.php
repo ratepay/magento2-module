@@ -8,7 +8,6 @@
 
 namespace RatePAY\Payment\Helper;
 
-
 use Magento\Framework\App\Helper\Context;
 
 class Payment extends \Magento\Framework\App\Helper\AbstractHelper
@@ -25,7 +24,7 @@ class Payment extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * @var array
      */
-    private $_productsToMethods = array(
+    private $_productsToMethods = [
         "invoice" => "ratepay_invoice",
         "installment" => "ratepay_installment",
         "installment0" => "ratepay_installment0",
@@ -36,7 +35,7 @@ class Payment extends \Magento\Framework\App\Helper\AbstractHelper
         "ratepay_installment0" => "installment",
         "ratepay_directdebit" => "elv",
         "ratepay_vorkasse" => "prepayment"
-    );
+    ];
 
     /**
      * @param string $id
@@ -55,7 +54,7 @@ class Payment extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function isRatepayPayment($code)
     {
-        if(strstr($code,'ratepay')){
+        if (strstr($code, 'ratepay')) {
             return true;
         } else {
             return false;

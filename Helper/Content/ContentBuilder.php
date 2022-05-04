@@ -8,7 +8,6 @@
 
 namespace RatePAY\Payment\Helper\Content;
 
-
 use Magento\Framework\App\Helper\Context;
 use Magento\Sales\Model\Order\Invoice;
 
@@ -36,11 +35,12 @@ class ContentBuilder extends \Magento\Framework\App\Helper\AbstractHelper
      * @param ShoppingBasket\ShoppingBasket $rpContentBasketHelper
      * @param Payment\Payment $rpContentPaymentHelper
      */
-    public function __construct(Context $context,
-                                \RatePAY\Payment\Helper\Content\Customer\Customer $rpContentCustomerHelper,
-                                \RatePAY\Payment\Helper\Content\ShoppingBasket\ShoppingBasket $rpContentBasketHelper,
-                                \RatePAY\Payment\Helper\Content\Payment\Payment $rpContentPaymentHelper)
-    {
+    public function __construct(
+        Context $context,
+        \RatePAY\Payment\Helper\Content\Customer\Customer $rpContentCustomerHelper,
+        \RatePAY\Payment\Helper\Content\ShoppingBasket\ShoppingBasket $rpContentBasketHelper,
+        \RatePAY\Payment\Helper\Content\Payment\Payment $rpContentPaymentHelper
+    ) {
         parent::__construct($context);
 
         $this->rpContentCustomerHelper = $rpContentCustomerHelper;
@@ -64,20 +64,20 @@ class ContentBuilder extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $contentArr = [];
 
-        switch($operation) {
-            case 'CALCULATION_REQUEST' :
+        switch ($operation) {
+            case 'CALCULATION_REQUEST':
                 /*$contentArr = [
                     'InstallmentCalculation' => $this->getRequest($quoteOrOrder),
                 ];*/
                 break;
-            case 'PAYMENT_REQUEST' :
+            case 'PAYMENT_REQUEST':
                 $contentArr = [
                     'Customer' => $this->rpContentCustomerHelper->setCustomer($quoteOrOrder),
                     'ShoppingBasket' => $this->rpContentBasketHelper->setShoppingBasket($quoteOrOrder),
                     'Payment' => $this->rpContentPaymentHelper->setPayment($quoteOrOrder, $fixedPaymentMethod)
                 ];
                 break;
-            case "PAYMENT_CHANGE" :
+            case "PAYMENT_CHANGE":
                 if ($content === null) {
                     $content = $this->rpContentBasketHelper->setShoppingBasket($quoteOrOrder, $articleList, $amount);
                 }
@@ -88,7 +88,7 @@ class ContentBuilder extends \Magento\Framework\App\Helper\AbstractHelper
                     'ShoppingBasket' => $content
                 ];
                 break;
-            case "CONFIRMATION_DELIVER" :
+            case "CONFIRMATION_DELIVER":
                 $contentArr = [
                     'ShoppingBasket' => $this->rpContentBasketHelper->setShoppingBasket($quoteOrOrder)
                 ];

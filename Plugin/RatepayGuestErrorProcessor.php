@@ -84,8 +84,7 @@ class RatepayGuestErrorProcessor
         $email,
         \Magento\Quote\Api\Data\PaymentInterface $paymentMethod,
         \Magento\Quote\Api\Data\AddressInterface $billingAddress
-    )
-    {
+    ) {
         if (version_compare($this->productMetadata->getVersion(), '2.1.0', '>=') &&
             version_compare($this->productMetadata->getVersion(), '2.2.0', '<') &&
             strpos($paymentMethod->getMethod(), 'ratepay_') !== false

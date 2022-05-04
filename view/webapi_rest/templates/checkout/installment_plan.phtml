@@ -1,7 +1,7 @@
 <?php
 
-$method = $this->getMethodCode();
-$result = $this->getInstallmentData();
+$method = $block->getMethodCode();
+$result = $block->getInstallmentData();
 $notification = null;
 
 ?>
@@ -30,7 +30,7 @@ $notification = null;
 <?php if (!is_null($notification)) { ?>
     <div>
         <div class="warning small text-center" colspan="2">
-            <?php echo __('rp_reason_code_translation_'.$notification); ?><br/>
+            <?php echo __('rp_reason_code_translation_'.$notification); ?><br>
         </div>
     </div>
 <?php } ?>
@@ -39,11 +39,11 @@ $notification = null;
     <div colspan="2" class="small text-right">
         <a class="rp-link" id="rp-show-installment-plan-details_<?php echo $method; ?>" onclick="changeDetails('<?php echo $method; ?>')">
             <?php echo __('Show details'); ?>
-            <img src="<?php echo $this->getImageUrl('icon-enlarge.png'); ?>" class="rp-details-icon" />
+            <img src="<?php echo $block->getImageUrl('icon-enlarge.png'); ?>" class="rp-details-icon">
         </a>
         <a class="rp-link" id="rp-hide-installment-plan-details_<?php echo $method; ?>" onclick="changeDetails('<?php echo $method; ?>')">
             <?php echo __('Hide details'); ?>
-            <img src="<?php echo $this->getImageUrl('icon-shrink.png'); ?>" class="rp-details-icon" />
+            <img src="<?php echo $block->getImageUrl('icon-shrink.png'); ?>" class="rp-details-icon">
         </a>
     </div>
 </div>

@@ -3,7 +3,6 @@
 
 namespace RatePAY\Payment\Model\Api;
 
-
 use RatePAY\Payment\Controller\LibraryController;
 use Magento\Framework\Exception\PaymentException;
 

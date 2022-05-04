@@ -3,7 +3,6 @@
 
 namespace RatePAY\Payment\Model\ResourceModel;
 
-
 class OrderAdjustment extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
 {
     /**

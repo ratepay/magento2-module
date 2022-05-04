@@ -118,7 +118,7 @@ class LibraryModel
         foreach ($adjustments as $adjustment) {
             if ($adjustment['adjustment_type'] == 'positive' && (bool)$adjustment['is_specialitem'] === false) {
                 $content['Items'][] = ['Item' => $this->addAdjustment((float) $adjustment['amount'] * -1, 'Adjustment Refund', $adjustment['article_number'])];
-            } elseif($adjustment['adjustment_type'] == 'negative') {
+            } elseif ($adjustment['adjustment_type'] == 'negative') {
                 $content['Items'][] = ['Item' => $this->addAdjustment((float) $adjustment['amount'], 'Adjustment Fee', $adjustment['article_number'])];
             }
         }
@@ -158,11 +158,11 @@ class LibraryModel
         $headModel = new ModelBuilder('Head');
 
         $headModel = $this->rpHeadHelper->setHead($quoteOrOrder, $headModel, $fixedPaymentMethod, $profileId, $securityCode);
-        switch($operation){
-            case 'CALCULATION_REQUEST' :
+        switch ($operation) {
+            case 'CALCULATION_REQUEST':
                 break;
 
-            case 'PAYMENT_REQUEST' :
+            case 'PAYMENT_REQUEST':
                 $this->rpHeadAdditionalHelper->setHeadAdditional($resultInit, $headModel);
                 /*$headModel->setTransactionId($resultInit->getTransactionId());
                 $headModel->setCustomerDevice(
@@ -171,11 +171,11 @@ class LibraryModel
                 $headModel = $this->rpHeadExternalHelper->setHeadExternal($quoteOrOrder, $headModel);
                 break;
 
-            case "PAYMENT_CHANGE" :
+            case "PAYMENT_CHANGE":
                 $headModel->setTransactionId($quoteOrOrder->getPayment()->getAdditionalInformation('transactionId'));
                 break;
 
-            case "CONFIRMATION_DELIVER" :
+            case "CONFIRMATION_DELIVER":
                 $headModel->setTransactionId($quoteOrOrder->getPayment()->getAdditionalInformation('transactionId'));
                 if ($trackingInfo !== null) {
                     $headModel->setArray([
@@ -201,9 +201,9 @@ class LibraryModel
         $content = new ModelBuilder('Content');
 
         $contentArr = $this->rpContentBuilder->setContent($quoteOrOrder, $operation, $articleList, $amount, $fixedPaymentMethod, $contentArr, $mergeContent);
-        try{
+        try {
             $content->setArray($contentArr);
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             error_log($e->getMessage());
         }
 

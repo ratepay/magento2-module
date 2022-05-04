@@ -3,7 +3,6 @@
 
 namespace RatePAY\Payment\Model\ResourceModel;
 
-
 class HidePaymentType extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
 {
     /**

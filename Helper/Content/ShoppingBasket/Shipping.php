@@ -8,7 +8,6 @@
 
 namespace RatePAY\Payment\Helper\Content\ShoppingBasket;
 
-
 use Magento\Framework\App\Helper\Context;
 
 class Shipping extends \Magento\Framework\App\Helper\AbstractHelper
@@ -36,7 +35,7 @@ class Shipping extends \Magento\Framework\App\Helper\AbstractHelper
         }
         $content = [
             'Description' => $order->getShippingDescription(),
-            'UnitPriceGross' => round($quoteOrOrder->getShippingInclTax(),2),
+            'UnitPriceGross' => round($quoteOrOrder->getShippingInclTax(), 2),
             'TaxRate' => round(($quoteOrOrder->getShippingTaxAmount() / $quoteOrOrder->getShippingAmount()) * 100)
             //'DescriptionAddition' => "Additional information about the shipping"
         ];

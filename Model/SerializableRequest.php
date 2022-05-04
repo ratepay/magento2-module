@@ -32,7 +32,7 @@ class SerializableRequest extends DataObject
         if (!is_null($order)) {
             try {
                 $transactionId = $request->getTransactionId();
-            } catch(\Exception $exc) {
+            } catch (\Exception $exc) {
                 // do nothing
             }
         }
