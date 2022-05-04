@@ -129,7 +129,6 @@ class MigrateToNewConfig implements DataPatchInterface
     protected function moveOldProfilesToNewConfig($blUseBackendMethods, $sNewConfigPath)
     {
         $aOldConfig = $this->getOldProfileConfig($blUseBackendMethods);
-        error_log(print_r($aOldConfig, true).PHP_EOL, 3, BP."/setup.log");
         $aImported = [];
         foreach ($aOldConfig as $sScopeKey => $aUniqueProfiles) {
             foreach ($aUniqueProfiles as $sKey => $aUniqueProfile) {
