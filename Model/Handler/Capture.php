@@ -62,7 +62,7 @@ class Capture
         if ($inv->getIsUsedForRefund() !== true) { // online refund executes a save on the invoice, which would trigger another confirmation_deliver
             $order = $payment->getOrder();
             $paymentMethod = $payment->getMethodInstance()->getCode();
-            if($this->isCommunicationToRatepayAllowed($inv, $order)) {
+            if ($this->isCommunicationToRatepayAllowed($inv, $order)) {
                 if ($inv instanceof Invoice && empty($inv->getIncrementId())) {
                     $this->registerInvoiceIncrementId($inv);
                 }
@@ -105,7 +105,7 @@ class Capture
     {
         $resultConfirmationDeliver = $this->rpConfirmationDelivery->sendRatepayDeliverCall($order, $paymentMethod, $inv);
 
-        if(!$resultConfirmationDeliver->isSuccessful()) {
+        if (!$resultConfirmationDeliver->isSuccessful()) {
             throw new PaymentException(__('Invoice not successful'));
         }
         return true;

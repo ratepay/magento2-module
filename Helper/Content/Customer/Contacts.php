@@ -8,7 +8,6 @@
 
 namespace RatePAY\Payment\Helper\Content\Customer;
 
-
 use Magento\Framework\App\Helper\Context;
 
 class Contacts extends \Magento\Framework\App\Helper\AbstractHelper
@@ -20,11 +19,13 @@ class Contacts extends \Magento\Framework\App\Helper\AbstractHelper
 
     /**
      * Contacts constructor.
-     * @param Context $context
+     * @param Context                         $context
+     * @param \Magento\Checkout\Model\Session $checkoutSession
      */
-    public function __construct(Context $context,
-                                \Magento\Checkout\Model\Session\Proxy $checkoutSession)
-    {
+    public function __construct(
+        Context $context,
+        \Magento\Checkout\Model\Session $checkoutSession
+    ) {
         parent::__construct($context);
         $this->_checkoutSession = $checkoutSession;
     }

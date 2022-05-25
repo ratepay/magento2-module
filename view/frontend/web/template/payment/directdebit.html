@@ -3,7 +3,7 @@
         <input type="radio"
                name="payment[method]"
                class="radio"
-               data-bind="attr: {'id': getCode()}, value: getCode(), checked: isChecked, click: selectPaymentMethod, visible: isRadioButtonVisible()"/>
+               data-bind="attr: {'id': getCode()}, value: getCode(), checked: isChecked, click: selectPaymentMethod, visible: isRadioButtonVisible()">
         <label data-bind="attr: {'for': getCode()}" class="label"><span data-bind="text: getTitle()"></span></label>
     </div>
     <div class="payment-method-content">
@@ -26,8 +26,7 @@
                                          id: getCode() + '_phone',
                                          autocomplete: off,
                                          title: $t('Phone')},
-                                         value: currentBillingAddress().telephone"
-                            />
+                                         value: currentBillingAddress().telephone">
                         </div>
                     </div>
                 <!-- /ko -->
@@ -53,8 +52,7 @@
                                             id: getCode() + '_dob_day',
                                             autocomplete: off,
                                             title: $t('Date of Birth')},
-                                            value: rp_dob_day"
-                                    />
+                                            value: rp_dob_day">
                                 </div>
                                 <label data-bind="attr: {for: getCode() + '_dob_day'}" class="label">
                                     <span><!-- ko i18n: 'DD'--><!-- /ko --></span>
@@ -67,8 +65,7 @@
                                             id: getCode() + '_dob_month',
                                             autocomplete: off,
                                             title: $t('Date of Birth')},
-                                            value: rp_dob_month"
-                                    />
+                                            value: rp_dob_month">
                                 </div>
                                 <label data-bind="attr: {for: getCode() + '_dob_month'}" class="label">
                                     <span><!-- ko i18n: 'MM'--><!-- /ko --></span>
@@ -81,8 +78,7 @@
                                             id: getCode() + '_dob_year',
                                             autocomplete: off,
                                             title: $t('Date of Birth')},
-                                            value: rp_dob_year"
-                                    />
+                                            value: rp_dob_year">
                                 </div>
                                 <label data-bind="attr: {for: getCode() + '_dob_year'}" class="label">
                                     <span><!-- ko i18n: 'YYYY'--><!-- /ko --></span>
@@ -101,8 +97,7 @@
                                             id: getCode() + '_vatid',
                                             autocomplete: off,
                                             title: $t('VatId')},
-                                            value: rp_vatid"
-                                />
+                                            value: rp_vatid">
                             </div>
                         </fieldset>
                     <!-- /ko -->
@@ -149,14 +144,13 @@
                                                 id: getCode() + '_iban',
                                                 autocomplete: off,
                                                 title: $t('IBAN')},
-                                                value: rp_iban"
-                            />
+                                                value: rp_iban">
                         </div>
                         <table>
                             <tbody id="ratepay_directdebit_sepa_agreement">
                             <tr>
                                 <td style="padding:10px;">
-                                    <input type="checkbox" data-bind="attr: {id: getCode() + '_save_sepa_accepted'}, checked: sepaAccepted" />
+                                    <input type="checkbox" data-bind="attr: {id: getCode() + '_save_sepa_accepted'}, checked: sepaAccepted">
                                 </td>
                                 <td style="padding:10px;">
                                     <span class="required ratepayagreement">
@@ -169,11 +163,11 @@
                                 </td>
                             </tr><tr>
                                 <td style="padding:10px 0;" colspan="2">
-                                    <br/>
+                                    <br>
                                     <span style="font-weight:bold;"><!-- ko i18n: 'ratepay_directdebit_sepa_notice_block_1'--><!-- /ko --></span>
-                                    <br/>
+                                    <br>
                                     <!-- ko i18n: 'ratepay_directdebit_sepa_notice_block_2'--><!-- /ko -->
-                                    <br/>
+                                    <br>
                                     <!-- ko i18n: 'ratepay_directdebit_sepa_notice_block_3'--><!-- /ko -->
                                 </td>
                             </tr>

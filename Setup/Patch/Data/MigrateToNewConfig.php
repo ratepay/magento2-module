@@ -1,19 +1,26 @@
 <?php
 
-namespace RatePAY\Payment\Setup;
+namespace RatePAY\Payment\Setup\Patch\Data;
 
-use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
-use Magento\Framework\Setup\UpgradeDataInterface;
-use Magento\Sales\Setup\SalesSetupFactory;
-use Magento\Framework\DB\Ddl\Table;
+use Magento\Framework\Setup\Patch\DataPatchInterface;
 use RatePAY\Payment\Model\Method\AbstractMethod;
 
 /**
- * Class UpgradeData
+ * Class MigrateToNewConfig.
  */
-class UpgradeData implements UpgradeDataInterface
+class MigrateToNewConfig implements DataPatchInterface
 {
+    /**
+     * @var ModuleDataSetupInterface
+     */
+    private $moduleDataSetup;
+
+    /**
+     * @var \RatePAY\Payment\Helper\ProfileConfig
+     */
+    protected $profileConfigHelper;
+
     /**
      * Array of the old ratepay payment configuration method codes
      *
@@ -43,43 +50,31 @@ class UpgradeData implements UpgradeDataInterface
     protected $scopeKeyDelimiter = "#|!|#";
 
     /**
-     * Sales setup factory
+     * MigrateToNewConfig constructor.
      *
-     * @var SalesSetupFactory
-     */
-    protected $salesSetupFactory;
-
-    /**
-     * @var \RatePAY\Payment\Helper\ProfileConfig
-     */
-    protected $profileConfigHelper;
-
-    /**
-     * Constructor
-     *
-     * @param SalesSetupFactory $salesSetupFactory
+     * @param ModuleDataSetupInterface $moduleDataSetup
      * @param \RatePAY\Payment\Helper\ProfileConfig $profileConfigHelper
      */
     public function __construct(
-        SalesSetupFactory $salesSetupFactory,
+        ModuleDataSetupInterface $moduleDataSetup,
         \RatePAY\Payment\Helper\ProfileConfig $profileConfigHelper
     ) {
-        $this->salesSetupFactory = $salesSetupFactory;
+        $this->moduleDataSetup = $moduleDataSetup;
         $this->profileConfigHelper = $profileConfigHelper;
     }
 
-    protected function getOldProfileDataByMethodCode(ModuleDataSetupInterface $setup, $sMethodCode)
+    protected function getOldProfileDataByMethodCode($sMethodCode)
     {
         $aReturn = [];
 
-        $select = $setup->getConnection()
+        $select = $this->moduleDataSetup->getConnection()
             ->select()
-            ->from($setup->getTable('core_config_data'), ['config_id', 'scope', 'scope_id', 'path', 'value'])
+            ->from($this->moduleDataSetup->getTable('core_config_data'), ['config_id', 'scope', 'scope_id', 'path', 'value'])
             ->where('path = "payment/'.$sMethodCode.'/profileId"')
             ->orWhere('path = "payment/'.$sMethodCode.'/securityCode"')
             ->orWhere('path = "payment/'.$sMethodCode.'/sandbox"')
             ->order(['scope_id', 'scope']);
-        $result = $setup->getConnection()->fetchAssoc($select);
+        $result = $this->moduleDataSetup->getConnection()->fetchAssoc($select);
 
         $iDefaultSandbox = 0;
         foreach ($result as $item) {
@@ -105,7 +100,7 @@ class UpgradeData implements UpgradeDataInterface
         return $aReturn;
     }
 
-    protected function getOldProfileConfig(ModuleDataSetupInterface $setup, $blUseBackendMethods)
+    protected function getOldProfileConfig($blUseBackendMethods)
     {
         $sSuffix = "";
         if ($blUseBackendMethods === true) {
@@ -114,7 +109,7 @@ class UpgradeData implements UpgradeDataInterface
 
         $aOldConfig = [];
         foreach ($this->ratepayOldMethods as $ratepayOldMethod) {
-            $aProfileData = $this->getOldProfileDataByMethodCode($setup, $ratepayOldMethod.$sSuffix);
+            $aProfileData = $this->getOldProfileDataByMethodCode($ratepayOldMethod.$sSuffix);
             foreach ($aProfileData as $sScopeKey => $aProfile) {
                 if (!empty($aProfile['profileId']) && !isset($aOldConfig[$sScopeKey][$aProfile['profileId']])) {
                     if (!isset($aOldConfig[$sScopeKey])) {
@@ -131,16 +126,16 @@ class UpgradeData implements UpgradeDataInterface
         return $aOldConfig;
     }
 
-    protected function moveOldProfilesToNewConfig(ModuleDataSetupInterface $setup, $blUseBackendMethods, $sNewConfigPath)
+    protected function moveOldProfilesToNewConfig($blUseBackendMethods, $sNewConfigPath)
     {
-        $aOldConfig = $this->getOldProfileConfig($setup, $blUseBackendMethods);
+        $aOldConfig = $this->getOldProfileConfig($blUseBackendMethods);
         $aImported = [];
         foreach ($aOldConfig as $sScopeKey => $aUniqueProfiles) {
             foreach ($aUniqueProfiles as $sKey => $aUniqueProfile) {
                 if (in_array($aUniqueProfile['profileId'], $aImported) === false) {
                     try {
                         $blResult = $this->profileConfigHelper->importProfileConfiguration($aUniqueProfile['profileId'], $aUniqueProfile['securityCode'], (bool)$aUniqueProfile['sandbox']);
-                    } catch(\Exception $exc) {
+                    } catch (\Exception $exc) {
                         $blResult = false;
                     }
                     $aImported[] = $aUniqueProfile['profileId'];
@@ -150,25 +145,22 @@ class UpgradeData implements UpgradeDataInterface
                 }
             }
             list($scope, $scopeId) = explode($this->scopeKeyDelimiter, $sScopeKey);
-            $setup->getConnection()->insert(
-                $setup->getTable('core_config_data'),
-                [
-                    'scope' => $scope,
-                    'scope_id' => $scopeId,
-                    'path' => $sNewConfigPath,
-                    'value' => json_encode($aUniqueProfiles),
-                ]
-            );
+            $aData = [
+                'scope' => $scope,
+                'scope_id' => $scopeId,
+                'path' => $sNewConfigPath,
+                'value' => json_encode($aUniqueProfiles),
+            ];
+            $this->moduleDataSetup->getConnection()->insertOnDuplicate($this->moduleDataSetup->getTable('core_config_data'), $aData);
         }
     }
 
     /**
      * Copy configuration from old german method to new general method
      *
-     * @param  ModuleDataSetupInterface $setup
      * @return void
      */
-    protected function copyMethodConfigToNewGeneralMethod(ModuleDataSetupInterface $setup)
+    protected function copyMethodConfigToNewGeneralMethod()
     {
         $aCopyMap = [
             "ratepay_de_invoice" => "ratepay_invoice",
@@ -193,7 +185,7 @@ class UpgradeData implements UpgradeDataInterface
             foreach ($aCopyFields as $sCopyField) {
                 $data = ['path' => "payment/".$sNewMethod."/".$sCopyField];
                 $where = ['path = ?' => "payment/".$sOldMethod."/".$sCopyField];
-                $setup->getConnection()->update($setup->getTable('core_config_data'), $data, $where);
+                $this->moduleDataSetup->getConnection()->update($this->moduleDataSetup->getTable('core_config_data'), $data, $where);
             }
         }
     }
@@ -201,45 +193,40 @@ class UpgradeData implements UpgradeDataInterface
     /**
      * Migrate old config format to new config format
      *
-     * @param  ModuleDataSetupInterface $setup
      * @return void
      */
-    protected function migrateToNewConfig(ModuleDataSetupInterface $setup)
+    protected function migrateToNewConfig()
     {
-        $this->moveOldProfilesToNewConfig($setup, false, "payment/ratepay_config/ratepay/profile_config");
-        $this->moveOldProfilesToNewConfig($setup, true, "payment/ratepay_config/ratepay_backend/profile_config_backend");
-        $this->copyMethodConfigToNewGeneralMethod($setup);
+        $this->moveOldProfilesToNewConfig(false, "payment/ratepay_config/ratepay/profile_config");
+        $this->moveOldProfilesToNewConfig(true, "payment/ratepay_config/ratepay_backend/profile_config_backend");
+        $this->copyMethodConfigToNewGeneralMethod();
     }
 
     /**
-     * Upgrade method
-     *
-     * @param  ModuleDataSetupInterface $setup
-     * @param  ModuleContextInterface   $context
-     * @return void
+     * {@inheritdoc}
      */
-    public function upgrade(ModuleDataSetupInterface $setup, ModuleContextInterface $context)
+    public function apply()
     {
-        $setup->startSetup();
-        $salesInstaller = $this->salesSetupFactory->create(['resourceName' => 'sales_setup', 'setup' => $setup]);
-        if (!$setup->getConnection()->tableColumnExists($setup->getTable('sales_order'), 'ratepay_sandbox_used')) {
-            $salesInstaller->addAttribute(
-                'order',
-                'ratepay_sandbox_used',
-                ['type' => Table::TYPE_SMALLINT, 'length' => null, 'default' => 0]
-            );
-        }
-        if (!$setup->getConnection()->tableColumnExists($setup->getTable('sales_order'), 'ratepay_profile_id')) {
-            $salesInstaller->addAttribute(
-                'order',
-                'ratepay_profile_id',
-                ['type' => Table::TYPE_TEXT, 'length' => 64, 'default' => '']
-            );
-        }
-        if (version_compare($context->getVersion(), '2.0.0', '<')) { // pre update version is less than 2.0.0
-            $this->migrateToNewConfig($setup);
-        }
+        $this->moduleDataSetup->getConnection()->startSetup();
 
-        $setup->endSetup();
+        $this->migrateToNewConfig();
+
+        $this->moduleDataSetup->getConnection()->endSetup();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function getDependencies()
+    {
+        return [];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAliases()
+    {
+        return [];
     }
 }

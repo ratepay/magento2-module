@@ -62,7 +62,7 @@ class DiscountRefund extends \Magento\Backend\Block\Template
         $this->_order = $parent->getOrder();
 
         $paymentMethod = $this->_order->getPayment()->getMethodInstance()->getCode();
-        if($this->rpPaymentHelper->isRatepayPayment($paymentMethod) && $this->getRefundAmount() != 0){
+        if ($this->rpPaymentHelper->isRatepayPayment($paymentMethod) && $this->getRefundAmount() != 0) {
             $this->_source = $parent->getSource();
 
             $total = new \Magento\Framework\DataObject([

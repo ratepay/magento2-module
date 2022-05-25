@@ -12,7 +12,6 @@ use RatePAY\Payment\Model\ResourceModel\ApiLog;
 use RatePAY\RequestBuilder;
 use RatePAY\Frontend\InstallmentBuilder;
 use RatePAY\Frontend\DeviceFingerprintBuilder;
-use Magento\Checkout\Model\Session\Proxy as CheckoutSession;
 use RatePAY\Payment\Model\SerializableRequestFactory;
 
 class LibraryController
@@ -23,7 +22,7 @@ class LibraryController
     protected $apiLog;
 
     /**
-     * @var CheckoutSession
+     * @var \Magento\Checkout\Model\Session
      */
     protected $checkoutSession;
 
@@ -36,10 +35,10 @@ class LibraryController
      * LibraryController constructor.
      *
      * @param ApiLog $apiLog
-     * @param CheckoutSession $checkoutSession
+     * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param SerializableRequestFactory $serializableRequestFactory
      */
-    public function __construct(ApiLog $apiLog, CheckoutSession $checkoutSession, SerializableRequestFactory $serializableRequestFactory)
+    public function __construct(ApiLog $apiLog, \Magento\Checkout\Model\Session $checkoutSession, SerializableRequestFactory $serializableRequestFactory)
     {
         $this->apiLog = $apiLog;
         $this->checkoutSession = $checkoutSession;
@@ -197,7 +196,7 @@ class LibraryController
         $request = new RequestBuilder($sandbox);
         $exception = false;
 
-        try{
+        try {
             $request->callProfileRequest($head);
         } catch (\Exception $e) {
             $exception = $e;
@@ -276,5 +275,4 @@ class LibraryController
 
         return $dfp;
     }
-
 }

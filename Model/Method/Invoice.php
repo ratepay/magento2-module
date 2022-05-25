@@ -24,6 +24,4 @@ class Invoice extends AbstractMethod
      * @var string
      */
     protected $_infoBlockType = 'RatePAY\Payment\Block\Info\Info';
-
 }
-

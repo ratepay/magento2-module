@@ -57,8 +57,7 @@ class Refund
         \RatePAY\Payment\Controller\LibraryController $rpLibraryController,
         \RatePAY\Payment\Model\ResourceModel\OrderAdjustment $orderAdjustment,
         \RatePAY\Payment\Helper\ProfileConfig $profileConfigHelper
-    )
-    {
+    ) {
         $this->rpDataHelper = $rpDataHelper;
         $this->rpLibraryModel = $rpLibraryModel;
         $this->rpLibraryController = $rpLibraryController;
@@ -76,7 +75,7 @@ class Refund
         $creditMemo = $payment->getCreditmemo();
         $order = $payment->getOrder();
         $paymentMethod = $payment->getMethod();
-        if($creditMemo->getDoTransaction() === false && (bool)$this->rpDataHelper->getRpConfigDataByPath("ratepay/general/true_offline_mode", $order->getStore()->getCode()) === true) {
+        if ($creditMemo->getDoTransaction() === false && (bool)$this->rpDataHelper->getRpConfigDataByPath("ratepay/general/true_offline_mode", $order->getStore()->getCode()) === true) {
             return;
         }
 
@@ -147,7 +146,7 @@ class Refund
      */
     protected function hasPartialRefundBundle($creditMemo)
     {
-        $bundleRefundArray = array();
+        $bundleRefundArray = [];
         foreach ($creditMemo->getItems() as $creditMemoItem) {
             $orderItem = $creditMemoItem->getOrderItem();
             $parentItem = $orderItem->getParentItem();

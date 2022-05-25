@@ -8,7 +8,6 @@
 
 namespace RatePAY\Payment\Helper\Content\ShoppingBasket;
 
-
 use Magento\Framework\App\Helper\Context;
 
 class Discount extends \Magento\Framework\App\Helper\AbstractHelper
@@ -33,7 +32,7 @@ class Discount extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $content = [
             'Description' => $description,
-            'UnitPriceGross' => round($unitPriceGross,2),
+            'UnitPriceGross' => round($unitPriceGross, 2),
             'TaxRate' => 0
             //'DescriptionAddition' => "Additional information about the shipping"
         ];

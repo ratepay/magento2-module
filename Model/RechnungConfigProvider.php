@@ -209,7 +209,7 @@ class RechnungConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
     protected function getValidPaymentFirstdays($sMethodCode)
     {
         $validPaymentFirstdays = $this->getMethod($sMethodCode)->getMatchingProfile()->getData("valid_payment_firstdays");
-        if(strpos($validPaymentFirstdays, ',') !== false) {
+        if (strpos($validPaymentFirstdays, ',') !== false) {
             $validPaymentFirstdays = explode(',', $validPaymentFirstdays);
         }
         return $validPaymentFirstdays;

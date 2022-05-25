@@ -8,7 +8,6 @@
 
 namespace RatePAY\Payment\Helper\Content\Customer;
 
-
 use Magento\Framework\App\Helper\Context;
 
 class BankAccount extends \Magento\Framework\App\Helper\AbstractHelper

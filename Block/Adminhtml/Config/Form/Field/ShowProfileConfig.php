@@ -3,7 +3,6 @@
 
 namespace RatePAY\Payment\Block\Adminhtml\Config\Form\Field;
 
-
 use RatePAY\Payment\Model\Method\AbstractMethod;
 use RatePAY\Payment\Model\Method\Invoice;
 

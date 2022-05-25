@@ -52,7 +52,7 @@ class CreditmemoService
     ) {
         try {
             $return = $proceed($creditmemo, $offlineRequested);
-        } catch(\Exception $ex) {
+        } catch (\Exception $ex) {
             $request = $this->checkoutSession->getRatepayRequest();
             if (!empty($request)) {
                 // Rewrite the log-entry after it was rolled back in the db-transaction

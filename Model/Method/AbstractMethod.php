@@ -183,7 +183,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
     protected $profiles = null;
 
     /**
-     * @var \RatePAY\Payment\Service\V1\InstallmentPlan\Proxy
+     * @var \RatePAY\Payment\Service\V1\InstallmentPlan
      */
     protected $installmentPlan;
 
@@ -210,7 +210,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
      * @param \RatePAY\Payment\Model\Handler\Refund $refundHandler
      * @param \RatePAY\Payment\Model\Handler\Cancel $cancelHandler
      * @param \Magento\Backend\Model\Session\Quote $backendCheckoutSession
-     * @param \RatePAY\Payment\Service\V1\InstallmentPlan\Proxy $installmentPlan
+     * @param \RatePAY\Payment\Service\V1\InstallmentPlan $installmentPlan
      * @param \Magento\Framework\Model\ResourceModel\AbstractResource|null $resource
      * @param \Magento\Framework\Data\Collection\AbstractDb|null $resourceCollection
      * @param array $data
@@ -237,11 +237,11 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         \RatePAY\Payment\Model\Handler\Refund $refundHandler,
         \RatePAY\Payment\Model\Handler\Cancel $cancelHandler,
         \Magento\Backend\Model\Session\Quote $backendCheckoutSession,
-        \RatePAY\Payment\Service\V1\InstallmentPlan\Proxy $installmentPlan,
+        \RatePAY\Payment\Service\V1\InstallmentPlan $installmentPlan,
         \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
-        array $data = [])
-    {
+        array $data = []
+    ) {
         parent::__construct(
             $context,
             $registry,
@@ -252,7 +252,8 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
             $logger,
             $resource,
             $resourceCollection,
-            $data);
+            $data
+        );
 
         $this->_rpLibraryModel = $rpLibraryModel;
         $this->rpSession = $rpSession;
@@ -554,7 +555,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
      */
     public function isAvailable(\Magento\Quote\Api\Data\CartInterface $quote = null)
     {
-        if(is_null($quote)) {
+        if (is_null($quote)) {
             return false;
         }
 
@@ -610,7 +611,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
     public function canUseForCountryDelivery($country, \Magento\Quote\Api\Data\CartInterface $quote = null)
     {
         $availableCountries = explode(',', $this->getMatchingProfile()->getData("country_code_delivery"));
-        if(!in_array($country, $availableCountries)){
+        if (!in_array($country, $availableCountries)) {
             return false;
         }
         return true;
@@ -668,16 +669,16 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         }
 
         if (empty($company)) {
-            if(!$this->customerSession->isLoggedIn()) {
+            if (!$this->customerSession->isLoggedIn()) {
                 $this->rpValidator->validateDob($additionalData);
-            } else if ($this->customerRepository->getById($this->customerSession->getCustomerId())->getDob() == null) {
+            } elseif ($this->customerRepository->getById($this->customerSession->getCustomerId())->getDob() == null) {
                 $this->rpValidator->validateDob($additionalData);
             }
         } else {
             $infoInstance->setAdditionalInformation('rp_company', $company);
         }
 
-        if(!$order->getBillingAddress()->getTelephone()) {
+        if (!$order->getBillingAddress()->getTelephone()) {
             $this->rpValidator->validatePhone($additionalData);
         }
 
@@ -732,7 +733,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
      */
     public function formatMessage($message)
     {
-        if(empty($message)) {
+        if (empty($message)) {
             $message = __('Automated Data Procedure Error');
         }
         return strip_tags($message);
@@ -742,7 +743,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
     {
         $dGrandTotal = $oQuote->getGrandTotal();
         $blB2BEnabled = (bool)$this->getMatchingProfile($oQuote)->getProductData("b2b_?", $this->getCode(), true);
-        $dB2BMax = $this->getMatchingProfile($oQuote)->getProductData("tx_limit_?_max_b2b", $this->getCode(), true);;
+        $dB2BMax = $this->getMatchingProfile($oQuote)->getProductData("tx_limit_?_max_b2b", $this->getCode(), true);
         if ($blB2BEnabled === true && ($dGrandTotal === null || ($dGrandTotal <= $dB2BMax))) {
             return true;
         }

@@ -8,7 +8,6 @@
 
 namespace RatePAY\Payment\Model\Method;
 
-
 class Directdebit extends AbstractMethod
 {
     const METHOD_CODE = 'ratepay_directdebit';

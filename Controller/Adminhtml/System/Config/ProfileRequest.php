@@ -8,7 +8,6 @@
 
 namespace RatePAY\Payment\Controller\Adminhtml\System\Config;
 
-
 use Magento\Framework\App\Action\Context;
 
 class ProfileRequest extends \Magento\Framework\App\Action\Action
@@ -47,13 +46,14 @@ class ProfileRequest extends \Magento\Framework\App\Action\Action
      * @param \RatePAY\Payment\Controller\LibraryController $rpLibraryController
      * @param \RatePAY\Payment\Helper\Payment $rpPaymentHelper
      */
-    public function __construct(Context $context,
-                                \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory,
-                                \Magento\Config\Model\ResourceModel\Config $config,
-                                \RatePAY\Payment\Model\LibraryModel $rpLibraryModel,
-                                \RatePAY\Payment\Controller\LibraryController $rpLibraryController,
-                                \RatePAY\Payment\Helper\Payment $rpPaymentHelper)
-    {
+    public function __construct(
+        Context $context,
+        \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory,
+        \Magento\Config\Model\ResourceModel\Config $config,
+        \RatePAY\Payment\Model\LibraryModel $rpLibraryModel,
+        \RatePAY\Payment\Controller\LibraryController $rpLibraryController,
+        \RatePAY\Payment\Helper\Payment $rpPaymentHelper
+    ) {
         parent::__construct($context);
 
         $this->_resultJsonFactory = $resultJsonFactory;
@@ -93,7 +93,7 @@ class ProfileRequest extends \Magento\Framework\App\Action\Action
         $head = $this->getHead($params['profile_id'], $params['security_code']);
         $profileRequest = $this->_rpLibraryController->callProfileRequest($head, (bool)$params['sandbox']);
         $method = $params['method'];
-        if($profileRequest->isSuccessful()){
+        if ($profileRequest->isSuccessful()) {
             $prResult = $profileRequest->getResult();
             $product = $this->_rpPaymentHelper->convertMethodToProduct($method);
             $country = $this->_getRpCountry($method);
@@ -164,17 +164,18 @@ class ProfileRequest extends \Magento\Framework\App\Action\Action
      * @param $id
      * @return string
      */
-    private function _getRpCountry($id) {
-        if(strstr($id, '_at_')) {
+    private function _getRpCountry($id)
+    {
+        if (strstr($id, '_at_')) {
             return 'at';
         }
-        if(strstr($id, '_ch_')) {
+        if (strstr($id, '_ch_')) {
             return 'ch';
         }
-        if(strstr($id, '_nl_')) {
+        if (strstr($id, '_nl_')) {
             return 'nl';
         }
-        if(strstr($id, '_be_')) {
+        if (strstr($id, '_be_')) {
             return 'be';
         }
         return 'de';

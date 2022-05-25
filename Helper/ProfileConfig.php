@@ -67,7 +67,7 @@ class ProfileConfig extends \Magento\Framework\App\Helper\AbstractHelper
         $oHead = $this->libraryModel->getRequestHead(null, null, null, null, $sProfileId, $sSecurityCode);
 
         $oProfileRequest = $this->libraryController->callProfileRequest($oHead, (bool)$blSandbox);
-        if($oProfileRequest->isSuccessful()) {
+        if ($oProfileRequest->isSuccessful()) {
             $oResult = $oProfileRequest->getResult();
             $this->profileConfigResource->insertProfileConfiguration($oResult);
             return true;
