@@ -4,7 +4,7 @@
 |Repository | Ratepay Module for Magento 2
 |------|----------
 |Author | Robert Müller
-|Module-Version | `2.1.2`
+|Module-Version | `2.1.3`
 |Compatibility | Magento 2.3.0 - 2.4.x
 |Link | http://www.ratepay.com
 |Mail | integration@ratepay.com
@@ -22,6 +22,9 @@ php bin/magento cache:clean
 ````
 
 ## Changelog
+
+### Version 2.1.3
+* Added mechanism to determine shipping vat through m2 core models
 
 ### Version 2.1.2 - Released 2022-05-04
 * Refactored some things for Magento Marketplace
