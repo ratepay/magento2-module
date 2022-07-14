@@ -74,13 +74,13 @@ Installment,Ratenzahlung,module,RatePAY_Payment
 Instalment,Ratenzahlung,module,RatePAY_Payment
 Rate min,Minimumrate,module,RatePAY_Payment
 "Month Allowed","Laufzeiten (in Monaten)",module,RatePAY_Payment
-"0% Financing","0% Finanzierung",module,RatePAY_Payment
+"0% Financing","0% Ratenzahlung",module,RatePAY_Payment
 Austria,Österreich,module,RatePAY_Payment
 Switzerland,Schweiz,module,RatePAY_Payment
 Ratepay Invoice,Ratepay Rechnung,module,RatePAY_Payment
 Ratepay Directdebit,Ratepay SEPA-Lastschrift,module,RatePAY_Payment
 Ratepay Instalment,Ratepay Rate,module,RatePAY_Payment
-Ratepay 0% Financing,Ratepay 0% Finanzierung,module,RatePAY_Payment
+Ratepay 0% Financing,Ratepay 0% Ratenzahlung,module,RatePAY_Payment
 Active,Aktiv,module,RatePAY_Payment
 Inactive,Inaktiv,module,RatePAY_Payment
 Phased Out,Abgelaufen,module,RatePAY_Payment
@@ -165,8 +165,10 @@ ratepay_terms_block_6, "einverstanden." ,module,RatePAY_Payment
 "Active payment types","Aktive Zahlarten",module,RatePAY_Payment
 "Validation failed: Bank-account parameter IBAN is invalid.","Validierung fehlgeschlagen: Angegebene IBAN ist ungültig",module,RatePAY_Payment
 "Ratepay_invoice","Rechnung",module,RatePAY_Payment
-"Ratepay_installment","Finanzierung",module,RatePAY_Payment
-"Ratepay_installment0","0% Finanzierung",module,RatePAY_Payment
+"Ratepay_installment","Ratenzahlung",module,RatePAY_Payment
+"Ratepay_installment0","0% Ratenzahlung",module,RatePAY_Payment
+"Ratepay_instalment","Ratenzahlung",module,RatePAY_Payment
+"Ratepay_instalment0","0% Ratenzahlung",module,RatePAY_Payment
 "Ratepay_elv","SEPA-Lastschrift",module,RatePAY_Payment
 "Ratepay_0","Nein",module,RatePAY_Payment
 "Ratepay_1","Ja",module,RatePAY_Payment
