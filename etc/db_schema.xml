@@ -52,7 +52,7 @@
         </index>
     </table>
     <table name="ratepay_profile_configuration" resource="default" engine="innodb" comment="Holds information for Ratepay profile">
-        <column xsi:type="varchar" name="profile_id" nullable="false" length="32" identity="true"/>
+        <column xsi:type="varchar" name="profile_id" nullable="false" length="32"/>
         <column xsi:type="varchar" name="merchant_name" nullable="true" length="32"/>
         <column xsi:type="varchar" name="shop_name" nullable="true" length="32"/>
         <column xsi:type="varchar" name="currency" nullable="true" length="32"/>
