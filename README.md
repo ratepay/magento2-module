@@ -25,6 +25,10 @@ php bin/magento cache:clean
 
 ### Version 2.1.3
 * Added mechanism to determine shipping vat through m2 core models
+* Removed unfunctional payment fee config options
+* Changed german translation for instalment payment methods
+* Fixed problem in db_schema.xml
+* Changed creditor info in payment templates
 
 ### Version 2.1.2 - Released 2022-05-04
 * Refactored some things for Magento Marketplace
