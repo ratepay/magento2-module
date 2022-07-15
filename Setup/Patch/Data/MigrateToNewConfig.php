@@ -176,7 +176,6 @@ class MigrateToNewConfig implements DataPatchInterface
         $aCopyFields = [
             "active",
             "title",
-            "payment_fee",
             "order_status",
             "sort_order",
         ];
