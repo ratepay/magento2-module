@@ -75,6 +75,11 @@ Instalment,Ratenzahlung,module,RatePAY_Payment
 Rate min,Minimumrate,module,RatePAY_Payment
 "Month Allowed","Laufzeiten (in Monaten)",module,RatePAY_Payment
 "0% Financing","0% Finanzierung",module,RatePAY_Payment
+Invoice Backend,Rechnung Backend,module,RatePAY_Payment
+"Direct Debit Backend","SEPA-Lastschrift Backend",module,RatePAY_Payment
+Installment Backend,Ratenzahlung Backend,module,RatePAY_Payment
+Instalment Backend,Ratenzahlung Backend,module,RatePAY_Payment
+"0% Financing Backend","0% Finanzierung Backend",module,RatePAY_Payment
 Austria,Österreich,module,RatePAY_Payment
 Switzerland,Schweiz,module,RatePAY_Payment
 Ratepay Invoice,Ratepay Rechnung,module,RatePAY_Payment
