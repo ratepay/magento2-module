@@ -70,7 +70,7 @@ Installment,Installment,module,RatePAY_Payment
 Instalment,Instalment,module,RatePAY_Payment
 Rate min,Minimumrate,module,RatePAY_Payment
 "Month Allowed","term (in months)",module,RatePAY_Payment
-"0% Financing","0% financing",module,RatePAY_Payment
+"0% Financing","0% Financing",module,RatePAY_Payment
 Austria,Austria,module,RatePAY_Payment
 Switzerland,Switzerland,module,RatePAY_Payment
 Ratepay Invoice,Ratepay invoice,module,RatePAY_Payment
