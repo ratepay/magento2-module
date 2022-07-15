@@ -165,8 +165,10 @@ ratepay_terms_block_6, "einverstanden." ,module,RatePAY_Payment
 "Active payment types","Aktive Zahlarten",module,RatePAY_Payment
 "Validation failed: Bank-account parameter IBAN is invalid.","Validierung fehlgeschlagen: Angegebene IBAN ist ungültig",module,RatePAY_Payment
 "Ratepay_invoice","Rechnung",module,RatePAY_Payment
-"Ratepay_installment","Finanzierung",module,RatePAY_Payment
+"Ratepay_installment","Ratenzahlung",module,RatePAY_Payment
 "Ratepay_installment0","0% Finanzierung",module,RatePAY_Payment
+"Ratepay_instalment","Ratenzahlung",module,RatePAY_Payment
+"Ratepay_instalment0","0% Finanzierung",module,RatePAY_Payment
 "Ratepay_elv","SEPA-Lastschrift",module,RatePAY_Payment
 "Ratepay_0","Nein",module,RatePAY_Payment
 "Ratepay_1","Ja",module,RatePAY_Payment
