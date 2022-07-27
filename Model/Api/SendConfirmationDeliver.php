@@ -160,7 +160,7 @@ class SendConfirmationDeliver
 
         $sProfileId = null;
         $sSecurityCode = null;
-        $blSandbox = false;
+        $blSandbox = null;
         if ($order->getRatepayProfileId()) {
             $sProfileId = $order->getRatepayProfileId();
             $sSecurityCode = $this->profileConfigHelper->getSecurityCodeForProfileId($sProfileId, $paymentMethod);
@@ -171,6 +171,9 @@ class SendConfirmationDeliver
         $head = $this->rpLibraryModel->getRequestHead($order, 'CONFIRMATION_DELIVER', null, null, $sProfileId, $sSecurityCode, $this->getTrackingInfo($order));
         $content = $this->rpLibraryModel->getRequestContent($inv, 'CONFIRMATION_DELIVER');
 
+        if ($blSandbox === null) {
+            $blSandbox = $this->profileConfigHelper->getSandboxModeForProfileId($head->getCredential()->getProfileId());
+        }
         return $this->rpLibraryController->callConfirmationDeliver($head, $content, $order, $blSandbox);
     }
 }
