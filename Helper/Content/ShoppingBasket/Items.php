@@ -179,7 +179,7 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
             }
 
             if (!isset($items[$sku]['TaxRate']) || $items[$sku]['TaxRate'] < $taxRate) {
-                $items[$sku]['TaxRate'] = round($taxRate, 2);
+                $items[$sku]['TaxRate'] = round($taxRate ?? 0, 2);
             }
             if ($discount > 0) {
                 if (!isset($items[$sku]['Discount']) || $items[$sku]['Discount'] == 0) {
