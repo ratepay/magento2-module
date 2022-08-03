@@ -199,7 +199,7 @@
     width: 57%!important;
 }
 
-@media (max-width: 1261px) {
+@media (max-width: 1280px) {
     .rp-input-rate {
         width: 90%!important;
     }
