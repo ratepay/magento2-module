@@ -54,13 +54,15 @@ class Shipping extends \Magento\Framework\App\Helper\AbstractHelper
         $extensionAttribute = $quoteOrOrder->getExtensionAttributes();
         if ($extensionAttribute) {
             $taxesForItems = $extensionAttribute->getItemAppliedTaxes();
-            foreach ($taxesForItems as $tax) {
-                if ($tax->getType() == "shipping") {
-                    $appliedTaxes = $tax->getAppliedTaxes();
-                    if (is_array($appliedTaxes) && !empty($appliedTaxes)) {
-                        $shippingTax = array_shift($appliedTaxes);
-                        if ($shippingTax instanceof \Magento\Tax\Model\Sales\Order\Tax) {
-                            return $shippingTax->getPercent();
+            if (!empty($taxesForItems)) {
+                foreach ($taxesForItems as $tax) {
+                    if ($tax->getType() == "shipping") {
+                        $appliedTaxes = $tax->getAppliedTaxes();
+                        if (is_array($appliedTaxes) && !empty($appliedTaxes)) {
+                            $shippingTax = array_shift($appliedTaxes);
+                            if ($shippingTax instanceof \Magento\Tax\Model\Sales\Order\Tax) {
+                                return $shippingTax->getPercent();
+                            }
                         }
                     }
                 }

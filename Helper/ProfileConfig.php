@@ -78,16 +78,16 @@ class ProfileConfig extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Returns profiles from config
      *
-     * @param  string $sPaymentMethod
-     * @param  string $sStoreCode
+     * @param  string|null $sPaymentMethod
+     * @param  string|null $sStoreCode
      * @return array
      */
-    public function getConfiguredProfiles($sPaymentMethod, $sStoreCode = null)
+    public function getConfiguredProfiles($sPaymentMethod = null, $sStoreCode = null)
     {
         $aReturnProfiles = [];
 
         $sConfigPath = $this->sConfigPath;
-        if (stripos($sPaymentMethod, AbstractMethod::BACKEND_SUFFIX) !== false) {
+        if ($sPaymentMethod && stripos($sPaymentMethod, AbstractMethod::BACKEND_SUFFIX) !== false) {
             $sConfigPath = $this->sConfigPathBackend;
         }
 
@@ -125,11 +125,11 @@ class ProfileConfig extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Returns configured sandbox mode for given profile id
      *
-     * @param  string $sProfileId
-     * @param  string $sPaymentMethod
+     * @param  string       $sProfileId
+     * @param  string|null  $sPaymentMethod
      * @return bool|null
      */
-    public function getSandboxModeForProfileId($sProfileId, $sPaymentMethod)
+    public function getSandboxModeForProfileId($sProfileId, $sPaymentMethod = null)
     {
         $aProfileData = $this->getConfiguredProfiles($sPaymentMethod);
         foreach ($aProfileData as $aProfile) {

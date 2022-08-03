@@ -67,7 +67,7 @@ class Cancel
     {
         $sProfileId = null;
         $sSecurityCode = null;
-        $blSandbox = false;
+        $blSandbox = null;
         if ($order->getRatepayProfileId()) {
             $sProfileId = $order->getRatepayProfileId();
             $sSecurityCode = $this->profileConfigHelper->getSecurityCodeForProfileId($sProfileId, $methodInstance->getCode());
@@ -76,6 +76,10 @@ class Cancel
 
         $head = $this->rpLibraryModel->getRequestHead($order, 'PAYMENT_CHANGE', null, null, $sProfileId, $sSecurityCode);
         $content = $this->rpLibraryModel->getRequestContent($order, 'PAYMENT_CHANGE', [], 0);
+
+        if ($blSandbox === null) {
+            $blSandbox = $this->profileConfigHelper->getSandboxModeForProfileId($head->getCredential()->getProfileId());
+        }
         $cancellationRequest = $this->rpLibraryController->callPaymentChange($head, $content, 'cancellation', $order, $blSandbox);
         if (!$cancellationRequest->isSuccessful()) {
             throw new PaymentException(__('Cancellation was not successsfull'));

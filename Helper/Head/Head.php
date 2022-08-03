@@ -83,8 +83,9 @@ class Head extends \Magento\Framework\App\Helper\AbstractHelper
             if ($quoteOrOrder) {
                 $storeCode = $quoteOrOrder->getStore()->getCode();
             }
-            $profileId = (is_null($profileId) ? $method->getMatchingProfile(null, $storeCode)->getData('profile_id') : $profileId);
-            $securityCode = (is_null($securityCode) ? $method->getMatchingProfile(null, $storeCode)->getSecurityCode() : $securityCode);
+            $oProfile = $method->getMatchingProfile(null, $storeCode, $this->getGrandTotal($quoteOrOrder), $this->getBillingCountry($quoteOrOrder), $this->getShippingCountry($quoteOrOrder), $this->getCurrency($quoteOrOrder));
+            $profileId = (is_null($profileId) ? $oProfile->getData('profile_id') : $profileId);
+            $securityCode = (is_null($securityCode) ? $oProfile->getSecurityCode() : $securityCode);
         }
 
         $serverAddr = '';
@@ -114,5 +115,46 @@ class Head extends \Magento\Framework\App\Helper\AbstractHelper
         ]);
 
         return $headModel;
+    }
+
+    protected function getGrandTotal($quoteOrOrder)
+    {
+        if ($quoteOrOrder && !empty($quoteOrOrder->getGrandTotal())) {
+            return $quoteOrOrder->getGrandTotal();
+        }
+        return null;
+    }
+
+    protected function getBillingCountry($quoteOrOrder)
+    {
+        if ($quoteOrOrder && !empty($quoteOrOrder->getBillingAddress())) {
+            return $quoteOrOrder->getBillingAddress()->getCountryId();
+        }
+        return null;
+    }
+
+    protected function getShippingCountry($quoteOrOrder)
+    {
+        if ($quoteOrOrder && !empty($quoteOrOrder->getShippingAddress())) {
+            return $quoteOrOrder->getShippingAddress()->getCountryId();
+        }
+        return null;
+    }
+
+    /**
+     * Try to read currency code from quote or order object
+     *
+     * @param $quoteOrOrder
+     * @return string|null
+     */
+    protected function getCurrency($quoteOrOrder)
+    {
+        if ($quoteOrOrder && !empty($quoteOrOrder->getOrderCurrencyCode())) {
+            return $quoteOrOrder->getOrderCurrencyCode();
+        }
+        if ($quoteOrOrder && !empty($quoteOrOrder->getQuoteCurrencyCode())) {
+            return $quoteOrOrder->getQuoteCurrencyCode();
+        }
+        return null;
     }
 }

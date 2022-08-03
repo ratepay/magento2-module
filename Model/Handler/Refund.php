@@ -168,10 +168,6 @@ class Refund
      */
     public function callRatepayReturn($order, $creditMemo, $methodInstance)
     {
-        if (!$order->getRatepayProfileId()) {
-            throw new PaymentException(__('Processing failed'));
-        }
-
         if ($this->hasPartialRefundBundle($creditMemo) === true) { // module doesnt support partial bundle refunds at the moment, bundle is transmitted as 1 product to API
             throw new PaymentException(__('Bundles can only be refunded completely'));
         }
@@ -187,7 +183,7 @@ class Refund
         if ($blReturnProducts === true) {
             $sProfileId = null;
             $sSecurityCode = null;
-            $blSandbox = false;
+            $blSandbox = null;
             if ($order->getRatepayProfileId()) {
                 $sProfileId = $order->getRatepayProfileId();
                 $sSecurityCode = $this->profileConfigHelper->getSecurityCodeForProfileId($sProfileId, $methodInstance->getCode());
@@ -202,6 +198,9 @@ class Refund
             }
             $content = $this->rpLibraryModel->getRequestContent($creditMemo, "PAYMENT_CHANGE", null, null, null, null, $adjustments);
 
+            if ($blSandbox === null) {
+                $blSandbox = $this->profileConfigHelper->getSandboxModeForProfileId($head->getCredential()->getProfileId());
+            }
             $returnRequest = $this->rpLibraryController->callPaymentChange($head, $content, 'return', $order, $blSandbox);
             if (!$returnRequest->isSuccessful()) {
                 throw new PaymentException(__('Refund was not successfull'));
@@ -224,7 +223,7 @@ class Refund
     {
         $sProfileId = null;
         $sSecurityCode = null;
-        $blSandbox = false;
+        $blSandbox = null;
         if ($order->getRatepayProfileId()) {
             $sProfileId = $order->getRatepayProfileId();
             $sSecurityCode = $this->profileConfigHelper->getSecurityCodeForProfileId($sProfileId, $methodInstance->getCode());
@@ -234,6 +233,9 @@ class Refund
         $head = $this->rpLibraryModel->getRequestHead($order, 'PAYMENT_CHANGE', null, null, $sProfileId, $sSecurityCode);
         $content = $this->rpLibraryModel->getRequestContent($order, 'PAYMENT_CHANGE', null, null, null, $this->rpLibraryModel->addAdjustments($creditMemo, $this->artNumRefund, $this->artNumFee));
 
+        if ($blSandbox === null) {
+            $blSandbox = $this->profileConfigHelper->getSandboxModeForProfileId($head->getCredential()->getProfileId());
+        }
         $creditRequest = $this->rpLibraryController->callPaymentChange($head, $content, 'credit', $order, $blSandbox);
         if (!$creditRequest->isSuccessful()) {
             throw new PaymentException(__('Credit was not successfull'));
