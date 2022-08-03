@@ -23,6 +23,11 @@ php bin/magento cache:clean
 
 ## Changelog
 
+### Version 2.1.4 - Released 2022-08-03
+* Fixed problems with orders in pre 2.0.0 format after update
+* Fixed display problem with instalment calculator in some browser zoom levels
+* Fixed a problem with bundle products in connection with 0% tax
+
 ### Version 2.1.3 - Released 2022-07-18
 * Added mechanism to determine shipping vat through m2 core models
 * Removed unfunctional payment fee config options
