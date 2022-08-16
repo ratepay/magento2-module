@@ -49,6 +49,11 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
     protected $store;
 
     /**
+     * @var \RatePAY\Payment\Model\Environment\RemoteAddress
+     */
+    protected $remoteAddress;
+
+    /**
      * Customer constructor.
      * @param Context                                               $context
      * @param \RatePAY\Payment\Helper\Content\Customer\Addresses    $rpContentCustomerAddressesHelper,
@@ -58,6 +63,7 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
      * @param CustomerRepositoryInterface                           $customerRepository,
      * @param \Magento\Customer\Model\Session                       $customerSession,
      * @param \Magento\Framework\Locale\Resolver                    $resolver
+     * @param \RatePAY\Payment\Model\Environment\RemoteAddress      $remoteAddress
      */
     public function __construct(
         Context $context,
@@ -67,7 +73,8 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Checkout\Model\Session $checkoutSession,
         CustomerRepositoryInterface $customerRepository,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Framework\Locale\Resolver $resolver
+        \Magento\Framework\Locale\Resolver $resolver,
+        \RatePAY\Payment\Model\Environment\RemoteAddress $remoteAddress
     ) {
         parent::__construct($context);
         $this->rpContentCustomerAddressesHelper = $rpContentCustomerAddressesHelper;
@@ -77,6 +84,7 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
         $this->customerRepository = $customerRepository;
         $this->customerSession = $customerSession;
         $this->store = $resolver;
+        $this->remoteAddress = $remoteAddress;
     }
 
     /**
@@ -98,6 +106,8 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
             $locale = substr($this->store->getDefaultLocale(), 0, 2);
         }
 
+        $this->remoteAddress->addHttpXForwardedHeader();
+
         $content = [
                 'Gender' => "U",
                 //'Salutation' => "Mrs.",
@@ -109,7 +119,7 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
                 'DateOfBirth' => $dob,
                 'Language' => $locale,
                 //'Nationality' => "DE",
-                'IpAddress' => $this->_remoteAddress->getRemoteAddress(),
+                'IpAddress' => $this->remoteAddress->getRemoteAddress(),
                 'Addresses'=> $this->rpContentCustomerAddressesHelper->setAddresses($quoteOrOrder),
                 'Contacts' => $this->rpContentCustomerContactsHelper->setContacts($quoteOrOrder)
         ];
