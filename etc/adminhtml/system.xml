@@ -27,7 +27,7 @@
                     <field id="proxy_mode" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Proxy-Mode</label>
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                        <comment>Enable this option to interpret the HTTP_X_FORWARDED_FOR and HTTP_X_REAL_IP headers. Should be activated if your shop is behind a Proxy server.</comment>
+                        <tooltip>Enable this option to interpret the HTTP_X_FORWARDED_FOR and HTTP_X_REAL_IP headers. Should be activated if your shop is behind a Proxy server.</tooltip>
                         <config_path>ratepay/general/proxy_mode</config_path>
                     </field>
                     <field id="street_field_usage" translate="label tooltip" type="select" sortOrder="26" showInDefault="1" showInWebsite="1" showInStore="1">
