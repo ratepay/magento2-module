@@ -54,6 +54,11 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
     protected $remoteAddress;
 
     /**
+     * @var \RatePAY\Payment\Helper\Data
+     */
+    protected $rpDataHelper;
+
+    /**
      * Customer constructor.
      * @param Context                                               $context
      * @param \RatePAY\Payment\Helper\Content\Customer\Addresses    $rpContentCustomerAddressesHelper,
@@ -64,6 +69,7 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Customer\Model\Session                       $customerSession,
      * @param \Magento\Framework\Locale\Resolver                    $resolver
      * @param \RatePAY\Payment\Model\Environment\RemoteAddress      $remoteAddress
+     * @param \RatePAY\Payment\Helper\Data                          $rpDataHelper
      */
     public function __construct(
         Context $context,
@@ -74,7 +80,8 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
         CustomerRepositoryInterface $customerRepository,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\Locale\Resolver $resolver,
-        \RatePAY\Payment\Model\Environment\RemoteAddress $remoteAddress
+        \RatePAY\Payment\Model\Environment\RemoteAddress $remoteAddress,
+        \RatePAY\Payment\Helper\Data $rpDataHelper
     ) {
         parent::__construct($context);
         $this->rpContentCustomerAddressesHelper = $rpContentCustomerAddressesHelper;
@@ -85,6 +92,7 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
         $this->customerSession = $customerSession;
         $this->store = $resolver;
         $this->remoteAddress = $remoteAddress;
+        $this->rpDataHelper = $rpDataHelper;
     }
 
     /**
@@ -106,8 +114,6 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
             $locale = substr($this->store->getDefaultLocale(), 0, 2);
         }
 
-        $this->remoteAddress->addHttpXForwardedHeader();
-
         $content = [
                 'Gender' => "U",
                 //'Salutation' => "Mrs.",
@@ -119,7 +125,7 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
                 'DateOfBirth' => $dob,
                 'Language' => $locale,
                 //'Nationality' => "DE",
-                'IpAddress' => $this->remoteAddress->getRemoteAddress(),
+                'IpAddress' => $this->getRemoteAddress(),
                 'Addresses'=> $this->rpContentCustomerAddressesHelper->setAddresses($quoteOrOrder),
                 'Contacts' => $this->rpContentCustomerContactsHelper->setContacts($quoteOrOrder)
         ];
@@ -133,5 +139,18 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
             $content['VatId'] = $quoteOrOrder->getPayment()->getAdditionalInformation('rp_vatid');
         }
         return $content;
+    }
+
+    /**
+     * Returns the remote address of the current customer
+     *
+     * @return string
+     */
+    protected function getRemoteAddress()
+    {
+        if ((bool)$this->rpDataHelper->getRpConfigDataByPath("ratepay/general/proxy_mode") === true) {
+            $this->remoteAddress->addHttpXForwardedHeader();
+        }
+        return $this->remoteAddress->getRemoteAddress();
     }
 }
