@@ -133,14 +133,15 @@ $currency = $block->ratepayGetCurrentCurrencyCode();
                 </div>
             </li>
         </ul>
-        <div class="admin__field _required" style="margin-left: -30px;">
-            <label class="label admin__field-label" for="<?php /* @noEscape */ echo $code; ?>_iban" style="margin-left: 11px;">
+        <div class="admin__field _required">
+            <label class="label admin__field-label" for="<?php /* @noEscape */ echo $code; ?>_iban">
                 <span><?php echo $block->escapeHtml(__('IBAN')); ?></span>
             </label>
             <div class="admin__field-control control">
-                <input type="text" size="35" id="<?php /* @noEscape */ echo $code; ?>_iban" name="payment[rp_iban]" value="<?php echo $block->getInfoData('rp_iban'); ?>" style="margin-left: 30px;">
+                <input type="text" size="35" id="<?php /* @noEscape */ echo $code; ?>_iban" name="payment[rp_iban]" value="<?php echo $block->getInfoData('rp_iban'); ?>">
             </div>
         </div>
+        <br>
         <a id="<?php echo $code; ?>_sepa_agreement_link" onclick="showAgreement('<?php echo $code; ?>')"><?php echo __('ratepay_directdebit_sepa_link'); ?></a>
         <table>
             <tbody style="display:none;" id="<?php echo $code; ?>_sepa_agreement">
