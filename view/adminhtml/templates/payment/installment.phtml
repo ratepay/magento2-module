@@ -73,13 +73,13 @@ $currency = $block->ratepayGetCurrentCurrencyCode();
                 <?php echo __('rp_calculation_intro_part3'); ?>
                 <b><?php echo __('rp_calculation_intro_part4'); ?></b>
             </div>
-            <div class="admin__field" style="border: 1px solid black; padding: 10px;margin-bottom: 15px;">
+            <div class="admin__field rp-center" style="border: 1px solid black; padding: 10px;margin-bottom: 15px;">
                 <div class="admin__field" style="margin-top: 0;">
                     <label class="label admin__field-label" for="<?php echo $code.'-time'; ?>">
                         <span><?php echo $block->escapeHtml(__('rp_runtime_description')); ?></span>
                     </label>
                     <div class="admin__field-control control">
-                        <select id="<?php echo $code.'-time'; ?>" onchange="updateInstallmentPlanRuntime('<?php echo $block->getRestUrl(); ?>', <?php echo $ratePayGrandTotal; ?>, '<?php echo $code; ?>', '<?php echo $currency; ?>')" style="width: 163px;">
+                        <select id="<?php echo $code.'-time'; ?>" onchange="updateInstallmentPlanRuntime('<?php echo $block->getRestUrl(); ?>', <?php echo $ratePayGrandTotal; ?>, '<?php echo $code; ?>', '<?php echo $currency; ?>')" style="width: 100%;">
                             <?php foreach ($allowedMonths as $i => $value): ?>
                                 <option value="<?php echo $value; ?>" <?php echo $i == 0 ? 'selected' : '' ?>><?php echo $value; ?></option>
                             <?php endforeach; ?>
@@ -94,7 +94,7 @@ $currency = $block->ratepayGetCurrentCurrencyCode();
                         <span><?php echo $block->escapeHtml(__('rp_rate_description')); ?></span>
                     </label>
                     <div class="admin__field-control control">
-                        <input id="<?php echo $code.'-rate'; ?>" type="text" class="form-control" aria-label="Amount"><br>
+                        <input id="<?php echo $code.'-rate'; ?>" type="text" class="form-control rate-input" aria-label="Amount"><br>
                         <span class="input-group-btn">
                             <button id="<?php echo $code.'_Input-button'; ?>" type="button" onclick="updateInstallmentPlanAmount('<?php echo $block->getRestUrl(); ?>', <?php echo $ratePayGrandTotal; ?>, '<?php echo $code; ?>', '<?php echo $currency; ?>')" class="btn btn-default" role="group">
                                 <?php echo __('rp_calculate_rate'); ?>
@@ -133,14 +133,15 @@ $currency = $block->ratepayGetCurrentCurrencyCode();
                 </div>
             </li>
         </ul>
-        <div class="admin__field _required" style="margin-left: -30px;">
-            <label class="label admin__field-label" for="<?php /* @noEscape */ echo $code; ?>_iban" style="margin-left: 11px;">
+        <div class="admin__field _required">
+            <label class="label admin__field-label" for="<?php /* @noEscape */ echo $code; ?>_iban">
                 <span><?php echo $block->escapeHtml(__('IBAN')); ?></span>
             </label>
             <div class="admin__field-control control">
-                <input type="text" size="35" id="<?php /* @noEscape */ echo $code; ?>_iban" name="payment[rp_iban]" value="<?php echo $block->getInfoData('rp_iban'); ?>" style="margin-left: 30px;">
+                <input type="text" size="35" id="<?php /* @noEscape */ echo $code; ?>_iban" name="payment[rp_iban]" value="<?php echo $block->getInfoData('rp_iban'); ?>">
             </div>
         </div>
+        <br>
         <a id="<?php echo $code; ?>_sepa_agreement_link" onclick="showAgreement('<?php echo $code; ?>')"><?php echo __('ratepay_directdebit_sepa_link'); ?></a>
         <table>
             <tbody style="display:none;" id="<?php echo $code; ?>_sepa_agreement">
