@@ -148,9 +148,7 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
      */
     protected function getRemoteAddress()
     {
-        error_log(print_r($_SERVER, true).PHP_EOL, 3, BP."/debug.log");
         if ((bool)$this->rpDataHelper->getRpConfigDataByPath("ratepay/general/proxy_mode") === true) {
-            error_log("Proxy-mode active".PHP_EOL, 3, BP."/debug.log");
             $this->remoteAddress->addHttpXForwardedHeader();
         }
         return $this->remoteAddress->getRemoteAddress();
