@@ -1,8 +1,12 @@
 <?php
+
 /**
- * Copyright © 2013-2017 Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Copyright (c) Ratepay GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
+
 namespace RatePAY\Payment\Block\Form;
 
 use Magento\Framework\View\Element\Template;
