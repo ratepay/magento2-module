@@ -184,9 +184,14 @@ class Refund
             $sProfileId = null;
             $sSecurityCode = null;
             $blSandbox = null;
+            if (is_numeric($order->getRatepaySandboxUsed())) {
+                $blSandbox = (bool)$order->getRatepaySandboxUsed();
+            }
             if ($order->getRatepayProfileId()) {
                 $sProfileId = $order->getRatepayProfileId();
                 $sSecurityCode = $this->profileConfigHelper->getSecurityCodeForProfileId($sProfileId, $methodInstance->getCode());
+            }
+            if ($blSandbox === null) {
                 $blSandbox = $this->profileConfigHelper->getSandboxModeForProfileId($sProfileId, $methodInstance->getCode());
             }
 
@@ -224,9 +229,14 @@ class Refund
         $sProfileId = null;
         $sSecurityCode = null;
         $blSandbox = null;
+        if (is_numeric($order->getRatepaySandboxUsed())) {
+            $blSandbox = (bool)$order->getRatepaySandboxUsed();
+        }
         if ($order->getRatepayProfileId()) {
             $sProfileId = $order->getRatepayProfileId();
             $sSecurityCode = $this->profileConfigHelper->getSecurityCodeForProfileId($sProfileId, $methodInstance->getCode());
+        }
+        if ($blSandbox === null) {
             $blSandbox = $this->profileConfigHelper->getSandboxModeForProfileId($sProfileId, $methodInstance->getCode());
         }
 
