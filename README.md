@@ -4,7 +4,7 @@
 |Repository | Ratepay Module for Magento 2
 |------|----------
 |Author | Robert Müller
-|Module-Version | `2.1.5`
+|Module-Version | `2.1.6`
 |Compatibility | Magento 2.3.0 - 2.4.x
 |Link | http://www.ratepay.com
 |Mail | integration@ratepay.com
@@ -22,6 +22,11 @@ php bin/magento cache:clean
 ````
 
 ## Changelog
+
+### Version 2.1.6 - Released 2022-09-07
+* Fixed error message when entered IBAN was invalid
+* Fixed sandbox mode problem for capture-, refund- and cancel-mechanisms with certain configurations
+* Added copyright header to all files
 
 ### Version 2.1.5 - Released 2022-08-22
 * Added proxy mode for IP determination when shop server is behind a proxy
