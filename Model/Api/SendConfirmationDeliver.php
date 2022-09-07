@@ -167,11 +167,17 @@ class SendConfirmationDeliver
         $sProfileId = null;
         $sSecurityCode = null;
         $blSandbox = null;
+        if (is_numeric($order->getRatepaySandboxUsed())) {
+            $blSandbox = (bool)$order->getRatepaySandboxUsed();
+        }
         if ($order->getRatepayProfileId()) {
             $sProfileId = $order->getRatepayProfileId();
             $sSecurityCode = $this->profileConfigHelper->getSecurityCodeForProfileId($sProfileId, $paymentMethod);
+        }
+        if ($blSandbox === null) {
             $blSandbox = $this->profileConfigHelper->getSandboxModeForProfileId($sProfileId, $paymentMethod);
         }
+
         $inv->setShippingDescription($order->getShippingDescription());
 
         $head = $this->rpLibraryModel->getRequestHead($order, 'CONFIRMATION_DELIVER', null, null, $sProfileId, $sSecurityCode, $this->getTrackingInfo($order));
