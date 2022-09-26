@@ -72,6 +72,9 @@ B2B,B2B,module,RatePAY_Payment
 "Ratepay-Datenschutzerklärung Url","Ratepay-Datenschutzerklärung Url",module,RatePAY_Payment
 Installment,Ratenzahlung,module,RatePAY_Payment
 Instalment,Ratenzahlung,module,RatePAY_Payment
+from %s in %d instalments,ab %s in %d Raten,module,RatePAY_Payment
+Product page: Instalment plan,Produkt Detailseite: Ratenrechner,module,RatePAY_Payment
+Shows basic instalment information on the product details page,Zeigt einen einfachen Ratenrechner auf der Produkt Detailseite an,module,RatePAY_Payment
 Rate min,Minimumrate,module,RatePAY_Payment
 "Month Allowed","Laufzeiten (in Monaten)",module,RatePAY_Payment
 "0% Financing","0% Finanzierung",module,RatePAY_Payment

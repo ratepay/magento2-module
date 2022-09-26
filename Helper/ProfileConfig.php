@@ -192,7 +192,7 @@ class ProfileConfig extends \Magento\Framework\App\Helper\AbstractHelper
      * @param string                                $sCurrency
      * @return ProfileConfiguration|false
      */
-    public function getMatchingProfile(\Magento\Quote\Api\Data\CartInterface $oQuote, $sMethodCode, $sStoreCode = null, $dGrandTotal = null, $sBillingCountryId = null, $sShippingCountryId = null, $sCurrency = null)
+    public function getMatchingProfile(\Magento\Quote\Api\Data\CartInterface $oQuote = null, $sMethodCode = null, $sStoreCode = null, $dGrandTotal = null, $sBillingCountryId = null, $sShippingCountryId = null, $sCurrency = null)
     {
         $aProfileData = $this->getConfiguredProfiles($sMethodCode, $sStoreCode);
         foreach ($aProfileData as $aProfile) {

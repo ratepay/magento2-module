@@ -18,6 +18,8 @@
     <preference for="RatePAY\Payment\Api\Data\InstallmentPlanResponseInterface" type="RatePAY\Payment\Service\V1\Data\InstallmentPlanResponse" />
     <preference for="RatePAY\Payment\Api\CheckoutConfigInterface" type="RatePAY\Payment\Service\V1\CheckoutConfig" />
     <preference for="RatePAY\Payment\Api\Data\CheckoutConfigResponseInterface" type="RatePAY\Payment\Service\V1\Data\CheckoutConfigResponse" />
+    <preference for="RatePAY\Payment\Api\OfflineCalculatorInterface" type="RatePAY\Payment\Service\V1\OfflineCalculator" />
+    <preference for="RatePAY\Payment\Api\Data\OfflineCalculatorResponseInterface" type="RatePAY\Payment\Service\V1\Data\OfflineCalculatorResponse" />
     <type name="Magento\Framework\Webapi\ErrorProcessor">
         <plugin name="RatePAY_Payment_plugin_WebapiErrorProcessor" type="RatePAY\Payment\Plugin\WebapiErrorProcessor" sortOrder="1"/>
     </type>

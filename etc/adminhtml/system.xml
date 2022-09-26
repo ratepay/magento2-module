@@ -57,6 +57,30 @@
                         <frontend_model>RatePAY\Payment\Block\Adminhtml\Config\Form\Field\ShowProfileConfig</frontend_model>
                         <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
                     </field>
+                    <group id="product_page_instalment_plan" translate="label" type="text" sortOrder="400" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Product page: Instalment plan</label>
+                        <field id="product_page_instalment_plan_active" translate="label tooltip" type="select" sortOrder="35" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Aktiv</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>ratepay/general/product_page_instalment_plan</config_path>
+                            <tooltip>Shows basic instalment information on the product details page</tooltip>
+                        </field>
+                        <field id="instalment_plan_billing_country" translate="label" type="select" sortOrder="36" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Billing country</label>
+                            <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                            <config_path>ratepay/general/instalment_plan_billing_country</config_path>
+                        </field>
+                        <field id="instalment_plan_shipping_country" translate="label" type="select" sortOrder="37" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Billing country</label>
+                            <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                            <config_path>ratepay/general/instalment_plan_shipping_country</config_path>
+                        </field>
+                        <field id="instalment_plan_method_code" translate="label" type="select" sortOrder="38" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Zahlart</label>
+                            <source_model>RatePAY\Payment\Model\Source\InstalmentMethods</source_model>
+                            <config_path>ratepay/general/instalment_plan_method_code</config_path>
+                        </field>
+                    </group>
                     <group id="invoice" translate="label" type="text" sortOrder="500" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Invoice</label>
                         <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">

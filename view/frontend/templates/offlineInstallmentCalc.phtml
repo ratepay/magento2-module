@@ -1,0 +1,33 @@
+<?php
+/**
+ * Copyright (c) Ratepay GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+// @codingStandardsIgnoreFile
+/**
+ * @var \RatePAY\Payment\Block\Checkout\OfflineInstallmentCalculator $block
+ * @see \RatePAY\Payment\Block\Checkout\OfflineInstallmentCalculator
+ */
+
+?>
+<?php if ($block->isCalculatorActivated() === true): ?>
+    <div class="ratepayOfflineCalc" style="display: none;">
+        <span style="height: 10px;width: 10px;background-color: #2E8B57;border-radius: 50%;display: inline-block;margin-right: 5px;"></span>
+        <b><?php echo __('Instalment'); ?>:</b>
+        <span id="ratepayOfflineCalcDisplay"></span>
+    </div>
+    <script type="text/javascript">
+        window.checkout.currency = '<?php echo $block->getCurrentCurrency(); ?>';
+        window.checkout.restApiUrl = '<?php echo $block->getRestCallUrl(); ?>';
+    </script>
+    <script type="text/x-magento-init">
+        {
+            "*": {
+                "Magento_Ui/js/core/app": <?= /* @noEscape */ $block->getJsLayout() ?>
+            }
+        }
+    </script>
+<?php endif; ?>

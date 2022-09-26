@@ -15,6 +15,7 @@
                 <true_offline_mode>0</true_offline_mode>
                 <proxy_mode>0</proxy_mode>
                 <street_field_usage>housenr</street_field_usage>
+                <product_page_instalment_plan>0</product_page_instalment_plan>
             </general>
         </ratepay>
         <payment>
