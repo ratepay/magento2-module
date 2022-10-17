@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Copyright (c) Ratepay GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace RatePAY\Payment\Helper;
 
 use RatePAY\Payment\Model\Entities\ProfileConfiguration;
@@ -67,7 +74,7 @@ class ProfileConfig extends \Magento\Framework\App\Helper\AbstractHelper
         $oHead = $this->libraryModel->getRequestHead(null, null, null, null, $sProfileId, $sSecurityCode);
 
         $oProfileRequest = $this->libraryController->callProfileRequest($oHead, (bool)$blSandbox);
-        if($oProfileRequest->isSuccessful()) {
+        if ($oProfileRequest->isSuccessful()) {
             $oResult = $oProfileRequest->getResult();
             $this->profileConfigResource->insertProfileConfiguration($oResult);
             return true;
@@ -78,16 +85,16 @@ class ProfileConfig extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Returns profiles from config
      *
-     * @param  string $sPaymentMethod
-     * @param  string $sStoreCode
+     * @param  string|null $sPaymentMethod
+     * @param  string|null $sStoreCode
      * @return array
      */
-    public function getConfiguredProfiles($sPaymentMethod, $sStoreCode = null)
+    public function getConfiguredProfiles($sPaymentMethod = null, $sStoreCode = null)
     {
         $aReturnProfiles = [];
 
         $sConfigPath = $this->sConfigPath;
-        if (stripos($sPaymentMethod, AbstractMethod::BACKEND_SUFFIX) !== false) {
+        if ($sPaymentMethod && stripos($sPaymentMethod, AbstractMethod::BACKEND_SUFFIX) !== false) {
             $sConfigPath = $this->sConfigPathBackend;
         }
 
@@ -125,11 +132,11 @@ class ProfileConfig extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Returns configured sandbox mode for given profile id
      *
-     * @param  string $sProfileId
-     * @param  string $sPaymentMethod
+     * @param  string       $sProfileId
+     * @param  string|null  $sPaymentMethod
      * @return bool|null
      */
-    public function getSandboxModeForProfileId($sProfileId, $sPaymentMethod)
+    public function getSandboxModeForProfileId($sProfileId, $sPaymentMethod = null)
     {
         $aProfileData = $this->getConfiguredProfiles($sPaymentMethod);
         foreach ($aProfileData as $aProfile) {

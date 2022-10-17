@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) Ratepay GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 function changeDetails(paymentMethod) {
     var hide = document.getElementById("rp-hide-installment-plan-details_" + paymentMethod);
     var show = document.getElementById("rp-show-installment-plan-details_" + paymentMethod);

@@ -1,13 +1,13 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: SebastianN
- * Date: 24.02.17
- * Time: 15:48
+ * Copyright (c) Ratepay GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace RatePAY\Payment\Model\Method;
-
 
 class Directdebit extends AbstractMethod
 {

@@ -1,8 +1,13 @@
 <?php
 
+/**
+ * Copyright (c) Ratepay GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace RatePAY\Payment\Block\Adminhtml\Config\Form\Field;
-
 
 use RatePAY\Payment\Model\Method\AbstractMethod;
 use RatePAY\Payment\Model\Method\Invoice;

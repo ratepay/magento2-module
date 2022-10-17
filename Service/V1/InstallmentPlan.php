@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Copyright (c) Ratepay GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace RatePAY\Payment\Service\V1;
 
 use RatePAY\Payment\Api\Data\InstallmentPlanResponseInterfaceFactory;
@@ -185,7 +192,8 @@ class InstallmentPlan implements InstallmentPlanInterface
      * @param string $currency
      * @return mixed
      */
-    public function getInstallmentPlanFromRatepay($calculationType, $calculationValue, $grandTotal, $methodCode, $billingCountryId = null, $shippingCountryId = null, $currency = null) {
+    public function getInstallmentPlanFromRatepay($calculationType, $calculationValue, $grandTotal, $methodCode, $billingCountryId = null, $shippingCountryId = null, $currency = null)
+    {
         $aProfiles = $this->getProfiles($calculationType, $calculationValue, $grandTotal, $methodCode, $billingCountryId, $shippingCountryId, $currency);
         if (empty($aProfiles) || empty($aProfiles[0])) {
             return false;
@@ -196,7 +204,7 @@ class InstallmentPlan implements InstallmentPlanInterface
             $profileId = $oProfile->getData('profile_id');
             $securitycode = $oProfile->getSecurityCode();
             $sandbox = $oProfile->getSandboxMode();
-            $installmentPlan = json_decode($this->rpLibraryController->getInstallmentPlan($profileId, $securitycode, $sandbox, $grandTotal, $calculationType, $calculationValue), true);;
+            $installmentPlan = json_decode($this->rpLibraryController->getInstallmentPlan($profileId, $securitycode, $sandbox, $grandTotal, $calculationType, $calculationValue), true);
             $installmentPlan['validPaymentFirstdays'] = $oProfile->getData('valid_payment_firstdays');
             $installmentPlan['defaultPaymentFirstday'] = $oProfile->getData('payment_firstday');
             $responses[] = $installmentPlan;

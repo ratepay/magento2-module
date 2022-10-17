@@ -1,0 +1,122 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright (c) Ratepay GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="ratepay_api_log" resource="default" engine="innodb" comment="Logs all API requests">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true"/>
+        <column xsi:type="int" name="order_id" unsigned="true" nullable="true" identity="false"/>
+        <column xsi:type="varchar" name="order_increment_id" nullable="true" length="32"/>
+        <column xsi:type="varchar" name="transaction_id" nullable="true" length="255"/>
+        <column xsi:type="timestamp" name="date" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="varchar" name="name" nullable="true" length="255"/>
+        <column xsi:type="varchar" name="payment_method" nullable="true" length="40"/>
+        <column xsi:type="varchar" name="payment_type" nullable="true" length="40"/>
+        <column xsi:type="varchar" name="payment_subtype" nullable="true" length="40"/>
+        <column xsi:type="varchar" name="result" nullable="true" length="40"/>
+        <column xsi:type="text" name="request" nullable="true"/>
+        <column xsi:type="text" name="response" nullable="true"/>
+        <column xsi:type="varchar" name="result_code" nullable="true" length="5"/>
+        <column xsi:type="varchar" name="status_code" nullable="true" length="40"/>
+        <column xsi:type="varchar" name="reason" nullable="true" length="255"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <index referenceId="RATEPAY_API_LOG_ORDER_ID" indexType="btree">
+            <column name="order_id"/>
+        </index>
+    </table>
+    <table name="ratepay_hide_payment_type" resource="default" engine="innodb" comment="Save payment types to hide for a given customer">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true"/>
+        <column xsi:type="int" name="customer_id" unsigned="true" nullable="false" identity="false"/>
+        <column xsi:type="varchar" name="payment_type" nullable="true" length="64"/>
+        <column xsi:type="timestamp" name="to_date" on_update="false" nullable="false"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <index referenceId="RATEPAY_HIDE_PAYMENT_TYPE_CUSTOMER_ID" indexType="btree">
+            <column name="customer_id"/>
+        </index>
+    </table>
+    <table name="ratepay_order_adjustments" resource="default" engine="innodb" comment="Paypal Settlement Report Table">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true"/>
+        <column xsi:type="int" name="order_id" unsigned="true" nullable="false" identity="false"/>
+        <column xsi:type="varchar" name="adjustment_type" nullable="true" length="64"/>
+        <column xsi:type="varchar" name="article_number" nullable="true" length="32"/>
+        <column xsi:type="decimal" name="amount" scale="4" precision="20" unsigned="false" nullable="false" default="0"/>
+        <column xsi:type="decimal" name="base_amount" scale="4" precision="20" unsigned="false" nullable="false" default="0"/>
+        <column xsi:type="smallint" name="is_specialitem" unsigned="true" nullable="false" identity="false" default="0"/>
+        <column xsi:type="smallint" name="is_returned" unsigned="true" nullable="false" identity="false" default="0"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <index referenceId="RATEPAY_ORDER_ADJUSTMENTS_ORDER_ID" indexType="btree">
+            <column name="order_id"/>
+        </index>
+    </table>
+    <table name="ratepay_profile_configuration" resource="default" engine="innodb" comment="Holds information for Ratepay profile">
+        <column xsi:type="varchar" name="profile_id" nullable="false" length="32"/>
+        <column xsi:type="varchar" name="merchant_name" nullable="true" length="32"/>
+        <column xsi:type="varchar" name="shop_name" nullable="true" length="32"/>
+        <column xsi:type="varchar" name="currency" nullable="true" length="32"/>
+        <column xsi:type="int" name="merchant_status" nullable="true" identity="false"/>
+        <column xsi:type="int" name="activation_status_invoice" nullable="true" identity="false"/>
+        <column xsi:type="int" name="activation_status_installment" nullable="true" identity="false"/>
+        <column xsi:type="int" name="activation_status_elv" nullable="true" identity="false"/>
+        <column xsi:type="int" name="activation_status_prepayment" nullable="true" identity="false"/>
+        <column xsi:type="int" name="eligibility_ratepay_invoice" nullable="true" identity="false"/>
+        <column xsi:type="int" name="eligibility_ratepay_installment" nullable="true" identity="false"/>
+        <column xsi:type="int" name="eligibility_ratepay_elv" nullable="true" identity="false"/>
+        <column xsi:type="int" name="eligibility_ratepay_prepayment" nullable="true" identity="false"/>
+        <column xsi:type="int" name="eligibility_ratepay_pq_full" nullable="true" identity="false"/>
+        <column xsi:type="decimal" name="tx_limit_invoice_min" scale="4" precision="20" nullable="true"/>
+        <column xsi:type="decimal" name="tx_limit_invoice_max" scale="4" precision="20" nullable="true"/>
+        <column xsi:type="decimal" name="tx_limit_invoice_max_b2b" scale="4" precision="20" nullable="true"/>
+        <column xsi:type="decimal" name="tx_limit_installment_min" scale="4" precision="20" nullable="true"/>
+        <column xsi:type="decimal" name="tx_limit_installment_max" scale="4" precision="20" nullable="true"/>
+        <column xsi:type="decimal" name="tx_limit_installment_max_b2b" scale="4" precision="20" nullable="true"/>
+        <column xsi:type="decimal" name="tx_limit_elv_min" scale="4" precision="20" nullable="true"/>
+        <column xsi:type="decimal" name="tx_limit_elv_max" scale="4" precision="20" nullable="true"/>
+        <column xsi:type="decimal" name="tx_limit_elv_max_b2b" scale="4" precision="20" nullable="true"/>
+        <column xsi:type="decimal" name="tx_limit_prepayment_min" scale="4" precision="20" nullable="true"/>
+        <column xsi:type="decimal" name="tx_limit_prepayment_max" scale="4" precision="20" nullable="true"/>
+        <column xsi:type="decimal" name="tx_limit_prepayment_max_b2b" scale="4" precision="20" nullable="true"/>
+        <column xsi:type="int" name="b2b_invoice" nullable="true" identity="false"/>
+        <column xsi:type="int" name="b2b_elv" nullable="true" identity="false"/>
+        <column xsi:type="int" name="b2b_installment" nullable="true" identity="false"/>
+        <column xsi:type="int" name="b2b_prepayment" nullable="true" identity="false"/>
+        <column xsi:type="int" name="b2b_PQ_full" nullable="true" identity="false"/>
+        <column xsi:type="int" name="delivery_address_invoice" nullable="true" identity="false"/>
+        <column xsi:type="int" name="delivery_address_installment" nullable="true" identity="false"/>
+        <column xsi:type="int" name="delivery_address_elv" nullable="true" identity="false"/>
+        <column xsi:type="int" name="delivery_address_prepayment" nullable="true" identity="false"/>
+        <column xsi:type="int" name="delivery_address_PQ_full" nullable="true" identity="false"/>
+        <column xsi:type="varchar" name="country_code_billing" nullable="true" length="32"/>
+        <column xsi:type="varchar" name="country_code_delivery" nullable="true" length="32"/>
+        <column xsi:type="decimal" name="interestrate_min" scale="4" precision="20" nullable="true"/>
+        <column xsi:type="decimal" name="interestrate_default" scale="4" precision="20" nullable="true"/>
+        <column xsi:type="decimal" name="interestrate_max" scale="4" precision="20" nullable="true"/>
+        <column xsi:type="decimal" name="interest_rate_merchant_towards_bank" scale="4" precision="20" nullable="true"/>
+        <column xsi:type="int" name="month_number_min" nullable="true" identity="false"/>
+        <column xsi:type="int" name="month_number_max" nullable="true" identity="false"/>
+        <column xsi:type="int" name="month_longrun" nullable="true" identity="false"/>
+        <column xsi:type="int" name="amount_min_longrun" nullable="true" identity="false"/>
+        <column xsi:type="varchar" name="month_allowed" nullable="true" length="255"/>
+        <column xsi:type="varchar" name="valid_payment_firstdays" nullable="true" length="32"/>
+        <column xsi:type="varchar" name="payment_firstday" nullable="true" length="32"/>
+        <column xsi:type="decimal" name="payment_amount" scale="4" precision="20" nullable="true"/>
+        <column xsi:type="decimal" name="payment_lastrate" scale="4" precision="20" nullable="true"/>
+        <column xsi:type="decimal" name="rate_min_normal" scale="4" precision="20" nullable="true"/>
+        <column xsi:type="decimal" name="rate_min_longrun" scale="4" precision="20" nullable="true"/>
+        <column xsi:type="decimal" name="service_charge" scale="4" precision="20" nullable="true"/>
+        <column xsi:type="int" name="min_difference_dueday" nullable="true" identity="false"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="profile_id"/>
+        </constraint>
+    </table>
+</schema>

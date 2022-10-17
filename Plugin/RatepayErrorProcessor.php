@@ -1,9 +1,10 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: SebastianN
- * Date: 14.06.17
- * Time: 15:04
+ * Copyright (c) Ratepay GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace RatePAY\Payment\Plugin;
@@ -38,8 +39,7 @@ class RatepayErrorProcessor
         \Magento\Checkout\Model\Session $session,
         \Magento\Quote\Api\CartManagementInterface $cartManagement,
         \Magento\Framework\App\ProductMetadata $productMetadata
-    )
-    {
+    ) {
         $this->session = $session;
         $this->cartManagement = $cartManagement;
         $this->productMetadata = $productMetadata;
@@ -61,8 +61,7 @@ class RatepayErrorProcessor
         $cartId,
         \Magento\Quote\Api\Data\PaymentInterface $paymentMethod,
         \Magento\Quote\Api\Data\AddressInterface $billingAddress
-    )
-    {
+    ) {
         if (version_compare($this->productMetadata->getVersion(), '2.1.0', '>=') &&
             version_compare($this->productMetadata->getVersion(), '2.2.0', '<') &&
             strpos($paymentMethod->getMethod(), 'ratepay_') !== false

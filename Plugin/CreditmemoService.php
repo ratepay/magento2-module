@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Copyright (c) Ratepay GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace RatePAY\Payment\Plugin;
 
 use Magento\Sales\Model\Service\CreditmemoService as CreditmemoServiceOriginal;
@@ -52,7 +59,7 @@ class CreditmemoService
     ) {
         try {
             $return = $proceed($creditmemo, $offlineRequested);
-        } catch(\Exception $ex) {
+        } catch (\Exception $ex) {
             $request = $this->checkoutSession->getRatepayRequest();
             if (!empty($request)) {
                 // Rewrite the log-entry after it was rolled back in the db-transaction

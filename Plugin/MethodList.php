@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Copyright (c) Ratepay GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace RatePAY\Payment\Plugin;
 
 use Magento\Payment\Model\MethodList as OrigMethodList;
@@ -28,7 +35,8 @@ class MethodList
      * @param \Magento\Checkout\Model\Session                       $checkoutSession
      * @param \RatePAY\Payment\Model\ResourceModel\HidePaymentType  $hidePaymentType
      */
-    public function __construct(\Magento\Checkout\Model\Session $checkoutSession, \RatePAY\Payment\Model\ResourceModel\HidePaymentType $hidePaymentType) {
+    public function __construct(\Magento\Checkout\Model\Session $checkoutSession, \RatePAY\Payment\Model\ResourceModel\HidePaymentType $hidePaymentType)
+    {
         $this->checkoutSession = $checkoutSession;
         $this->hidePaymentType = $hidePaymentType;
     }
@@ -68,7 +76,7 @@ class MethodList
         }
 
         $aReturnMethods = $aPaymentMethods;
-        for($i = 0; $i < count($aPaymentMethods); $i++) {
+        for ($i = 0; $i < count($aPaymentMethods); $i++) {
             $sCode = $aPaymentMethods[$i]->getCode();
             if (in_array($sCode, $aHiddenPaymentTypes)) {
                 unset($aReturnMethods[$i]);

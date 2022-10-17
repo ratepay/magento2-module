@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Copyright (c) Ratepay GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 /** @var \RatePay\Payment\Block\Form\Directdebit $block */
 
 $code = $block->escapeHtml($block->getMethodCode());
@@ -59,12 +66,8 @@ if ($b2bEnabled === true) {
         <a target="_blank" href="https://www.ratepay.com/legal-payment-dataprivacy"><?php echo __('ratepay_terms_block_5'); ?></a>
         <?php echo __('ratepay_terms_block_6'); ?>
     </div><br>
-    <ul style="list-style: none; margin-bottom: 15px; border: 1px solid #BDBDBD; padding-left: 4px;">
-        <li><label><span><?php echo __('Ratepay address'); ?></span></label></li>
-        <li><label><span><?php echo __('Creditor'); ?></span><span><?php echo __('Ratepay Creditor ID'); ?></span></label></li>
-        <li><label><span><?php echo __('Mandate'); ?></span><span><?php echo __('Mandate Ref'); ?></span></label></li>
-    </ul>
     <ul style="list-style: none;">
+        <li style="margin-bottom: 15px;"><label><span><?php echo __('The mandate reference and creditor identifier will be communicated to you separately.'); ?></span></label></li>
         <li style="margin-bottom: 15px;"><label><b><span><?php echo __('insert bankdata'); ?></span></b></label></li>
         <li><label><span><?php echo __('Account holder'); ?></span></label></li>
         <li>
@@ -104,9 +107,9 @@ if ($b2bEnabled === true) {
             </tr>
             <tr>
                 <td style="padding:10px 0;">
-                    <br/>
-                    <span style="font-weight:bold;"><?php echo __('ratepay_directdebit_sepa_notice_block_1'); ?></span><br/>
-                    <?php echo __('ratepay_directdebit_sepa_notice_block_2'); ?><br/>
+                    <br>
+                    <span style="font-weight:bold;"><?php echo __('ratepay_directdebit_sepa_notice_block_1'); ?></span><br>
+                    <?php echo __('ratepay_directdebit_sepa_notice_block_2'); ?><br>
                     <?php echo __('ratepay_directdebit_sepa_notice_block_3'); ?>
                 </td>
             </tr>

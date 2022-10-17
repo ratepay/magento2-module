@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Copyright (c) Ratepay GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace RatePAY\Payment\Model;
 
 use RatePAY\RequestBuilder;
@@ -32,7 +39,7 @@ class SerializableRequest extends DataObject
         if (!is_null($order)) {
             try {
                 $transactionId = $request->getTransactionId();
-            } catch(\Exception $exc) {
+            } catch (\Exception $exc) {
                 // do nothing
             }
         }

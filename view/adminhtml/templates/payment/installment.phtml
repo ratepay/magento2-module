@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Copyright (c) Ratepay GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 /** @var \RatePay\Payment\Block\Form\Installment $block */
 
 $code = $block->escapeHtml($block->getMethodCode());
@@ -73,13 +80,13 @@ $currency = $block->ratepayGetCurrentCurrencyCode();
                 <?php echo __('rp_calculation_intro_part3'); ?>
                 <b><?php echo __('rp_calculation_intro_part4'); ?></b>
             </div>
-            <div class="admin__field" style="border: 1px solid black; padding: 10px;margin-bottom: 15px;">
+            <div class="admin__field rp-center" style="border: 1px solid black; padding: 10px;margin-bottom: 15px;">
                 <div class="admin__field" style="margin-top: 0;">
                     <label class="label admin__field-label" for="<?php echo $code.'-time'; ?>">
                         <span><?php echo $block->escapeHtml(__('rp_runtime_description')); ?></span>
                     </label>
                     <div class="admin__field-control control">
-                        <select id="<?php echo $code.'-time'; ?>" onchange="updateInstallmentPlanRuntime('<?php echo $block->getRestUrl(); ?>', <?php echo $ratePayGrandTotal; ?>, '<?php echo $code; ?>', '<?php echo $currency; ?>')" style="width: 163px;">
+                        <select id="<?php echo $code.'-time'; ?>" onchange="updateInstallmentPlanRuntime('<?php echo $block->getRestUrl(); ?>', <?php echo $ratePayGrandTotal; ?>, '<?php echo $code; ?>', '<?php echo $currency; ?>')" style="width: 100%;">
                             <?php foreach ($allowedMonths as $i => $value): ?>
                                 <option value="<?php echo $value; ?>" <?php echo $i == 0 ? 'selected' : '' ?>><?php echo $value; ?></option>
                             <?php endforeach; ?>
@@ -94,7 +101,7 @@ $currency = $block->ratepayGetCurrentCurrencyCode();
                         <span><?php echo $block->escapeHtml(__('rp_rate_description')); ?></span>
                     </label>
                     <div class="admin__field-control control">
-                        <input id="<?php echo $code.'-rate'; ?>" type="text" class="form-control" aria-label="Amount" /><br>
+                        <input id="<?php echo $code.'-rate'; ?>" type="text" class="form-control rate-input" aria-label="Amount"><br>
                         <span class="input-group-btn">
                             <button id="<?php echo $code.'_Input-button'; ?>" type="button" onclick="updateInstallmentPlanAmount('<?php echo $block->getRestUrl(); ?>', <?php echo $ratePayGrandTotal; ?>, '<?php echo $code; ?>', '<?php echo $currency; ?>')" class="btn btn-default" role="group">
                                 <?php echo __('rp_calculate_rate'); ?>
@@ -104,7 +111,7 @@ $currency = $block->ratepayGetCurrentCurrencyCode();
                 </div>
             </div>
         <?php endif; ?>
-        <input id="<?php echo $code.'-runtime'; ?>" type="hidden" value="" />
+        <input id="<?php echo $code.'-runtime'; ?>" type="hidden" value="">
         <div class="rpClear"></div>
         <div id="<?php echo $code.'_ContentSwitch'; ?>" class="ratepay-ContentSwitch" style="display: none;">
             <div class="ratepay-ChooseRuntime">
@@ -116,12 +123,8 @@ $currency = $block->ratepayGetCurrentCurrencyCode();
         <div id="<?php echo $code.'_Notification'; ?>"></div>
     </div>
     <div id="ratepay_rate_sepa_block_<?php echo $code; ?>" <?php echo $block->getPaymentFirstday() == "2" ? '' : 'style="display:none;"'; ?>>
-        <ul style="list-style: none; margin-bottom: 15px; border: 1px solid #BDBDBD; padding-left: 4px;">
-            <li><label><span><?php echo __('Ratepay address'); ?></span></label></li>
-            <li><label><span><?php echo __('Creditor'); ?></span><span><?php echo __('Ratepay Creditor ID'); ?></span></label></li>
-            <li><label><span><?php echo __('Mandate'); ?></span><span><?php echo __('Mandate Ref'); ?></span></label></li>
-        </ul>
         <ul style="list-style: none;">
+            <li style="margin-bottom: 15px;"><label><span><?php echo __('The mandate reference and creditor identifier will be communicated to you separately.'); ?></span></label></li>
             <li style="margin-bottom: 15px;"><label><b><span><?php echo __('insert bankdata'); ?></span></b></label></li>
             <li><label><span><?php echo __('Account holder'); ?></span></label></li>
             <li>
@@ -137,14 +140,15 @@ $currency = $block->ratepayGetCurrentCurrencyCode();
                 </div>
             </li>
         </ul>
-        <div class="admin__field _required" style="margin-left: -30px;">
-            <label class="label admin__field-label" for="<?php /* @noEscape */ echo $code; ?>_iban" style="margin-left: 11px;">
+        <div class="admin__field _required">
+            <label class="label admin__field-label" for="<?php /* @noEscape */ echo $code; ?>_iban">
                 <span><?php echo $block->escapeHtml(__('IBAN')); ?></span>
             </label>
             <div class="admin__field-control control">
-                <input type="text" size="35" id="<?php /* @noEscape */ echo $code; ?>_iban" name="payment[rp_iban]" value="<?php echo $block->getInfoData('rp_iban'); ?>" style="margin-left: 30px;">
+                <input type="text" size="35" id="<?php /* @noEscape */ echo $code; ?>_iban" name="payment[rp_iban]" value="<?php echo $block->getInfoData('rp_iban'); ?>">
             </div>
         </div>
+        <br>
         <a id="<?php echo $code; ?>_sepa_agreement_link" onclick="showAgreement('<?php echo $code; ?>')"><?php echo __('ratepay_directdebit_sepa_link'); ?></a>
         <table>
             <tbody style="display:none;" id="<?php echo $code; ?>_sepa_agreement">
@@ -161,9 +165,9 @@ $currency = $block->ratepayGetCurrentCurrencyCode();
                 </tr>
                 <tr>
                     <td style="padding:10px 0;">
-                        <br/>
-                        <span style="font-weight:bold;"><?php echo __('ratepay_directdebit_sepa_notice_block_1'); ?></span><br/>
-                        <?php echo __('ratepay_directdebit_sepa_notice_block_2'); ?><br/>
+                        <br>
+                        <span style="font-weight:bold;"><?php echo __('ratepay_directdebit_sepa_notice_block_1'); ?></span><br>
+                        <?php echo __('ratepay_directdebit_sepa_notice_block_2'); ?><br>
                         <?php echo __('ratepay_directdebit_sepa_notice_block_3'); ?>
                     </td>
                 </tr>

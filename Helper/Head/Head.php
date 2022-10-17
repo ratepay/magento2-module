@@ -1,13 +1,13 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: SebastianN
- * Date: 09.02.17
- * Time: 09:12
+ * Copyright (c) Ratepay GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace RatePAY\Payment\Helper\Head;
-
 
 use Magento\Framework\App\Helper\Context;
 
@@ -22,11 +22,6 @@ class Head extends \Magento\Framework\App\Helper\AbstractHelper
      * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
-
-    /**
-     * @var \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress
-     */
-    protected $remoteAddress;
 
     /**
      * @var \Magento\Framework\App\ProductMetadataInterface
@@ -51,7 +46,7 @@ class Head extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\ProductMetadataInterface $productMetadata
      * @param \Magento\Framework\Module\ModuleListInterface $moduleList
-     * @param \Magento\Payment\Helper\Data\Proxy $paymentHelper
+     * @param \Magento\Payment\Helper\Data $paymentHelper
      */
     public function __construct(
         Context $context,
@@ -59,13 +54,12 @@ class Head extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\ProductMetadataInterface $productMetadata,
         \Magento\Framework\Module\ModuleListInterface $moduleList,
-        \Magento\Payment\Helper\Data\Proxy $paymentHelper
+        \Magento\Payment\Helper\Data $paymentHelper
     ) {
         parent::__construct($context);
 
         $this->rpDataHelper = $rpHelper;
         $this->storeManager = $storeManager;
-        $this->remoteAddress = $context->getRemoteAddress();
         $this->productMetadata = $productMetadata;
         $this->moduleList = $moduleList;
         $this->paymentHelper = $paymentHelper;
@@ -90,8 +84,9 @@ class Head extends \Magento\Framework\App\Helper\AbstractHelper
             if ($quoteOrOrder) {
                 $storeCode = $quoteOrOrder->getStore()->getCode();
             }
-            $profileId = (is_null($profileId) ? $method->getMatchingProfile(null, $storeCode)->getData('profile_id') : $profileId);
-            $securityCode = (is_null($securityCode) ? $method->getMatchingProfile(null, $storeCode)->getSecurityCode() : $securityCode);
+            $oProfile = $method->getMatchingProfile(null, $storeCode, $this->getGrandTotal($quoteOrOrder), $this->getBillingCountry($quoteOrOrder), $this->getShippingCountry($quoteOrOrder), $this->getCurrency($quoteOrOrder));
+            $profileId = (is_null($profileId) ? $oProfile->getData('profile_id') : $profileId);
+            $securityCode = (is_null($securityCode) ? $oProfile->getSecurityCode() : $securityCode);
         }
 
         $serverAddr = '';
@@ -121,5 +116,46 @@ class Head extends \Magento\Framework\App\Helper\AbstractHelper
         ]);
 
         return $headModel;
+    }
+
+    protected function getGrandTotal($quoteOrOrder)
+    {
+        if ($quoteOrOrder && !empty($quoteOrOrder->getGrandTotal())) {
+            return $quoteOrOrder->getGrandTotal();
+        }
+        return null;
+    }
+
+    protected function getBillingCountry($quoteOrOrder)
+    {
+        if ($quoteOrOrder && !empty($quoteOrOrder->getBillingAddress())) {
+            return $quoteOrOrder->getBillingAddress()->getCountryId();
+        }
+        return null;
+    }
+
+    protected function getShippingCountry($quoteOrOrder)
+    {
+        if ($quoteOrOrder && !empty($quoteOrOrder->getShippingAddress())) {
+            return $quoteOrOrder->getShippingAddress()->getCountryId();
+        }
+        return null;
+    }
+
+    /**
+     * Try to read currency code from quote or order object
+     *
+     * @param $quoteOrOrder
+     * @return string|null
+     */
+    protected function getCurrency($quoteOrOrder)
+    {
+        if ($quoteOrOrder && !empty($quoteOrOrder->getOrderCurrencyCode())) {
+            return $quoteOrOrder->getOrderCurrencyCode();
+        }
+        if ($quoteOrOrder && !empty($quoteOrOrder->getQuoteCurrencyCode())) {
+            return $quoteOrOrder->getQuoteCurrencyCode();
+        }
+        return null;
     }
 }

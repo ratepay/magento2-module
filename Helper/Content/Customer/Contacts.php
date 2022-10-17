@@ -1,13 +1,13 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: SebastianN
- * Date: 09.02.17
- * Time: 16:00
+ * Copyright (c) Ratepay GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace RatePAY\Payment\Helper\Content\Customer;
-
 
 use Magento\Framework\App\Helper\Context;
 
@@ -20,11 +20,13 @@ class Contacts extends \Magento\Framework\App\Helper\AbstractHelper
 
     /**
      * Contacts constructor.
-     * @param Context $context
+     * @param Context                         $context
+     * @param \Magento\Checkout\Model\Session $checkoutSession
      */
-    public function __construct(Context $context,
-                                \Magento\Checkout\Model\Session\Proxy $checkoutSession)
-    {
+    public function __construct(
+        Context $context,
+        \Magento\Checkout\Model\Session $checkoutSession
+    ) {
         parent::__construct($context);
         $this->_checkoutSession = $checkoutSession;
     }

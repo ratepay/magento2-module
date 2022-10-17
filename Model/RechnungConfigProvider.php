@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Copyright (c) Ratepay GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace RatePAY\Payment\Model;
 
 use RatePAY\Payment\Model\Method\Directdebit;
@@ -331,7 +338,7 @@ class RechnungConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
     protected function getValidPaymentFirstdays($sMethodCode)
     {
         $validPaymentFirstdays = $this->getMethod($sMethodCode)->getMatchingProfile()->getData("valid_payment_firstdays");
-        if(strpos($validPaymentFirstdays, ',') !== false) {
+        if (strpos($validPaymentFirstdays, ',') !== false) {
             $validPaymentFirstdays = explode(',', $validPaymentFirstdays);
         }
         return $validPaymentFirstdays;

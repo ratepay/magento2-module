@@ -1,9 +1,10 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: SebastianN
- * Date: 09.02.17
- * Time: 14:24
+ * Copyright (c) Ratepay GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace RatePAY\Payment\Helper\Content\Customer;
@@ -92,10 +93,10 @@ class Addresses extends \Magento\Framework\App\Helper\AbstractHelper
             ['Address' => $deliveryAddress],
         ];
 
-        if(!empty($quoteOrOrder->getBillingAddress()->getCompany())){
+        if (!empty($quoteOrOrder->getBillingAddress()->getCompany())) {
             $content[0]['Address']['Company'] = $quoteOrOrder->getBillingAddress()->getCompany();
         }
-        if(!empty($quoteOrOrder->getShippingAddress()->getCompany())){
+        if (!empty($quoteOrOrder->getShippingAddress()->getCompany())) {
             $content[1]['Address']['Company'] = $quoteOrOrder->getShippingAddress()->getCompany();
         }
 

@@ -1,13 +1,13 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: SebastianN
- * Date: 09.02.17
- * Time: 16:21
+ * Copyright (c) Ratepay GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace RatePAY\Payment\Helper\Content\ShoppingBasket;
-
 
 use Magento\Framework\App\Helper\Context;
 use Magento\Sales\Model\Order;
@@ -112,11 +112,11 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
                     $skuMap[$item->getOrderItem()->getQuoteItemId()] = $sku;
                 }
 
-                if($quantity == 0){
+                if ($quantity == 0) {
                     continue;
                 }
 
-                if($item->getOrderItem()->getProductType() === \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
+                if ($item->getOrderItem()->getProductType() === \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
                     $bundleQuantity = $this->_getBundleQuantity($quoteOrOrder->getItems(), $item); // bundles always have a qty of 1, which is wrong
                     if ($bundleQuantity !== false) {
                         $quantity = (int)$bundleQuantity;
@@ -125,7 +125,7 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
                     $discount = 0.00;
                     $taxRate = 0;
                     $children = $item->getOrderItem()->getChildrenItems();
-                    foreach($children as $ch) {
+                    foreach ($children as $ch) {
                         if ($quoteOrOrder instanceof Creditmemo) {
                             foreach ($itemArray as $creditmemoItem) {
                                 if ($creditmemoItem->getOrderItemId() == $ch->getId()) {
@@ -180,7 +180,7 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
             }
 
             if (!isset($items[$sku]['TaxRate']) || $items[$sku]['TaxRate'] < $taxRate) {
-                $items[$sku]['TaxRate'] = round($taxRate, 2);
+                $items[$sku]['TaxRate'] = round($taxRate ?? 0, 2);
             }
             if ($discount > 0) {
                 if (!isset($items[$sku]['Discount']) || $items[$sku]['Discount'] == 0) {

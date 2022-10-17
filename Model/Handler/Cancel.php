@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Copyright (c) Ratepay GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace RatePAY\Payment\Model\Handler;
 
 use \Psr\Log\LoggerInterface;
@@ -45,7 +52,6 @@ class Cancel
         $this->rpLibraryModel = $rpLibraryModel;
         $this->rpLibraryController = $rpLibraryController;
         $this->profileConfigHelper = $profileConfigHelper;
-
     }
 
     /**
@@ -68,17 +74,26 @@ class Cancel
     {
         $sProfileId = null;
         $sSecurityCode = null;
-        $blSandbox = false;
+        $blSandbox = null;
+        if (is_numeric($order->getRatepaySandboxUsed())) {
+            $blSandbox = (bool)$order->getRatepaySandboxUsed();
+        }
         if ($order->getRatepayProfileId()) {
             $sProfileId = $order->getRatepayProfileId();
             $sSecurityCode = $this->profileConfigHelper->getSecurityCodeForProfileId($sProfileId, $methodInstance->getCode());
+        }
+        if ($blSandbox === null) {
             $blSandbox = $this->profileConfigHelper->getSandboxModeForProfileId($sProfileId, $methodInstance->getCode());
         }
 
         $head = $this->rpLibraryModel->getRequestHead($order, 'PAYMENT_CHANGE', null, null, $sProfileId, $sSecurityCode);
         $content = $this->rpLibraryModel->getRequestContent($order, 'PAYMENT_CHANGE', [], 0);
+
+        if ($blSandbox === null) {
+            $blSandbox = $this->profileConfigHelper->getSandboxModeForProfileId($head->getCredential()->getProfileId());
+        }
         $cancellationRequest = $this->rpLibraryController->callPaymentChange($head, $content, 'cancellation', $order, $blSandbox);
-        if (!$cancellationRequest->isSuccessful()){
+        if (!$cancellationRequest->isSuccessful()) {
             throw new PaymentException(__('Cancellation was not successsfull'));
         }
         return true;

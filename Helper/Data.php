@@ -1,9 +1,10 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: SebastianN
- * Date: 08.02.17
- * Time: 11:34
+ * Copyright (c) Ratepay GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace RatePAY\Payment\Helper;
@@ -23,7 +24,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $storeManager;
 
     /**
-     * @var \Magento\Framework\App\State\Proxy
+     * @var \Magento\Framework\App\State
      */
     protected $state;
 
@@ -33,13 +34,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param Context $context
      * @param \Magento\Framework\App\Filesystem\DirectoryList $directoryList
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Framework\App\State\Proxy $state
+     * @param \Magento\Framework\App\State $state
      */
     public function __construct(
         Context $context,
         \Magento\Framework\App\Filesystem\DirectoryList $directoryList,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Framework\App\State\Proxy $state
+        \Magento\Framework\App\State $state
     ) {
         parent::__construct($context);
         $this->directoryList = $directoryList;
@@ -131,7 +132,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getImportantAddressData($address)
     {
-        $result = array();
+        $result = [];
         $result['city'] = trim($address->getCity() ?? '');
         $result['company'] = trim($address->getCompany() ?? '');
         $result['prefix'] = $address->getPrefix();
@@ -154,7 +155,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $edition = 'CE';
         if (file_exists($this->directoryList->getPath('base') . '/LICENSE_EE.txt')) {
             $edition = 'EE';
-        } else if (file_exists($this->directoryList->getPath('base') . '/LICENSE_PRO.html')) {
+        } elseif (file_exists($this->directoryList->getPath('base') . '/LICENSE_PRO.html')) {
             $edition = 'PE';
         }
         return $edition;

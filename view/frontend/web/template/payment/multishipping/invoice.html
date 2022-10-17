@@ -1,3 +1,11 @@
+<!--
+/**
+ * Copyright (c) Ratepay GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+-->
 <div class="payment-method" data-bind="css: {'_active': (getCode() == isChecked())}">
     <div class="payment-method-content">
         <each args="getRegion('messages')" render=""></each>
@@ -13,8 +21,7 @@
                                          id: getCode() + '_phone',
                                          autocomplete: off,
                                          title: $t('Phone')},
-                                         value: currentBillingAddress().telephone"
-                    />
+                                         value: currentBillingAddress().telephone">
                 </div>
             </div>
             <!-- /ko -->
@@ -39,8 +46,7 @@
                                             id: getCode() + '_dob_day',
                                             autocomplete: off,
                                             title: $t('Date of Birth')},
-                                            value: rp_dob_day"
-                        />
+                                            value: rp_dob_day">
                     </div>
                     <label data-bind="attr: {for: getCode() + '_dob_day'}" class="label">
                         <span><!-- ko i18n: 'DD'--><!-- /ko --></span>
@@ -53,8 +59,7 @@
                                             id: getCode() + '_dob_month',
                                             autocomplete: off,
                                             title: $t('Date of Birth')},
-                                            value: rp_dob_month"
-                        />
+                                            value: rp_dob_month">
                     </div>
                     <label data-bind="attr: {for: getCode() + '_dob_month'}" class="label">
                         <span><!-- ko i18n: 'MM'--><!-- /ko --></span>
@@ -67,8 +72,7 @@
                                             id: getCode() + '_dob_year',
                                             autocomplete: off,
                                             title: $t('Date of Birth')},
-                                            value:  rp_dob_year"
-                        />
+                                            value:  rp_dob_year">
                     </div>
                     <label data-bind="attr: {for: getCode() + '_dob_year'}" class="label">
                         <span><!-- ko i18n: 'YYYY'--><!-- /ko --></span>
@@ -87,8 +91,7 @@
                                             id: getCode() + '_vatid',
                                             autocomplete: off,
                                             title: $t('VatId')},
-                                            value: rp_vatid"
-                    />
+                                            value: rp_vatid">
                 </div>
             </fieldset>
             <!-- /ko -->

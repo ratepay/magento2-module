@@ -4,8 +4,8 @@
 |Repository | Ratepay Module for Magento 2
 |------|----------
 |Author | Robert Müller
-|Module-Version | `2.1.0`
-|Compatibility | Magento 2.1.0 - 2.4.x
+|Module-Version | `2.1.6`
+|Compatibility | Magento 2.3.0 - 2.4.x
 |Link | http://www.ratepay.com
 |Mail | integration@ratepay.com
 |Documentation | https://ratepay.gitbook.io/magento2/
@@ -22,6 +22,30 @@ php bin/magento cache:clean
 ````
 
 ## Changelog
+
+### Version 2.1.6 - Released 2022-09-07
+* Fixed error message when entered IBAN was invalid
+* Fixed sandbox mode problem for capture-, refund- and cancel-mechanisms with certain configurations
+* Added copyright header to all files
+
+### Version 2.1.5 - Released 2022-08-22
+* Added proxy mode for IP determination when shop server is behind a proxy
+* Visual adjustments to instalment calculator
+
+### Version 2.1.4 - Released 2022-08-03
+* Fixed problems with orders in pre 2.0.0 format after update
+* Fixed display problem with instalment calculator in some browser zoom levels
+* Fixed a problem with bundle products in connection with 0% tax
+
+### Version 2.1.3 - Released 2022-07-18
+* Added mechanism to determine shipping vat through m2 core models
+* Removed unfunctional payment fee config options
+* Changed german translation for instalment payment methods
+* Fixed problem in db_schema.xml
+* Changed creditor info in payment templates
+
+### Version 2.1.2 - Released 2022-05-04
+* Refactored some things for Magento Marketplace
 
 ### Version 2.1.0 - Released 2022-04-28
 * Added compatibility to Magento 2.4.4 and PHP 8.1

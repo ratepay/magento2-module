@@ -75,6 +75,11 @@ Instalment,Ratenzahlung,module,RatePAY_Payment
 Rate min,Minimumrate,module,RatePAY_Payment
 "Month Allowed","Laufzeiten (in Monaten)",module,RatePAY_Payment
 "0% Financing","0% Finanzierung",module,RatePAY_Payment
+Invoice Backend,Rechnung Backend,module,RatePAY_Payment
+"Direct Debit Backend","SEPA-Lastschrift Backend",module,RatePAY_Payment
+Installment Backend,Ratenzahlung Backend,module,RatePAY_Payment
+Instalment Backend,Ratenzahlung Backend,module,RatePAY_Payment
+"0% Financing Backend","0% Finanzierung Backend",module,RatePAY_Payment
 Austria,Österreich,module,RatePAY_Payment
 Switzerland,Schweiz,module,RatePAY_Payment
 Ratepay Invoice,Ratepay Rechnung,module,RatePAY_Payment
@@ -166,9 +171,12 @@ ratepay_terms_block_6, "einverstanden." ,module,RatePAY_Payment
 "Determines when the capture call is sent to Ratepay API","Legt fest zu welchem Zeitpunkt der Capture call an die Ratepay API gesendet wird.",module,RatePAY_Payment
 "Active payment types","Aktive Zahlarten",module,RatePAY_Payment
 "Validation failed: Bank-account parameter IBAN is invalid.","Validierung fehlgeschlagen: Angegebene IBAN ist ungültig",module,RatePAY_Payment
+"Validation failed: Bank-account parameter IBAN (DE) has invalid length (must be 22).","Validierung fehlgeschlagen: Angegebene IBAN hat eine ungültige Länge (muss 22 Zeichen lang sein).",module,RatePAY_Payment
 "Ratepay_invoice","Rechnung",module,RatePAY_Payment
-"Ratepay_installment","Finanzierung",module,RatePAY_Payment
+"Ratepay_installment","Ratenzahlung",module,RatePAY_Payment
 "Ratepay_installment0","0% Finanzierung",module,RatePAY_Payment
+"Ratepay_instalment","Ratenzahlung",module,RatePAY_Payment
+"Ratepay_instalment0","0% Finanzierung",module,RatePAY_Payment
 "Ratepay_elv","SEPA-Lastschrift",module,RatePAY_Payment
 "Ratepay_0","Nein",module,RatePAY_Payment
 "Ratepay_1","Ja",module,RatePAY_Payment
@@ -192,6 +200,9 @@ ratepay_terms_block_6, "einverstanden." ,module,RatePAY_Payment
 "Module version","Modul-Version",module,RatePAY_Payment
 "Device Fingerprint Snippet-Id","Geräte Fingerabdruck Snippet-Id",module,RatePAY_Payment
 "No profiles configured yet","Keine Profile konfiguriert",module,RatePAY_Payment
+"Proxy-Mode","Proxy-Modus",module,RatePAY_Payment
+"Enable this option to interpret the HTTP_X_FORWARDED_FOR and HTTP_X_REAL_IP headers. Should be activated if your shop is behind a Proxy server.","Aktivieren Sie diese Option um die HTTP_X_FORWARDED_FOR und HTTP_X_REAL_IP Header interpretieren zu lassen. Sie sollten dies aktivieren, wenn sich Ihr Server hinter einem Proxy Server befindet.",module,RatePAY_Payment
+"The mandate reference and creditor identifier will be communicated to you separately.","Mandatsreferenz und Gläubiger-ID wird Ihnen separat mitgeteilt.",module,RatePAY_Payment
 "Ratepay street field usage tooltip","Only applicable when 2 or more street lines are configured in customer configuration.<br><br><b>House number:</b> The second street line will be interpreted as the house number, 3rd and 4th street input will be interpreted as additional information.<br><br><b>Additional info:</b> Street lines 2 - 4 will be interpreted as additional information",module,RatePAY_Payment
 "Only applicable when 2 or more street lines are configured in customer configuration. House number: The second street line will be interpreted as the house number, 3rd and 4th street input will be interpreted as additional information. Additional info: Street lines 2 - 4 will be interpreted as additional information","Nur anwendbar wenn 2 oder mehr Straßen-Felder in der Kunden Konfiguration eingestellt sind.<br><br><b>Hausnummer:</b> Das zweite Straßen-Feld wird als Hausnummer interpretiert, das 3. und 4. Straßen-Feld wird als Zusatz-Information interpretiert.<br><br><b>Zusatz-Information:</b> Straßen-Felder 2 - 4 werden als Zusatz-Information interpretiert.",module,RatePAY_Payment
 "With True Offline Mode being enabled, communication with Ratepay when creating an invoice or a creditmemo is disabled. This will make the module behave in the Magento2 standard way. With True Offline Mode being disabled (default) the module will continue to communicate to Ratepay like before, this happens because the module didnt have a differentiation between those modes in the beginning and the customers were not supposed to have to change their workflow later when it was introduced.","Wenn Sie den echten Offline Modus aktivieren, wird die Kommunikation mit Ratepay beim Erstellen von Rechnungen oder Gutschriften deaktiviert. Dadurch verhält sich das Modul in der für Magento2 üblichen Weise. Wenn der echte Offline Modus deaktiviert ist (Standard-Einstellung) kommuniziert der Modul weiterhin mit Ratepay wie zuvor. Dies geschieht, weil das Modul vorher nicht zwischen Online- und Offline-Modus unterschieden hat und die Kunden nicht plötzlich gezwungen sein sollten ihren Workflow umstellen zu müssen bei Einführung der Unterscheidung.",module,RatePAY_Payment

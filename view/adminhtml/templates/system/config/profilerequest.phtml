@@ -1,7 +1,9 @@
 <?php
 /**
- * Copyright © 2016 MageWorx. All rights reserved.
- * See LICENSE.txt for license details.
+ * Copyright (c) Ratepay GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 ?>
 <?php /* @var $block \RatePAY\Payment\Block\System\Config\ProfileRequest */ ?>
@@ -13,9 +15,9 @@
             ],
             function (jQuery) {
 
-                jQuery('#<?php echo $this->getContainerId();?>_profilerequest_button').click(function () {
-                    var id = '<?php echo $this->getContainerId();?>';
-                    var methodCode = '<?php echo $this->getPaymentMethod();?>';
+                jQuery('#<?php echo $block->getContainerId();?>_profilerequest_button').click(function () {
+                    var id = '<?php echo $block->getContainerId();?>';
+                    var methodCode = '<?php echo $block->getPaymentMethod();?>';
                     if (document.getElementById(id + '_sandbox').value == 1 && document.getElementById(id + '_profileId').value.search(/_PR_.+/) != -1) {
                         if (!confirm('<?php echo __('PROD credentials in sandbox mode') ?>')) {
                             return;
@@ -29,7 +31,7 @@
                     }
 
                     jQuery.ajax({
-                        url: "<?php echo $this->getAjaxUrl() ?>",
+                        url: "<?php echo $block->getAjaxUrl() ?>",
                         type: 'POST',
                         contentType: "application/x-www-form-urlencoded",
                         dataType: "text",
@@ -38,8 +40,8 @@
                             security_code: document.getElementById(id + '_securityCode').value,
                             sandbox: document.getElementById(id + '_sandbox').value,
                             method: methodCode,
-                            scope: '<?php echo $this->getScope(); ?>',
-                            scopeId: '<?php echo $this->getScopeId(); ?>',
+                            scope: '<?php echo $block->getScope(); ?>',
+                            scopeId: '<?php echo $block->getScopeId(); ?>',
                         }
                     })
                         .done(function (data) {

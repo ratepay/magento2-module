@@ -1,6 +1,13 @@
 <?php
 
-$aProfileConfigs = $this->getProfileConfigs();
+/**
+ * Copyright (c) Ratepay GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+$aProfileConfigs = $block->getProfileConfigs();
 ?>
 <div>
     <?php if (empty($aProfileConfigs)): ?>
@@ -121,7 +128,7 @@ $aProfileConfigs = $this->getProfileConfigs();
 
                 //<![CDATA[
                 function updateProfileConfigurations(isBackendConfig) {
-                    new Ajax.Request('<?php echo $this->getProfileRefreshUrl() ?>', {
+                    new Ajax.Request('<?php echo $block->getProfileRefreshUrl() ?>', {
                         parameters: {isBackendConfig: isBackendConfig},
                         onSuccess: function(response) {
                             try {
@@ -149,7 +156,7 @@ $aProfileConfigs = $this->getProfileConfigs();
         </script>
         <div class="actions actions-validate-vat">
             <div id="validation_result" class="message-validation hidden"></div>
-            <button onclick="javascript:updateProfileConfigurations(<?php echo (int)$this->isBackendPaymentConfiguration(); ?>); return false;" class="action-validate-vat" type="button">
+            <button onclick="javascript:updateProfileConfigurations(<?php echo (int)$block->isBackendPaymentConfiguration(); ?>); return false;" class="action-validate-vat" type="button">
                 <span><?php echo $block->escapeHtml(__('Refresh Profile configurations')) ?></span>
             </button>
         </div>

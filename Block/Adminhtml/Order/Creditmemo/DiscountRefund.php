@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Copyright (c) Ratepay GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace RatePAY\Payment\Block\Adminhtml\Order\Creditmemo;
 
 use Magento\Sales\Model\Order;
@@ -62,7 +69,7 @@ class DiscountRefund extends \Magento\Backend\Block\Template
         $this->_order = $parent->getOrder();
 
         $paymentMethod = $this->_order->getPayment()->getMethodInstance()->getCode();
-        if($this->rpPaymentHelper->isRatepayPayment($paymentMethod) && $this->getRefundAmount() != 0){
+        if ($this->rpPaymentHelper->isRatepayPayment($paymentMethod) && $this->getRefundAmount() != 0) {
             $this->_source = $parent->getSource();
 
             $total = new \Magento\Framework\DataObject([

@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Copyright (c) Ratepay GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace RatePAY\Payment\Controller\Checkout;
 
 use Magento\Framework\App\Action\Context;
@@ -102,7 +109,8 @@ class InstallmentPlan extends \Magento\Framework\App\Action\Action
      * @param null $template
      * @return mixed
      */
-    private function getInstallmentPlan($orderAmount, $calculationType, $calculationValue, $template = null) {
+    private function getInstallmentPlan($orderAmount, $calculationType, $calculationValue, $template = null)
+    {
         $quote = $this->_checkoutSession->getQuote();
         if (!$quote || !$quote->getId()) {
             return false;

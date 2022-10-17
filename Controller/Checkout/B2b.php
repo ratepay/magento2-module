@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Copyright (c) Ratepay GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace RatePAY\Payment\Controller\Checkout;
 
 use Magento\Framework\App\Action\Context;
@@ -25,8 +32,8 @@ class B2b extends \Magento\Framework\App\Action\Action
     public function __construct(
         Context $context,
         \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory,
-        \Magento\Checkout\Model\Session $checkoutSession)
-    {
+        \Magento\Checkout\Model\Session $checkoutSession
+    ) {
         $this->_resultJsonFactory = $resultJsonFactory;
         $this->_checkoutSession = $checkoutSession;
         parent::__construct($context);
@@ -71,7 +78,8 @@ class B2b extends \Magento\Framework\App\Action\Action
      * @param $vatId
      * @return bool
      */
-    private function _isValidVatId($vatId) {
+    private function _isValidVatId($vatId)
+    {
         $vatId = trim($vatId ?? '');
         $vatId = strtoupper($vatId);
         $countryPrefix = substr($vatId, 0, 2);

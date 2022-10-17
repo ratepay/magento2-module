@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Copyright (c) Ratepay GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace RatePAY\Payment\Controller\Checkout;
 
 use Magento\Framework\App\Action\Context;
@@ -45,8 +52,8 @@ class InstallmentConfiguration extends \Magento\Framework\App\Action\Action
         \Magento\Checkout\Model\Session $checkoutSession,
         \RatePAY\Payment\Model\LibraryModel $rpLibraryModel,
         \RatePAY\Payment\Controller\LibraryController $rpLibraryController,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig)
-    {
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+    ) {
         $this->_resultJsonFactory = $resultJsonFactory;
         $this->_checkoutSession = $checkoutSession;
         $this->_rpLibraryModel = $rpLibraryModel;
@@ -95,7 +102,8 @@ class InstallmentConfiguration extends \Magento\Framework\App\Action\Action
      * @param null $template
      * @return mixed
      */
-    private function getInstallmentConfiguration($orderAmount, $template = null) {
+    private function getInstallmentConfiguration($orderAmount, $template = null)
+    {
         $quote = $this->_checkoutSession->getQuote();
 
         $storeId = $quote->getStoreId();

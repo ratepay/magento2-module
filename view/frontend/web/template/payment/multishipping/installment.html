@@ -1,3 +1,11 @@
+<!--
+/**
+ * Copyright (c) Ratepay GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+-->
 <div class="payment-method multishipping" data-bind="css: {'_active': (getCode() == isChecked())}">
     <div class="payment-method-content">
         <each args="getRegion('messages')" render=""></each>
@@ -13,8 +21,7 @@
                                          id: getCode() + '_phone',
                                          autocomplete: off,
                                          title: $t('Phone')},
-                                         value: currentBillingAddress().telephone"
-                    />
+                                         value: currentBillingAddress().telephone">
                 </div>
             </div>
             <!-- /ko -->
@@ -40,8 +47,7 @@
                                             id: getCode() + '_dob_day',
                                             autocomplete: off,
                                             title: $t('Date of Birth')},
-                                            value: rp_dob_day"
-                            />
+                                            value: rp_dob_day">
                         </div>
                         <label data-bind="attr: {for: getCode() + '_dob_day'}" class="label">
                             <span><!-- ko i18n: 'DD'--><!-- /ko --></span>
@@ -54,8 +60,7 @@
                                             id: getCode() + '_dob_month',
                                             autocomplete: off,
                                             title: $t('Date of Birth')},
-                                            value: rp_dob_month"
-                            />
+                                            value: rp_dob_month">
                         </div>
                         <label data-bind="attr: {for: getCode() + '_dob_month'}" class="label">
                             <span><!-- ko i18n: 'MM'--><!-- /ko --></span>
@@ -68,8 +73,7 @@
                                             id: getCode() + '_dob_year',
                                             autocomplete: off,
                                             title: $t('Date of Birth')},
-                                            value: rp_dob_year"
-                            />
+                                            value: rp_dob_year">
                         </div>
                         <label data-bind="attr: {for: getCode() + '_dob_year'}" class="label">
                             <span><!-- ko i18n: 'YYYY'--><!-- /ko --></span>
@@ -88,8 +92,7 @@
                                             id: getCode() + '_vatid',
                                             autocomplete: off,
                                             title: $t('VatId')},
-                                            value: rp_vatid"
-                        />
+                                            value: rp_vatid">
                     </div>
                 </fieldset>
                 <!-- /ko -->
@@ -144,7 +147,7 @@
                                 <div class="panel-body">
                                     <div class="input-group input-group-sm">
                                         <span class="input-group-addon">&euro;</span>
-                                        <input type="text" data-bind="attr: {id: getCode() + '-rate'}" class="form-control rp-input-rate" aria-label="Amount" />
+                                        <input type="text" data-bind="attr: {id: getCode() + '-rate'}" class="form-control rp-input-rate" aria-label="Amount">
                                         <span class="input-group-btn">
                                                     <button type="button" data-bind="attr: {id: getCode() + '_Input-button'}, event: {click: updateInstallmentPlanAmount}" class="btn btn-default rp-btn-rate" role="group">
                                                         <!-- ko i18n: 'rp_calculate_rate_short'--><!-- /ko -->
@@ -156,7 +159,7 @@
                         </div>
                     </div>
                     <!--/ko-->
-                    <input type="hidden" data-bind="attr: {id: getCode() + '-runtime'}" value="" />
+                    <input type="hidden" data-bind="attr: {id: getCode() + '-runtime'}" value="">
                     <div class="rpClear"></div>
                     <div class="ratepay-ContentSwitch" style="display: none;" data-bind="attr: {id: getCode() + '_ContentSwitch'}">
                         <div class="ratepay-ChooseRuntime">
@@ -169,14 +172,10 @@
                 </div>
                 <!-- ko if: showSepaBlock() -->
                 <fieldset class="fieldset" data-bind="attr: {id: 'ratepay_rate_sepa_block_' + getCode()}, visible: isDirectDebitDefault()">
-                    <hr />
+                    <hr>
 
-                    <ul style="list-style: none; margin-bottom: 15px; border: 1px solid #BDBDBD; padding-left: 4px;">
-                        <li><label><!-- ko i18n: 'Ratepay address'--><!-- /ko --></label></li>
-                        <li><label><!-- ko i18n: 'Creditor'--><!-- /ko --><!-- ko i18n: 'Ratepay Creditor ID'--><!-- /ko --></label></li>
-                        <li><label><!-- ko i18n: 'Mandate'--><!-- /ko --><!-- ko i18n: 'Mandate Ref'--><!-- /ko --></label></li>
-                    </ul>
                     <ul style="list-style: none; margin-left: -40px;">
+                        <li style="margin-bottom: 15px;"><label><!-- ko i18n: 'The mandate reference and creditor identifier will be communicated to you separately.'--><!-- /ko --></label></li>
                         <li style="margin-bottom: 15px;"><label><b><!-- ko i18n: 'insert bankdata'--><!-- /ko --></b></label></li>
                         <li><label><b><!-- ko i18n: 'Account holder'--><!-- /ko --></b></label></li>
                         <li>
@@ -198,13 +197,13 @@
                             <span><!-- ko i18n: 'IBAN'--><!-- /ko -->:</span>
                         </label>
                         <div class="control required">
-                            <input type="text" name="payment[rp_iban]" class="input-text required-entry" value="" data-bind="attr: {id: getCode() + '_iban', autocomplete: off, title: $t('IBAN')}, value: rp_iban" />
+                            <input type="text" name="payment[rp_iban]" class="input-text required-entry" value="" data-bind="attr: {id: getCode() + '_iban', autocomplete: off, title: $t('IBAN')}, value: rp_iban">
                         </div>
                         <table>
                             <tbody data-bind="attr: {id: getCode() + '_sepa_agreement'}">
                             <tr>
                                 <td style="padding:10px;">
-                                    <input type="checkbox" data-bind="attr: {id: getCode() + '_save_sepa_accepted'}, checked: sepaAccepted" />
+                                    <input type="checkbox" data-bind="attr: {id: getCode() + '_save_sepa_accepted'}, checked: sepaAccepted">
                                 </td>
                                 <td style="padding:10px 0;">
                                                 <span class="required ratepayagreement">
@@ -218,11 +217,11 @@
                             </tr>
                             <tr>
                                 <td style="padding:10px 0;" colspan="2">
-                                    <br/>
+                                    <br>
                                     <span style="font-weight:bold;"><!-- ko i18n: 'ratepay_directdebit_sepa_notice_block_1'--><!-- /ko --></span>
-                                    <br/>
+                                    <br>
                                     <!-- ko i18n: 'ratepay_directdebit_sepa_notice_block_2'--><!-- /ko -->
-                                    <br/>
+                                    <br>
                                     <!-- ko i18n: 'ratepay_directdebit_sepa_notice_block_3'--><!-- /ko -->
                                 </td>
                             </tr>

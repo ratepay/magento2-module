@@ -1,8 +1,13 @@
 <?php
 
+/**
+ * Copyright (c) Ratepay GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace RatePAY\Payment\Model\Api;
-
 
 use RatePAY\Payment\Controller\LibraryController;
 use Magento\Framework\Exception\PaymentException;
@@ -161,17 +166,26 @@ class SendConfirmationDeliver
 
         $sProfileId = null;
         $sSecurityCode = null;
-        $blSandbox = false;
+        $blSandbox = null;
+        if (is_numeric($order->getRatepaySandboxUsed())) {
+            $blSandbox = (bool)$order->getRatepaySandboxUsed();
+        }
         if ($order->getRatepayProfileId()) {
             $sProfileId = $order->getRatepayProfileId();
             $sSecurityCode = $this->profileConfigHelper->getSecurityCodeForProfileId($sProfileId, $paymentMethod);
+        }
+        if ($blSandbox === null) {
             $blSandbox = $this->profileConfigHelper->getSandboxModeForProfileId($sProfileId, $paymentMethod);
         }
+
         $inv->setShippingDescription($order->getShippingDescription());
 
         $head = $this->rpLibraryModel->getRequestHead($order, 'CONFIRMATION_DELIVER', null, null, $sProfileId, $sSecurityCode, $this->getTrackingInfo($order));
         $content = $this->rpLibraryModel->getRequestContent($inv, 'CONFIRMATION_DELIVER');
 
+        if ($blSandbox === null) {
+            $blSandbox = $this->profileConfigHelper->getSandboxModeForProfileId($head->getCredential()->getProfileId());
+        }
         return $this->rpLibraryController->callConfirmationDeliver($head, $content, $order, $blSandbox);
     }
 }

@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Copyright (c) Ratepay GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace RatePAY\Payment\Block\Adminhtml\Config\Fieldset;
 
 /**
@@ -28,7 +35,6 @@ class Payment extends \Magento\Config\Block\System\Config\Form\Fieldset
     ) {
         parent::__construct($context, $authSession, $jsHelper, $data);
         $this->moduleList = $moduleList;
-
     }
 
     /**

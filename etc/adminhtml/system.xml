@@ -1,4 +1,12 @@
 <?xml version="1.0"?>
+<!--
+/**
+ * Copyright (c) Ratepay GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+-->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
         <section id="payment">
@@ -23,7 +31,13 @@
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                         <config_path>ratepay/general/true_offline_mode</config_path>
                         <tooltip>With True Offline Mode being enabled, communication with Ratepay when creating an invoice or a creditmemo is disabled. This will make the module behave in the Magento2 standard way. With True Offline Mode being disabled (default) the module will continue to communicate to Ratepay like before, this happens because the module didnt have a differentiation between those modes in the beginning and the customers were not supposed to have to change their workflow later when it was introduced.</tooltip>
-                    </field>                  
+                    </field>
+                    <field id="proxy_mode" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Proxy-Mode</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <tooltip>Enable this option to interpret the HTTP_X_FORWARDED_FOR and HTTP_X_REAL_IP headers. Should be activated if your shop is behind a Proxy server.</tooltip>
+                        <config_path>ratepay/general/proxy_mode</config_path>
+                    </field>
                     <field id="bams_enabled" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Enable Remember IBAN (BAMS)</label>
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
@@ -54,7 +68,7 @@
                         <depends>
                             <field id="bams_enabled">1</field>
                         </depends>
-                    </field>                  
+                    </field>   
                     <field id="street_field_usage" translate="label tooltip" type="select" sortOrder="26" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Street field usage</label>
                         <source_model>RatePAY\Payment\Model\Source\StreetFieldUsage</source_model>
@@ -85,10 +99,6 @@
                             <label>Title</label>
                             <config_path>payment/ratepay_invoice/title</config_path>
                         </field>
-                        <field id="payment_fee" translate="label" type="text" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
-                            <label>Payment Fee</label>
-                            <config_path>payment/ratepay_invoice/payment_fee</config_path>
-                        </field>
                         <field id="order_status" translate="label" type="select" sortOrder="999" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>New Order Status</label>
                             <source_model>Magento\Sales\Model\Config\Source\Order\Status\NewStatus</source_model>
@@ -110,10 +120,6 @@
                         <field id="title" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Title</label>
                             <config_path>payment/ratepay_directdebit/title</config_path>
-                        </field>
-                        <field id="payment_fee" translate="label" type="text" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
-                            <label>Payment Fee</label>
-                            <config_path>payment/ratepay_directdebit/payment_fee</config_path>
                         </field>
                         <field id="order_status" translate="label" type="select" sortOrder="999" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>New Order Status</label>
@@ -137,10 +143,6 @@
                             <label>Title</label>
                             <config_path>payment/ratepay_installment/title</config_path>
                         </field>
-                        <field id="payment_fee" translate="label" type="text" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
-                            <label>Payment Fee</label>
-                            <config_path>payment/ratepay_installment/payment_fee</config_path>
-                        </field>
                         <field id="order_status" translate="label" type="select" sortOrder="999" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>New Order Status</label>
                             <source_model>Magento\Sales\Model\Config\Source\Order\Status\NewStatus</source_model>
@@ -162,10 +164,6 @@
                         <field id="title" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Title</label>
                             <config_path>payment/ratepay_installment0/title</config_path>
-                        </field>
-                        <field id="payment_fee" translate="label" type="text" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
-                            <label>Payment Fee</label>
-                            <config_path>payment/ratepay_installment0/payment_fee</config_path>
                         </field>
                         <field id="order_status" translate="label" type="select" sortOrder="999" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>New Order Status</label>
@@ -202,10 +200,6 @@
                             <label>Title</label>
                             <config_path>payment/ratepay_invoice_backend/title</config_path>
                         </field>
-                        <field id="payment_fee" translate="label" type="text" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
-                            <label>Payment Fee</label>
-                            <config_path>payment/ratepay_invoice_backend/payment_fee</config_path>
-                        </field>
                         <field id="order_status" translate="label" type="select" sortOrder="999" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>New Order Status</label>
                             <source_model>Magento\Sales\Model\Config\Source\Order\Status\NewStatus</source_model>
@@ -227,10 +221,6 @@
                         <field id="title" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Title</label>
                             <config_path>payment/ratepay_directdebit_backend/title</config_path>
-                        </field>
-                        <field id="payment_fee" translate="label" type="text" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
-                            <label>Payment Fee</label>
-                            <config_path>payment/ratepay_directdebit_backend/payment_fee</config_path>
                         </field>
                         <field id="order_status" translate="label" type="select" sortOrder="999" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>New Order Status</label>
@@ -254,10 +244,6 @@
                             <label>Title</label>
                             <config_path>payment/ratepay_installment_backend/title</config_path>
                         </field>
-                        <field id="payment_fee" translate="label" type="text" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
-                            <label>Payment Fee</label>
-                            <config_path>payment/ratepay_installment_backend/payment_fee</config_path>
-                        </field>
                         <field id="order_status" translate="label" type="select" sortOrder="999" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>New Order Status</label>
                             <source_model>Magento\Sales\Model\Config\Source\Order\Status\NewStatus</source_model>
@@ -279,10 +265,6 @@
                         <field id="title" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Title</label>
                             <config_path>payment/ratepay_installment0_backend/title</config_path>
-                        </field>
-                        <field id="payment_fee" translate="label" type="text" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
-                            <label>Payment Fee</label>
-                            <config_path>payment/ratepay_installment0_backend/payment_fee</config_path>
                         </field>
                         <field id="order_status" translate="label" type="select" sortOrder="999" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>New Order Status</label>

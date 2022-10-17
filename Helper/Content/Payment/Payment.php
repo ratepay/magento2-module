@@ -1,13 +1,13 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: SebastianN
- * Date: 09.02.17
- * Time: 16:35
+ * Copyright (c) Ratepay GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace RatePAY\Payment\Helper\Content\Payment;
-
 
 use Magento\Framework\App\Helper\Context;
 
@@ -31,12 +31,12 @@ class Payment extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Payment constructor.
      * @param Context $context
-     * @param \Magento\Checkout\Model\Session\Proxy $checkoutSession
+     * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \RatePAY\Payment\Helper\Payment $rpPaymentHelper
      */
     public function __construct(
         Context $context,
-        \Magento\Checkout\Model\Session\Proxy $checkoutSession,
+        \Magento\Checkout\Model\Session $checkoutSession,
         \RatePAY\Payment\Helper\Payment $rpPaymentHelper
     ) {
         parent::__construct($context);

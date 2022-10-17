@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) Ratepay GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 .sp-methods select.ratepayday {
     width:154px ; margin-right: 7px;
 }
@@ -62,7 +69,6 @@
 .panel-body {
     padding: 15px;
     box-sizing: border-box;
-    min-height: 68px;
 }
 .multishipping .col-md-5 {
     width: 48%;
@@ -199,15 +205,18 @@
     width: 57%!important;
 }
 
-@media (max-width: 1261px) {
+@media (max-width: 1280px) {
     .rp-input-rate {
+        width: 90%!important;
+    }
+    .multishipping .rp-input-rate {
         width: 90%!important;
     }
 
     .rp-btn-rate {
-        margin-top: 10px;
+        margin-top: 10px!important;
         margin-left: 12px;
-        width: 90%;
+        width: 89.9%;
         display: block;
     }
 }
@@ -243,15 +252,31 @@
     font-weight: 400;
     line-height: 1.42857;
     margin-bottom: 0;
-    padding: 6px 12px;
+    padding: 5px 12px;
     text-align: center;
     vertical-align: middle;
     white-space: nowrap;
 }
 .btn-default {
     background-color: #fff;
-    border-color: #ccc;
+    border-color: #c2c2c2;
     color: #333;
+}
+.rp-btn-rate {
+    margin-top: -3px;
+    border-radius: 1px;
+}
+
+.admin__field-control .btn-default {
+    width: 100%;
+    margin-top: 3px;
+}
+.admin__field-control .rate-input {
+    width: 100%;
+}
+
+.admin__field.rp-center SPAN, .admin__field.rp-center LABEL {
+    text-align: center!important;
 }
 
 div.ratepay-ContentSwitch {

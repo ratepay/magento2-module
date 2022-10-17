@@ -1,8 +1,12 @@
 <?php
+
 /**
- * Copyright © 2013-2017 Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Copyright (c) Ratepay GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
+
 namespace RatePAY\Payment\Block\Form;
 
 use Magento\Framework\View\Element\Template;
@@ -71,7 +75,7 @@ class Dfp extends \Magento\Payment\Block\Form
             $dfpSnippetId = 'ratepay'; // default value, so that there is always a device fingerprint
         }
 
-        if(empty($dfpSessionToken)) {
+        if (empty($dfpSessionToken)) {
             $dfp = $this->rpLibraryController->getDfpCode($dfpSnippetId, $this->customerSession->getSessionId());
             $this->customerSession->setRatePayDeviceIdentToken($dfp->getToken());
             return $dfp->getDfpSnippetCode();

@@ -1,16 +1,17 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: SebastianN
- * Date: 02.03.17
- * Time: 15:39
+ * Copyright (c) Ratepay GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace RatePAY\Payment\Block\System\Config;
 
 use Magento\Backend\Block\Template\Context;
 use Magento\Config\Block\System\Config\Form\Field;
-use Magento\Framework\Data\Form\Element\AbstractElement;;
+use Magento\Framework\Data\Form\Element\AbstractElement;
 
 class ProfileRequest extends Field
 {
@@ -126,7 +127,8 @@ class ProfileRequest extends Field
      * @param $id
      * @return string
      */
-    private function _getRpMethod($id) {
+    private function _getRpMethod($id)
+    {
         $pos = strpos($id, 'ratepay');
         $method = substr($id, $pos);
         if (stripos($id, '_backend') !== false) {
