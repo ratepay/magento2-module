@@ -192,6 +192,8 @@ ratepay_terms_block_6, "einverstanden." ,module,RatePAY_Payment
 "House number","Hausnummer",module,RatePAY_Payment
 "Additional info","Zusatz-Information",module,RatePAY_Payment
 "True Offline Mode","Echter Offline Modus",module,RatePAY_Payment
+"Billing country","Rechnungsland",module,RatePAY_Payment
+"Shipping country","Lieferland",module,RatePAY_Payment
 "Refresh Profile configurations","Profil Konfigurationen aktualisieren",module,RatePAY_Payment
 "Creditmemo goodwill refund transmission type","Gutschrift Berichtigungserstattung Übertragungs-Art",module,RatePAY_Payment
 "Standard item","Standard-Position",module,RatePAY_Payment
