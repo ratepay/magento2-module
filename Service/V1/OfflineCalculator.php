@@ -84,13 +84,14 @@ class OfflineCalculator implements OfflineCalculatorInterface
     {
         $sAllowedMonths = $profile->getData('month_allowed');
         $aAllowedMonths = explode(",", $sAllowedMonths);
+        $aAllowedMonths = array_reverse($aAllowedMonths);
 
-        $aSearchRuntimes = [24, 12, 6];
-        foreach ($aSearchRuntimes as $iRuntime) {
-            if (in_array($iRuntime, $aAllowedMonths) && !in_array($iRuntime, $excludeMonths)) {
+        foreach ($aAllowedMonths as $iRuntime) {
+            if (!in_array($iRuntime, $excludeMonths)) {
                 return $iRuntime;
             }
         }
+
         return $profile->getData('month_number_min');
     }
 

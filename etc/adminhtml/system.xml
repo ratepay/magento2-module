@@ -71,7 +71,7 @@
                             <config_path>ratepay/general/instalment_plan_billing_country</config_path>
                         </field>
                         <field id="instalment_plan_shipping_country" translate="label" type="select" sortOrder="37" showInDefault="1" showInWebsite="1" showInStore="1">
-                            <label>Billing country</label>
+                            <label>Shipping country</label>
                             <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
                             <config_path>ratepay/general/instalment_plan_shipping_country</config_path>
                         </field>
