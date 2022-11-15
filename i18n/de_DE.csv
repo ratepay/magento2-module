@@ -171,6 +171,7 @@ ratepay_terms_block_6, "einverstanden." ,module,RatePAY_Payment
 "Send capture when creating the shipment","Capture bei Erstellung des Versands übermitteln",module,RatePAY_Payment
 "Determines when the capture call is sent to Ratepay API","Legt fest zu welchem Zeitpunkt der Capture call an die Ratepay API gesendet wird.",module,RatePAY_Payment
 "Active payment types","Aktive Zahlarten",module,RatePAY_Payment
+"Payment type","Zahlart",module,RatePAY_Payment
 "Validation failed: Bank-account parameter IBAN is invalid.","Validierung fehlgeschlagen: Angegebene IBAN ist ungültig",module,RatePAY_Payment
 "Validation failed: Bank-account parameter IBAN (DE) has invalid length (must be 22).","Validierung fehlgeschlagen: Angegebene IBAN hat eine ungültige Länge (muss 22 Zeichen lang sein).",module,RatePAY_Payment
 "Ratepay_invoice","Rechnung",module,RatePAY_Payment
