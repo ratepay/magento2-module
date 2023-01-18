@@ -265,7 +265,7 @@ class ProfileConfiguration extends AbstractModel
      * @param string                                $sCurrency
      * @return bool
      */
-    public function isApplicableForQuote(\Magento\Quote\Api\Data\CartInterface $oQuote, $sMethodCode, $dTotalAmount = null, $sBillingCountryId = null, $sShippingCountryId = null, $sCurrency = null)
+    public function isApplicableForQuote(\Magento\Quote\Api\Data\CartInterface $oQuote = null, $sMethodCode = null, $dTotalAmount = null, $sBillingCountryId = null, $sShippingCountryId = null, $sCurrency = null)
     {
         $sProduct = $this->getRatepayProduct($sMethodCode);
 
@@ -275,7 +275,7 @@ class ProfileConfiguration extends AbstractModel
         }
 
         // check currency
-        if ($sCurrency === null) {
+        if ($oQuote && $sCurrency === null) {
             $sCurrency = $oQuote->getQuoteCurrencyCode();
         }
         if (!in_array($sCurrency, explode(",", $this->getData("currency")))) {
@@ -283,19 +283,19 @@ class ProfileConfiguration extends AbstractModel
         }
 
         // if multishipping mode is used and profile does not support ALA it cant be used
-        if ($oQuote->getIsMultiShipping() && $this->getProductData("delivery_address_?", $sMethodCode, true) == false) {
+        if ($oQuote && $oQuote->getIsMultiShipping() && $this->getProductData("delivery_address_?", $sMethodCode, true) == false) {
             return false;
         }
 
         // check country
-        if ($sBillingCountryId === null) {
+        if ($oQuote && $sBillingCountryId === null) {
             $sBillingCountryId = $oQuote->getBillingAddress()->getCountryId();
         }
         if (!in_array($sBillingCountryId, explode(",", $this->getData("country_code_billing")))) {
             return false;
         }
 
-        if ($sShippingCountryId === null) {
+        if ($oQuote && $sShippingCountryId === null) {
             $sShippingCountryId = $oQuote->getShippingAddress()->getCountryId();
         }
         if (!in_array($sShippingCountryId, explode(",", $this->getData("country_code_delivery")))) {
@@ -304,11 +304,11 @@ class ProfileConfiguration extends AbstractModel
 
         $dMinAmount = $this->getProductData("tx_limit_?_min", $sMethodCode, true);
         $dMaxAmount = $this->getProductData("tx_limit_?_max", $sMethodCode, true);
-        if (!empty($oQuote->getBillingAddress()->getCompany()) && ((bool)$this->getProductData("b2b_?", $sMethodCode, true) === true && ($dTotalAmount === null || $dTotalAmount <= $this->getProductData("tx_limit_?_max_b2b", $sMethodCode)))) {
+        if ($oQuote && !empty($oQuote->getBillingAddress()->getCompany()) && ((bool)$this->getProductData("b2b_?", $sMethodCode, true) === true && ($dTotalAmount === null || $dTotalAmount <= $this->getProductData("tx_limit_?_max_b2b", $sMethodCode)))) {
             $dMaxAmount = $this->getProductData("tx_limit_?_max_b2b", $sMethodCode, true);
         }
 
-        if ($oQuote->getIsMultiShipping()) {
+        if ($oQuote && $oQuote->getIsMultiShipping()) {
             $dMultiShippingMinTotal = false;
             $dMultiShippingMaxTotal = false;
             $aAddresses = $oQuote->getAllShippingAddresses();
@@ -329,7 +329,7 @@ class ProfileConfiguration extends AbstractModel
                 return false;
             }
         } else {
-            if ($dTotalAmount === null) {
+            if ($oQuote && $dTotalAmount === null) {
                 $dTotalAmount = $oQuote->getGrandTotal();
             }
 

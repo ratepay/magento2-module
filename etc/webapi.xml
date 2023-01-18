@@ -37,4 +37,11 @@
             <parameter name="cartId" force="true">%cart_id%</parameter>
         </data>
     </route>
+
+    <route url="/V1/ratepay/offlineCalc" method="POST">
+        <service class="RatePAY\Payment\Api\OfflineCalculatorInterface" method="getInstallmentInfo"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
 </routes>

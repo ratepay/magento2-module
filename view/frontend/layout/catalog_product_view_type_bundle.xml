@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright (c) Ratepay GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="product.info.addtocart.bundle">
+            <block name="ratepay.product.info.addtocart.offlineInstallmentCalc.bundle" class="RatePAY\Payment\Block\Checkout\OfflineInstallmentCalculator" template="RatePAY_Payment::offlineInstallmentCalc.phtml" before="product.info.addtocart.instantPurchase">
+                <arguments>
+                    <argument name="jsLayout" xsi:type="array">
+                        <item name="components" xsi:type="array">
+                            <item name="ratepay" xsi:type="array">
+                                <item name="config" xsi:type="array">
+                                    <item name="component" xsi:type="string">
+                                        RatePAY_Payment/js/view/offlinecalc
+                                    </item>
+                                </item>
+                            </item>
+                        </item>
+                    </argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+    </body>
+</page>

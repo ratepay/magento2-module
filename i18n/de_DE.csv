@@ -72,6 +72,9 @@ B2B,B2B,module,RatePAY_Payment
 "Ratepay-Datenschutzerklärung Url","Ratepay-Datenschutzerklärung Url",module,RatePAY_Payment
 Installment,Ratenzahlung,module,RatePAY_Payment
 Instalment,Ratenzahlung,module,RatePAY_Payment
+from %s in %d instalments,ab %s in %d Raten,module,RatePAY_Payment
+Product page: Instalment plan,Produkt Detailseite: Ratenrechner,module,RatePAY_Payment
+Shows basic instalment information on the product details page,Zeigt einen einfachen Ratenrechner auf der Produkt Detailseite an,module,RatePAY_Payment
 Rate min,Minimumrate,module,RatePAY_Payment
 "Month Allowed","Laufzeiten (in Monaten)",module,RatePAY_Payment
 "0% Financing","0% Finanzierung",module,RatePAY_Payment
@@ -168,6 +171,7 @@ ratepay_terms_block_6, "einverstanden." ,module,RatePAY_Payment
 "Send capture when creating the shipment","Capture bei Erstellung des Versands übermitteln",module,RatePAY_Payment
 "Determines when the capture call is sent to Ratepay API","Legt fest zu welchem Zeitpunkt der Capture call an die Ratepay API gesendet wird.",module,RatePAY_Payment
 "Active payment types","Aktive Zahlarten",module,RatePAY_Payment
+"Payment type","Zahlart",module,RatePAY_Payment
 "Validation failed: Bank-account parameter IBAN is invalid.","Validierung fehlgeschlagen: Angegebene IBAN ist ungültig",module,RatePAY_Payment
 "Validation failed: Bank-account parameter IBAN (DE) has invalid length (must be 22).","Validierung fehlgeschlagen: Angegebene IBAN hat eine ungültige Länge (muss 22 Zeichen lang sein).",module,RatePAY_Payment
 "Ratepay_invoice","Rechnung",module,RatePAY_Payment
@@ -189,6 +193,8 @@ ratepay_terms_block_6, "einverstanden." ,module,RatePAY_Payment
 "House number","Hausnummer",module,RatePAY_Payment
 "Additional info","Zusatz-Information",module,RatePAY_Payment
 "True Offline Mode","Echter Offline Modus",module,RatePAY_Payment
+"Billing country","Rechnungsland",module,RatePAY_Payment
+"Shipping country","Lieferland",module,RatePAY_Payment
 "Refresh Profile configurations","Profil Konfigurationen aktualisieren",module,RatePAY_Payment
 "Creditmemo goodwill refund transmission type","Gutschrift Berichtigungserstattung Übertragungs-Art",module,RatePAY_Payment
 "Standard item","Standard-Position",module,RatePAY_Payment
