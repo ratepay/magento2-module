@@ -4,7 +4,7 @@
 |Repository | Ratepay Module for Magento 2
 |------|----------
 |Author | Robert Müller
-|Module-Version | `2.1.6`
+|Module-Version | `2.1.7`
 |Compatibility | Magento 2.3.0 - 2.4.x
 |Link | http://www.ratepay.com
 |Mail | integration@ratepay.com
@@ -22,6 +22,10 @@ php bin/magento cache:clean
 ````
 
 ## Changelog
+
+### Version 2.1.7 - Released 2023-01-18
+* Updated Ratepay GmbH address
+* Added offline instalment calculator to product details page
 
 ### Version 2.1.6 - Released 2022-09-07
 * Fixed error message when entered IBAN was invalid
