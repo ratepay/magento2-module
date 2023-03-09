@@ -287,6 +287,8 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
     {
         $order = $this->getQuoteOrOrder();
 
+        $this->performSecurityChecks($order);
+
         $head = $this->_rpLibraryModel->getRequestHead($order);
         $oProfileConfig = $this->getMatchingProfile(null, $order->getStore()->getCode());
         $sandbox = $oProfileConfig->getSandboxMode();
@@ -339,6 +341,32 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
             $message = $this->formatMessage($resultInit->getReasonMessage());
             $this->customerSession->setRatePayDeviceIdentToken(null);
             throw new PaymentException(__($message)); // RatePAY Error Message
+        }
+    }
+
+    /**
+     * This method checks some order values to prevent a known Mage2 core vulnerability
+     * https://helpx.adobe.com/security/products/magento/apsb22-12.html
+     *
+     * @param \Magento\Sales\Model\Order $oOrder
+     * @throws PaymentException
+     */
+    protected function performSecurityChecks(\Magento\Sales\Model\Order $oOrder)
+    {
+        $blIsValid = true;
+
+        $oBillingAddress = $oOrder->getBillingAddress();
+        if ($oBillingAddress->getFirstname().$oBillingAddress->getLastname() != str_replace(["{{", "}}"], "", $oBillingAddress->getFirstname().$oBillingAddress->getLastname())) {
+            $blIsValid = false;
+        }
+
+        $oShippingAddress = $oOrder->getShippingAddress();
+        if ($oShippingAddress->getFirstname().$oShippingAddress->getLastname() != str_replace(["{{", "}}"], "", $oShippingAddress->getFirstname().$oShippingAddress->getLastname())) {
+            $blIsValid = false;
+        }
+
+        if ($blIsValid === false) {
+            throw new PaymentException(__("Error: Your address contains invalid characters."));
         }
     }
 
