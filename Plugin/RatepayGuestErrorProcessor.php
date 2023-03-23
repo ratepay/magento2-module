@@ -24,6 +24,11 @@ class RatepayGuestErrorProcessor
     protected $paymentInformationManagement;
 
     /**
+     * @var \Magento\Quote\Api\GuestPaymentMethodManagementInterface
+     */
+    protected $paymentMethodManagement;
+
+    /**
      * @var \Magento\Checkout\Model\Session
      */
     protected $checkoutSession;

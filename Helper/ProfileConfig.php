@@ -34,6 +34,11 @@ class ProfileConfig extends \Magento\Framework\App\Helper\AbstractHelper
     protected $profileConfigResource;
 
     /**
+     * @var Data
+     */
+    protected $ratepayHelper;
+
+    /**
      * @var \RatePAY\Payment\Model\Entities\ProfileConfigurationFactory
      */
     protected $profileConfigFactory;
