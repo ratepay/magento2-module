@@ -45,6 +45,7 @@ ratepay_directdebit_sepa_notice_block_3,"Ich kann innerhalb von acht Wochen, beg
 "Please enter your Vat ID","Bitte geben Sie Ihre USt-IdNr. an",module,RatePAY_Payment
 "Phone Number","Telefonnummer",module,RatePAY_Payment
 "b2b not allowed","Diese Zahlungsart steht für Geschäftskunden nicht zur Verfügung.",module,RatePAY_Payment
+"B2B orders are not supported for this payment method.","Diese Zahlungsart steht für Geschäftskunden nicht zur Verfügung.",module,RatePAY_Payment
 "ala not allowed","Um diese Zahlungsart zu nutzen, muss die Lieferadresse der Rechnungsadresse entsprechen.",module,RatePAY_Payment
 Ratepay,Ratepay,module,RatePAY_Payment
 Germany,Deutschland,module,RatePAY_Payment
