@@ -139,8 +139,12 @@
                 </button>
             </div>
         </div>
-        <div class="ratepay_ala_warning" data-bind="visible: !isPlaceOrderActionAllowedRatePay()"><br>
+        <div class="ratepay_ala_warning" data-bind="visible: isDifferentAddressNotAllowed()"><br>
             <span style="float:right;"><!-- ko i18n: 'Orders with different billing- and shipping-addresses are not supported for this payment method.'--><!-- /ko --></span>
+            <div style="clear:both;"></div>
+        </div>
+        <div class="ratepay_ala_warning" data-bind="visible: !isDifferentAddressNotAllowed() && isB2BNotAllowed()"><br>
+            <span style="float:right;"><!-- ko i18n: 'B2B orders are not supported for this payment method.'--><!-- /ko --></span>
             <div style="clear:both;"></div>
         </div>
     </div>

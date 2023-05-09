@@ -51,8 +51,20 @@ define(
                 });
             },
             isPlaceOrderActionAllowedRatePay: function () {
+                return this.isDifferentAddressNotAllowed() === false && this.isB2BNotAllowed() === false;
+            },
+            isDifferentAddressNotAllowed: function () {
                 var config = this.getPaymentConfig();
-                return ((config && config.differentShippingAddressAllowed === true) || (quote.billingAddress() != null && quote.billingAddress().getCacheKey() == quote.shippingAddress().getCacheKey()));
+                if (config && config.differentShippingAddressAllowed === true) {
+                    return false;
+                }
+                return (quote.billingAddress() === null || quote.billingAddress().getCacheKey() !== quote.shippingAddress().getCacheKey());
+            },
+            isB2BNotAllowed: function () {
+                if (this.isB2BEnabled() === false && this.isCompanySet() === true) {
+                    return true;
+                }
+                return false;
             },
             getCustomerName: function () {
                 if (quote.billingAddress() != null && quote.billingAddress().firstname != undefined) {

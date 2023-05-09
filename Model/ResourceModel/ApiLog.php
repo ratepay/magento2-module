@@ -55,6 +55,9 @@ class ApiLog extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
     protected function maskTagValue($xmlString, $tagName)
     {
         preg_match('#<'.$tagName.'>(\w*)<\/'.$tagName.'>#', $xmlString, $matches);
+        if (!is_array($matches) || !isset($matches[1])) {
+            return $xmlString;
+        }
         $masked = '';
         for ($i = 0; $i < strlen($matches[1]); $i++) {
             $masked .= '*';
