@@ -2,13 +2,13 @@
   "name": "ratepay/magento2-payment",
   "description": "Official Ratepay Payments Extension for Magento 2",
   "type": "magento2-module",
-  "version": "2.1.7",
+  "version": "2.1.8",
   "license": "MIT",
 
   "require": {
     "php": ">=7.1.0",
     "magento/framework": ">=100.3.0",
-    "ratepay/php-library": ">=1.4.0"
+    "ratepay/php-library": ">=1.8.4"
   },
 
   "autoload": {
