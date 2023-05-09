@@ -9,7 +9,10 @@
 
 namespace RatePAY\Payment\Plugin;
 
+use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\PaymentException;
+use RatePAY\Payment\Model\Exception\DisablePaymentMethodException;
 
 class RatepayGuestErrorProcessor
 {
@@ -22,6 +25,11 @@ class RatepayGuestErrorProcessor
      * @var \Magento\Checkout\Api\PaymentInformationManagementInterface
      */
     protected $paymentInformationManagement;
+
+    /**
+     * @var \Magento\Quote\Api\GuestPaymentMethodManagementInterface
+     */
+    protected $paymentMethodManagement;
 
     /**
      * @var \Magento\Checkout\Model\Session
@@ -44,12 +52,18 @@ class RatepayGuestErrorProcessor
     protected $apiLog;
 
     /**
+     * @var \Psr\Log\LoggerInterface
+     */
+    private $logger;
+
+    /**
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Quote\Api\GuestBillingAddressManagementInterface $billingAddressManagement
      * @param \Magento\Quote\Api\GuestPaymentMethodManagementInterface $paymentMethodManagement
      * @param \Magento\Quote\Api\GuestCartManagementInterface $cartManagement
      * @param \Magento\Framework\App\ProductMetadata $productMetadata
      * @param \RatePAY\Payment\Model\ResourceModel\ApiLog $apiLog
+     * @param \Psr\Log\LoggerInterface $logger
      * @codeCoverageIgnore
      */
     public function __construct(
@@ -58,7 +72,8 @@ class RatepayGuestErrorProcessor
         \Magento\Quote\Api\GuestPaymentMethodManagementInterface $paymentMethodManagement,
         \Magento\Quote\Api\GuestCartManagementInterface $cartManagement,
         \Magento\Framework\App\ProductMetadata $productMetadata,
-        \RatePAY\Payment\Model\ResourceModel\ApiLog $apiLog
+        \RatePAY\Payment\Model\ResourceModel\ApiLog $apiLog,
+        \Psr\Log\LoggerInterface $logger
     ) {
         $this->billingAddressManagement = $billingAddressManagement;
         $this->paymentMethodManagement = $paymentMethodManagement;
@@ -66,6 +81,7 @@ class RatepayGuestErrorProcessor
         $this->cartManagement = $cartManagement;
         $this->productMetadata = $productMetadata;
         $this->apiLog = $apiLog;
+        $this->logger = $logger;
     }
 
     /**
@@ -86,31 +102,66 @@ class RatepayGuestErrorProcessor
         \Magento\Quote\Api\Data\PaymentInterface $paymentMethod,
         \Magento\Quote\Api\Data\AddressInterface $billingAddress
     ) {
-        if (version_compare($this->productMetadata->getVersion(), '2.1.0', '>=') &&
-            version_compare($this->productMetadata->getVersion(), '2.2.0', '<') &&
-            strpos($paymentMethod->getMethod(), 'ratepay_') !== false
-        ) { // Problem only exists in Magento 2.1.X
-            $subject->savePaymentInformation($cartId, $email, $paymentMethod, $billingAddress);
-            try {
-                $orderId = $this->cartManagement->placeOrder($cartId);
-            } catch (\Exception $e) {
-                throw new PaymentException(__($e->getMessage()), $e);
+        if (strpos($paymentMethod->getMethod(), 'ratepay_') !== false) {
+            if (version_compare($this->productMetadata->getVersion(), '2.1.0', '>=') &&
+                version_compare($this->productMetadata->getVersion(), '2.2.0', '<')
+            ) { // Problem only exists in Magento 2.1.X
+                $subject->savePaymentInformation($cartId, $email, $paymentMethod, $billingAddress);
+                try {
+                    $orderId = $this->cartManagement->placeOrder($cartId);
+                } catch (\Exception $e) {
+                    throw new PaymentException(__($e->getMessage()), $e);
+                }
+
+                return $orderId;
             }
 
-            return $orderId;
+            if (version_compare($this->productMetadata->getVersion(), '2.4.6', '>=')) {
+                // Fixes a problem where Magento forces the user back to the shipping address form when a payment error occured since Magento 2.4.6
+                $subject->savePaymentInformation($cartId, $email, $paymentMethod, $billingAddress);
+                try {
+                    $orderId = $this->cartManagement->placeOrder($cartId);
+                } catch (DisablePaymentMethodException $e) {
+                    throw $e;
+                } catch (LocalizedException $e) {
+                    $this->logger->critical(
+                        'Placing an order with quote_id ' . $cartId . ' is failed: ' . $e->getMessage()
+                    );
+                    throw $e;
+                } catch (\Exception $e) {
+                    $this->handleApiLogEntry();
+                    $this->logger->critical($e);
+                    throw new CouldNotSaveException(
+                        __('A server error stopped your order from being placed. Please try to place your order again.'),
+                        $e
+                    );
+                }
+                return $orderId;
+            }
         }
         // run core method
         try {
             $return = $proceed($cartId, $email, $paymentMethod, $billingAddress);
         } catch (\Exception $e) {
-            $request = $this->checkoutSession->getRatepayRequest();
-            if (!empty($request)) {
-                // Rewrite the log-entry after it was rolled back in the db-transaction
-                $this->apiLog->addApiLogEntry($request);
-            }
-            $this->checkoutSession->unsRatepayRequest();
+            $this->handleApiLogEntry();
             throw $e;
         }
         return $return;
+    }
+
+    /**
+     * API log entry is lost in rollback when an error occured
+     * This writes it again after rollback
+     *
+     * @return void
+     */
+    protected function handleApiLogEntry()
+    {
+        $request = $this->checkoutSession->getRatepayRequest();
+        if (!empty($request)) {
+            // Rewrite the log-entry after it was rolled back in the db-transaction
+            $this->apiLog->addApiLogEntry($request);
+        }
+        $this->checkoutSession->unsRatepayRequest();
     }
 }

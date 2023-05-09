@@ -51,8 +51,11 @@ define([
                 }
 
                 setTimeout(function () {
-                    $(self.selector).hide('blind', {}, 500)
-                }, 20000); // show errorbox for 20 seconds instead auf 5 sec standard
+                    $(self.selector).hide('slow');
+
+                    //commented because effect-blind.js(1.13.1) is having show & hide issue
+                    // $(this.selector).hide('blind', {}, this.hideSpeed);
+                }.bind(this), 20000);
             }
         },
         removeAll: function () {

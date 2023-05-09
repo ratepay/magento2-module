@@ -14,6 +14,11 @@ use Magento\Framework\View\Element\Template\Context;
 class InstallmentPlan extends \Magento\Framework\View\Element\Template
 {
     /**
+     * @var \Magento\Framework\View\Asset\Repository
+     */
+    protected $assetRepo;
+
+    /**
      * Constructor
      *
      * @param Context $context

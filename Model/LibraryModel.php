@@ -15,6 +15,26 @@ use RatePAY\Payment\Model\Source\CreditmemoDiscountType;
 class LibraryModel
 {
     /**
+     * @var \RatePAY\Payment\Helper\Head\Head
+     */
+    protected $rpHeadHelper;
+
+    /**
+     * @var \RatePAY\Payment\Helper\Head\Additional
+     */
+    protected $rpHeadAdditionalHelper;
+
+    /**
+     * @var \RatePAY\Payment\Helper\Head\External
+     */
+    protected $rpHeadExternalHelper;
+
+    /**
+     * @var \RatePAY\Payment\Helper\Content\ContentBuilder
+     */
+    protected $rpContentBuilder;
+
+    /**
      * @var Discount
      */
     protected $rpContentBasketDiscountHelper;
