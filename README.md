@@ -8,8 +8,8 @@
 |Compatibility | Magento 2.3.0 - 2.4.x
 |Link | http://www.ratepay.com
 |Mail | integration@ratepay.com
-|Documentation | https://ratepay.gitbook.io/magento2/
-|Legal Disclaimer|https://ratepay.gitbook.io/docs/#legal-disclaimer
+|Full Documentation | [click here](https://docs.ratepay.com/docs/developer/shop_modules/magento/magento_2/ratepay_payment_plugin_for_magento_2/)|
+|Legal Disclaimer   | [click here](https://docs.ratepay.com/docs/developer/shop_modules/overview/)| 
 
 ## Installation with Composer
 Enter the following commands in your terminal from the root of you shopdirectory.
