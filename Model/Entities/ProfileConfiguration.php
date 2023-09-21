@@ -283,7 +283,7 @@ class ProfileConfiguration extends AbstractModel
         }
 
         // if multishipping mode is used and profile does not support ALA it cant be used
-        if ($oQuote && $oQuote->getIsMultiShipping() && $this->getProductData("delivery_address_?", $sMethodCode, true) == false) {
+        if ($oQuote && $oQuote->getIsMultiShipping() && $this->getProductData("delivery_address_?", $sProduct, true) == false) {
             return false;
         }
 
@@ -302,10 +302,10 @@ class ProfileConfiguration extends AbstractModel
             return false;
         }
 
-        $dMinAmount = $this->getProductData("tx_limit_?_min", $sMethodCode, true);
-        $dMaxAmount = $this->getProductData("tx_limit_?_max", $sMethodCode, true);
-        if ($oQuote && !empty($oQuote->getBillingAddress()->getCompany()) && ((bool)$this->getProductData("b2b_?", $sMethodCode, true) === true && ($dTotalAmount === null || $dTotalAmount <= $this->getProductData("tx_limit_?_max_b2b", $sMethodCode)))) {
-            $dMaxAmount = $this->getProductData("tx_limit_?_max_b2b", $sMethodCode, true);
+        $dMinAmount = $this->getProductData("tx_limit_?_min", $sProduct, true);
+        $dMaxAmount = $this->getProductData("tx_limit_?_max", $sProduct, true);
+        if ($oQuote && !empty($oQuote->getBillingAddress()->getCompany()) && ((bool)$this->getProductData("b2b_?", $sProduct, true) === true && ($dTotalAmount === null || $dTotalAmount <= $this->getProductData("tx_limit_?_max_b2b", $sProduct)))) {
+            $dMaxAmount = $this->getProductData("tx_limit_?_max_b2b", $sProduct, true);
         }
 
         if ($oQuote && $oQuote->getIsMultiShipping()) {
