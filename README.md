@@ -4,7 +4,7 @@
 |Repository | Ratepay Module for Magento 2
 |------|----------
 |Author | Robert Müller
-|Module-Version | `2.1.8`
+|Module-Version | `2.1.9`
 |Compatibility | Magento 2.3.0 - 2.4.x
 |Link | http://www.ratepay.com
 |Mail | integration@ratepay.com
@@ -22,6 +22,9 @@ php bin/magento cache:clean
 ````
 
 ## Changelog
+
+### Version 2.1.9 - Released 2023-09-28
+* Fixed profile usage in backend order
 
 ### Version 2.1.8 - Released 2023-05-09
 * Added compatibility for Magento 2.4.6 and PHP 8.2
