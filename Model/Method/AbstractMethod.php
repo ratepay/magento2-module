@@ -14,6 +14,7 @@ use Magento\Framework\App\Area;
 use RatePAY\Payment\Controller\LibraryController;
 use RatePAY\Payment\Helper\Validator;
 use Magento\Framework\Exception\PaymentException;
+use RatePAY\Payment\Model\BamsApi\StoreBankAccount;
 use RatePAY\Payment\Model\Exception\DisablePaymentMethodException;
 use RatePAY\Payment\Model\Handler\Cancel;
 use RatePAY\Payment\Model\Handler\Capture;
@@ -153,6 +154,13 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
     protected $hidePaymentType;
 
     /**
+     * BAMS StoreBankAccount request model
+     *
+     * @var StoreBankAccount
+     */
+    protected $storeBankAccount;
+
+    /**
      * Ratepay capture handler
      *
      * @var Capture
@@ -207,6 +215,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \RatePAY\Payment\Controller\LibraryController $libraryController
      * @param \RatePAY\Payment\Model\ResourceModel\HidePaymentType $hidePaymentType
+     * @param \RatePAY\Payment\Model\BamsApi\StoreBankAccount $storeBankAccount
      * @param \RatePAY\Payment\Model\Handler\Capture $captureHandler
      * @param \RatePAY\Payment\Model\Handler\Refund $refundHandler
      * @param \RatePAY\Payment\Model\Handler\Cancel $cancelHandler
@@ -234,6 +243,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         \Magento\Customer\Model\Session $customerSession,
         \RatePAY\Payment\Controller\LibraryController $libraryController,
         \RatePAY\Payment\Model\ResourceModel\HidePaymentType $hidePaymentType,
+        \RatePAY\Payment\Model\BamsApi\StoreBankAccount $storeBankAccount,
         \RatePAY\Payment\Model\Handler\Capture $captureHandler,
         \RatePAY\Payment\Model\Handler\Refund $refundHandler,
         \RatePAY\Payment\Model\Handler\Cancel $cancelHandler,
@@ -266,6 +276,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         $this->customerSession = $customerSession;
         $this->libraryController = $libraryController;
         $this->hidePaymentType = $hidePaymentType;
+        $this->storeBankAccount = $storeBankAccount;
         $this->captureHandler = $captureHandler;
         $this->refundHandler = $refundHandler;
         $this->cancelHandler = $cancelHandler;
@@ -716,7 +727,22 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         $sIban = $additionalData->getRpIban();
         if ($this instanceof Directdebit || !empty($sIban) || $additionalData->getRpDirectdebit() == "1") { // getRpIban used for installments
             $this->rpValidator->validateIban($additionalData);
-            $infoInstance->setAdditionalInformation('rp_iban', $sIban);
+            $sIbanReference = false;
+            if ((bool)$this->rpDataHelper->getRpConfigDataByPath('ratepay/general/bams_enabled') === true) {
+                if ($additionalData->getRpRememberiban()) {
+                    $sOwner = $order->getBillingAddress()->getFirstname() . ' ' . $order->getBillingAddress()->getLastname();
+                    $sIbanReference = $this->storeBankAccount->sendRequest($order->getCustomerId(), $this->getProfileId(), $sOwner, $sIban);
+                }
+
+                if ($additionalData->getRpIbanReference()) {
+                    $sIbanReference = $additionalData->getRpIbanReference();
+                }
+            }
+            if ($sIbanReference !== false) {
+                $infoInstance->setAdditionalInformation('rp_iban_reference', $sIbanReference);
+            } else {
+                $infoInstance->setAdditionalInformation('rp_iban', $sIban);
+            }
         }
 
         if ($additionalData->getRpDirectdebit() !== null) {

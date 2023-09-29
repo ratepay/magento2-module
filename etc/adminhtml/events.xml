@@ -11,4 +11,7 @@
     <event name="admin_system_config_changed_section_payment">
         <observer name="ratepay_admin_system_config_changed_section_payment" instance="RatePAY\Payment\Observer\SystemConfigChangedPayment" />
     </event>
+    <event name="admin_system_config_changed_section_payment">
+        <observer name="ratepay_admin_system_config_changed_section_payment" instance="RatePAY\Payment\Observer\SystemConfigChangedPayment" />
+    </event>
 </config>

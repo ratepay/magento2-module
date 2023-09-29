@@ -23,10 +23,17 @@ class BankAccount extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $return = false;
 
+        $ibanReference = $quoteOrOrder->getPayment()->getAdditionalInformation('rp_iban_reference');
+        if (!empty($ibanReference)) {
+            return [
+                'Reference' => $ibanReference,
+            ];
+        }
+
         $iban = $quoteOrOrder->getPayment()->getAdditionalInformation('rp_iban');
         $accountHolder = $quoteOrOrder->getPayment()->getAdditionalInformation('rp_accountholder');
         if (!empty($iban)) {
-            $return =[
+            $return = [
                 'Owner' => $quoteOrOrder->getBillingAddress()->getFirstname() . ' ' . $quoteOrOrder->getBillingAddress()->getLastname(),
                 //'BankName' =>
                 //'BankAccountNumber' => '1234567891',

@@ -38,6 +38,37 @@
                         <tooltip>Enable this option to interpret the HTTP_X_FORWARDED_FOR and HTTP_X_REAL_IP headers. Should be activated if your shop is behind a Proxy server.</tooltip>
                         <config_path>ratepay/general/proxy_mode</config_path>
                     </field>
+                    <field id="bams_enabled" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enable Remember IBAN (BAMS)</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>ratepay/general/bams_enabled</config_path>
+                        <tooltip>BAMS is the Bank Account Management Service of Ratepay. This enables the customer to save have IBAN data so that he doesnt have to enter it every time. The data is not saved on your server. It is saved on a secure server by Ratepay and addressed via a reference id.</tooltip>
+                    </field>
+                    <field id="bams_client_id" translate="label" type="text" sortOrder="18" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>BAMS Client Id</label>
+                        <config_path>ratepay/general/bams_client_id</config_path>
+                        <depends>
+                            <field id="bams_enabled">1</field>
+                        </depends>
+                    </field>
+                    <field id="bams_client_secret" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>BAMS Client Secret</label>
+                        <config_path>ratepay/general/bams_client_secret</config_path>
+                        <depends>
+                            <field id="bams_enabled">1</field>
+                        </depends>
+                    </field>
+                    <field id="bams_oauth_check" translate="label" sortOrder="21" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <frontend_model>RatePAY\Payment\Block\System\Config\BamsOauthCheck</frontend_model>
+                    </field>
+                    <field id="bams_sandbox" translate="label" type="select" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>BAMS Activate Sandbox</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>ratepay/general/bams_sandbox</config_path>
+                        <depends>
+                            <field id="bams_enabled">1</field>
+                        </depends>
+                    </field>   
                     <field id="street_field_usage" translate="label tooltip" type="select" sortOrder="26" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Street field usage</label>
                         <source_model>RatePAY\Payment\Model\Source\StreetFieldUsage</source_model>

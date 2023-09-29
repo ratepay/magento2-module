@@ -17,6 +17,16 @@ use RatePAY\Payment\Model\Method\Invoice;
 class SystemConfigChangedPayment implements ObserverInterface
 {
     /**
+     * @var \Magento\Backend\Model\Session
+     */
+    protected $backendSession;
+
+    /**
+     * @var \RatePAY\Payment\Model\BamsApi\GetStoredBankAccounts
+     */
+    protected $getStoredBankAccounts;
+  
+    /**
      * @var \RatePAY\Payment\Helper\ProfileConfig
      */
     protected $profileConfigHelper;
@@ -25,11 +35,17 @@ class SystemConfigChangedPayment implements ObserverInterface
      * Constructor
      *
      * @param \RatePAY\Payment\Helper\ProfileConfig $profileConfigHelper
+     * @param \Magento\Backend\Model\Session $backendSession
+     * @param \RatePAY\Payment\Model\BamsApi\GetStoredBankAccounts $getStoredBankAccounts
      */
     public function __construct(
-        \RatePAY\Payment\Helper\ProfileConfig $profileConfigHelper
+        \RatePAY\Payment\Helper\ProfileConfig $profileConfigHelper,
+        \Magento\Backend\Model\Session $backendSession,
+        \RatePAY\Payment\Model\BamsApi\GetStoredBankAccounts $getStoredBankAccounts
     ) {
         $this->profileConfigHelper = $profileConfigHelper;
+        $this->backendSession = $backendSession;
+        $this->getStoredBankAccounts = $getStoredBankAccounts;
     }
 
     /**
@@ -40,7 +56,7 @@ class SystemConfigChangedPayment implements ObserverInterface
     protected function handleProfileConfigurationUpdate($sChangedPath)
     {
         $sPseudoMethodCode = Invoice::METHOD_CODE;
-        if (stripos($sChangedPath, Invoice::BACKEND_SUFFIX) !== false) { ///@TODO: testen
+        if (stripos($sChangedPath, Invoice::BACKEND_SUFFIX) !== false) {
             $sPseudoMethodCode = $sPseudoMethodCode.Invoice::BACKEND_SUFFIX;
         }
         $this->profileConfigHelper->refreshProfileConfigurations($sPseudoMethodCode);
@@ -56,6 +72,13 @@ class SystemConfigChangedPayment implements ObserverInterface
     {
         $aChangedPaths = $observer->getChangedPaths();
         foreach ($aChangedPaths as $sChangedPath) {
+            if (stripos($sChangedPath, "bams_client_id") !== false || stripos($sChangedPath, "bams_client_secret") !== false) {
+                $sAuthToken = $this->getStoredBankAccounts->getAuthToken();
+                $this->backendSession->setRatepayBamsOauthChanged(false);
+                if ($sAuthToken !== false) {
+                    $this->backendSession->setRatepayBamsOauthChanged(true);
+                }
+            }
             if (stripos($sChangedPath, "profile_config") !== false && stripos($sChangedPath, "ratepay") !== false) {
                 $this->handleProfileConfigurationUpdate($sChangedPath);
             }

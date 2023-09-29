@@ -28,8 +28,10 @@ define(
                 rp_dob_year: '',
                 rp_vatid: '',
                 rp_iban: '',
+                rp_reference: '',
                 sepaAccepted: false,
-                b2b_accountholder: ''
+                b2b_accountholder: '',
+                rememberIban: false
             },
             validate: function () {
                 var blParentReturn = this._super();
@@ -58,12 +60,25 @@ define(
                 if (this.isB2BModeUsable() === true) {
                     parentReturn.additional_data.rp_accountholder = this.b2b_accountholder;
                 }
+                parentReturn.additional_data.rp_rememberiban = false;
+                if (this.isSavedIbanSelected()) {
+                    parentReturn.additional_data.rp_iban_reference = this.getSavedIbanReference();
+                } else if (this.rememberIban === true) {
+                    parentReturn.additional_data.rp_rememberiban = true;
+                }
                 return parentReturn;
             },
             showAgreement: function() {
                 $('#ratepay_directdebit_sepa_agreement').show();
                 $('#ratepay_directdebit_sepa_agreement_link').hide();
-            }
+            },
+            initialize: function () {
+                this._super();
+                if (this.isRememberIBANEnabled()) {
+                    this.rp_iban = this.getDefaultIban();
+                }
+                return this;
+            },
         });
     }
 );

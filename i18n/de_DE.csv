@@ -164,6 +164,8 @@ ratepay_terms_block_6, "einverstanden." ,module,RatePAY_Payment
 "ratepay_directdebit_save_bankdata_overlay_3","entfernen.",module,RatePAY_Payment
 "Save payment data","Zahlungsdaten merken",module,RatePAY_Payment
 "Close window","Fenster schließen",module,RatePAY_Payment
+"Connection was established successfully.","Verbindung konnte erfolgreich aufgebaut werden.",module,RatePAY_Payment
+"Connection could not be established.","Verbindung konnte nicht aufgebaut werden.",module,RatePAY_Payment
 "Maximum Order Total B2B","Maximalwert für Gesamtbestellung B2B",module,RatePAY_Payment
 "Connection was established successfully.","Verbindung konnte erfolgreich aufgebaut werden.",module,RatePAY_Payment
 "Connection could not be established.","Verbindung konnte nicht aufgebaut werden.",module,RatePAY_Payment

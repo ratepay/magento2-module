@@ -1,0 +1,35 @@
+<?php
+/**
+ * Copyright (c) Ratepay GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+?>
+<?php $bankData = $block->getSavedBankData(); ?>
+<?php if (!empty($bankData)): ?>
+    <div class="table-wrapper">
+        <table class="data table paymentdata">
+            <thead>
+            <tr>
+                <th scope="col" class="col owner"><?php echo __('Account holder'); ?></th>
+                <th scope="col" class="col iban"><?php echo __('IBAN'); ?></th>
+                <th scope="col" class="col actions">&nbsp;</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($bankData as $data): ?>
+                <tr>
+                    <td class="col owner"><?php echo $data['owner']; ?></td>
+                    <td class="col iban"><?php echo $data['iban']; ?></td>
+                    <td class="col actions">
+                        <a href="<?php echo $block->getActionUrl($data['hash'], 'delete') ?>" class="action view"><span><?php echo __('Remove') ?></span></a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+<?php else: ?>
+    <div class="message info empty"><span><?php echo __('You have no saved bank data.'); ?></span></div>
+<?php endif ?>

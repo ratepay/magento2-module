@@ -146,6 +146,7 @@
                                                 id: getCode() + '_iban',
                                                 autocomplete: off,
                                                 title: $t('IBAN')},
+                                                event: {keyup:onChangeIban},
                                                 value: rp_iban">
                         </div>
                         <table>
@@ -163,7 +164,33 @@
                                         <!-- ko i18n: 'ratepay_directdebit_sepa_terms_block_3'--><!-- /ko -->
                                     </span>
                                 </td>
-                            </tr><tr>
+                                </tr>
+                                <!-- ko if: isRememberIBANEnabled() -->
+                                    <tr data-bind="attr: {id: getCode() + '_rememberIban'}, visible: !isSavedIbanSelected()">
+                                        <td style="padding:0 10px 10px 10px;">
+                                            <input type="checkbox" data-bind="attr: {id: getCode() + '_remember_iban'}, checked: rememberIban" />
+                                        </td>
+                                        <td style="padding:0 10px 10px 10px;">
+                                            <div class="ratepay_tooltip"><!-- ko i18n: 'Save payment data'--><!-- /ko -->
+                                                <span class="ratepay_tooltiptext">
+                                                    <!-- ko i18n: 'ratepay_directdebit_save_bankdata_text'--><!-- /ko --><br>
+                                                    <a href="#" data-bind="click: displaySaveBankdataOverlay"><!-- ko i18n: 'ratepay_directdebit_save_bankdata_link'--><!-- /ko --></a>
+                                                </span>
+                                            </div>
+                                            <div data-bind="attr: {id: getCode() + '_overlay'}" style="display:none;" class="ratepay_overlay">
+                                                <a href="#" data-bind="click: removeSaveBankdataOverlay" style="float:right;font-weight:bold;">
+                                                    <!-- ko i18n: 'Close window'--><!-- /ko -->
+                                                </a><br><br>
+                                                <div>
+                                                    <!-- ko i18n: 'ratepay_directdebit_save_bankdata_overlay_1'--><!-- /ko -->
+                                                    <a data-bind="attr: { href: getManageBankdataUrl() }" target="_blank"><!-- ko i18n: 'ratepay_directdebit_save_bankdata_overlay_2'--><!-- /ko --></a>
+                                                    <!-- ko i18n: 'ratepay_directdebit_save_bankdata_overlay_3'--><!-- /ko -->
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <!-- /ko -->
+                                <tr>
                                 <td style="padding:10px 0;" colspan="2">
                                     <br>
                                     <span style="font-weight:bold;"><!-- ko i18n: 'ratepay_directdebit_sepa_notice_block_1'--><!-- /ko --></span>
