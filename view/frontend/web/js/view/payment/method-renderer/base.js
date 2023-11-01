@@ -12,10 +12,12 @@ define(
         'Magento_Checkout/js/model/quote',
         'Magento_Customer/js/model/customer',
         'Magento_Checkout/js/model/url-builder',
+        'Magento_Checkout/js/checkout-data',
         'RatePAY_Payment/js/action/update-checkout-config',
+        'RatePAY_Payment/js/action/dfp-sent',
         'mage/translate'
     ],
-    function (Component, $, quote, customer, urlBuilder, updateCheckoutConfig, $t) {
+    function (Component, $, quote, customer, urlBuilder, checkoutData, updateCheckoutConfig, markDfpAsSent, $t) {
         'use strict';
         return Component.extend({
             currentBillingAddress: quote.billingAddress,
@@ -42,6 +44,34 @@ define(
                     }
                 }
                 return false;
+            },
+            handleDeviceFingerprint: function () {
+                if (window.checkoutConfig.payment.ratepay.token) {
+                    var diSkriptVar = document.createElement('script');
+                    diSkriptVar.type = 'text/javascript';
+                    diSkriptVar.text =  "var blInserted = true;var di = {t:'" + window.checkoutConfig.payment.ratepay.token + "',v:'" + window.checkoutConfig.payment.ratepay.snippetId + "',l:'checkout'};";
+                    document.getElementsByTagName('head')[0].appendChild(diSkriptVar);
+
+                    var diSkript = document.createElement('script');
+                    diSkript.type = 'text/javascript';
+                    diSkript.src = '//d.ratepay.com/' + window.checkoutConfig.payment.ratepay.token + '/di.js';
+                    document.getElementsByTagName('head')[0].appendChild(diSkript);
+
+                    window.checkoutConfig.payment.ratepay.token = false;
+
+                    markDfpAsSent();
+                }
+            },
+            initialize: function () {
+                let parentReturn = this._super();
+                if (checkoutData.getSelectedPaymentMethod() === this.getCode()) {
+                    this.handleDeviceFingerprint();
+                }
+                return parentReturn;
+            },
+            selectPaymentMethod: function () {
+                this.handleDeviceFingerprint();
+                return this._super();
             },
             updatePaymentConfig: function (newPaymentConfig) {
                 $.each(newPaymentConfig, function( index, value ) {

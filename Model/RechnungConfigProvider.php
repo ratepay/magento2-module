@@ -25,9 +25,9 @@ class RechnungConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
     protected $escaper;
 
     /**
-     * @var \RatePAY\Payment\Helper\Data
+     * @var \RatePAY\Payment\Helper\DeviceFingerprint
      */
-    protected $rpDataHelper;
+    protected $rpDfpHelper;
 
     /**
      * Checkout session
@@ -66,18 +66,18 @@ class RechnungConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
     /**
      * @param \Magento\Payment\Helper\Data $paymentHelper
      * @param \Magento\Framework\Escaper $escaper
-     * @param \RatePAY\Payment\Helper\Data $rpDataHelper
+     * @param \RatePAY\Payment\Helper\DeviceFingerprint $rpDfpHelper
      * @param \Magento\Checkout\Model\Session $checkoutSession
      */
     public function __construct(
         \Magento\Payment\Helper\Data $paymentHelper,
         \Magento\Framework\Escaper $escaper,
-        \RatePAY\Payment\Helper\Data $rpDataHelper,
+        \RatePAY\Payment\Helper\DeviceFingerprint $rpDfpHelper,
         \Magento\Checkout\Model\Session $checkoutSession
     ) {
         $this->escaper = $escaper;
         $this->paymentHelper = $paymentHelper;
-        $this->rpDataHelper = $rpDataHelper;
+        $this->rpDfpHelper = $rpDfpHelper;
         $this->checkoutSession = $checkoutSession;
     }
 
@@ -89,8 +89,21 @@ class RechnungConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
         $config = array_merge_recursive([], $this->getInstallmentConfig());
         $config = array_merge_recursive($config, $this->getB2BConfig());
         $config = array_merge_recursive($config, $this->getRatepaySandboxConfig());
+        $config = array_merge_recursive($config, $this->getDeviceFingerprintConfig());
         
         return $config;
+    }
+
+    protected function getDeviceFingerprintConfig()
+    {
+        $tokenNeeded = ($this->checkoutSession->getRatepayDfpSent() !== true);
+        return ($this->hasActivePaymentMethods()) ? ['payment' => [
+                'ratepay' => [
+                    'token' => $tokenNeeded ? $this->rpDfpHelper->getToken() : false,
+                    'snippetId' => $this->rpDfpHelper->getSnippetId(),
+                ],
+            ],
+        ] : [];
     }
 
     /**
@@ -231,6 +244,21 @@ class RechnungConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
         $method = $this->getMethod($sMethodCode);
         if ($method && $method->isActive() && !empty($method->getMatchingProfile())) {
             return true;
+        }
+        return false;
+    }
+
+    /**
+     * Checks if at least one ratepay method is active
+     *
+     * @return bool
+     */
+    protected function hasActivePaymentMethods()
+    {
+        foreach ($this->allRatePayMethods as $paymentType) {
+            if ($this->isPaymentMethodActive($paymentType) === true) {
+                return true;
+            }
         }
         return false;
     }

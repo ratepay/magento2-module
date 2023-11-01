@@ -44,4 +44,10 @@
             <resource ref="anonymous" />
         </resources>
     </route>
+    <route url="/V1/carts/mine/ratepay-dfpSent" method="POST">
+        <service class="RatePAY\Payment\Api\DfpSentInterface" method="markDfpAsSent"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
 </routes>
