@@ -49,12 +49,12 @@ define(
                 if (window.checkoutConfig.payment.ratepay.token) {
                     var diSkriptVar = document.createElement('script');
                     diSkriptVar.type = 'text/javascript';
-                    diSkriptVar.text =  "var blInserted = true;var di = {t:'" + window.checkoutConfig.payment.ratepay.token + "',v:'" + window.checkoutConfig.payment.ratepay.snippetId + "',l:'checkout'};";
+                    diSkriptVar.text =  "var di = {t:'" + window.checkoutConfig.payment.ratepay.token + "',v:'" + window.checkoutConfig.payment.ratepay.snippetId + "',l:'checkout'};";
                     document.getElementsByTagName('head')[0].appendChild(diSkriptVar);
 
                     var diSkript = document.createElement('script');
                     diSkript.type = 'text/javascript';
-                    diSkript.src = '//d.ratepay.com/' + window.checkoutConfig.payment.ratepay.token + '/di.js';
+                    diSkript.src = '//d.ratepay.com/' + window.checkoutConfig.payment.ratepay.snippetId + '/di.js';
                     document.getElementsByTagName('head')[0].appendChild(diSkript);
 
                     window.checkoutConfig.payment.ratepay.token = false;

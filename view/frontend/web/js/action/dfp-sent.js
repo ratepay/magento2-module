@@ -15,14 +15,8 @@ define([
     'use strict';
 
     return function () {
-        //if (!customer.isLoggedIn()) {
-        //    serviceUrl = urlBuilder.createUrl('/guest-carts/:quoteId/ratepay-installmentPlan', {
-        //        quoteId: quote.getQuoteId()
-        //    });
-        //} else {
         var serviceUrl = urlBuilder.createUrl('/carts/mine/ratepay-dfpSent', {});
         var request = {};
-        //}
 
         return storage.post(
             serviceUrl,

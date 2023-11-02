@@ -45,7 +45,11 @@ class DeviceFingerprint extends Data
      */
     public function getSnippetId()
     {
-        return $this->getRpConfigData('ratepay_general', 'snippet_id');
+        $snippetId = $this->getRpConfigData('ratepay_general', 'snippet_id');
+        if (empty($snippetId)) {
+            $snippetId = "C9rKgOt";
+        }
+        return $snippetId;
     }
 
     /**
