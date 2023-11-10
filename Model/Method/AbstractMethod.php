@@ -318,7 +318,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
             if (!$resultRequest->isSuccessful()) {
                 $message = $resultRequest->getCustomerMessage();
                 if (!$resultRequest->isRetryAdmitted()) {
-                    $this->customerSession->setRatePayDeviceIdentToken(null);
+                    $this->clearDeviceFingerprintSession();
                     $this->handleError($resultRequest, $order);
 
                     $sMethodCode = $order->getPayment()->getMethod();
@@ -333,15 +333,26 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
                 }
             }
             $payment->setAdditionalInformation('descriptor', $resultRequest->getDescriptor());
-            $this->customerSession->setRatePayDeviceIdentToken(null);
+            $this->clearDeviceFingerprintSession();
             $order->setRatepaySandboxUsed((int)$sandbox);
             $order->setRatepayProfileId($oProfileConfig->getData('profile_id'));
             return $this;
         } else {
             $message = $this->formatMessage($resultInit->getReasonMessage());
-            $this->customerSession->setRatePayDeviceIdentToken(null);
+            $this->clearDeviceFingerprintSession();
             throw new PaymentException(__($message)); // RatePAY Error Message
         }
+    }
+
+    /**
+     * Resets DeviceFingerprint session parameters
+     *
+     * @return void
+     */
+    protected function clearDeviceFingerprintSession()
+    {
+        $this->customerSession->unsRatePayDeviceIdentToken();
+        $this->checkoutSession->unsRatepayDfpSent();
     }
 
     /**

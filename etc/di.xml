@@ -20,6 +20,8 @@
     <preference for="RatePAY\Payment\Api\Data\CheckoutConfigResponseInterface" type="RatePAY\Payment\Service\V1\Data\CheckoutConfigResponse" />
     <preference for="RatePAY\Payment\Api\OfflineCalculatorInterface" type="RatePAY\Payment\Service\V1\OfflineCalculator" />
     <preference for="RatePAY\Payment\Api\Data\OfflineCalculatorResponseInterface" type="RatePAY\Payment\Service\V1\Data\OfflineCalculatorResponse" />
+    <preference for="RatePAY\Payment\Api\DfpSentInterface" type="RatePAY\Payment\Service\V1\DfpSent" />
+    <preference for="RatePAY\Payment\Api\Data\DfpSentResponseInterface" type="RatePAY\Payment\Service\V1\Data\DfpSentResponse" />
     <type name="Magento\Framework\Webapi\ErrorProcessor">
         <plugin name="RatePAY_Payment_plugin_WebapiErrorProcessor" type="RatePAY\Payment\Plugin\WebapiErrorProcessor" sortOrder="1"/>
     </type>
@@ -41,18 +43,6 @@
     </type>
     <type name="Magento\Sales\Model\Service\CreditmemoService">
         <plugin name="RatePAY_Payment_plugin_CreditmemoService" type="RatePAY\Payment\Plugin\CreditmemoService" sortOrder="1" />
-    </type>
-    <type name="RatePAY\Payment\Block\Form\Base">
-        <arguments>
-            <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
-            <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
-        </arguments>
-    </type>
-    <type name="RatePAY\Payment\Block\Form\Dfp">
-        <arguments>
-            <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
-            <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
-        </arguments>
     </type>
     <type name="RatePAY\Payment\Controller\Checkout\B2b">
         <arguments>
@@ -101,6 +91,11 @@
         </arguments>
     </type>
     <type name="RatePAY\Payment\Service\V1\InstallmentPlan">
+        <arguments>
+            <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="RatePAY\Payment\Service\V1\DfpSent">
         <arguments>
             <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
         </arguments>
@@ -156,6 +151,12 @@
     <type name="RatePAY\Payment\Helper\Data">
         <arguments>
             <argument name="state" xsi:type="object">Magento\Framework\App\State\Proxy</argument>
+        </arguments>
+    </type>
+
+    <type name="RatePAY\Payment\Helper\DeviceFingerprint">
+        <arguments>
+            <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
         </arguments>
     </type>
 

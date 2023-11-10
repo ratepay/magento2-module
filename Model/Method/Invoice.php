@@ -16,11 +16,6 @@ class Invoice extends AbstractMethod
     protected $_code = self::METHOD_CODE;
 
     /**
-     * @var string
-     */
-    protected $_formBlockType = 'RatePAY\Payment\Block\Form\Dfp';
-
-    /**
      * Can be used to install a different block for backend orders
      *
      * @var string

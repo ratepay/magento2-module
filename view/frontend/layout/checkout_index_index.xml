@@ -63,8 +63,5 @@
                 </argument>
             </arguments>
         </referenceBlock>
-        <referenceBlock name="before.body.end">
-            <block class="RatePAY\Payment\Block\Form\Dfp" template="RatePAY_Payment::form/dfp.phtml" name="before_body_end_dfp"/>
-        </referenceBlock>
     </body>
 </page>

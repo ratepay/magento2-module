@@ -12,7 +12,6 @@ namespace RatePAY\Payment\Controller;
 use RatePAY\Payment\Model\ResourceModel\ApiLog;
 use RatePAY\RequestBuilder;
 use RatePAY\Frontend\InstallmentBuilder;
-use RatePAY\Frontend\DeviceFingerprintBuilder;
 use RatePAY\Payment\Model\SerializableRequestFactory;
 
 class LibraryController
@@ -262,18 +261,5 @@ class LibraryController
             throw $exception;
         }
         return $request;
-    }
-
-    /**
-     * @param $snippetId
-     * @param $orderId
-     * @return DeviceFingerprintBuilder
-     * @throws \RatePAY\Exception\FrontendException
-     */
-    public function getDfpCode($snippetId, $orderId)
-    {
-        $dfp = new DeviceFingerprintBuilder($snippetId, $orderId);
-
-        return $dfp;
     }
 }
