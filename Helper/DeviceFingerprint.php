@@ -74,6 +74,6 @@ class DeviceFingerprint extends Data
      */
     protected function createToken($uniqueIdentifier)
     {
-        return md5($this->getSnippetId() . '_' . $uniqueIdentifier . '_' . microtime());
+        return hash('md5', $this->getSnippetId() . '_' . $uniqueIdentifier . '_' . microtime());
     }
 }
