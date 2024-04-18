@@ -56,6 +56,13 @@ define([
                         }
                     }
                     $('#' + methodCode + '_ResultContainer').html(response.installment_html);
+                    $('#rp-show-installment-plan-details_' + methodCode).on( "click", function() {
+                        changeDetails(methodCode);
+                    }); // doing it this way since Mage 2.4.7 doesnt allow this inline anymore
+                    $('#rp-hide-installment-plan-details_' + methodCode).on( "click", function() {
+                        changeDetails(methodCode);
+                    }); // doing it this way since Mage 2.4.7 doesnt allow this inline anymore
+
                     $('#' + methodCode + '_ContentSwitch').show();
                     paymentRenderer.setIsInstallmentPlanSet(true);
                     if (showMessage === true) {
