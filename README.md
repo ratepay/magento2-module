@@ -23,7 +23,8 @@ php bin/magento cache:clean
 
 ## Changelog
 
-### Version 2.1.11
+### Version 2.1.11 - Released 2024-04-19
+* Added compatibility for Magento 2.4.7
 * Fixed BankTransfer/DirectDebit switch for installments
 * Fixed show installment details button for Magento 2.4.7
 
