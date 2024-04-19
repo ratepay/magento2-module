@@ -37,6 +37,9 @@ define(
 
             initialize: function () {
                 this._super();
+
+                this.useDirectDebit = this.isDirectDebitDefault();
+
                 if (this.hasAllowedMonths() === false) {
                     this.updateInstallmentPlan('time', '3', this.getCode(), false);
                 } else {

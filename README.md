@@ -4,7 +4,7 @@
 |Repository | Ratepay Module for Magento 2
 |------|----------
 |Author | Robert Müller
-|Module-Version | `2.1.10`
+|Module-Version | `2.1.11`
 |Compatibility | Magento 2.3.0 - 2.4.x
 |Link | http://www.ratepay.com
 |Mail | integration@ratepay.com
@@ -22,6 +22,11 @@ php bin/magento cache:clean
 ````
 
 ## Changelog
+
+### Version 2.1.11 - Released 2024-04-19
+* Added compatibility for Magento 2.4.7
+* Fixed BankTransfer/DirectDebit switch for installments
+* Fixed show installment details button for Magento 2.4.7
 
 ### Version 2.1.10 - Released 2023-11-10
 * Changed DeviceFingerprint handling
