@@ -26,14 +26,30 @@ class ProfileRequest extends Field
     protected $_template = 'RatePAY_Payment::system/config/profilerequest.phtml';
 
     /**
+     * @var \RatePAY\Payment\Helper\Script
+     */
+    protected $scriptHelper;
+
+    /**
      * @param Context $context
+     * @param \RatePAY\Payment\Helper\Script $scriptHelper
      * @param array $data
      */
     public function __construct(
         Context $context,
+        \RatePAY\Payment\Helper\Script $scriptHelper,
         array $data = []
     ) {
         parent::__construct($context, $data);
+        $this->scriptHelper = $scriptHelper;
+    }
+
+    /**
+     * @return \RatePAY\Payment\Helper\Script
+     */
+    public function getScriptHelper()
+    {
+        return $this->scriptHelper;
     }
 
     /**

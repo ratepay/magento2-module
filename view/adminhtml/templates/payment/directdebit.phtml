@@ -91,7 +91,18 @@ if ($b2bEnabled === true) {
             <input type="text" size="35" id="<?php /* @noEscape */ echo $code; ?>_iban" name="payment[rp_iban]" value="<?php echo $block->getInfoData('rp_iban'); ?>">
         </div>
     </div>
-    <a id="<?php echo $code; ?>_sepa_agreement_link" onclick="showAgreement('<?php echo $code; ?>')"><?php echo __('ratepay_directdebit_sepa_link'); ?></a>
+    <a id="<?php echo $code; ?>_sepa_agreement_link"><?php echo __('ratepay_directdebit_sepa_link'); ?></a>
+    <?php
+    $scriptString = "
+        require([
+            'jquery'
+        ], function ($) {
+            $('#".$code."_sepa_agreement_link').on( 'click', function() {
+                showAgreement('".$code."');
+            }); // doing it this way since Mage 2.4.7 doesnt allow this inline anymore
+        });";
+    echo $block->getScriptHelper()->insertScript($scriptString);
+    ?>
     <table>
         <tbody style="display:none;" id="<?php echo $code; ?>_sepa_agreement">
             <tr>
@@ -117,55 +128,58 @@ if ($b2bEnabled === true) {
     </table><br>
     <input type="submit" name="Submit" style="display: none;">
 </fieldset>
-<script>
-    /**
-     * Disable card server validation in admin
-     */
-    require(["Magento_Sales/order/create/form"], function () {
-        order.addExcludedPaymentMethod('<?php /* @noEscape */ echo $code; ?>');
-    });
+<?php
+/**
+ * Disable card server validation in admin
+ */
+$script = "
+    require(['Magento_Sales/order/create/form'], function () {
+        order.addExcludedPaymentMethod('".$code."');
+    });";
 
-    <?php if ($b2bEnabled === true): ?>
-        require(["jquery"], function ($jq) {
-            function handleRequiredData<?php echo $code; ?>() {
-                $jq('#<?php echo $code; ?>_company').val($jq('#order-billing_address_company').val());
-                if ($jq('#order-billing_address_company').val() == '') {
-                    $jq('#ratepay_<?php echo $code; ?>_vatid').hide();
-                    $jq('#ratepay_<?php echo $code; ?>_accountholder_b2b').hide();
-                    $jq('#ratepay_<?php echo $code; ?>_accountholder_b2c').show();
-                    $jq('#ratepay_<?php echo $code; ?>_birthday').show();
-                    if (document.getElementById('ratepay_<?php echo $code; ?>_accountholder_b2b_input')) {
-                        document.getElementById('ratepay_<?php echo $code; ?>_accountholder_b2b_input').setAttribute("name","disabled");
+if ($b2bEnabled === true):
+    $script .= "
+        require(['jquery'], function ($) {
+            function handleRequiredData".$code."() {
+                $('#".$code."_company').val($('#order-billing_address_company').val());
+                if ($('#order-billing_address_company').val() == '') {
+                    $('#ratepay_".$code."_vatid').hide();
+                    $('#ratepay_".$code."_accountholder_b2b').hide();
+                    $('#ratepay_".$code."_accountholder_b2c').show();
+                    $('#ratepay_".$code."_birthday').show();
+                    if (document.getElementById('ratepay_".$code."_accountholder_b2b_input')) {
+                        document.getElementById('ratepay_".$code."_accountholder_b2b_input').setAttribute('name','disabled');
                     }
-                    if (document.getElementById('ratepay_<?php echo $code; ?>_accountholder_b2c_input')) {
-                        document.getElementById('ratepay_<?php echo $code; ?>_accountholder_b2c_input').setAttribute("name","payment[rp_accountholder]");
+                    if (document.getElementById('ratepay_".$code."_accountholder_b2c_input')) {
+                        document.getElementById('ratepay_".$code."_accountholder_b2c_input').setAttribute('name','payment[rp_accountholder]');
                     }
-                } else if($jq('#order-billing_address_vat_id').val() == '') {
-                    $jq('#ratepay_<?php echo $code; ?>_birthday').hide();
-                    $jq('#ratepay_<?php echo $code; ?>_vatid').show();
-                    $jq('#ratepay_<?php echo $code; ?>_accountholder_b2c').hide();
-                    $jq('#ratepay_<?php echo $code; ?>_accountholder_b2b').show();
-                    if (document.getElementById('ratepay_<?php echo $code; ?>_accountholder_b2c_input')) {
-                        document.getElementById('ratepay_<?php echo $code; ?>_accountholder_b2c_input').setAttribute("name","disabled");
+                } else if($('#order-billing_address_vat_id').val() == '') {
+                    $('#ratepay_".$code."_birthday').hide();
+                    $('#ratepay_".$code."_vatid').show();
+                    $('#ratepay_".$code."_accountholder_b2c').hide();
+                    $('#ratepay_".$code."_accountholder_b2b').show();
+                    if (document.getElementById('ratepay_".$code."_accountholder_b2c_input')) {
+                        document.getElementById('ratepay_".$code."_accountholder_b2c_input').setAttribute('name','disabled');
                     }
-                    if (document.getElementById('ratepay_<?php echo $code; ?>_accountholder_b2b_input')) {
-                        document.getElementById('ratepay_<?php echo $code; ?>_accountholder_b2b_input').setAttribute("name","payment[rp_accountholder]");
+                    if (document.getElementById('ratepay_".$code."_accountholder_b2b_input')) {
+                        document.getElementById('ratepay_".$code."_accountholder_b2b_input').setAttribute('name','payment[rp_accountholder]');
                     }
                 } else {
-                    if ($jq('#<?php echo $code; ?>_vatid').val() == '') {
-                        $jq('#<?php echo $code; ?>_vatid').val($jq('#order-billing_address_vat_id').val());
+                    if ($('#".$code."_vatid').val() == '') {
+                        $('#".$code."_vatid').val($('#order-billing_address_vat_id').val());
                     }
-                    $jq('#ratepay_<?php echo $code; ?>_birthday').hide();
-                    $jq('#ratepay_<?php echo $code; ?>_vatid').hide();
+                    $('#ratepay_".$code."_birthday').hide();
+                    $('#ratepay_".$code."_vatid').hide();
                 }
                 setTimeout(function(){
-                    window.requestAnimationFrame(handleRequiredData<?php echo $code; ?>);
+                    window.requestAnimationFrame(handleRequiredData".$code.");
                 }, 1000);
             }
 
-            $jq(document).ready(function () {
-                handleRequiredData<?php echo $code; ?>();
+            $(document).ready(function () {
+                handleRequiredData".$code."();
             });
-        });
-    <?php endif; ?>
-</script>
+        });";
+endif;
+echo $block->getScriptHelper()->insertScript($script);
+?>

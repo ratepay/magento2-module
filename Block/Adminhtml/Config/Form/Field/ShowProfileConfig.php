@@ -27,19 +27,35 @@ class ShowProfileConfig extends \Magento\Config\Block\System\Config\Form\Field\F
     protected $profileConfigHelper;
 
     /**
+     * @var \RatePAY\Payment\Helper\Script
+     */
+    protected $scriptHelper;
+
+    /**
      * Constructor
      *
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \RatePAY\Payment\Helper\ProfileConfig $profileConfigHelper
+     * @param \RatePAY\Payment\Helper\Script $scriptHelper
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \RatePAY\Payment\Helper\ProfileConfig $profileConfigHelper,
+        \RatePAY\Payment\Helper\Script $scriptHelper,
         array $data = []
     ) {
         parent::__construct($context, $data);
         $this->profileConfigHelper = $profileConfigHelper;
+        $this->scriptHelper = $scriptHelper;
+    }
+
+    /**
+     * @return \RatePAY\Payment\Helper\Script
+     */
+    public function getScriptHelper()
+    {
+        return $this->scriptHelper;
     }
 
     /**

@@ -26,19 +26,35 @@ class View extends \Magento\Backend\Block\Widget\Container
     protected $apiLogFactory;
 
     /**
+     * @var \RatePAY\Payment\Helper\Script
+     */
+    protected $scriptHelper;
+
+    /**
      * Constructor
      *
      * @param \Magento\Backend\Block\Widget\Context $context
      * @param \RatePAY\Payment\Model\Entities\ApiLogFactory $apiLogFactory
+     * @param \RatePAY\Payment\Helper\Script $scriptHelper
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Widget\Context $context,
         \RatePAY\Payment\Model\Entities\ApiLogFactory $apiLogFactory,
+        \RatePAY\Payment\Helper\Script $scriptHelper,
         array $data = []
     ) {
         parent::__construct($context, $data);
         $this->apiLogFactory = $apiLogFactory;
+        $this->scriptHelper = $scriptHelper;
+    }
+
+    /**
+     * @return \RatePAY\Payment\Helper\Script
+     */
+    public function getScriptHelper()
+    {
+        return $this->scriptHelper;
     }
 
     /**

@@ -7,6 +7,8 @@
  * file that was distributed with this source code.
  */
 
+/** @var \RatePAY\Payment\Block\Adminhtml\Config\Form\Field\ShowProfileConfig $block */
+
 $aProfileConfigs = $block->getProfileConfigs();
 ?>
 <div>
@@ -123,12 +125,11 @@ $aProfileConfigs = $block->getProfileConfigs();
             </table><br>
         <?php endforeach; ?>
 
-        <script>
+        <?php
+        $script = "
             require(['prototype'], function(){
-
-                //<![CDATA[
                 function updateProfileConfigurations(isBackendConfig) {
-                    new Ajax.Request('<?php echo $block->getProfileRefreshUrl() ?>', {
+                    new Ajax.Request('".$block->getProfileRefreshUrl()."', {
                         parameters: {isBackendConfig: isBackendConfig},
                         onSuccess: function(response) {
                             try {
@@ -140,25 +141,36 @@ $aProfileConfigs = $block->getProfileConfigs();
                                         alert(response.errormessage);
                                     }
                                 } else {
-                                    alert('<?php echo __('An unknown error occured.'); ?>');
+                                    alert('".__('An unknown error occured.')."');
                                 }
                             } catch (e) {
-                                alert('<?php echo __('An unknown exception was thrown.'); ?>');
+                                alert('".__('An unknown exception was thrown.')."');
                             }
                         }
                     });
                 }
 
                 window.updateProfileConfigurations = updateProfileConfigurations;
-                //]]>
-
-            });
-        </script>
+            });";
+        echo $block->getScriptHelper()->insertScript($script);
+        ?>
         <div class="actions actions-validate-vat">
             <div id="validation_result" class="message-validation hidden"></div>
-            <button onclick="javascript:updateProfileConfigurations(<?php echo (int)$block->isBackendPaymentConfiguration(); ?>); return false;" class="action-validate-vat" type="button">
+            <?php $buttonId = "ratepay_refresh_profile_config".rand(1000, 9999); ?>
+            <button id="<?php echo $buttonId; ?>" class="action-validate-vat" type="button">
                 <span><?php echo $block->escapeHtml(__('Refresh Profile configurations')) ?></span>
             </button>
+            <?php
+            $script = "
+            require([
+                'jquery'
+            ], function ($) {
+                $('#".$buttonId."').on( 'click', function() {
+                    updateProfileConfigurations(".(int)$block->isBackendPaymentConfiguration()."); return false;
+                }); // doing it this way since Mage 2.4.7 doesnt allow this inline anymore
+            });";
+            echo $block->getScriptHelper()->insertScript($script);
+            ?>
         </div>
     <?php endif; ?>
 </div>

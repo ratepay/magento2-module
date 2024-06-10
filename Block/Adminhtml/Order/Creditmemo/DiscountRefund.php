@@ -41,10 +41,16 @@ class DiscountRefund extends \Magento\Backend\Block\Template
     protected $rpDataHelper;
 
     /**
+     * @var \RatePAY\Payment\Helper\Script
+     */
+    protected $scriptHelper;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Sales\Helper\Admin $salesAdminHelper
      * @param \RatePAY\Payment\Helper\Payment $rpPaymentHelper
      * @param \RatePAY\Payment\Helper\Data $rpDataHelper
+     * @param \RatePAY\Payment\Helper\Script $scriptHelper
      * @param array $data
      */
     public function __construct(
@@ -52,12 +58,22 @@ class DiscountRefund extends \Magento\Backend\Block\Template
         \Magento\Sales\Helper\Admin $salesAdminHelper,
         \RatePAY\Payment\Helper\Payment $rpPaymentHelper,
         \RatePAY\Payment\Helper\Data $rpDataHelper,
+        \RatePAY\Payment\Helper\Script $scriptHelper,
         array $data = []
     ) {
         $this->_salesAdminHelper = $salesAdminHelper;
         $this->rpPaymentHelper = $rpPaymentHelper;
         $this->rpDataHelper = $rpDataHelper;
+        $this->scriptHelper = $scriptHelper;
         parent::__construct($context, $data);
+    }
+
+    /**
+     * @return \RatePAY\Payment\Helper\Script
+     */
+    public function getScriptHelper()
+    {
+        return $this->scriptHelper;
     }
 
     /**
