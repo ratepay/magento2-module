@@ -50,14 +50,14 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
     protected $store;
 
     /**
-     * @var \RatePAY\Payment\Model\Environment\RemoteAddress
-     */
-    protected $remoteAddress;
-
-    /**
      * @var \RatePAY\Payment\Helper\Data
      */
     protected $rpDataHelper;
+
+    /**
+     * @var \Magento\Framework\App\RequestInterface
+     */
+    protected $request;
 
     /**
      * Customer constructor.
@@ -69,7 +69,7 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
      * @param CustomerRepositoryInterface                           $customerRepository,
      * @param \Magento\Customer\Model\Session                       $customerSession,
      * @param \Magento\Framework\Locale\Resolver                    $resolver
-     * @param \RatePAY\Payment\Model\Environment\RemoteAddress      $remoteAddress
+     * @param \Magento\Framework\App\RequestInterface               $request
      * @param \RatePAY\Payment\Helper\Data                          $rpDataHelper
      */
     public function __construct(
@@ -81,7 +81,7 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
         CustomerRepositoryInterface $customerRepository,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\Locale\Resolver $resolver,
-        \RatePAY\Payment\Model\Environment\RemoteAddress $remoteAddress,
+        \Magento\Framework\App\RequestInterface $request,
         \RatePAY\Payment\Helper\Data $rpDataHelper
     ) {
         parent::__construct($context);
@@ -92,7 +92,7 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
         $this->customerRepository = $customerRepository;
         $this->customerSession = $customerSession;
         $this->store = $resolver;
-        $this->remoteAddress = $remoteAddress;
+        $this->request = $request;
         $this->rpDataHelper = $rpDataHelper;
     }
 
@@ -149,9 +149,7 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
      */
     protected function getRemoteAddress()
     {
-        if ((bool)$this->rpDataHelper->getRpConfigDataByPath("ratepay/general/proxy_mode") === true) {
-            $this->remoteAddress->addHttpXForwardedHeader();
-        }
-        return $this->remoteAddress->getRemoteAddress();
+        $proxyMode = (bool)$this->rpDataHelper->getRpConfigDataByPath("ratepay/general/proxy_mode");
+        return $this->request->getClientIp($proxyMode);
     }
 }
