@@ -29,11 +29,17 @@ class Base extends \Magento\Payment\Block\Form
     protected $orderCreate;
 
     /**
+     * @var \RatePAY\Payment\Helper\Script
+     */
+    protected $scriptHelper;
+
+    /**
      * Dfp constructor.
      * @param Template\Context $context
      * @param \RatePAY\Payment\Helper\Data $rpDataHelper
      * @param \RatePAY\Payment\Controller\LibraryController $rpLibraryController
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
+     * @param \RatePAY\Payment\Helper\Script $scriptHelper
      * @param array $data
      */
     public function __construct(
@@ -41,12 +47,22 @@ class Base extends \Magento\Payment\Block\Form
         \RatePAY\Payment\Helper\Data $rpDataHelper,
         \RatePAY\Payment\Controller\LibraryController $rpLibraryController,
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
+        \RatePAY\Payment\Helper\Script $scriptHelper,
         array $data = []
     ) {
         parent::__construct($context, $data);
         $this->rpDataHelper = $rpDataHelper;
         $this->rpLibraryController = $rpLibraryController;
         $this->orderCreate = $orderCreate;
+        $this->scriptHelper = $scriptHelper;
+    }
+
+    /**
+     * @return \RatePAY\Payment\Helper\Script
+     */
+    public function getScriptHelper()
+    {
+        return $this->scriptHelper;
     }
 
     /**

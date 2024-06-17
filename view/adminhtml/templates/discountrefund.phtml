@@ -5,12 +5,25 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+/** @var \RatePAY\Payment\Block\Adminhtml\Order\Creditmemo\DiscountRefund $block */
 ?>
 <tr>
     <td class="label"><?php echo __('Return previous adjustments'); ?></td>
     <td>
         <input type="hidden"   name="creditmemo[ratepay_return_adjustments]" value="0">
-        <input type="checkbox" name="creditmemo[ratepay_return_adjustments]" value="1" id="ratepay_return_adjustments" style="margin-right: 20px;" onchange="handleAjustmentRefund(this, <?php echo $block->getPositiveAdjustmentReturn(); ?>, <?php echo $block->getNegativeAdjustmentReturn(); ?>)" <?php if ($block->isCheckboxChecked()) { echo 'checked';} ?>>
+        <input type="checkbox" name="creditmemo[ratepay_return_adjustments]" value="1" id="ratepay_return_adjustments" style="margin-right: 20px;" <?php if ($block->isCheckboxChecked()) { echo 'checked';} ?>>
+        <?php
+        $script = "
+        require([
+            'jquery'
+        ], function ($) {
+            $('#ratepay_return_adjustments').on( 'change', function() {
+                handleAjustmentRefund(this, ".$block->getPositiveAdjustmentReturn().", ".$block->getNegativeAdjustmentReturn().")
+            }); // doing it this way since Mage 2.4.7 doesnt allow this inline anymore
+        });";
+        echo $block->getScriptHelper()->insertScript($script);
+        ?>
         <span>
             <span class="price"><?= /* @escapeNotVerified */ $block->displayAmount(5, 6) ?></span>
         </span>

@@ -8,55 +8,53 @@
 ?>
 <?php /* @var $block \RatePAY\Payment\Block\System\Config\ProfileRequest */ ?>
 
-    <script type="text/javascript">
-        require([
-                'jquery',
-                'prototype'
-            ],
-            function (jQuery) {
+<?php
+$script = "
+require(['jquery', 'prototype'],
+    function (jQuery) {
+        jQuery('#".$block->getContainerId()."_profilerequest_button').click(function () {
+            var id = '".$block->getContainerId()."';
+            var methodCode = '".$block->getPaymentMethod()."';
+            if (document.getElementById(id + '_sandbox').value == 1 && document.getElementById(id + '_profileId').value.search(/_PR_.+/) != -1) {
+                if (!confirm('".__('PROD credentials in sandbox mode')."')) {
+                    return;
+                }
+            }
 
-                jQuery('#<?php echo $block->getContainerId();?>_profilerequest_button').click(function () {
-                    var id = '<?php echo $block->getContainerId();?>';
-                    var methodCode = '<?php echo $block->getPaymentMethod();?>';
-                    if (document.getElementById(id + '_sandbox').value == 1 && document.getElementById(id + '_profileId').value.search(/_PR_.+/) != -1) {
-                        if (!confirm('<?php echo __('PROD credentials in sandbox mode') ?>')) {
-                            return;
-                        }
-                    }
+            if (document.getElementById(id + '_sandbox').value == 0 && document.getElementById(id + '_profileId').value.search(/_TE_.+/) != -1) {
+                if (!confirm('".__('INT credentials in live mode')."')) {
+                    return;
+                }
+            }
 
-                    if (document.getElementById(id + '_sandbox').value == 0 && document.getElementById(id + '_profileId').value.search(/_TE_.+/) != -1) {
-                        if (!confirm('<?php echo __('INT credentials in live mode') ?>')) {
-                            return;
-                        }
-                    }
-
-                    jQuery.ajax({
-                        url: "<?php echo $block->getAjaxUrl() ?>",
-                        type: 'POST',
-                        contentType: "application/x-www-form-urlencoded",
-                        dataType: "text",
-                        data: {
-                            profile_id: document.getElementById(id + '_profileId').value,
-                            security_code: document.getElementById(id + '_securityCode').value,
-                            sandbox: document.getElementById(id + '_sandbox').value,
-                            method: methodCode,
-                            scope: '<?php echo $block->getScope(); ?>',
-                            scopeId: '<?php echo $block->getScopeId(); ?>',
-                        }
-                    })
-                        .done(function (data) {
-                            var json = JSON.parse(data);
-                            if (json.status == "success") {
-                                configForm.submit();
-                            } else {
-                                alert(json.message);
-                            }
-                        })
-                        .fail(function () {
-                            alert("<?php __('No Ajax Connection')?>");
-                        });
-                });
+            jQuery.ajax({
+                url: '".$block->getAjaxUrl()."',
+                type: 'POST',
+                contentType: 'application/x-www-form-urlencoded',
+                dataType: 'text',
+                data: {
+                    profile_id: document.getElementById(id + '_profileId').value,
+                    security_code: document.getElementById(id + '_securityCode').value,
+                    sandbox: document.getElementById(id + '_sandbox').value,
+                    method: methodCode,
+                    scope: '".$block->getScope()."',
+                    scopeId: '".$block->getScopeId()."',
+                }
+            })
+            .done(function (data) {
+                var json = JSON.parse(data);
+                if (json.status == 'success') {
+                    configForm.submit();
+                } else {
+                    alert(json.message);
+                }
+            })
+            .fail(function () {
+                alert('".__('No Ajax Connection')."');
             });
-    </script>
+        });
+    });";
+echo $block->getScriptHelper()->insertScript($script);
+?>
 
 <?php echo $block->getButtonHtml() ?>

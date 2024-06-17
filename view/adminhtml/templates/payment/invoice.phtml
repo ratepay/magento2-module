@@ -68,39 +68,43 @@ if ($b2bEnabled === true) {
     </div>
     <input type="submit" name="Submit" style="display: none;">
 </fieldset>
-<script>
-    /**
-     * Disable card server validation in admin
-     */
-    require(["Magento_Sales/order/create/form"], function () {
-        order.addExcludedPaymentMethod('<?php /* @noEscape */ echo $code; ?>');
-    });
+<?php
+/**
+ * Disable card server validation in admin
+ */
+$script = "
+    require(['Magento_Sales/order/create/form'], function () {
+        order.addExcludedPaymentMethod('".$code."');
+    });";
 
-    <?php if ($b2bEnabled === true): ?>
-        require(["jquery"], function ($jq) {
-            function handleRequiredData<?php echo $code; ?>() {
-                $jq('#<?php echo $code; ?>_company').val($jq('#order-billing_address_company').val());
-                if ($jq('#order-billing_address_company').val() == '') {
-                    $jq('#ratepay_<?php echo $code; ?>_vatid').hide();
-                    $jq('#ratepay_<?php echo $code; ?>_birthday').show();
-                } else if($jq('#order-billing_address_vat_id').val() == '') {
-                    $jq('#ratepay_<?php echo $code; ?>_birthday').hide();
-                    $jq('#ratepay_<?php echo $code; ?>_vatid').show();
+if ($b2bEnabled === true):
+    $script .= "
+        require(['jquery'], function ($) {
+            function handleRequiredData".$code."() {
+                $('#".$code."_company').val($('#order-billing_address_company').val());
+                if ($('#order-billing_address_company').val() == '') {
+                    $('#ratepay_".$code."_vatid').hide();
+                    $('#ratepay_".$code."_birthday').show();
+                } else if($('#order-billing_address_vat_id').val() == '') {
+                    $('#ratepay_".$code."_birthday').hide();
+                    $('#ratepay_".$code."_vatid').show();
                 } else {
-                    if ($jq('#<?php echo $code; ?>_vatid').val() == '') {
-                        $jq('#<?php echo $code; ?>_vatid').val($jq('#order-billing_address_vat_id').val());
+                    if ($('#".$code."_vatid').val() == '') {
+                        $('#".$code."_vatid').val($('#order-billing_address_vat_id').val());
                     }
-                    $jq('#ratepay_<?php echo $code; ?>_birthday').hide();
-                    $jq('#ratepay_<?php echo $code; ?>_vatid').hide();
+                    $('#ratepay_".$code."_birthday').hide();
+                    $('#ratepay_".$code."_vatid').hide();
                 }
                 setTimeout(function(){
-                    window.requestAnimationFrame(handleRequiredData<?php echo $code; ?>);
+                    window.requestAnimationFrame(handleRequiredData".$code.");
                 }, 1000);
             }
 
-            $jq(document).ready(function () {
-                handleRequiredData<?php echo $code; ?>();
+            $(document).ready(function () {
+                handleRequiredData".$code."();
             });
-        });
-    <?php endif; ?>
-</script>
+        });";
+endif;
+
+echo $block->getScriptHelper()->insertScript($script);
+?>

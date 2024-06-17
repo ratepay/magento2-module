@@ -131,6 +131,13 @@ function updateInstallmentPlan(restUrl, calcType, calcValue, grandTotal, methodC
                             $('#' + methodCode + '_sepa_use_directdebit').show();
                         }
                     }
+
+                    $('#rp-show-installment-plan-details_' + methodCode).on( "click", function() {
+                        changeDetails(methodCode);
+                    }); // doing it this way since Mage 2.4.7 doesnt allow this inline anymore
+                    $('#rp-hide-installment-plan-details_' + methodCode).on( "click", function() {
+                        changeDetails(methodCode);
+                    }); // doing it this way since Mage 2.4.7 doesnt allow this inline anymore
                 } else {
                     alert(response.errormessage);
                 }

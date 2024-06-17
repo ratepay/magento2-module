@@ -7,6 +7,8 @@
  * file that was distributed with this source code.
  */
 
+/** @var \RatePAY\Payment\Block\Adminhtml\Protocol\ApiLog\View $block */
+
 $apiLog = $block->getApiLogEntry();
 ?>
 <?php if (!$apiLog): ?>
@@ -30,5 +32,8 @@ $apiLog = $block->getApiLogEntry();
             </div>
         </div>
     </section>
-    <script>hljs.initHighlightingOnLoad();</script>
+    <?php
+        $script = "hljs.initHighlightingOnLoad();";
+        echo $block->getScriptHelper()->insertScript($script)
+    ?>
 <?php endif; ?>

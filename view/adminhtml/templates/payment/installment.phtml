@@ -86,11 +86,22 @@ $currency = $block->ratepayGetCurrentCurrencyCode();
                         <span><?php echo $block->escapeHtml(__('rp_runtime_description')); ?></span>
                     </label>
                     <div class="admin__field-control control">
-                        <select id="<?php echo $code.'-time'; ?>" onchange="updateInstallmentPlanRuntime('<?php echo $block->getRestUrl(); ?>', <?php echo $ratePayGrandTotal; ?>, '<?php echo $code; ?>', '<?php echo $currency; ?>')" style="width: 100%;">
+                        <select id="<?php echo $code.'-time'; ?>" style="width: 100%;">
                             <?php foreach ($allowedMonths as $i => $value): ?>
                                 <option value="<?php echo $value; ?>" <?php echo $i == 0 ? 'selected' : '' ?>><?php echo $value; ?></option>
                             <?php endforeach; ?>
                         </select>
+                        <?php
+                        $scriptString = "
+                        require([
+                            'jquery'
+                        ], function ($) {
+                            $('#".$code."-time').on( 'change', function() {
+                                updateInstallmentPlanRuntime('".$block->getRestUrl()."', ".$ratePayGrandTotal.", '".$code."', '".$currency."')
+                            }); // doing it this way since Mage 2.4.7 doesnt allow this inline anymore
+                        });";
+                        echo $block->getScriptHelper()->insertScript($scriptString);
+                        ?>
                     </div>
                 </div>
                 <div class="admin__field" style="text-align: center;">
@@ -103,9 +114,20 @@ $currency = $block->ratepayGetCurrentCurrencyCode();
                     <div class="admin__field-control control">
                         <input id="<?php echo $code.'-rate'; ?>" type="text" class="form-control rate-input" aria-label="Amount"><br>
                         <span class="input-group-btn">
-                            <button id="<?php echo $code.'_Input-button'; ?>" type="button" onclick="updateInstallmentPlanAmount('<?php echo $block->getRestUrl(); ?>', <?php echo $ratePayGrandTotal; ?>, '<?php echo $code; ?>', '<?php echo $currency; ?>')" class="btn btn-default" role="group">
+                            <button id="<?php echo $code.'_Input-button'; ?>" type="button" class="btn btn-default" role="group">
                                 <?php echo __('rp_calculate_rate'); ?>
                             </button>
+                            <?php
+                            $scriptString = "
+                            require([
+                                'jquery'
+                            ], function ($) {
+                                $('#".$code."_Input-button').on( 'click', function() {
+                                    updateInstallmentPlanAmount('".$block->getRestUrl()."', ".$ratePayGrandTotal.", '".$code."', '".$currency."')
+                                }); // doing it this way since Mage 2.4.7 doesnt allow this inline anymore
+                            });";
+                            echo $block->getScriptHelper()->insertScript($scriptString);
+                            ?>
                         </span>
                     </div>
                 </div>
@@ -149,7 +171,18 @@ $currency = $block->ratepayGetCurrentCurrencyCode();
             </div>
         </div>
         <br>
-        <a id="<?php echo $code; ?>_sepa_agreement_link" onclick="showAgreement('<?php echo $code; ?>')"><?php echo __('ratepay_directdebit_sepa_link'); ?></a>
+        <a id="<?php echo $code; ?>_sepa_agreement_link"><?php echo __('ratepay_directdebit_sepa_link'); ?></a>
+        <?php
+            $scriptString = "
+            require([
+                'jquery'
+            ], function ($) {
+                $('#".$code."_sepa_agreement_link').on( 'click', function() {
+                    showAgreement('".$code."');
+                }); // doing it this way since Mage 2.4.7 doesnt allow this inline anymore
+            });";
+            echo $block->getScriptHelper()->insertScript($scriptString);
+        ?>
         <table>
             <tbody style="display:none;" id="<?php echo $code; ?>_sepa_agreement">
                 <tr>
@@ -176,76 +209,95 @@ $currency = $block->ratepayGetCurrentCurrencyCode();
     </div>
     <div id="<?php echo $code; ?>_payment_type_selector" <?php echo is_array($block->getValidPaymentFirstdays()) ? '' : 'style="display:none;"'; ?>>
         <hr>
-        <a id="<?php echo $code; ?>_sepa_use_banktransfer" onclick="showBankTransfer('<?php echo $code; ?>')" <?php echo $block->getPaymentFirstday() == "2" ? '' : 'style="display:none;"'; ?>><?php echo __('I want to transfer the instalments myself and not pay by direct debit'); ?></a>
-        <a id="<?php echo $code; ?>_sepa_use_directdebit" onclick="showDirectDebit('<?php echo $code; ?>')" <?php echo $block->getPaymentFirstday() == "28" ? '' : 'style="display:none;"'; ?>><?php echo __('I want to settle the instalments by direct debit'); ?></a>
+        <a id="<?php echo $code; ?>_sepa_use_banktransfer" <?php echo $block->getPaymentFirstday() == "2" ? '' : 'style="display:none;"'; ?>><?php echo __('I want to transfer the instalments myself and not pay by direct debit'); ?></a>
+        <a id="<?php echo $code; ?>_sepa_use_directdebit" <?php echo $block->getPaymentFirstday() == "28" ? '' : 'style="display:none;"'; ?>><?php echo __('I want to settle the instalments by direct debit'); ?></a>
+        <?php
+        $scriptString = "
+        require([
+            'jquery'
+        ], function ($) {
+            $('#".$code."_sepa_use_banktransfer').on( 'click', function() {
+                showBankTransfer('".$code."')
+            }); // doing it this way since Mage 2.4.7 doesnt allow this inline anymore
+            $('#".$code."_sepa_use_directdebit').on( 'click', function() {
+                showDirectDebit('".$code."')
+            }); // doing it this way since Mage 2.4.7 doesnt allow this inline anymore
+        });";
+        echo $block->getScriptHelper()->insertScript($scriptString);
+        ?>
     </div>
     <input type="hidden" id="<?php echo $code; ?>_directdebit" name="payment[rp_directdebit]" value="1">
     <input type="submit" name="Submit" style="display: none;">
 </fieldset>
-<script>
-    /**
-     * Disable card server validation in admin
-     */
-    require(["Magento_Sales/order/create/form"], function () {
-        order.addExcludedPaymentMethod('<?php /* @noEscape */ echo $code; ?>');
-    });
+<?php
+/**
+ * Disable card server validation in admin
+ */
+$script = "
+    require(['Magento_Sales/order/create/form'], function () {
+        order.addExcludedPaymentMethod('".$code."');
+    }); ";
 
-    require([
+if ($block->hasAllowedMonths() === false):
+    $subscript = "updateInstallmentPlan('".$block->getRestUrl()."', 'time', '3', ".$ratePayGrandTotal.", '".$code."', '".$currency."');";
+else:
+    $subscript = "updateInstallmentPlan('".$block->getRestUrl()."', 'time', ".$allowedMonths[0].", ".$ratePayGrandTotal.", '".$code."', '".$currency."');";
+endif;
+
+$script .= " require([
         'jquery'
     ], function ($) {
         $(document).ready(function() {
-            <?php if ($block->hasAllowedMonths() === false): ?>
-                updateInstallmentPlan('<?php echo $block->getRestUrl(); ?>', 'time', '3', <?php echo $ratePayGrandTotal; ?>, '<?php echo $code; ?>', '<?php echo $currency; ?>');
-            <?php else: ?>
-                updateInstallmentPlan('<?php echo $block->getRestUrl(); ?>', 'time', <?php echo $allowedMonths[0]; ?>, <?php echo $ratePayGrandTotal; ?>, '<?php echo $code; ?>', '<?php echo $currency; ?>');
-            <?php endif; ?>
+            ".$subscript."
         });
-    });
+    }); 
+    
+    var isInstallmentPlanSet = false;";
 
-    ///@TODO: Validierung
-    var isInstallmentPlanSet = false;
-
-    <?php if ($b2bEnabled === true): ?>
-        require(["jquery"], function ($jq) {
-            function handleRequiredData<?php echo $code; ?>() {
-                $jq('#<?php echo $code; ?>_company').val($jq('#order-billing_address_company').val());
-                if ($jq('#order-billing_address_company').val() == '') {
-                    $jq('#ratepay_<?php echo $code; ?>_vatid').hide();
-                    $jq('#ratepay_<?php echo $code; ?>_accountholder_b2b').hide();
-                    $jq('#ratepay_<?php echo $code; ?>_accountholder_b2c').show();
-                    $jq('#ratepay_<?php echo $code; ?>_birthday').show();
-                    if (document.getElementById('ratepay_<?php echo $code; ?>_accountholder_b2b_input')) {
-                        document.getElementById('ratepay_<?php echo $code; ?>_accountholder_b2b_input').setAttribute("name","disabled");
+if ($b2bEnabled === true):
+    $script .= "
+            require(['jquery'], function ($) {
+            function handleRequiredData".$code."() {
+                $('#".$code."_company').val($('#order-billing_address_company').val());
+                if ($('#order-billing_address_company').val() == '') {
+                    $('#ratepay_".$code."_vatid').hide();
+                    $('#ratepay_".$code."_accountholder_b2b').hide();
+                    $('#ratepay_".$code."_accountholder_b2c').show();
+                    $('#ratepay_".$code."_birthday').show();
+                    if (document.getElementById('ratepay_".$code."_accountholder_b2b_input')) {
+                        document.getElementById('ratepay_".$code."_accountholder_b2b_input').setAttribute('name','disabled');
                     }
-                    if (document.getElementById('ratepay_<?php echo $code; ?>_accountholder_b2c_input')) {
-                        document.getElementById('ratepay_<?php echo $code; ?>_accountholder_b2c_input').setAttribute("name","payment[rp_accountholder]");
+                    if (document.getElementById('ratepay_".$code."_accountholder_b2c_input')) {
+                        document.getElementById('ratepay_".$code."_accountholder_b2c_input').setAttribute('name','payment[rp_accountholder]');
                     }
-                } else if($jq('#order-billing_address_vat_id').val() == '') {
-                    $jq('#ratepay_<?php echo $code; ?>_birthday').hide();
-                    $jq('#ratepay_<?php echo $code; ?>_vatid').show();
-                    $jq('#ratepay_<?php echo $code; ?>_accountholder_b2c').hide();
-                    $jq('#ratepay_<?php echo $code; ?>_accountholder_b2b').show();
-                    if (document.getElementById('ratepay_<?php echo $code; ?>_accountholder_b2c_input')) {
-                        document.getElementById('ratepay_<?php echo $code; ?>_accountholder_b2c_input').setAttribute("name","disabled");
+                } else if($('#order-billing_address_vat_id').val() == '') {
+                    $('#ratepay_".$code."_birthday').hide();
+                    $('#ratepay_".$code."_vatid').show();
+                    $('#ratepay_".$code."_accountholder_b2c').hide();
+                    $('#ratepay_".$code."_accountholder_b2b').show();
+                    if (document.getElementById('ratepay_".$code."_accountholder_b2c_input')) {
+                        document.getElementById('ratepay_".$code."_accountholder_b2c_input').setAttribute('name','disabled');
                     }
-                    if (document.getElementById('ratepay_<?php echo $code; ?>_accountholder_b2b_input')) {
-                        document.getElementById('ratepay_<?php echo $code; ?>_accountholder_b2b_input').setAttribute("name","payment[rp_accountholder]");
+                    if (document.getElementById('ratepay_".$code."_accountholder_b2b_input')) {
+                        document.getElementById('ratepay_".$code."_accountholder_b2b_input').setAttribute('name','payment[rp_accountholder]');
                     }
                 } else {
-                    if ($jq('#<?php echo $code; ?>_vatid').val() == '') {
-                        $jq('#<?php echo $code; ?>_vatid').val($jq('#order-billing_address_vat_id').val());
+                    if ($('#".$code."_vatid').val() == '') {
+                        $('#".$code."_vatid').val($('#order-billing_address_vat_id').val());
                     }
-                    $jq('#ratepay_<?php echo $code; ?>_birthday').hide();
-                    $jq('#ratepay_<?php echo $code; ?>_vatid').hide();
+                    $('#ratepay_".$code."_birthday').hide();
+                    $('#ratepay_".$code."_vatid').hide();
                 }
                 setTimeout(function(){
-                    window.requestAnimationFrame(handleRequiredData<?php echo $code; ?>);
+                    window.requestAnimationFrame(handleRequiredData".$code.");
                 }, 1000);
             }
 
-            $jq(document).ready(function () {
-                handleRequiredData<?php echo $code; ?>();
+            $(document).ready(function () {
+                handleRequiredData".$code."();
             });
-        });
-    <?php endif; ?>
-</script>
+        });";
+endif;
+echo $block->getScriptHelper()->insertScript($script);
+?>
+
