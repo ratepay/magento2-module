@@ -170,7 +170,7 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
                 $items[$sku]['Description'] = $item->getName();
             }
             if (!isset($items[$sku]['UnitPriceGross']) || $items[$sku]['UnitPriceGross'] < $item->getPriceInclTax()) {
-                $items[$sku]['UnitPriceGross'] =  $items[$sku]['UnitPriceGross'] = round($item->getPriceInclTax(), 2);
+                $items[$sku]['UnitPriceGross'] = $this->getUnitGrossPrice($item->getPriceInclTax(), $item->getPrice(), $item->getTaxPercent());
             }
 
             if (!isset($items[$sku]['Quantity'])) {
@@ -222,5 +222,24 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
         $dSingleDiscount = $discount / $quantity;
 
         return $dSingleDiscount;
+    }
+
+    /**
+     * Determine unit gross price to be communicated to Ratepay API
+     * In certain situations price has to be rounded to 4 digits to handle rounding errors on ratepay side
+     *
+     * @param float $brutPrice
+     * @param float $netPrice
+     * @param float $taxPercent
+     * @return float
+     */
+    protected function getUnitGrossPrice($brutPrice, $netPrice, $taxPercent)
+    {
+        $manualBrutPrice = round($netPrice * ((100 + $taxPercent) / 100), 4);
+        $shopBrutPrice = round($brutPrice, 2);
+        if (($manualBrutPrice - $shopBrutPrice) != 0.0) {
+            return $manualBrutPrice; // return rounded to precision 4
+        }
+        return $shopBrutPrice; // return shop original rounded to precision 2
     }
 }
