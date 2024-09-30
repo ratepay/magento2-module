@@ -170,7 +170,11 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
                 $items[$sku]['Description'] = $item->getName();
             }
             if (!isset($items[$sku]['UnitPriceGross']) || $items[$sku]['UnitPriceGross'] < $item->getPriceInclTax()) {
-                $items[$sku]['UnitPriceGross'] = $this->getUnitGrossPrice($item->getPriceInclTax(), $item->getPrice(), $item->getTaxPercent());
+                $calcTaxRate = $taxRate;
+                if (empty($calcTaxRate) && $item->getProductType() === \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
+                    $calcTaxRate = $this->getAverageBundleTax($item);
+                }
+                $items[$sku]['UnitPriceGross'] = $this->getUnitGrossPrice($item->getPriceInclTax(), $item->getPrice(), round($calcTaxRate ?? 0, 2));
             }
 
             if (!isset($items[$sku]['Quantity'])) {
@@ -222,6 +226,22 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
         $dSingleDiscount = $discount / $quantity;
 
         return $dSingleDiscount;
+    }
+
+    /**
+     * @param $item
+     * @return float|int
+     */
+    protected function getAverageBundleTax($item)
+    {
+        // get average tax rate for bundle elements
+        $taxRate = 0;
+        $children = $item->getChildrenItems();
+        foreach ($children as $ch) {
+            $taxRate += $ch->getTaxPercent();
+        }
+        $taxRate = $taxRate / count($children);
+        return $taxRate;
     }
 
     /**
