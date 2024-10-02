@@ -4,7 +4,7 @@
 |Repository | Ratepay Module for Magento 2
 |------|----------
 |Author | Robert Müller
-|Module-Version | `2.1.12`
+|Module-Version | `2.1.13`
 |Compatibility | Magento 2.3.0 - 2.4.x
 |Link | http://www.ratepay.com
 |Mail | integration@ratepay.com
@@ -22,6 +22,9 @@ php bin/magento cache:clean
 ````
 
 ## Changelog
+
+### Version 2.1.13 - Released 2024-10-02
+* Transmit basket items with 4 decimal places where needed to limit rounding problems in certain situations
 
 ### Version 2.1.12 - Released 2024-06-17
 * Fixed proxy mode bug in Mage 2.4.7
