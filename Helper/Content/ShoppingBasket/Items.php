@@ -170,7 +170,11 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
                 $items[$sku]['Description'] = $item->getName();
             }
             if (!isset($items[$sku]['UnitPriceGross']) || $items[$sku]['UnitPriceGross'] < $item->getPriceInclTax()) {
-                $items[$sku]['UnitPriceGross'] =  $items[$sku]['UnitPriceGross'] = round($item->getPriceInclTax(), 2);
+                $calcTaxRate = $taxRate;
+                if (empty($calcTaxRate) && $item->getProductType() === \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
+                    $calcTaxRate = $this->getAverageBundleTax($item);
+                }
+                $items[$sku]['UnitPriceGross'] = $this->getUnitGrossPrice($item->getPriceInclTax(), $item->getPrice(), round($calcTaxRate ?? 0, 2));
             }
 
             if (!isset($items[$sku]['Quantity'])) {
@@ -222,5 +226,40 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
         $dSingleDiscount = $discount / $quantity;
 
         return $dSingleDiscount;
+    }
+
+    /**
+     * @param $item
+     * @return float|int
+     */
+    protected function getAverageBundleTax($item)
+    {
+        // get average tax rate for bundle elements
+        $taxRate = 0;
+        $children = $item->getChildrenItems();
+        foreach ($children as $ch) {
+            $taxRate += $ch->getTaxPercent();
+        }
+        $taxRate = $taxRate / count($children);
+        return $taxRate;
+    }
+
+    /**
+     * Determine unit gross price to be communicated to Ratepay API
+     * In certain situations price has to be rounded to 4 digits to handle rounding errors on ratepay side
+     *
+     * @param float $brutPrice
+     * @param float $netPrice
+     * @param float $taxPercent
+     * @return float
+     */
+    protected function getUnitGrossPrice($brutPrice, $netPrice, $taxPercent)
+    {
+        $manualBrutPrice = round($netPrice * ((100 + $taxPercent) / 100), 4);
+        $shopBrutPrice = round($brutPrice, 2);
+        if (($manualBrutPrice - $shopBrutPrice) != 0.0) {
+            return $manualBrutPrice; // return rounded to precision 4
+        }
+        return $shopBrutPrice; // return shop original rounded to precision 2
     }
 }
