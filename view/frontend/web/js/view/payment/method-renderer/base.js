@@ -47,10 +47,11 @@ define(
             },
             handleDeviceFingerprint: function () {
                 if (window.checkoutConfig.payment.ratepay.token) {
-                    var diSkriptVar = document.createElement('script');
-                    diSkriptVar.type = 'text/javascript';
-                    diSkriptVar.text =  "var di = {t:'" + window.checkoutConfig.payment.ratepay.token + "',v:'" + window.checkoutConfig.payment.ratepay.snippetId + "',l:'checkout'};";
-                    document.getElementsByTagName('head')[0].appendChild(diSkriptVar);
+                    window.di = {
+                        t: window.checkoutConfig.payment.ratepay.token,
+                        v: window.checkoutConfig.payment.ratepay.snippetId,
+                        l:'checkout'
+                    };
 
                     var diSkript = document.createElement('script');
                     diSkript.type = 'text/javascript';
