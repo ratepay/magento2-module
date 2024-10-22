@@ -150,6 +150,8 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
     protected function getRemoteAddress()
     {
         $proxyMode = (bool)$this->rpDataHelper->getRpConfigDataByPath("ratepay/general/proxy_mode");
-        return $this->request->getClientIp($proxyMode);
+        $clientIp = $this->request->getClientIp($proxyMode); // may return a comma separated ip list like "<client>, <proxy1>, <proxy2>"
+        $splitIp = explode(",", $clientIp); // split by comma
+        return trim(current($splitIp)); // return first array element
     }
 }
