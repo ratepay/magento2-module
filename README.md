@@ -4,7 +4,7 @@
 |Repository | Ratepay Module for Magento 2
 |------|----------
 |Author | Robert Müller
-|Module-Version | `2.1.13`
+|Module-Version | `2.1.14`
 |Compatibility | Magento 2.3.0 - 2.4.x
 |Link | http://www.ratepay.com
 |Mail | integration@ratepay.com
@@ -22,6 +22,10 @@ php bin/magento cache:clean
 ````
 
 ## Changelog
+
+### Version 2.1.14 - Released 2024-10-22
+* Fixed a CSP problem with the device fingerprint javascript
+* Fixed a problem with remote address detection for servers behind a proxy
 
 ### Version 2.1.13 - Released 2024-10-02
 * Transmit basket items with 4 decimal places where needed to limit rounding problems in certain situations
