@@ -318,7 +318,6 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
             if (!$resultRequest->isSuccessful()) {
                 $message = $resultRequest->getCustomerMessage();
                 if (!$resultRequest->isRetryAdmitted()) {
-                    $this->clearDeviceFingerprintSession();
                     $this->handleError($resultRequest, $order);
 
                     $sMethodCode = $order->getPayment()->getMethod();
@@ -339,7 +338,6 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
             return $this;
         } else {
             $message = $this->formatMessage($resultInit->getReasonMessage());
-            $this->clearDeviceFingerprintSession();
             throw new PaymentException(__($message)); // RatePAY Error Message
         }
     }
