@@ -4,7 +4,7 @@
 |Repository | Ratepay Module for Magento 2
 |------|----------
 |Author | Robert Müller
-|Module-Version | `2.1.14`
+|Module-Version | `2.1.15`
 |Compatibility | Magento 2.3.0 - 2.4.x
 |Link | http://www.ratepay.com
 |Mail | integration@ratepay.com
@@ -22,6 +22,9 @@ php bin/magento cache:clean
 ````
 
 ## Changelog
+
+### Version 2.1.15 - Released 2024-10-25
+* Fixed problem with missing device fingerprint after denial by API
 
 ### Version 2.1.14 - Released 2024-10-22
 * Fixed a CSP problem with the device fingerprint javascript
