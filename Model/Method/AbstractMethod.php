@@ -328,6 +328,9 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
                     if (empty($message) && stripos($sReason, "IBAN") !== false && stripos($sReason, "invalid") !== false) {
                         $message = __($sReason);
                     }
+                    if (empty($message) && stripos($sReason, "Area-code and direct-dial together must contain at least six non-whitespace characters") !== false) {
+                        $message = __('The phone number provided is invalid. Please ensure that the number has at least 6 digits.');
+                    }
                     throw new PaymentException(__($message)); // RatePAY Error Message
                 }
             }

@@ -44,6 +44,11 @@
                     <p><!-- ko i18n: 'Testmode activated, please DONT use this payment method and get in contact with the merchant.'--><!-- /ko --></p>
                 </div>
                 <!-- /ko -->
+                <!-- ko if: isTelephoneNumberInvalid() -->
+                <div class="message message-warning warning">
+                    <div><!-- ko i18n: 'Please ensure that the phone number has at least 6 digits.'--><!-- /ko --></div>
+                </div>
+                <!-- /ko -->
                 <label class="label" data-bind="if: !isB2BModeUsable()">
                     <span><!-- ko i18n: 'Date of Birth'--><!-- /ko --><br>
                         <!-- ko if: currentCustomerData.dob -->

@@ -175,6 +175,8 @@ ratepay_terms_block_6, "einverstanden." ,module,RatePAY_Payment
 "Payment type","Zahlart",module,RatePAY_Payment
 "Validation failed: Bank-account parameter IBAN is invalid.","Validierung fehlgeschlagen: Angegebene IBAN ist ungültig",module,RatePAY_Payment
 "Validation failed: Bank-account parameter IBAN (DE) has invalid length (must be 22).","Validierung fehlgeschlagen: Angegebene IBAN hat eine ungültige Länge (muss 22 Zeichen lang sein).",module,RatePAY_Payment
+"The phone number provided is invalid. Please ensure that the number has at least 6 digits.","Die angegebene Telefonnummer ist ungültig. Bitte stelle sicher, dass die Nummer mindestens 6 Ziffern enthält.",module,RatePAY_Payment
+"Please ensure that the phone number has at least 6 digits.","Bitte stelle sicher, dass die Telefonnummer mindestens 6 Ziffern enthält.",module,RatePAY_Payment
 "Ratepay_invoice","Rechnung",module,RatePAY_Payment
 "Ratepay_installment","Ratenzahlung",module,RatePAY_Payment
 "Ratepay_installment0","0% Finanzierung",module,RatePAY_Payment
