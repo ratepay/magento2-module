@@ -123,7 +123,7 @@ define(
                 if (quote.billingAddress() != null && quote.billingAddress().telephone != undefined) {
                     let phone = quote.billingAddress().telephone;
                     phone = phone.replace(" ", "");
-                    if (phone.length < 6) {
+                    if (phone.length > 0 && phone.length < 6) {
                         return true;
                     }
                 }
