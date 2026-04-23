@@ -119,6 +119,16 @@ define(
                 }
                 return false;
             },
+            isTelephoneNumberInvalid: function () {
+                if (quote.billingAddress() != null && quote.billingAddress().telephone != undefined) {
+                    let phone = quote.billingAddress().telephone;
+                    phone = phone.replace(" ", "");
+                    if (phone.length > 0 && phone.length < 6) {
+                        return true;
+                    }
+                }
+                return false;
+            },
             isDobSet: function () {
                 if (customer.customerData.dob == undefined || customer.customerData.dob === null) {
                     return false;
