@@ -77,9 +77,9 @@ class MigrateToNewConfig implements DataPatchInterface
         $select = $this->moduleDataSetup->getConnection()
             ->select()
             ->from($this->moduleDataSetup->getTable('core_config_data'), ['config_id', 'scope', 'scope_id', 'path', 'value'])
-            ->where('path = "payment/'.$sMethodCode.'/profileId"')
-            ->orWhere('path = "payment/'.$sMethodCode.'/securityCode"')
-            ->orWhere('path = "payment/'.$sMethodCode.'/sandbox"')
+            ->where('path = ?', 'payment/'.$sMethodCode.'/profileId')
+            ->orWhere('path = ?', 'payment/'.$sMethodCode.'/securityCode')
+            ->orWhere('path = ?', 'payment/'.$sMethodCode.'/sandbox')
             ->order(['scope_id', 'scope']);
         $result = $this->moduleDataSetup->getConnection()->fetchAssoc($select);
 

@@ -141,7 +141,7 @@ class ProfileConfiguration extends \Magento\Framework\Model\ResourceModel\Db\Abs
             ->from($this->getMainTable());
 
         if (!empty($aProfileIds)) {
-            $oSelect->where("profile_id IN ('".implode("','", $aProfileIds)."')");
+            $oSelect->where("profile_id IN (?)", $aProfileIds);
         }
 
         $aResult = $this->getConnection()->fetchAll($oSelect);
