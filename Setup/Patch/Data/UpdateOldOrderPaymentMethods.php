@@ -54,7 +54,7 @@ class UpdateOldOrderPaymentMethods implements DataPatchInterface
             $select = $this->moduleDataSetup->getConnection()
                 ->select()
                 ->from($this->moduleDataSetup->getTable('sales_order_payment'), ['entity_id', 'method'])
-                ->where('method LIKE "'.$sRatepayPrefix.'%"');
+                ->where('method LIKE ?', $sRatepayPrefix.'%');
             $result = $this->moduleDataSetup->getConnection()->fetchAssoc($select);
             foreach ($result as $item) {
                 $data = ['method' => str_ireplace($sRatepayPrefix, 'ratepay_', $item['method'])];

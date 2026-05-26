@@ -189,6 +189,11 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
     protected $installmentPlan;
 
     /**
+     * @var \Magento\Quote\Api\CartRepositoryInterface
+     */
+    protected $quoteRepository;
+
+    /**
      * AbstractMethod constructor.
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
@@ -212,6 +217,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
      * @param \RatePAY\Payment\Model\Handler\Cancel $cancelHandler
      * @param \Magento\Backend\Model\Session\Quote $backendCheckoutSession
      * @param \RatePAY\Payment\Service\V1\InstallmentPlan $installmentPlan
+     * @param \Magento\Quote\Api\CartRepositoryInterface $quoteRepository
      * @param \Magento\Framework\Model\ResourceModel\AbstractResource|null $resource
      * @param \Magento\Framework\Data\Collection\AbstractDb|null $resourceCollection
      * @param array $data
@@ -239,6 +245,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         \RatePAY\Payment\Model\Handler\Cancel $cancelHandler,
         \Magento\Backend\Model\Session\Quote $backendCheckoutSession,
         \RatePAY\Payment\Service\V1\InstallmentPlan $installmentPlan,
+        \Magento\Quote\Api\CartRepositoryInterface $quoteRepository,
         \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
         array $data = []
@@ -271,6 +278,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         $this->cancelHandler = $cancelHandler;
         $this->backendCheckoutSession = $backendCheckoutSession;
         $this->installmentPlan = $installmentPlan;
+        $this->quoteRepository = $quoteRepository;
     }
 
     /**
@@ -525,6 +533,20 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         return false;
     }
 
+    protected function getBackendQuote()
+    {
+        $sQuoteId = $this->backendCheckoutSession->getQuoteId();
+        if (!empty($sQuoteId)) {
+            $oQuote = $this->quoteRepository->get($sQuoteId);
+            if ($oQuote) {
+                return $oQuote;
+            }
+        }
+
+        // Fallback - old way of getting quote
+        return $this->backendCheckoutSession->getQuote();
+    }
+
     /**
      * @param  \Magento\Quote\Api\Data\CartInterface|null $oQuote
      * @param  string|null $sStoreCode
@@ -542,7 +564,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
                 if ($this->isBackendMethod() === false) {
                     $oQuote = $this->checkoutSession->getQuote();
                 } else {
-                    $oQuote = $this->backendCheckoutSession->getQuote();
+                    $oQuote = $this->getBackendQuote();
                 }
             }
             if ($sStoreCode === null) {
@@ -570,7 +592,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
                 if ($this->isBackendMethod() === false) {
                     $oQuote = $this->checkoutSession->getQuote();
                 } else {
-                    $oQuote = $this->backendCheckoutSession->getQuote();
+                    $oQuote = $this->getBackendQuote();
                 }
             }
             if ($sStoreCode === null) {

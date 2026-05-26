@@ -77,13 +77,12 @@ class InstallmentConfiguration extends \Magento\Framework\App\Action\Action
         $params = $this->getRequest()->getParams();
 
         $result = $this->_resultJsonFactory->create();
-
-        if (!key_exists('order-amount', $params)) {
+        if (!key_exists('order-amount', $params) || (float)$params['order-amount'] < 0 || (float)$params['order-amount'] > 1000000) {
             $response['message'] = "order amount invalid";
             return $result->setData($response);
         }
 
-        $installmentConfiguration = $this->getInstallmentConfiguration((float) $params['order-amount']);
+        $installmentConfiguration = $this->getInstallmentConfiguration((float)$params['order-amount']);
 
         /*if (!is_array($requestResponse)) {
             $response['message'] = "country-code invalid";

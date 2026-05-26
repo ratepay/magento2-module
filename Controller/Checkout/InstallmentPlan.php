@@ -81,7 +81,9 @@ class InstallmentPlan extends \Magento\Framework\App\Action\Action
 
         if (!key_exists('order_amount', $params) ||
             !key_exists('calc_type', $params) ||
-            !key_exists('calc_value', $params)) {
+            !key_exists('calc_value', $params) ||
+            !in_array($params['calc_type'], ['time', 'rate'])
+        ) {
             $response['message'] = "calc data invalid";
             return $result->setData($response);
         }
