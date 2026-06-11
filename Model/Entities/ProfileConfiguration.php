@@ -265,7 +265,7 @@ class ProfileConfiguration extends AbstractModel
      * @param string                                $sCurrency
      * @return bool
      */
-    public function isApplicableForQuote(\Magento\Quote\Api\Data\CartInterface $oQuote = null, $sMethodCode = null, $dTotalAmount = null, $sBillingCountryId = null, $sShippingCountryId = null, $sCurrency = null)
+    public function isApplicableForQuote(?\Magento\Quote\Api\Data\CartInterface $oQuote = null, $sMethodCode = null, $dTotalAmount = null, $sBillingCountryId = null, $sShippingCountryId = null, $sCurrency = null)
     {
         $sProduct = $this->getRatepayProduct($sMethodCode);
 

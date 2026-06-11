@@ -94,7 +94,7 @@ class Installment0 extends AbstractMethod
      * @param \Magento\Quote\Api\Data\CartInterface|null $quote
      * @return bool
      */
-    public function isAvailable(\Magento\Quote\Api\Data\CartInterface $quote = null)
+    public function isAvailable(?\Magento\Quote\Api\Data\CartInterface $quote = null)
     {
         if (parent::isAvailable($quote) === false) {
             return false;
@@ -117,7 +117,7 @@ class Installment0 extends AbstractMethod
      * @param  int $installmentRuntime
      * @return \RatePAY\Payment\Model\Entities\ProfileConfiguration|false
      */
-    public function getMatchingProfile(\Magento\Quote\Api\Data\CartInterface $oQuote = null, $sStoreCode = null, $dGrandTotal = null, $sBillingCountryId = null, $sShippingCountryId = null, $sCurrency = null, $installmentRuntime = null)
+    public function getMatchingProfile(?\Magento\Quote\Api\Data\CartInterface $oQuote = null, $sStoreCode = null, $dGrandTotal = null, $sBillingCountryId = null, $sShippingCountryId = null, $sCurrency = null, $installmentRuntime = null)
     {
         if ($this->profile === null) {
             if ($oQuote === null) {

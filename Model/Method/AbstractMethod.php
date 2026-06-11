@@ -246,8 +246,8 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         \Magento\Backend\Model\Session\Quote $backendCheckoutSession,
         \RatePAY\Payment\Service\V1\InstallmentPlan $installmentPlan,
         \Magento\Quote\Api\CartRepositoryInterface $quoteRepository,
-        \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
-        \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
+        ?\Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
+        ?\Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
         array $data = []
     ) {
         parent::__construct(
@@ -557,7 +557,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
      * @param  int $installmentRuntime
      * @return \RatePAY\Payment\Model\Entities\ProfileConfiguration|false
      */
-    public function getMatchingProfile(\Magento\Quote\Api\Data\CartInterface $oQuote = null, $sStoreCode = null, $dGrandTotal = null, $sBillingCountryId = null, $sShippingCountryId = null, $currency = null, $installmentRuntime = null)
+    public function getMatchingProfile(?\Magento\Quote\Api\Data\CartInterface $oQuote = null, $sStoreCode = null, $dGrandTotal = null, $sBillingCountryId = null, $sShippingCountryId = null, $currency = null, $installmentRuntime = null)
     {
         if ($this->profile === null) {
             if ($oQuote === null) {
@@ -585,7 +585,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
      * @param  string $sCurrency
      * @return \RatePAY\Payment\Model\Entities\ProfileConfiguration[]|false
      */
-    public function getMatchingProfiles(\Magento\Quote\Api\Data\CartInterface $oQuote = null, $sStoreCode = null, $dGrandTotal = null, $sBillingCountryId = null, $sShippingCountryId = null, $sCurrency = null)
+    public function getMatchingProfiles(?\Magento\Quote\Api\Data\CartInterface $oQuote = null, $sStoreCode = null, $dGrandTotal = null, $sBillingCountryId = null, $sShippingCountryId = null, $sCurrency = null)
     {
         if ($this->profiles === null) {
             if ($oQuote === null) {
@@ -616,7 +616,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
      * @param \Magento\Quote\Api\Data\CartInterface|null $quote
      * @return bool
      */
-    public function isAvailable(\Magento\Quote\Api\Data\CartInterface $quote = null)
+    public function isAvailable(?\Magento\Quote\Api\Data\CartInterface $quote = null)
     {
         if (is_null($quote)) {
             return false;
@@ -671,7 +671,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
      * @param \Magento\Quote\Api\Data\CartInterface $quote
      * @return bool
      */
-    public function canUseForCountryDelivery($country, \Magento\Quote\Api\Data\CartInterface $quote = null)
+    public function canUseForCountryDelivery($country, ?\Magento\Quote\Api\Data\CartInterface $quote = null)
     {
         $availableCountries = explode(',', $this->getMatchingProfile()->getData("country_code_delivery"));
         if (!in_array($country, $availableCountries)) {

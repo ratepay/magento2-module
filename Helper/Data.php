@@ -115,7 +115,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Quote\Api\Data\CartInterface $quote
      * @return mixed
      */
-    public function getRpConfigDataForQuote($method, $field, \Magento\Quote\Api\Data\CartInterface $quote = null)
+    public function getRpConfigDataForQuote($method, $field, ?\Magento\Quote\Api\Data\CartInterface $quote = null)
     {
         $storeCode = null;
         if ($quote !== null) {
