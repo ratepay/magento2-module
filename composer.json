@@ -8,7 +8,7 @@
   "require": {
     "php": ">=7.1.0",
     "magento/framework": ">=100.3.0",
-    "ratepay/php-library": ">=1.8.4"
+    "ratepay/php-library": ">=1.8.5"
   },
 
   "autoload": {
