@@ -16,29 +16,29 @@
                 <frontend_model>RatePAY\Payment\Block\Adminhtml\Config\Fieldset\Payment</frontend_model>
                 <group id="ratepay" translate="label" type="text" sortOrder="999" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Ratepay</label>
-                    <field id="snippet_id" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <field id="snippet_id" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                         <label>Device Fingerprint Snippet-Id</label>
                         <config_path>payment/ratepay_general/snippet_id</config_path>
                     </field>
-                    <field id="creditmemo_discount_type" translate="label tooltip" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <field id="creditmemo_discount_type" translate="label tooltip" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                         <label>Creditmemo goodwill refund transmission type</label>
                         <source_model>RatePAY\Payment\Model\Source\CreditmemoDiscountType</source_model>
                         <config_path>payment/ratepay_general/creditmemo_discount_type</config_path>
                         <tooltip>Standard item means that the goodwill refund will be transferred as an ordinary item in the item list with the article-number 'adj-ref' this has the sideeffect that only one goodwill refund per order can be executed. Special item sends the goodwill refund as a discount. This way multiple goodwill refunds can be executed per order.</tooltip>
                     </field>
-                    <field id="true_offline_mode" translate="label tooltip" type="select" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <field id="true_offline_mode" translate="label tooltip" type="select" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                         <label>True Offline Mode</label>
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                         <config_path>ratepay/general/true_offline_mode</config_path>
                         <tooltip>With True Offline Mode being enabled, communication with Ratepay when creating an invoice or a creditmemo is disabled. This will make the module behave in the Magento2 standard way. With True Offline Mode being disabled (default) the module will continue to communicate to Ratepay like before, this happens because the module didnt have a differentiation between those modes in the beginning and the customers were not supposed to have to change their workflow later when it was introduced.</tooltip>
                     </field>
-                    <field id="proxy_mode" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <field id="proxy_mode" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                         <label>Proxy-Mode</label>
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                         <tooltip>Enable this option to interpret the HTTP_X_FORWARDED_FOR and HTTP_X_REAL_IP headers. Should be activated if your shop is behind a Proxy server.</tooltip>
                         <config_path>ratepay/general/proxy_mode</config_path>
                     </field>
-                    <field id="street_field_usage" translate="label tooltip" type="select" sortOrder="26" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <field id="street_field_usage" translate="label tooltip" type="select" sortOrder="26" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                         <label>Street field usage</label>
                         <source_model>RatePAY\Payment\Model\Source\StreetFieldUsage</source_model>
                         <config_path>ratepay/general/street_field_usage</config_path>
@@ -47,35 +47,35 @@
                             <field id="customer/address/street_lines" separator=",">2,3,4</field>
                         </depends>
                     </field>
-                    <field id="profile_config" translate="label" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <field id="profile_config" translate="label" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                         <label>Profiles</label>
                         <frontend_model>RatePAY\Payment\Block\Adminhtml\Config\Form\Field\ProfileConfig</frontend_model>
                         <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
                     </field>
-                    <field id="show_profile_config" translate="label" sortOrder="51" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <field id="show_profile_config" translate="label" sortOrder="51" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                         <label>Profile configuration</label>
                         <frontend_model>RatePAY\Payment\Block\Adminhtml\Config\Form\Field\ShowProfileConfig</frontend_model>
                         <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
                     </field>
                     <group id="product_page_instalment_plan" translate="label" type="text" sortOrder="400" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Product page: Instalment plan</label>
-                        <field id="product_page_instalment_plan_active" translate="label tooltip" type="select" sortOrder="35" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="product_page_instalment_plan_active" translate="label tooltip" type="select" sortOrder="35" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Active</label>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                             <config_path>ratepay/general/product_page_instalment_plan</config_path>
                             <tooltip>Shows basic instalment information on the product details page</tooltip>
                         </field>
-                        <field id="instalment_plan_billing_country" translate="label" type="select" sortOrder="36" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="instalment_plan_billing_country" translate="label" type="select" sortOrder="36" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Billing country</label>
                             <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
                             <config_path>ratepay/general/instalment_plan_billing_country</config_path>
                         </field>
-                        <field id="instalment_plan_shipping_country" translate="label" type="select" sortOrder="37" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="instalment_plan_shipping_country" translate="label" type="select" sortOrder="37" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Shipping country</label>
                             <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
                             <config_path>ratepay/general/instalment_plan_shipping_country</config_path>
                         </field>
-                        <field id="instalment_plan_method_code" translate="label" type="select" sortOrder="38" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="instalment_plan_method_code" translate="label" type="select" sortOrder="38" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Payment type</label>
                             <source_model>RatePAY\Payment\Model\Source\InstalmentMethods</source_model>
                             <config_path>ratepay/general/instalment_plan_method_code</config_path>
@@ -83,21 +83,21 @@
                     </group>
                     <group id="invoice" translate="label" type="text" sortOrder="500" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Invoice</label>
-                        <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Enabled</label>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                             <config_path>payment/ratepay_invoice/active</config_path>
                         </field>
-                        <field id="title" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="title" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Title</label>
                             <config_path>payment/ratepay_invoice/title</config_path>
                         </field>
-                        <field id="order_status" translate="label" type="select" sortOrder="999" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="order_status" translate="label" type="select" sortOrder="999" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>New Order Status</label>
                             <source_model>Magento\Sales\Model\Config\Source\Order\Status\NewStatus</source_model>
                             <config_path>payment/ratepay_invoice/order_status</config_path>
                         </field>
-                        <field id="sort_order" translate="label" type="text" sortOrder="1000" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="sort_order" translate="label" type="text" sortOrder="1000" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Sort Order</label>
                             <frontend_class>validate-number</frontend_class>
                             <config_path>payment/ratepay_invoice/sort_order</config_path>
@@ -105,21 +105,21 @@
                     </group>
                     <group id="directdebit" translate="label" type="text" sortOrder="600" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Direct Debit</label>
-                        <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Enabled</label>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                             <config_path>payment/ratepay_directdebit/active</config_path>
                         </field>
-                        <field id="title" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="title" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Title</label>
                             <config_path>payment/ratepay_directdebit/title</config_path>
                         </field>
-                        <field id="order_status" translate="label" type="select" sortOrder="999" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="order_status" translate="label" type="select" sortOrder="999" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>New Order Status</label>
                             <source_model>Magento\Sales\Model\Config\Source\Order\Status\NewStatus</source_model>
                             <config_path>payment/ratepay_directdebit/order_status</config_path>
                         </field>
-                        <field id="sort_order" translate="label" type="text" sortOrder="1000" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="sort_order" translate="label" type="text" sortOrder="1000" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Sort Order</label>
                             <frontend_class>validate-number</frontend_class>
                             <config_path>payment/ratepay_directdebit/sort_order</config_path>
@@ -127,21 +127,21 @@
                     </group>
                     <group id="installment" translate="label" type="text" sortOrder="700" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Instalment</label>
-                        <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Enabled</label>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                             <config_path>payment/ratepay_installment/active</config_path>
                         </field>
-                        <field id="title" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="title" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Title</label>
                             <config_path>payment/ratepay_installment/title</config_path>
                         </field>
-                        <field id="order_status" translate="label" type="select" sortOrder="999" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="order_status" translate="label" type="select" sortOrder="999" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>New Order Status</label>
                             <source_model>Magento\Sales\Model\Config\Source\Order\Status\NewStatus</source_model>
                             <config_path>payment/ratepay_installment/order_status</config_path>
                         </field>
-                        <field id="sort_order" translate="label" type="text" sortOrder="1000" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="sort_order" translate="label" type="text" sortOrder="1000" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Sort Order</label>
                             <frontend_class>validate-number</frontend_class>
                             <config_path>payment/ratepay_installment/sort_order</config_path>
@@ -149,21 +149,21 @@
                     </group>
                     <group id="installment0" translate="label" type="text" sortOrder="800" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>0% Financing</label>
-                        <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Enabled</label>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                             <config_path>payment/ratepay_installment0/active</config_path>
                         </field>
-                        <field id="title" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="title" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Title</label>
                             <config_path>payment/ratepay_installment0/title</config_path>
                         </field>
-                        <field id="order_status" translate="label" type="select" sortOrder="999" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="order_status" translate="label" type="select" sortOrder="999" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>New Order Status</label>
                             <source_model>Magento\Sales\Model\Config\Source\Order\Status\NewStatus</source_model>
                             <config_path>payment/ratepay_installment0/order_status</config_path>
                         </field>
-                        <field id="sort_order" translate="label" type="text" sortOrder="1000" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="sort_order" translate="label" type="text" sortOrder="1000" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Sort Order</label>
                             <frontend_class>validate-number</frontend_class>
                             <config_path>payment/ratepay_installment0/sort_order</config_path>
@@ -172,33 +172,33 @@
                 </group>
                 <group id="ratepay_backend" translate="label" type="text" sortOrder="999" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Ratepay backend orders</label>
-                    <field id="profile_config_backend" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <field id="profile_config_backend" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                         <label>Profiles</label>
                         <frontend_model>RatePAY\Payment\Block\Adminhtml\Config\Form\Field\ProfileConfig</frontend_model>
                         <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
                     </field>
-                    <field id="show_profile_config" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <field id="show_profile_config" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                         <label>Profile configuration</label>
                         <frontend_model>RatePAY\Payment\Block\Adminhtml\Config\Form\Field\ShowProfileConfig</frontend_model>
                         <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
                     </field>
                     <group id="invoice" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Invoice Backend</label>
-                        <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Enabled</label>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                             <config_path>payment/ratepay_invoice_backend/active</config_path>
                         </field>
-                        <field id="title" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="title" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Title</label>
                             <config_path>payment/ratepay_invoice_backend/title</config_path>
                         </field>
-                        <field id="order_status" translate="label" type="select" sortOrder="999" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="order_status" translate="label" type="select" sortOrder="999" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>New Order Status</label>
                             <source_model>Magento\Sales\Model\Config\Source\Order\Status\NewStatus</source_model>
                             <config_path>payment/ratepay_invoice_backend/order_status</config_path>
                         </field>
-                        <field id="sort_order" translate="label" type="text" sortOrder="1000" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="sort_order" translate="label" type="text" sortOrder="1000" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Sort Order</label>
                             <frontend_class>validate-number</frontend_class>
                             <config_path>payment/ratepay_invoice_backend/sort_order</config_path>
@@ -206,21 +206,21 @@
                     </group>
                     <group id="directdebit" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Direct Debit Backend</label>
-                        <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Enabled</label>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                             <config_path>payment/ratepay_directdebit_backend/active</config_path>
                         </field>
-                        <field id="title" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="title" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Title</label>
                             <config_path>payment/ratepay_directdebit_backend/title</config_path>
                         </field>
-                        <field id="order_status" translate="label" type="select" sortOrder="999" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="order_status" translate="label" type="select" sortOrder="999" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>New Order Status</label>
                             <source_model>Magento\Sales\Model\Config\Source\Order\Status\NewStatus</source_model>
                             <config_path>payment/ratepay_directdebit_backend/order_status</config_path>
                         </field>
-                        <field id="sort_order" translate="label" type="text" sortOrder="1000" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="sort_order" translate="label" type="text" sortOrder="1000" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Sort Order</label>
                             <frontend_class>validate-number</frontend_class>
                             <config_path>payment/ratepay_directdebit_backend/sort_order</config_path>
@@ -228,21 +228,21 @@
                     </group>
                     <group id="installment" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Instalment Backend</label>
-                        <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Enabled</label>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                             <config_path>payment/ratepay_installment_backend/active</config_path>
                         </field>
-                        <field id="title" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="title" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Title</label>
                             <config_path>payment/ratepay_installment_backend/title</config_path>
                         </field>
-                        <field id="order_status" translate="label" type="select" sortOrder="999" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="order_status" translate="label" type="select" sortOrder="999" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>New Order Status</label>
                             <source_model>Magento\Sales\Model\Config\Source\Order\Status\NewStatus</source_model>
                             <config_path>payment/ratepay_installment_backend/order_status</config_path>
                         </field>
-                        <field id="sort_order" translate="label" type="text" sortOrder="1000" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="sort_order" translate="label" type="text" sortOrder="1000" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Sort Order</label>
                             <frontend_class>validate-number</frontend_class>
                             <config_path>payment/ratepay_installment_backend/sort_order</config_path>
@@ -250,21 +250,21 @@
                     </group>
                     <group id="installment0" translate="label" type="text" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>0% Financing Backend</label>
-                        <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Enabled</label>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                             <config_path>payment/ratepay_installment0_backend/active</config_path>
                         </field>
-                        <field id="title" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="title" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Title</label>
                             <config_path>payment/ratepay_installment0_backend/title</config_path>
                         </field>
-                        <field id="order_status" translate="label" type="select" sortOrder="999" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="order_status" translate="label" type="select" sortOrder="999" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>New Order Status</label>
                             <source_model>Magento\Sales\Model\Config\Source\Order\Status\NewStatus</source_model>
                             <config_path>payment/ratepay_installment0_backend/order_status</config_path>
                         </field>
-                        <field id="sort_order" translate="label" type="text" sortOrder="1000" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="sort_order" translate="label" type="text" sortOrder="1000" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                             <label>Sort Order</label>
                             <frontend_class>validate-number</frontend_class>
                             <config_path>payment/ratepay_installment0_backend/sort_order</config_path>
