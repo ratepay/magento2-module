@@ -52,6 +52,24 @@ class Shipping extends \Magento\Framework\App\Helper\AbstractHelper
             }
         }
 
+        if ($quoteOrOrder instanceof \Magento\Quote\Model\Quote) {
+            $shippingAddress = $quoteOrOrder->getShippingAddress();
+            $shippingAddress->setCollectShippingRates(true);
+            $quoteOrOrder->collectTotals();
+
+            $appliedTaxes = $shippingAddress->getAppliedTaxes();
+            $itemsAppliedTaxes = $shippingAddress->getItemsAppliedTaxes();
+            ///@TODO: Mit angewandter Mwst. testen
+            if (!empty($itemsAppliedTaxes['shipping'])) {
+                $shippingTaxes = $itemsAppliedTaxes['shipping'];
+                $first = reset($shippingTaxes);
+                if (isset($first['percent'])) {
+                    return (float)$first['percent'];
+                }
+            }
+            return 0;
+        }
+
         $extensionAttribute = $quoteOrOrder->getExtensionAttributes();
         if ($extensionAttribute) {
             $taxesForItems = $extensionAttribute->getItemAppliedTaxes();
@@ -74,21 +92,31 @@ class Shipping extends \Magento\Framework\App\Helper\AbstractHelper
         return round(($quoteOrOrder->getShippingTaxAmount() / $quoteOrOrder->getShippingAmount()) * 100);
     }
 
+    protected function getShippingDescription($order)
+    {
+        if ($order instanceof \Magento\Quote\Model\Quote) {
+            return $order->getShippingAddress()->getShippingDescription();
+        }
+        return $order->getShippingDescription();
+    }
+
     /**
      * Build Shipping-Items Block of Payment Request
      *
      * @param $quoteOrOrder
+     * @param $shippingCost
      * @return array
      */
-    public function setShipping($quoteOrOrder)
+    public function setShipping($quoteOrOrder, $shippingCost)
     {
         $order = $quoteOrOrder;
         if ($quoteOrOrder instanceof \Magento\Sales\Model\Order\Creditmemo) {
             $order = $quoteOrOrder->getOrder();
         }
+        error_log(date("Y-m-d H:i:s - ")."XX ".$shippingCost.PHP_EOL, 3, BP."/shipping.log");
         $content = [
-            'Description' => $order->getShippingDescription(),
-            'UnitPriceGross' => round($quoteOrOrder->getShippingInclTax(),2),
+            'Description' => $this->getShippingDescription($order),
+            'UnitPriceGross' => round($shippingCost,2),
             'TaxRate' => (float)$this->getShippingVat($quoteOrOrder)
             //'DescriptionAddition' => "Additional information about the shipping"
         ];

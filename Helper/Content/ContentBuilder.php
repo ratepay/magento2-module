@@ -78,6 +78,15 @@ class ContentBuilder extends \Magento\Framework\App\Helper\AbstractHelper
                     'Payment' => $this->rpContentPaymentHelper->setPayment($quoteOrOrder, $fixedPaymentMethod)
                 ];
                 break;
+            case 'SECCI_REQUEST':
+                $contentArr = [
+                    'ShoppingBasket' => $this->rpContentBasketHelper->setShoppingBasket($quoteOrOrder),
+                    'Payment' => $this->rpContentPaymentHelper->setPayment($quoteOrOrder, $fixedPaymentMethod, true),
+                ];
+                if ($mergeContent !== null) {
+                    $contentArr = array_merge_recursive($contentArr, $mergeContent);
+                }
+                break;
             case "PAYMENT_CHANGE":
                 if ($content === null) {
                     $content = $this->rpContentBasketHelper->setShoppingBasket($quoteOrOrder, $articleList, $amount);

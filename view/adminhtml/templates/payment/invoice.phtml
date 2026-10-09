@@ -67,6 +67,7 @@ if ($b2bEnabled === true) {
         <?php echo __('ratepay_terms_block_6'); ?>
     </div>
     <input type="submit" name="Submit" style="display: none;">
+    <?php echo $block->fetchView($block->getTemplateFile('RatePAY_Payment::payment/secci.phtml')); ?>
 </fieldset>
 <?php
 /**

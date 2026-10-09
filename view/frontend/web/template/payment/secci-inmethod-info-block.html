@@ -1,0 +1,92 @@
+<div class="vendor-payment-info">
+    <div class="panel rp-ccd2-panel">
+        <!-- ko if: isSecciV1Visible() -->
+        <div class="panel-body">
+            <h3 class="rp-ccd2-heading">
+                <span class="rp-icon rp-ccd2-info-icon" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+                        <defs>
+                            <path d="M24 12c0 6.6274-5.3726 12-12 12S0 18.6274 0 12 5.3726 0 12 0s12 5.3726 12 12zM12 2C6.4772 2 2 6.4772 2 12s4.4772 10 10 10 10-4.4772 10-10S17.5228 2 12 2zM7.7071 12.2929 10 14.5858l6.2929-6.293c.3905-.3904 1.0237-.3904 1.4142 0 .3905.3906.3905 1.0238 0 1.4143l-7 7c-.3905.3905-1.0237.3905-1.4142 0l-3-3c-.3905-.3905-.3905-1.0237 0-1.4142.3905-.3905 1.0237-.3905 1.4142 0z" id="icons-default-checkmark-circle"></path>
+                        </defs>
+                        <use xlink:href="#icons-default-checkmark-circle" fill="#758CA3" fill-rule="evenodd"></use>
+                    </svg>
+                </span>
+                <!-- ko i18n: 'Sent by email'--><!-- /ko -->
+            </h3>
+            <p data-bind="text: getV1MailSentMessage()"></p>
+            <a href="#" class="rp-ccd2-pdf-link" data-bind="click: getByPdf">
+                <!-- ko i18n: 'Download PDF version'--><!-- /ko -->
+            </a>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: isSecciV2Visible() -->
+        <div class="panel-body">
+            <h3 class="rp-ccd2-heading">
+                <span class="rp-icon rp-ccd2-info-icon" aria-hidden="true">
+                    <svg viewBox="0 0 16 16" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.3">
+                        <circle cx="8" cy="8" r="7"/>
+                        <line x1="8" y1="7.2" x2="8" y2="11.5"/>
+                        <circle cx="8" cy="4.6" r="0.9" fill="currentColor" stroke="none"/>
+                    </svg>
+                </span>
+                <!-- ko i18n: 'Standard EU Consumer Credit Information'--><!-- /ko -->
+            </h3>
+            <p>
+                <!-- ko i18n: 'Before placing your order, choose how you’d like to receive this information.'--><!-- /ko -->
+            </p>
+            <p class="rp-ccd2-more">
+                <a href="#" data-bind="click: toggleSecciV2Details">
+                    <!-- ko i18n: 'Learn more'--><!-- /ko -->
+                </a>
+            </p><br>
+            <p data-bind="attr: {id: getCode() + '_secciv2_details'}" style="display:none;">
+                <!-- ko i18n: 'EU consumer credit rules have changed and now require additional information for this payment method. This information helps you understand the key credit terms before completing your purchase. If you choose Get by email, our payment partner Ratepay will use your email address only to send this information, using a third-party email delivery provider.'--><!-- /ko -->
+            </p>
+            <div class="btn-group rp-ccd2-btn-row" role="group" aria-label="SECCI Zustellungsart">
+                <div class="btn-group first" role="group">
+                    <button type="button" class="btn action primary ratepay-secondary" data-bind="attr: {id: getCode() + '_secciv2_btn_email'}, click: sendByEmail">
+                        <span class="rp-icon" aria-hidden="true">
+                            <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor">
+                                <path d="M1.5 3h13A1.5 1.5 0 0 1 16 4.5v7a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 11.5v-7A1.5 1.5 0 0 1 1.5 3Zm0 1a.5.5 0 0 0-.4.2l6.9 4.6 6.9-4.6a.5.5 0 0 0-.4-.2h-13ZM15 5.15 8.28 9.6a.5.5 0 0 1-.56 0L1 5.15V11.5a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5V5.15Z"/>
+                            </svg>
+                        </span>
+                        <!-- ko i18n: 'Get by email'--><!-- /ko -->
+                    </button>
+                </div>
+                <div class="btn-group" role="group" data-bind="click: getByPdf">
+                    <button type="button" class="btn action primary ratepay-secondary">
+                        <span class="rp-icon" aria-hidden="true">
+                            <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor">
+                                <path d="M7.5 1a.5.5 0 0 1 .5.5v6.79l2.15-2.15a.5.5 0 0 1 .7.71l-3 3a.5.5 0 0 1-.7 0l-3-3a.5.5 0 1 1 .7-.71L7 8.29V1.5a.5.5 0 0 1 .5-.5ZM2 11.5a.5.5 0 0 1 .5-.5H5a.5.5 0 0 1 0 1H3v2h10v-2h-2a.5.5 0 0 1 0-1h2.5a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-3Z"/>
+                            </svg>
+                        </span>
+                        <!-- ko i18n: 'Download PDF'--><!-- /ko -->
+                    </button>
+                </div>
+            </div>
+            <div>
+                <!-- ko i18n: 'E-Mail'--><!-- /ko -->: <span data-bind="text: getCustomerEmail()"></span>
+            </div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: isSecciV2DoneVisible() -->
+        <div class="panel-body" data-bind="attr: {id: getCode() + '_secciv2_done'}">
+            <h3 class="rp-ccd2-heading">
+                <span class="rp-icon rp-ccd2-info-icon" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+                        <defs>
+                            <path d="M24 12c0 6.6274-5.3726 12-12 12S0 18.6274 0 12 5.3726 0 12 0s12 5.3726 12 12zM12 2C6.4772 2 2 6.4772 2 12s4.4772 10 10 10 10-4.4772 10-10S17.5228 2 12 2zM7.7071 12.2929 10 14.5858l6.2929-6.293c.3905-.3904 1.0237-.3904 1.4142 0 .3905.3906.3905 1.0238 0 1.4143l-7 7c-.3905.3905-1.0237.3905-1.4142 0l-3-3c-.3905-.3905-.3905-1.0237 0-1.4142.3905-.3905 1.0237-.3905 1.4142 0z" id="icons-default-checkmark-circle"></path>
+                        </defs>
+                        <use xlink:href="#icons-default-checkmark-circle" fill="#758CA3" fill-rule="evenodd"></use>
+                    </svg>
+                </span>
+                <span data-bind="text: getV2DoneHeading()"></span>
+            </h3>
+            <p data-bind="text: getV2DoneMessage()"></p>
+            <a href="#" class="rp-ccd2-pdf-link" data-bind="click: backToSecciV2Selection">
+                <!-- ko i18n: 'Back to selection'--><!-- /ko -->
+            </a>
+        </div>
+        <!-- /ko -->
+    </div>
+</div>

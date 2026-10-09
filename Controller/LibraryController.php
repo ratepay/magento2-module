@@ -209,6 +209,24 @@ class LibraryController
         return $request;
     }
 
+    public function callSecciRequest($head, $content, $sandbox)
+    {
+        $request = new RequestBuilder($sandbox);
+        $exception = false;
+
+        try {
+            $request->callSecciRequest($head, $content);
+        } catch (\Exception $e) {
+            $exception = $e;
+        }
+        $this->log($request);
+
+        if ($exception !== false) {
+            throw $exception;
+        }
+        return $request;
+    }
+
     /**
      * @param $head
      * @param $content

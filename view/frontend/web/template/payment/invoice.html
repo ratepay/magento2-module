@@ -114,15 +114,17 @@
                         </div>
                     </fieldset>
                 <!-- /ko -->
-                <div class="legalText">
-                    <!-- ko i18n: 'ratepay_terms_block_1'--><!-- /ko --> "<!-- ko i18n: 'Place Order'--><!-- /ko -->" <!-- ko i18n: 'ratepay_terms_block_2'--><!-- /ko -->
-                    <a target="_blank" href="https://www.ratepay.com/legal-payment-terms"><!-- ko i18n: 'ratepay_terms_block_3'--><!-- /ko --></a>
-                    <!-- ko i18n: 'ratepay_terms_block_4'--><!-- /ko -->
-                    <a target="_blank" href="https://www.ratepay.com/legal-payment-dataprivacy"><!-- ko i18n: 'ratepay_terms_block_5'--><!-- /ko --></a>
-                    <!-- ko i18n: 'ratepay_terms_block_6'--><!-- /ko -->
-                </div>
             </fieldset>
         </fieldset>
+        <!-- ko template: 'RatePAY_Payment/payment/secci-inmethod-info-block' --><!-- /ko -->
+        <div class="legalText">
+            <!-- ko i18n: 'ratepay_terms_block_1'--><!-- /ko --> "<!-- ko i18n: 'Place Order'--><!-- /ko -->" <!-- ko i18n: 'ratepay_terms_block_2'--><!-- /ko -->
+            <a target="_blank" href="https://www.ratepay.com/legal-payment-terms"><!-- ko i18n: 'ratepay_terms_block_3'--><!-- /ko --></a>
+            <!-- ko i18n: 'ratepay_terms_block_4'--><!-- /ko -->
+            <a target="_blank" href="https://www.ratepay.com/legal-payment-dataprivacy"><!-- ko i18n: 'ratepay_terms_block_5'--><!-- /ko --></a>
+            <!-- ko i18n: 'ratepay_terms_block_6'--><!-- /ko -->
+            <br><br>
+        </div>
         <div class="checkout-agreements-block">
             <!-- ko foreach: $parent.getRegion('before-place-order') -->
             <!-- ko template: getTemplate() --><!-- /ko -->

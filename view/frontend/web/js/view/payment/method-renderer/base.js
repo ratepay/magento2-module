@@ -15,11 +15,15 @@ define(
         'Magento_Checkout/js/checkout-data',
         'RatePAY_Payment/js/action/update-checkout-config',
         'RatePAY_Payment/js/action/dfp-sent',
+        'RatePAY_Payment/js/action/trigger-secci',
+        'RatePAY_Payment/js/model/config-state',
+        'RatePAY_Payment/js/model/secci-state',
+        'RatePAY_Payment/js/view/payment/secci-inmethod-info-block-mixin',
         'mage/translate'
     ],
-    function (Component, $, quote, customer, urlBuilder, checkoutData, updateCheckoutConfig, markDfpAsSent, $t) {
+    function (Component, $, quote, customer, urlBuilder, checkoutData, updateCheckoutConfig, markDfpAsSent, triggerSecci, configState, secciState, secciInmethodMixin, $t) {
         'use strict';
-        return Component.extend({
+        return Component.extend(secciInmethodMixin).extend({
             currentBillingAddress: quote.billingAddress,
             currentCustomerData: customer.customerData,
 
@@ -70,9 +74,31 @@ define(
                 }
                 return parentReturn;
             },
+            sendSecciByEmail: function () {
+                return triggerSecci('email').fail(this.showSecciError.bind(this));
+            },
+            getSecciByPdf: function () {
+                return triggerSecci('pdf').fail(this.showSecciError.bind(this));
+            },
+            showSecciError: function (errorMessage) {
+                this.messageContainer.addErrorMessage({
+                    'message': errorMessage || $t('The Standard EU Consumer Credit Information could not be created. Please try again.')
+                });
+            },
+            handleSecciBehaviour: function () {
+                if (this.isSecciEnabled() === true && window.checkoutConfig?.payment?.ratepay?.triggerSecciOnMethodSelect === true) {
+                    window.checkoutConfig.payment.ratepay.triggerSecciOnMethodSelect = false;
+                    this.sendSecciByEmail().fail(function () {
+                        // Allow a new attempt on the next payment method selection
+                        window.checkoutConfig.payment.ratepay.triggerSecciOnMethodSelect = true;
+                    });
+                }
+            },
             selectPaymentMethod: function () {
                 this.handleDeviceFingerprint();
-                return this._super();
+                let parentReturn = this._super();
+                this.handleSecciBehaviour();
+                return parentReturn;
             },
             updatePaymentConfig: function (newPaymentConfig) {
                 $.each(newPaymentConfig, function( index, value ) {
@@ -80,6 +106,26 @@ define(
                         window.checkoutConfig.payment[index] = value;
                     }
                 });
+                configState.notifyUpdated();
+            },
+            validate: function () {
+                var blParentReturn = this._super();
+                if (!blParentReturn) {
+                    return blParentReturn;
+                }
+
+                if (this.isSecciV2Active() === true) {
+                    if (secciState.isCreated() === false) {
+                        this.messageContainer.addErrorMessage({'message': $t('Please download or request the SECCI document by email before completing your purchase.')});
+                        return false;
+                    }
+                    if (secciState.isValidFor(this.getCode()) === false) {
+                        this.messageContainer.addErrorMessage({'message': $t('Your cart has changed since the SECCI was created. Please request the SECCI again.')});
+                        return false;
+                    }
+                }
+
+                return true;
             },
             isPlaceOrderActionAllowedRatePay: function () {
                 return this.isDifferentAddressNotAllowed() === false && this.isB2BNotAllowed() === false;
@@ -103,6 +149,16 @@ define(
                 }
                 if (customer.customerData != null && customer.customerData.firstname != undefined) {
                     return customer.customerData.firstname + ' ' + customer.customerData.lastname;
+                }
+                return '';
+            },
+            getCustomerEmail: function () {
+                if (quote.guestEmail) {
+                    return quote.guestEmail;
+                }
+
+                if (window.checkoutConfig?.customerData?.email) {
+                    return window.checkoutConfig.customerData.email;
                 }
                 return '';
             },
@@ -145,6 +201,25 @@ define(
                 var config = this.getPaymentConfig();
                 if (config) {
                     return config.b2bActive;
+                }
+                return false;
+            },
+            isSecciEnabled: function () {
+                var config = this.getPaymentConfig();
+                if (config) {
+                    return config.secciActive;
+                }
+                return false;
+            },
+            isSecciV1Active: function () {
+                if (this.isSecciEnabled() === true && window.checkoutConfig?.payment?.ratepay?.secciDesignVariant == '1') {
+                    return true;
+                }
+                return false;
+            },
+            isSecciV2Active: function () {
+                if (this.isSecciEnabled() === true && window.checkoutConfig?.payment?.ratepay?.secciDesignVariant == '2') {
+                    return true;
                 }
                 return false;
             },

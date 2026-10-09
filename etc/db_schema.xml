@@ -96,6 +96,9 @@
         <column xsi:type="int" name="delivery_address_elv" nullable="true" identity="false"/>
         <column xsi:type="int" name="delivery_address_prepayment" nullable="true" identity="false"/>
         <column xsi:type="int" name="delivery_address_PQ_full" nullable="true" identity="false"/>
+        <column xsi:type="int" name="secci_enabled_invoice" nullable="true" identity="false"/>
+        <column xsi:type="int" name="secci_enabled_installment" nullable="true" identity="false"/>
+        <column xsi:type="int" name="secci_enabled_elv" nullable="true" identity="false"/>
         <column xsi:type="varchar" name="country_code_billing" nullable="true" length="32"/>
         <column xsi:type="varchar" name="country_code_delivery" nullable="true" length="32"/>
         <column xsi:type="decimal" name="interestrate_min" scale="4" precision="20" nullable="true"/>

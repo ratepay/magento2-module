@@ -216,6 +216,7 @@ class InstallmentPlan implements InstallmentPlanInterface
         $this->checkoutSession->setData('ratepayInstallmentAmount_'.$methodCode, $installmentPlan['rate']);
         $this->checkoutSession->setData('ratepayLastInstallmentAmount_'.$methodCode, $installmentPlan['lastRate']);
         $this->checkoutSession->setData('ratepayInterestRate_'.$methodCode, $installmentPlan['interestRate']);
+        $this->checkoutSession->setData('ratepayInstallmentDefaultPaymentFirstday_'.$methodCode, $installmentPlan['defaultPaymentFirstday']);
         $this->checkoutSession->setData('ratepayInstallmentCalcType_'.$methodCode, $calculationType);
         $this->checkoutSession->setData('ratepayInstallmentCalcValue_'.$methodCode, $calculationValue);
 

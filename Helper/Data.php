@@ -29,23 +29,31 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $state;
 
     /**
+     * @var \Magento\Framework\Locale\Resolver
+     */
+    protected $localeResolver;
+
+    /**
      * Data constructor.
      *
      * @param Context $context
      * @param \Magento\Framework\App\Filesystem\DirectoryList $directoryList
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\State $state
+     * @param \Magento\Framework\Locale\Resolver $localeResolver
      */
     public function __construct(
         Context $context,
         \Magento\Framework\App\Filesystem\DirectoryList $directoryList,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Framework\App\State $state
+        \Magento\Framework\App\State $state,
+        \Magento\Framework\Locale\Resolver $localeResolver
     ) {
         parent::__construct($context);
         $this->directoryList = $directoryList;
         $this->storeManager = $storeManager;
         $this->state = $state;
+        $this->localeResolver = $localeResolver;
     }
 
     /**
@@ -159,5 +167,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $edition = 'PE';
         }
         return $edition;
+    }
+
+    public function getLocale()
+    {
+        $locale = substr($this->localeResolver->getLocale(), 0, 2);
+        if (empty($locale)) {
+            $locale = substr($this->localeResolver->getDefaultLocale(), 0, 2);
+        }
+        return $locale;
     }
 }

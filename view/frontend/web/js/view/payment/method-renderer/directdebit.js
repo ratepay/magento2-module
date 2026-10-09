@@ -28,7 +28,6 @@ define(
                 rp_dob_year: '',
                 rp_vatid: '',
                 rp_iban: '',
-                sepaAccepted: false,
                 b2b_accountholder: ''
             },
             validate: function () {
@@ -42,10 +41,6 @@ define(
                     return false;
                 }
 
-                if (this.sepaAccepted === false) {
-                    this.messageContainer.addErrorMessage({'message': $t('Please confirm the transmission of the necessary data to Ratepay.')});
-                    return false;
-                }
                 return true;
             },
             getData: function() {
@@ -59,10 +54,6 @@ define(
                     parentReturn.additional_data.rp_accountholder = this.b2b_accountholder;
                 }
                 return parentReturn;
-            },
-            showAgreement: function() {
-                $('#ratepay_directdebit_sepa_agreement').show();
-                $('#ratepay_directdebit_sepa_agreement_link').hide();
             }
         });
     }

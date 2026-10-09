@@ -24,13 +24,6 @@ function changeDetails(paymentMethod) {
     }
 }
 
-function showAgreement(code) {
-    require(['jquery'], function($) {
-        $('#' + code + '_sepa_agreement').show();
-        $('#' + code + '_sepa_agreement_link').hide();
-    });
-}
-
 function showBankTransfer(code) {
     require(['jquery'], function($) {
         $('#' + code + '_sepa_use_directdebit').show();

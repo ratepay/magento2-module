@@ -61,7 +61,7 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
         $iCount = 0;
 
         $aItemlist = $quoteOrOrder->getItems();
-        if (!$quoteOrOrder instanceof Order) {
+        if (!$quoteOrOrder instanceof Order && !empty($quoteOrOrder->getOrder())) {
             $aItemlist = $quoteOrOrder->getOrder()->getItems();
         }
 
@@ -149,10 +149,16 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
                         $sku = $skuMap[$item->getParentItem()->getQuoteItemId()];
                     }
                     $quantity = (int) $item->getParentItem()->getQtyOrdered();
+                    if ($item instanceof \Magento\Quote\Model\Quote\Item) {
+                        $quantity = (int) $item->getParentItem()->getQty();
+                    }
                     $parentItem = true;
                 } else {
                     $sku = $item->getSku();
                     $quantity = (int) $item->getQtyOrdered();
+                    if ($item instanceof \Magento\Quote\Model\Quote\Item) {
+                        $quantity = (int) $item->getQty();
+                    }
                     if ($this->isSkuDuplicateInOrder($sku, $quoteOrOrder)) {
                         $sku = $sku.'_'.$item->getQuoteItemId();
                     }
