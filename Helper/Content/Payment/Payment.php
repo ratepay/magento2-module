@@ -67,9 +67,7 @@ class Payment extends \Magento\Framework\App\Helper\AbstractHelper
                 'LastInstallmentAmount' => $this->checkoutSession->getData('ratepayLastInstallmentAmount_'.$methodCode),
                 'InterestRate' => $this->checkoutSession->getData('ratepayInterestRate_'.$methodCode),
             ];
-            if ($isSecciCall === true) { // Secci Call will thrown an error without PaymentFirstday param
-                $content['InstallmentDetails']['PaymentFirstday'] = $this->checkoutSession->getData('ratepayInstallmentDefaultPaymentFirstday_'.$methodCode);
-            }
+            $content['InstallmentDetails']['PaymentFirstday'] = $this->checkoutSession->getData('ratepayInstallmentDefaultPaymentFirstday_'.$methodCode);
             if ($quoteOrOrder->getPayment()->getAdditionalInformation('rp_directdebit') === true) {
                 $content['DebitPayType'] = 'DIRECT-DEBIT';
             } else {

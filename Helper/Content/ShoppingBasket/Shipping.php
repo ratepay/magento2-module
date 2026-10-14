@@ -59,7 +59,7 @@ class Shipping extends \Magento\Framework\App\Helper\AbstractHelper
 
             $appliedTaxes = $shippingAddress->getAppliedTaxes();
             $itemsAppliedTaxes = $shippingAddress->getItemsAppliedTaxes();
-            ///@TODO: Mit angewandter Mwst. testen
+
             if (!empty($itemsAppliedTaxes['shipping'])) {
                 $shippingTaxes = $itemsAppliedTaxes['shipping'];
                 $first = reset($shippingTaxes);
@@ -113,7 +113,7 @@ class Shipping extends \Magento\Framework\App\Helper\AbstractHelper
         if ($quoteOrOrder instanceof \Magento\Sales\Model\Order\Creditmemo) {
             $order = $quoteOrOrder->getOrder();
         }
-        error_log(date("Y-m-d H:i:s - ")."XX ".$shippingCost.PHP_EOL, 3, BP."/shipping.log");
+
         $content = [
             'Description' => $this->getShippingDescription($order),
             'UnitPriceGross' => round($shippingCost,2),

@@ -13,6 +13,7 @@ define(
         'Magento_Customer/js/model/customer',
         'Magento_Checkout/js/model/url-builder',
         'Magento_Checkout/js/checkout-data',
+        'Magento_Checkout/js/model/payment/method-list',
         'RatePAY_Payment/js/action/update-checkout-config',
         'RatePAY_Payment/js/action/dfp-sent',
         'RatePAY_Payment/js/action/trigger-secci',
@@ -21,8 +22,12 @@ define(
         'RatePAY_Payment/js/view/payment/secci-inmethod-info-block-mixin',
         'mage/translate'
     ],
-    function (Component, $, quote, customer, urlBuilder, checkoutData, updateCheckoutConfig, markDfpAsSent, triggerSecci, configState, secciState, secciInmethodMixin, $t) {
+    function (Component, $, quote, customer, urlBuilder, checkoutData, methodList, updateCheckoutConfig, markDfpAsSent, triggerSecci, configState, secciState, secciInmethodMixin, $t) {
         'use strict';
+
+        // Payment method for which a SECCI email (variant 1) is currently being requested
+        var secciV1PendingMethod = null;
+
         return Component.extend(secciInmethodMixin).extend({
             currentBillingAddress: quote.billingAddress,
             currentCustomerData: customer.customerData,
@@ -72,6 +77,20 @@ define(
                 if (checkoutData.getSelectedPaymentMethod() === this.getCode()) {
                     this.handleDeviceFingerprint();
                 }
+
+                // The SECCI state is reset when the billing country changes
+                secciState.resetVersion.subscribe(function () {
+                    this.secciV2DoneMethod('');
+                }, this);
+
+                // The payment methods are reloaded after the billing address was saved. If the SECCI state was reset
+                // in the meantime, the SECCI email (variant 1) is sent again for the currently selected payment method
+                methodList.subscribe(function () {
+                    if (this.isChecked() === this.getCode()) {
+                        this.handleSecciBehaviour();
+                    }
+                }, this);
+
                 return parentReturn;
             },
             sendSecciByEmail: function () {
@@ -85,12 +104,22 @@ define(
                     'message': errorMessage || $t('The Standard EU Consumer Credit Information could not be created. Please try again.')
                 });
             },
-            handleSecciBehaviour: function () {
-                if (this.isSecciEnabled() === true && window.checkoutConfig?.payment?.ratepay?.triggerSecciOnMethodSelect === true) {
-                    window.checkoutConfig.payment.ratepay.triggerSecciOnMethodSelect = false;
-                    this.sendSecciByEmail().fail(function () {
-                        // Allow a new attempt on the next payment method selection
-                        window.checkoutConfig.payment.ratepay.triggerSecciOnMethodSelect = true;
+            handleSecciBehaviour: function (forceResend) {
+                var code = this.getCode();
+
+                // Send a new SECCI email whenever a Ratepay payment method is selected the current SECCI wasn't created for
+                // forceResend also sends it again if the cart changed since the SECCI was created for this payment method
+                if (this.isSecciEnabled() === true
+                    && window.checkoutConfig?.payment?.ratepay?.triggerSecciOnMethodSelect === true
+                    && (forceResend === true || secciState.isCreatedFor(code) === false)
+                    && secciV1PendingMethod !== code
+                ) {
+                    secciV1PendingMethod = code;
+                    this.sendSecciByEmail().always(function () {
+                        // Allows a new attempt on the next payment method selection if the request failed
+                        if (secciV1PendingMethod === code) {
+                            secciV1PendingMethod = null;
+                        }
                     });
                 }
             },
@@ -112,6 +141,18 @@ define(
                 var blParentReturn = this._super();
                 if (!blParentReturn) {
                     return blParentReturn;
+                }
+
+                if (this.isSecciV1Active() === true && secciState.isValidFor(this.getCode()) === false) {
+                    if (secciV1PendingMethod === this.getCode()) {
+                        this.messageContainer.addErrorMessage({'message': $t('The SECCI is currently being sent to your email address. Please try again in a moment.')});
+                    } else if (secciState.isCreatedFor(this.getCode()) === false) {
+                        this.messageContainer.addErrorMessage({'message': $t('The SECCI could not be sent to your email address yet. It is being sent again now. Please try again in a moment.')});
+                    } else {
+                        this.messageContainer.addErrorMessage({'message': $t('Your cart has changed since the SECCI was sent. The SECCI is being sent to your email address again. Please try again in a moment.')});
+                    }
+                    this.handleSecciBehaviour(true);
+                    return false;
                 }
 
                 if (this.isSecciV2Active() === true) {
@@ -205,6 +246,10 @@ define(
                 return false;
             },
             isSecciEnabled: function () {
+                if (this.isCompanySet() === true || this.isShippingCompanySet() === true) {
+                    return false;
+                }
+
                 var config = this.getPaymentConfig();
                 if (config) {
                     return config.secciActive;
@@ -225,6 +270,12 @@ define(
             },
             isCompanySet: function () {
                 if (quote.billingAddress() != null && quote.billingAddress().company != undefined && quote.billingAddress().company.length > 1) {
+                    return true;
+                }
+                return false;
+            },
+            isShippingCompanySet: function () {
+                if (quote.shippingAddress() != null && quote.shippingAddress().company != undefined && quote.shippingAddress().company.length > 1) {
                     return true;
                 }
                 return false;

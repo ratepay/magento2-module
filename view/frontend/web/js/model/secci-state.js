@@ -5,10 +5,31 @@
  * file that was distributed with this source code.
  */
 
-define(['Magento_Checkout/js/model/quote'], function (quote) {
+define(['ko', 'Magento_Checkout/js/model/quote'], function (ko, quote) {
     'use strict';
 
-    var snapshot = null;
+    var snapshot = null,
+        resetVersion = ko.observable(0);
+
+    function getBillingCountry() {
+        var billingAddress = quote.billingAddress();
+
+        return billingAddress && billingAddress.countryId ? billingAddress.countryId : null;
+    }
+
+    function reset() {
+        snapshot = null;
+        resetVersion(resetVersion() + 1);
+    }
+
+    // A SECCI is only valid for the billing country it was created for
+    quote.billingAddress.subscribe(function () {
+        var billingCountry = getBillingCountry();
+
+        if (snapshot !== null && snapshot.billingCountry !== null && billingCountry !== null && snapshot.billingCountry !== billingCountry) {
+            reset();
+        }
+    });
 
     function getGrandTotal(totals) {
         var segment;
@@ -31,11 +52,15 @@ define(['Magento_Checkout/js/model/quote'], function (quote) {
         return {
             grandTotal: grandTotal !== null && grandTotal !== undefined ? Math.round(parseFloat(grandTotal) * 100) : null,
             currency: totals ? totals.quote_currency_code : null,
-            paymentMethod: paymentMethod || null
+            paymentMethod: paymentMethod || null,
+            billingCountry: getBillingCountry()
         };
     }
 
     return {
+        // Incremented every time the SECCI state is reset, e.g. because the billing country changed
+        resetVersion: resetVersion,
+
         // Returns the current cart state, to be committed once the SECCI was created successfully
         capture: function (paymentMethod) {
             return getCurrentState(paymentMethod);
@@ -49,6 +74,11 @@ define(['Magento_Checkout/js/model/quote'], function (quote) {
             return snapshot !== null;
         },
 
+        // Checks if the SECCI was created for the given payment method, regardless of later cart changes
+        isCreatedFor: function (paymentMethod) {
+            return snapshot !== null && snapshot.paymentMethod === paymentMethod;
+        },
+
         // Checks if the current cart state still matches the state at the time of the SECCI creation
         isValidFor: function (paymentMethod) {
             var current = getCurrentState(paymentMethod);
@@ -57,7 +87,8 @@ define(['Magento_Checkout/js/model/quote'], function (quote) {
                 && snapshot.grandTotal !== null
                 && snapshot.grandTotal === current.grandTotal
                 && snapshot.currency === current.currency
-                && snapshot.paymentMethod === current.paymentMethod;
+                && snapshot.paymentMethod === current.paymentMethod
+                && snapshot.billingCountry === current.billingCountry;
         }
     };
 });

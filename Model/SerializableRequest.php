@@ -91,10 +91,21 @@ class SerializableRequest extends DataObject
         $responseXMLElement = $request->getResponseXmlElement();
 
         $this->setTransactionId($this->getTransactionIdFromRequest($request, $order));
-        $this->setPaymentType((string)$requestXMLElement->head->{'operation'});
-        $this->setPaymentSubtype($this->getPaymentSubTypeFromRequest($requestXMLElement));
         $this->setRequest(!empty($requestXMLElement) ? $this->getFormattedXml($requestXMLElement) : '');
         $this->setResponse(!empty($responseXMLElement) ? $this->getFormattedXml($responseXMLElement) : '');
+
+
+        try {
+            $this->setPaymentType((string)$requestXMLElement->head->{'operation'});
+        } catch (\Exception $e) {
+            $this->setPaymentType('Error');
+        }
+
+        try {
+            $this->setPaymentSubtype($this->getPaymentSubTypeFromRequest($requestXMLElement));
+        } catch (\Exception $e) {
+            $this->setPaymentSubtype('Error');
+        }
 
         try {
             $this->setResult($request->getResultMessage());

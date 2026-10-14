@@ -77,6 +77,7 @@ Inactive,deactivated,module,RatePAY_Payment
 ratepay_terms_block_1, "By clicking" ,module,RatePAY_Payment
 ratepay_terms_block_2, ", you agree to the" ,module,RatePAY_Payment
 ratepay_terms_block_3, "Ratepay Terms of Payment" ,module,RatePAY_Payment
+ratepay_terms_block_sepa,"including the SEPA Direct Debit mandate",module,RatePAY_Payment
 ratepay_terms_block_4, "and to a" ,module,RatePAY_Payment
 ratepay_terms_block_5, "risk check performed by Ratepay" ,module,RatePAY_Payment
 ratepay_terms_block_6, "." ,module,RatePAY_Payment
@@ -143,3 +144,6 @@ ratepay_terms_block_6, "." ,module,RatePAY_Payment
 "Please request the SECCI information by email or as PDF.","Please request the SECCI information by email or as PDF.",module,RatePAY_Payment
 "By agreeing to the SEPA Direct Debit Mandate, you authorise Ratepay GmbH to collect payments from your account by direct debit. At the same time, you instruct your bank to honour the direct debits drawn on your account by Ratepay GmbH.","By agreeing to the SEPA Direct Debit Mandate, you authorise Ratepay GmbH to collect payments from your account by direct debit. At the same time, you instruct your bank to honour the direct debits drawn on your account by Ratepay GmbH.",module,RatePAY_Payment
 "You can request a refund of the debited amount within eight weeks, starting from the date of debit. The terms agreed with your bank apply.","You can request a refund of the debited amount within eight weeks, starting from the date of debit. The terms agreed with your bank apply.",module,RatePAY_Payment
+"The SECCI is currently being sent to your email address. Please try again in a moment.","The SECCI is currently being sent to your email address. Please try again in a moment.",module,RatePAY_Payment
+"The SECCI could not be sent to your email address yet. It is being sent again now. Please try again in a moment.","The SECCI could not be sent to your email address yet. It is being sent again now. Please try again in a moment.",module,RatePAY_Payment
+"Your cart has changed since the SECCI was sent. The SECCI is being sent to your email address again. Please try again in a moment.","Your cart has changed since the SECCI was sent. The SECCI is being sent to your email address again. Please try again in a moment.",module,RatePAY_Payment

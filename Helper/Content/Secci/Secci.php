@@ -32,7 +32,7 @@ class Secci extends Data
         if (strtoupper($deliveryMethod) == self::SECCI_DELIVERY_METHOD_EMAIL) {
             $content['Email'] = !empty($email) ? $email : $this->getEmailFromQuoteOrOrder($quote);
         } elseif (strtoupper($deliveryMethod) == self::SECCI_DELIVERY_METHOD_PDF) {
-            $content['Action'] = 'PRINT';
+            $content['Action'] = 'DOWNLOAD';
         }
 
         return $content;
