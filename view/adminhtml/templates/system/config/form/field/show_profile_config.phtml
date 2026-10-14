@@ -126,13 +126,9 @@ $aProfileConfigs = $block->getProfileConfigs();
                     <td class="label"><?php echo __('Require SECCI (CCD2)'); ?></td>
                     <td>
                         <?php $aSecciValues = $oProfile->getSecciValues(); ?>
-                        <?php if ($oProfile->hasDifferentValues($aSecciValues) === false): ?>
-                            <?php echo __('Ratepay_'.array_shift($aSecciValues)); ?>
-                        <?php else: ?>
-                            <?php foreach ($aSecciValues as $sProduct => $iSecci): ?>
-                                <?php echo __('Ratepay_'.$sProduct).": ".__('Ratepay_'.$iSecci); ?><br>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
+                        <?php foreach ($aSecciValues as $sProduct => $iSecci): ?>
+                            <?php echo __('Ratepay_'.$sProduct).": ".__('Ratepay_'.$iSecci); ?><br>
+                        <?php endforeach; ?>
                     </td>
                 </tr>
             </table><br>
