@@ -246,7 +246,7 @@ define(
                 return false;
             },
             isSecciEnabled: function () {
-                if (this.isCompanySet() === true || this.isShippingCompanySet() === true) {
+                if (this.isCompanySet() === true) {
                     return false;
                 }
 
@@ -270,12 +270,6 @@ define(
             },
             isCompanySet: function () {
                 if (quote.billingAddress() != null && quote.billingAddress().company != undefined && quote.billingAddress().company.length > 1) {
-                    return true;
-                }
-                return false;
-            },
-            isShippingCompanySet: function () {
-                if (quote.shippingAddress() != null && quote.shippingAddress().company != undefined && quote.shippingAddress().company.length > 1) {
                     return true;
                 }
                 return false;

@@ -29,13 +29,33 @@ define([
                 return '';
             });
 
+            // SECCI is disabled in B2B context (company set in billing address), see base.js isSecciEnabled
+            this.isCompanySet = ko.pureComputed(function () {
+                var billingAddress = quote.billingAddress();
+                return billingAddress != null && billingAddress.company != undefined && billingAddress.company.length > 1;
+            });
+
+            this.activeSecciMethods = ko.pureComputed(function () {
+                // Observables IMMER zuerst lesen
+                var methods = methodList();
+                configState.version();
+                var isCompanySet = this.isCompanySet();
+
+                if (isCompanySet) {
+                    return [];
+                }
+
+                return methods.filter(function (item) {
+                    return item.method.indexOf('ratepay_') === 0
+                        && window.checkoutConfig?.payment?.[item.method]?.secciActive === true;
+                });
+            }, this);
+
             this.secciMethods = ko.pureComputed(function () {
                 var activeTitles = [];
 
-                methodList().forEach(function (item) {
-                    if (item.method.indexOf('ratepay_') === 0 && window.checkoutConfig?.payment?.[item.method]?.secciActive === true) {
-                        activeTitles.push(item.title);
-                    }
+                this.activeSecciMethods().forEach(function (item) {
+                    activeTitles.push(item.title);
                 });
 
                 if (activeTitles.length === 0) {
@@ -48,7 +68,7 @@ define([
 
                 var lastTitle = activeTitles.pop();
                 return activeTitles.join(', ') + " " + $t('or') + " " + lastTitle;
-            });
+            }, this);
 
             this.secciV1InfoText = ko.pureComputed(function () {
                 return $t("EU consumer credit rules have changed and now require additional information for %1 purchases. This information helps you understand the key credit terms before completing your purchase. Our payment partner Ratepay will use your email address solely to send it, using a third-party email delivery provider.").replace('%1', this.secciMethods());
@@ -60,17 +80,6 @@ define([
                 });
 
                 return !!paymentStep && paymentStep.isVisible();
-            });
-
-            this.activeSecciMethods = ko.pureComputed(function () {
-                // Observables IMMER zuerst lesen
-                var methods = methodList();
-                configState.version();
-
-                return methods.filter(function (item) {
-                    return item.method.indexOf('ratepay_') === 0
-                        && window.checkoutConfig?.payment?.[item.method]?.secciActive === true;
-                });
             });
 
             this.isVisible = ko.pureComputed(function () {
