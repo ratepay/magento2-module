@@ -66,11 +66,11 @@ $currency = $block->ratepayGetCurrentCurrencyCode();
         </div>
     </div>
     <div>
-        <?php echo __('ratepay_terms_block_1'); ?> "<?php echo __('Place Order'); ?>" <?php echo __('ratepay_terms_block_2'); ?>
-        <a target="_blank" href="https://www.ratepay.com/legal-payment-terms"><?php echo __('ratepay_terms_block_3'); ?></a>,
-        <?php echo __('ratepay_terms_block_sepa'); ?>,
+        <?php echo __('ratepay_terms_block_1'); ?> "<?php echo __('Submit Order'); ?>" <?php echo __('ratepay_terms_block_2'); ?>
+        <a target="_blank" href="<?php echo $block->escapeUrl($block->getLegalUrls()['termsOfPayment']); ?>"><?php echo __('ratepay_terms_block_3'); ?></a>
+        <span id="<?php echo $code; ?>_terms_block_sepa" <?php echo $block->getPaymentFirstday() == "2" ? '' : 'style="display:none;"'; ?>>, <?php echo __('ratepay_terms_block_sepa'); ?></span>,
         <?php echo __('ratepay_terms_block_4'); ?>
-        <a target="_blank" href="https://www.ratepay.com/legal-payment-dataprivacy"><?php echo __('ratepay_terms_block_5'); ?></a>
+        <a target="_blank" href="<?php echo $block->escapeUrl($block->getLegalUrls()['dataPrivacy']); ?>"><?php echo __('ratepay_terms_block_5'); ?></a>
         <?php echo __('ratepay_terms_block_6'); ?>
     </div><br>
     <div class="rpContainer">

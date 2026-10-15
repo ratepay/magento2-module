@@ -33,6 +33,7 @@ IBAN,IBAN,module,RatePAY_Payment
 "Mandate Ref","(wird nach Kaufabschluss übermittelt)",module,RatePAY_Payment
 ratepay_directdebit_sepa_notice_block_1,Hinweis:,module,RatePAY_Payment
 "Place Order","Zahlungspflichtig bestellen",module,RatePAY_Payment
+"Submit Order","Bestellung erstellen",module,RatePAY_Payment
 "Vat ID","USt-IdNr.",module,RatePAY_Payment
 "Please enter your Vat ID","Bitte geben Sie Ihre USt-IdNr. an",module,RatePAY_Payment
 "Phone Number","Telefonnummer",module,RatePAY_Payment

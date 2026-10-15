@@ -111,6 +111,7 @@ class RechnungConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
                     'token' => $tokenNeeded ? $this->rpDfpHelper->getToken() : false,
                     'snippetId' => $this->rpDfpHelper->getSnippetId(),
                     'secciDesignVariant' => $this->rpDataHelper->getRpConfigDataByPath('ratepay/general/secci_design_variant'),
+                    'legalUrls' => $this->rpDataHelper->getLegalUrls(),
                 ],
             ],
         ] : [];

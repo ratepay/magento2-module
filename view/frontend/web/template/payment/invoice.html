@@ -19,7 +19,7 @@
         <!-- ko foreach: getRegion('messages') -->
         <!-- ko template: getTemplate() --><!-- /ko -->
         <!--/ko-->
-        <fieldset class="payment-method-billing-address fieldset">
+        <div class="payment-method-billing-address">
             <!-- ko foreach: $parent.getRegion(getBillingAddressFormName()) -->
             <!-- ko template: getTemplate() --><!-- /ko -->
             <!--/ko-->
@@ -57,7 +57,7 @@
                     </span>
                 </label>
                 <!-- ko if: !isDobSet() && !isB2BModeUsable() -->
-                    <fieldset id="ratepay_dob-form" class="fieldset">
+                    <fieldset id="ratepay_dob-form" class="fieldset rpFieldsetNoBottomMargin">
                         <div class="field _required" style="float:left; position: relative; width:60px; margin: 0 0 5px;">
                             <div class="control">
                                 <input type="text" name="payment[rp_dob_day]" class="input-text required-entry" value=""
@@ -115,13 +115,13 @@
                     </fieldset>
                 <!-- /ko -->
             </fieldset>
-        </fieldset>
+        </div>
         <!-- ko template: 'RatePAY_Payment/payment/secci-inmethod-info-block' --><!-- /ko -->
         <div class="legalText">
             <!-- ko i18n: 'ratepay_terms_block_1'--><!-- /ko --> "<!-- ko i18n: 'Place Order'--><!-- /ko -->" <!-- ko i18n: 'ratepay_terms_block_2'--><!-- /ko -->
-            <a target="_blank" href="https://www.ratepay.com/legal-payment-terms"><!-- ko i18n: 'ratepay_terms_block_3'--><!-- /ko --></a>
+            <a target="_blank" data-bind="attr: {href: getTermsOfPaymentUrl()}"><!-- ko i18n: 'ratepay_terms_block_3'--><!-- /ko --></a>
             <!-- ko i18n: 'ratepay_terms_block_4'--><!-- /ko -->
-            <a target="_blank" href="https://www.ratepay.com/legal-payment-dataprivacy"><!-- ko i18n: 'ratepay_terms_block_5'--><!-- /ko --></a>
+            <a target="_blank" data-bind="attr: {href: getDataPrivacyUrl()}"><!-- ko i18n: 'ratepay_terms_block_5'--><!-- /ko --></a>
             <!-- ko i18n: 'ratepay_terms_block_6'--><!-- /ko -->
             <br><br>
         </div>

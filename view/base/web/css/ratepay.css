@@ -224,7 +224,7 @@
 /* SEPA direct debit mandate accordion */
 .rp-sepa-mandate {
     clear: both;
-    margin: 1.5rem 0;
+    margin: 1.5rem 0 0 0;
     border: 1px solid #757575;
 }
 
@@ -389,6 +389,10 @@ div.ratepay-ContentSwitch {
     visibility: visible;
 }
 
+.rpFieldsetNoBottomMargin {
+    margin-bottom: 0!important;
+}
+
 .ratepay_overlay {
     position:absolute;
     width: 726px;
@@ -434,7 +438,7 @@ div.ratepay-ContentSwitch {
 }
 
 .rp-icon { display: inline-flex; vertical-align: -2px; margin-right: 4px; }
-.rp-ccd2-heading { display: flex; align-items: center; gap: 8px; margin-top: 0; }
+.rp-ccd2-heading { display: flex; align-items: center; gap: 4px; margin-top: 0; margin-bottom: 1rem; }
 .rp-ccd2-btn-row { display: flex; }
 .rp-ccd2-btn-row .btn-group { flex: 0 0 50%; max-width: 49%; margin-bottom: 1rem; }
 .rp-ccd2-btn-row .btn-group.first { margin-right: 1rem; }

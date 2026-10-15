@@ -256,6 +256,20 @@ define(
                 }
                 return false;
             },
+            getLegalUrl: function (type) {
+                // Fallback to the english URLs if the config isn't available
+                var defaultUrls = {
+                    termsOfPayment: 'https://www.ratepay.com/en/ratepay-terms-of-payment',
+                    dataPrivacy: 'https://www.ratepay.com/en/ratepay-data-privacy-statement'
+                };
+                return window.checkoutConfig?.payment?.ratepay?.legalUrls?.[type] || defaultUrls[type];
+            },
+            getTermsOfPaymentUrl: function () {
+                return this.getLegalUrl('termsOfPayment');
+            },
+            getDataPrivacyUrl: function () {
+                return this.getLegalUrl('dataPrivacy');
+            },
             isSecciV1Active: function () {
                 if (this.isSecciEnabled() === true && window.checkoutConfig?.payment?.ratepay?.secciDesignVariant == '1') {
                     return true;

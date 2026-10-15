@@ -123,24 +123,32 @@ class Send extends \Magento\Backend\App\Action implements HttpPostActionInterfac
                 $oQuote->setItems($oQuote->getAllVisibleItems());
             }
 
-            $this->handleInstallmentParams($sPaymentMethod);
+            // Ratepay wants a user-friendly error message to be shown instead of the API error, like in the frontend
+            $sGenericErrorMessage = __('Standard European Consumer Credit Information (SECCI) is temporarily unavailable. Please try again.');
 
-            $oSecciRequest = $this->secciHelper->sendSecciRequest(
-                $oQuote,
-                \RatePAY\Payment\Helper\Content\Secci\Secci::SECCI_DELIVERY_METHOD_EMAIL,
-                $sPaymentMethod,
-                $sEmail
-            );
+            try {
+                $this->handleInstallmentParams($sPaymentMethod);
 
-            if ($oSecciRequest->isSuccessful() === true) {
-                $this->backendSecciState->commit($oQuote, $sPaymentMethod, $sEmail, $oSecciRequest->getDocumentId());
-                $aData['success'] = true;
-                $aData['documentId'] = $oSecciRequest->getDocumentId();
-            } else {
-                $this->backendSecciState->clear();
-                $aData['errormessage'] = $oSecciRequest->getReasonMessage();
+                $oSecciRequest = $this->secciHelper->sendSecciRequest(
+                    $oQuote,
+                    \RatePAY\Payment\Helper\Content\Secci\Secci::SECCI_DELIVERY_METHOD_EMAIL,
+                    $sPaymentMethod,
+                    $sEmail
+                );
+
+                if ($oSecciRequest->isSuccessful() === true) {
+                    $this->backendSecciState->commit($oQuote, $sPaymentMethod, $sEmail, $oSecciRequest->getDocumentId());
+                    $aData['success'] = true;
+                    $aData['documentId'] = $oSecciRequest->getDocumentId();
+                } else {
+                    $this->backendSecciState->clear();
+                    $aData['errormessage'] = $sGenericErrorMessage;
+                }
+            } catch (\Exception $exc) {
+                $aData['errormessage'] = $sGenericErrorMessage;
             }
         } catch (\Exception $exc) {
+            // Validation errors of the request parameters above
             $aData['errormessage'] = $exc->getMessage();
         }
 

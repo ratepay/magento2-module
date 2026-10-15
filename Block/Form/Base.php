@@ -232,6 +232,16 @@ class Base extends \Magento\Payment\Block\Form
     }
 
     /**
+     * Returns the Ratepay legal text URLs for the current language
+     *
+     * @return array
+     */
+    public function getLegalUrls()
+    {
+        return $this->rpDataHelper->getLegalUrls();
+    }
+
+    /**
      * @return string
      */
     public function getSecciSendUrl()

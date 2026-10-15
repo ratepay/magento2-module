@@ -97,10 +97,10 @@
             <!-- /ko -->
             <div class="legalText">
                 <!-- ko i18n: 'ratepay_terms_block_1'--><!-- /ko --> "<!-- ko i18n: 'Place Order'--><!-- /ko -->" <!-- ko i18n: 'ratepay_terms_block_2'--><!-- /ko -->
-                <a target="_blank" href="https://www.ratepay.com/legal-payment-terms"><!-- ko i18n: 'ratepay_terms_block_3'--><!-- /ko --></a>,
+                <a target="_blank" data-bind="attr: {href: getTermsOfPaymentUrl()}"><!-- ko i18n: 'ratepay_terms_block_3'--><!-- /ko --></a>,
                 <!-- ko i18n: 'ratepay_terms_block_sepa'--><!-- /ko -->,
                 <!-- ko i18n: 'ratepay_terms_block_4'--><!-- /ko -->
-                <a target="_blank" href="https://www.ratepay.com/legal-payment-dataprivacy"><!-- ko i18n: 'ratepay_terms_block_5'--><!-- /ko --></a>
+                <a target="_blank" data-bind="attr: {href: getDataPrivacyUrl()}"><!-- ko i18n: 'ratepay_terms_block_5'--><!-- /ko --></a>
                 <!-- ko i18n: 'ratepay_terms_block_6'--><!-- /ko -->
             </div>
         </fieldset>

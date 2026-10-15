@@ -140,12 +140,14 @@ define(
                 $('#' + this.getCode() + '_sepa_use_directdebit').show();
                 $('#' + this.getCode() + '_sepa_use_banktransfer').hide();
                 $('#ratepay_rate_sepa_block_' + this.getCode()).hide();
+                $('#' + this.getCode() + '_terms_block_sepa').hide();
                 this.useDirectDebit = false;
             },
             showDirectDebit: function () {
                 $('#' + this.getCode() + '_sepa_use_banktransfer').show();
                 $('#' + this.getCode() + '_sepa_use_directdebit').hide();
                 $('#ratepay_rate_sepa_block_' + this.getCode()).show();
+                $('#' + this.getCode() + '_terms_block_sepa').show();
                 this.useDirectDebit = true;
             },
             getData: function() {
