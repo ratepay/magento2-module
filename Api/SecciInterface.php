@@ -16,7 +16,8 @@ interface SecciInterface
      * @param string $cartId Masked cart ID
      * @param string $method
      * @param string $paymentMethod
+     * @param string $email Guest email, the guest email isn't reliably saved in the quote yet
      * @return \RatePAY\Payment\Service\V1\Data\SecciResponse
      */
-    public function triggerGuestSecci($cartId, $method, $paymentMethod);
+    public function triggerGuestSecci($cartId, $method, $paymentMethod, $email = null);
 }

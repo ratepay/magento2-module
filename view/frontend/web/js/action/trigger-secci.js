@@ -27,6 +27,10 @@ define([
         };
         var secciCartState = secciState.capture(request.paymentMethod);
         if (!customer.isLoggedIn()) {
+            // The guest email may not be saved in the quote yet, because set-payment-information runs in parallel
+            if (quote.guestEmail) {
+                request.email = quote.guestEmail;
+            }
             serviceUrl = urlBuilder.createUrl('/guest-carts/:quoteId/ratepay-triggerSecci', {
                 quoteId: quote.getQuoteId()
             });

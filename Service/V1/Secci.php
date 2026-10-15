@@ -8,6 +8,7 @@ use Magento\Quote\Api\CartRepositoryInterface;
 use Magento\Quote\Model\MaskedQuoteIdToQuoteIdInterface;
 use Magento\Quote\Api\Data\CartInterface;
 use Magento\Authorization\Model\UserContextInterface;
+use Magento\Framework\Validator\EmailAddress as EmailAddressValidator;
 use RatePAY\Payment\Api\Data\SecciResponseInterfaceFactory;
 use RatePAY\Payment\Api\SecciInterface;
 use RatePAY\Payment\Helper\Secci as SecciHelper;
@@ -40,6 +41,11 @@ class Secci implements SecciInterface
     protected $secciHelper;
 
     /**
+     * @var EmailAddressValidator
+     */
+    protected $emailValidator;
+
+    /**
      * Constructor.
      *
      * @param CartRepositoryInterface $cartRepository
@@ -47,19 +53,22 @@ class Secci implements SecciInterface
      * @param UserContextInterface $userContext
      * @param SecciResponseInterfaceFactory $responseFactory
      * @param SecciHelper $secciHelper
+     * @param EmailAddressValidator $emailValidator
      */
     public function __construct(
         CartRepositoryInterface $cartRepository,
         MaskedQuoteIdToQuoteIdInterface $maskedQuoteIdToQuoteId,
         UserContextInterface $userContext,
         SecciResponseInterfaceFactory $responseFactory,
-        SecciHelper $secciHelper
+        SecciHelper $secciHelper,
+        EmailAddressValidator $emailValidator
     ) {
         $this->cartRepository = $cartRepository;
         $this->maskedQuoteIdToQuoteId = $maskedQuoteIdToQuoteId;
         $this->userContext = $userContext;
         $this->responseFactory = $responseFactory;
         $this->secciHelper = $secciHelper;
+        $this->emailValidator = $emailValidator;
     }
 
     /**
@@ -87,9 +96,10 @@ class Secci implements SecciInterface
      * @param string $cartId
      * @param string $method
      * @param string $paymentMethod
+     * @param string $email Guest email, the guest email isn't reliably saved in the quote yet
      * @return \RatePAY\Payment\Service\V1\Data\SecciResponse
      */
-    public function triggerGuestSecci($cartId, $method, $paymentMethod)
+    public function triggerGuestSecci($cartId, $method, $paymentMethod, $email = null)
     {
         try {
             $quoteId = $this->maskedQuoteIdToQuoteId->execute((string)$cartId);
@@ -103,10 +113,15 @@ class Secci implements SecciInterface
             throw new AuthorizationException(__('Not allowed.'));
         }
 
-        return $this->process($quote, (string)$method, (string)$paymentMethod);
+        // Invalid email addresses are ignored, the email is then taken from the quote
+        if (!empty($email) && !$this->emailValidator->isValid($email)) {
+            $email = null;
+        }
+
+        return $this->process($quote, (string)$method, (string)$paymentMethod, !empty($email) ? (string)$email : null);
     }
 
-    private function process(CartInterface $quote, string $deliveryMethod, string $paymentMethod)
+    private function process(CartInterface $quote, string $deliveryMethod, string $paymentMethod, ?string $email = null)
     {
         if (empty($paymentMethod)) {
             $paymentMethod = !empty($quote->getPayment()->getMethod()) ? $quote->getPayment()->getMethod() : null;
@@ -114,7 +129,7 @@ class Secci implements SecciInterface
 
         $response = $this->responseFactory->create();
         try {
-            $oSecciRequest = $this->secciHelper->sendSecciRequest($quote, $deliveryMethod, $paymentMethod);
+            $oSecciRequest = $this->secciHelper->sendSecciRequest($quote, $deliveryMethod, $paymentMethod, $email);
 
             $response->setData('success', $oSecciRequest->isSuccessful());
 
