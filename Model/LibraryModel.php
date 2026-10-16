@@ -30,6 +30,11 @@ class LibraryModel
     protected $rpHeadExternalHelper;
 
     /**
+     * @var \RatePAY\Payment\Helper\Head\AttestationToken
+     */
+    protected $rpHeadAttestationTokenHelper;
+
+    /**
      * @var \RatePAY\Payment\Helper\Content\ContentBuilder
      */
     protected $rpContentBuilder;
@@ -54,6 +59,7 @@ class LibraryModel
      * @param \RatePAY\Payment\Helper\Head\Head $rpHeadHelper
      * @param \RatePAY\Payment\Helper\Head\Additional $rpHeadAdditionalHelper
      * @param \RatePAY\Payment\Helper\Head\External $rpHeadExternalHelper
+     * @param \RatePAY\Payment\Helper\Head\AttestationToken $rpHeadAttestationTokenHelper
      * @param \RatePAY\Payment\Helper\Content\ContentBuilder $rpContentBuilder
      * @param \RatePAY\Payment\Helper\Content\ShoppingBasket\Discount $rpContentBasketDiscountHelper
      * @param \RatePAY\Payment\Helper\Data $rpDataHelper
@@ -63,6 +69,7 @@ class LibraryModel
         \RatePAY\Payment\Helper\Head\Head $rpHeadHelper,
         \RatePAY\Payment\Helper\Head\Additional  $rpHeadAdditionalHelper,
         \RatePAY\Payment\Helper\Head\External $rpHeadExternalHelper,
+        \RatePAY\Payment\Helper\Head\AttestationToken $rpHeadAttestationTokenHelper,
         \RatePAY\Payment\Helper\Content\ContentBuilder $rpContentBuilder,
         \RatePAY\Payment\Helper\Content\ShoppingBasket\Discount $rpContentBasketDiscountHelper,
         \RatePAY\Payment\Helper\Data $rpDataHelper,
@@ -71,6 +78,7 @@ class LibraryModel
         $this->rpHeadHelper = $rpHeadHelper;
         $this->rpHeadAdditionalHelper = $rpHeadAdditionalHelper;
         $this->rpHeadExternalHelper = $rpHeadExternalHelper;
+        $this->rpHeadAttestationTokenHelper = $rpHeadAttestationTokenHelper;
         $this->rpContentBuilder = $rpContentBuilder;
         $this->rpContentBasketDiscountHelper = $rpContentBasketDiscountHelper;
         $this->rpDataHelper = $rpDataHelper;
@@ -190,6 +198,8 @@ class LibraryModel
                     $headModel->CustomerDevice()->setDeviceToken($this->customerSession->getRatepayDeviceIdentToken())
                 );*/
                 $headModel = $this->rpHeadExternalHelper->setHeadExternal($quoteOrOrder, $headModel);
+                $headModel = $this->rpHeadAttestationTokenHelper->setHeadAttestationToken($quoteOrOrder, $headModel);
+
                 break;
 
             case "PAYMENT_CHANGE":

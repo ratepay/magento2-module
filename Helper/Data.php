@@ -14,6 +14,22 @@ use Magento\Framework\App\Helper\Context;
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
+     * Ratepay legal text URLs by language, 'en' is the default
+     *
+     * @var array
+     */
+    const LEGAL_URLS = [
+        'de' => [
+            'termsOfPayment' => 'https://www.ratepay.com/legal-payment-terms',
+            'dataPrivacy' => 'https://www.ratepay.com/legal-payment-dataprivacy',
+        ],
+        'en' => [
+            'termsOfPayment' => 'https://www.ratepay.com/en/ratepay-terms-of-payment',
+            'dataPrivacy' => 'https://www.ratepay.com/en/ratepay-data-privacy-statement',
+        ],
+    ];
+
+    /**
      * @var \Magento\Framework\App\Filesystem\DirectoryList
      */
     protected $directoryList;
@@ -29,23 +45,31 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $state;
 
     /**
+     * @var \Magento\Framework\Locale\Resolver
+     */
+    protected $localeResolver;
+
+    /**
      * Data constructor.
      *
      * @param Context $context
      * @param \Magento\Framework\App\Filesystem\DirectoryList $directoryList
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\State $state
+     * @param \Magento\Framework\Locale\Resolver $localeResolver
      */
     public function __construct(
         Context $context,
         \Magento\Framework\App\Filesystem\DirectoryList $directoryList,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Framework\App\State $state
+        \Magento\Framework\App\State $state,
+        \Magento\Framework\Locale\Resolver $localeResolver
     ) {
         parent::__construct($context);
         $this->directoryList = $directoryList;
         $this->storeManager = $storeManager;
         $this->state = $state;
+        $this->localeResolver = $localeResolver;
     }
 
     /**
@@ -159,5 +183,25 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $edition = 'PE';
         }
         return $edition;
+    }
+
+    public function getLocale()
+    {
+        $locale = substr($this->localeResolver->getLocale(), 0, 2);
+        if (empty($locale)) {
+            $locale = substr($this->localeResolver->getDefaultLocale(), 0, 2);
+        }
+        return $locale;
+    }
+
+    /**
+     * Returns the Ratepay legal text URLs for the current language (e.g. de_DE, de_AT and de_CH all use 'de')
+     *
+     * @return array
+     */
+    public function getLegalUrls()
+    {
+        $language = strtolower((string)$this->getLocale());
+        return self::LEGAL_URLS[$language] ?? self::LEGAL_URLS['en'];
     }
 }

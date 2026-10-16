@@ -24,18 +24,12 @@ function changeDetails(paymentMethod) {
     }
 }
 
-function showAgreement(code) {
-    require(['jquery'], function($) {
-        $('#' + code + '_sepa_agreement').show();
-        $('#' + code + '_sepa_agreement_link').hide();
-    });
-}
-
 function showBankTransfer(code) {
     require(['jquery'], function($) {
         $('#' + code + '_sepa_use_directdebit').show();
         $('#' + code + '_sepa_use_banktransfer').hide();
         $('#ratepay_rate_sepa_block_' + code).hide();
+        $('#' + code + '_terms_block_sepa').hide();
         $('#' + code + '_directdebit').val('0');
     });
 }
@@ -44,6 +38,7 @@ function showDirectDebit(code) {
         $('#' + code + '_sepa_use_banktransfer').show();
         $('#' + code + '_sepa_use_directdebit').hide();
         $('#ratepay_rate_sepa_block_' + code).show();
+        $('#' + code + '_terms_block_sepa').show();
         $('#' + code + '_directdebit').val('1');
     });
 }

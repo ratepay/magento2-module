@@ -91,13 +91,44 @@ class SerializableRequest extends DataObject
         $responseXMLElement = $request->getResponseXmlElement();
 
         $this->setTransactionId($this->getTransactionIdFromRequest($request, $order));
-        $this->setPaymentType((string)$requestXMLElement->head->{'operation'});
-        $this->setPaymentSubtype($this->getPaymentSubTypeFromRequest($requestXMLElement));
-        $this->setResult($request->getResultMessage());
-        $this->setResultCode($request->getResultCode());
-        $this->setStatusCode((string)$responseXMLElement->head->processing->status->attributes()->code);
-        $this->setReason($request->getReasonMessage());
-        $this->setRequest($this->getFormattedXml($requestXMLElement));
-        $this->setResponse($this->getFormattedXml($responseXMLElement));
+        $this->setRequest(!empty($requestXMLElement) ? $this->getFormattedXml($requestXMLElement) : '');
+        $this->setResponse(!empty($responseXMLElement) ? $this->getFormattedXml($responseXMLElement) : '');
+
+
+        try {
+            $this->setPaymentType((string)$requestXMLElement->head->{'operation'});
+        } catch (\Exception $e) {
+            $this->setPaymentType('Error');
+        }
+
+        try {
+            $this->setPaymentSubtype($this->getPaymentSubTypeFromRequest($requestXMLElement));
+        } catch (\Exception $e) {
+            $this->setPaymentSubtype('Error');
+        }
+
+        try {
+            $this->setResult($request->getResultMessage());
+        } catch (\Exception $e) {
+            $this->setResult('Error');
+        }
+
+        try {
+            $this->setResultCode($request->getResultCode());
+        } catch (\Exception $e) {
+            $this->setResultCode('Error');
+        }
+
+        try {
+            $this->setStatusCode((string)$responseXMLElement->head->processing->status->attributes()->code);
+        } catch (\Exception $e) {
+            $this->setStatusCode('Error');
+        }
+
+        try {
+            $this->setReason($request->getReasonMessage());
+        } catch (\Exception $e) {
+            $this->setReason('Error');
+        }
     }
 }

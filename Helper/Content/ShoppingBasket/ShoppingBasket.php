@@ -10,6 +10,8 @@
 namespace RatePAY\Payment\Helper\Content\ShoppingBasket;
 
 use Magento\Framework\App\Helper\Context;
+use Magento\Quote\Model\Quote;
+use Magento\Sales\Model\Order;
 
 class ShoppingBasket extends \Magento\Framework\App\Helper\AbstractHelper
 {
@@ -47,6 +49,15 @@ class ShoppingBasket extends \Magento\Framework\App\Helper\AbstractHelper
         $this->rpContentBasketDiscountHelper = $rpContentBasketDiscountHelper;
     }
 
+    protected function getShippingCost($quoteOrOrder)
+    {
+        if ($quoteOrOrder instanceof \Magento\Quote\Model\Quote) {
+            return $quoteOrOrder->getShippingAddress()->getShippingInclTax();
+        }
+        // Is order
+        return $quoteOrOrder->getShippingInclTax();
+    }
+
     /**
      * Build Shopping Basket Block of Payment Request
      *
@@ -70,8 +81,10 @@ class ShoppingBasket extends \Magento\Framework\App\Helper\AbstractHelper
                     'Items' => $this->rpContentBasketItemsHelper->setItems($quoteOrOrder),
                 ];
             }
-            if ($quoteOrOrder->getShippingAmount() > 0) {
-                $content['Shipping'] = $this->rpContentBasketShippingHelper->setShipping($quoteOrOrder);
+
+            $shippingCost = $this->getShippingCost($quoteOrOrder);
+            if ($shippingCost > 0) {
+                $content['Shipping'] = $this->rpContentBasketShippingHelper->setShipping($quoteOrOrder, $shippingCost);
             }
             if ($quoteOrOrder->getGiftCardsAmount() > 0) {
                 $content['Discount'] = $this->rpContentBasketDiscountHelper->setDiscount($quoteOrOrder->getGiftCardsAmount(), 'GiftCard');
@@ -84,8 +97,10 @@ class ShoppingBasket extends \Magento\Framework\App\Helper\AbstractHelper
             $content['Amount'] = $amount;
         }
 
-        if ($quoteOrOrder->getOrderCurrencyCode() != 'EUR') {
+        if ($quoteOrOrder instanceof Order && $quoteOrOrder->getOrderCurrencyCode() != 'EUR') {
             $content['Currency'] = $quoteOrOrder->getOrderCurrencyCode();
+        } elseif ($quoteOrOrder instanceof Quote && $quoteOrOrder->getQuoteCurrencyCode() != 'EUR') {
+            $content['Currency'] = $quoteOrOrder->getQuoteCurrencyCode();
         }
 
         return $content;

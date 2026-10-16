@@ -31,7 +31,6 @@ define(
                 rp_iban: '',
                 isInstallmentPlanSet: false,
                 useDirectDebit: true,
-                sepaAccepted: false,
                 b2b_accountholder: ''
             },
 
@@ -69,11 +68,6 @@ define(
 
                 if (this.showSepaBlock() === true && this.useDirectDebit === true && this.rp_iban == '') {
                     this.messageContainer.addErrorMessage({'message': $t('Please enter a valid IBAN.')});
-                    return false;
-                }
-
-                if (this.showSepaBlock() === true && this.useDirectDebit === true && this.sepaAccepted === false) {
-                    this.messageContainer.addErrorMessage({'message': $t('Please confirm the transmission of the necessary data to Ratepay.')});
                     return false;
                 }
 
@@ -142,20 +136,18 @@ define(
             updateInstallmentPlanRuntime: function (data, event) {
                 this.updateInstallmentPlan('time', event.target.value, this.getCode(), true);
             },
-            showAgreement: function() {
-                $('#' + this.getCode() + '_sepa_agreement').show();
-                $('#' + this.getCode() + '_sepa_agreement_link').hide();
-            },
             showBankTransfer: function () {
                 $('#' + this.getCode() + '_sepa_use_directdebit').show();
                 $('#' + this.getCode() + '_sepa_use_banktransfer').hide();
                 $('#ratepay_rate_sepa_block_' + this.getCode()).hide();
+                $('#' + this.getCode() + '_terms_block_sepa').hide();
                 this.useDirectDebit = false;
             },
             showDirectDebit: function () {
                 $('#' + this.getCode() + '_sepa_use_banktransfer').show();
                 $('#' + this.getCode() + '_sepa_use_directdebit').hide();
                 $('#ratepay_rate_sepa_block_' + this.getCode()).show();
+                $('#' + this.getCode() + '_terms_block_sepa').show();
                 this.useDirectDebit = true;
             },
             getData: function() {

@@ -25,6 +25,7 @@ class DeviceFingerprint extends Data
      * @param \Magento\Framework\App\Filesystem\DirectoryList $directoryList
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\State $state
+     * @param \Magento\Framework\Locale\Resolver $localeResolver
      * @param \Magento\Customer\Model\Session $customerSession
      */
     public function __construct(
@@ -32,9 +33,10 @@ class DeviceFingerprint extends Data
         \Magento\Framework\App\Filesystem\DirectoryList $directoryList,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\State $state,
+        \Magento\Framework\Locale\Resolver $localeResolver,
         \Magento\Customer\Model\Session $customerSession
     ) {
-        parent::__construct($context, $directoryList, $storeManager, $state);
+        parent::__construct($context, $directoryList, $storeManager, $state, $localeResolver);
         $this->customerSession = $customerSession;
     }
 

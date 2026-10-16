@@ -30,6 +30,11 @@ class RechnungConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
     protected $rpDfpHelper;
 
     /**
+     * @var \RatePAY\Payment\Helper\Data
+     */
+    protected $rpDataHelper;
+
+    /**
      * Checkout session
      *
      * @var \Magento\Checkout\Model\Session
@@ -67,17 +72,20 @@ class RechnungConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
      * @param \Magento\Payment\Helper\Data $paymentHelper
      * @param \Magento\Framework\Escaper $escaper
      * @param \RatePAY\Payment\Helper\DeviceFingerprint $rpDfpHelper
+     * @param \RatePAY\Payment\Helper\Data $rpDataHelper
      * @param \Magento\Checkout\Model\Session $checkoutSession
      */
     public function __construct(
         \Magento\Payment\Helper\Data $paymentHelper,
         \Magento\Framework\Escaper $escaper,
         \RatePAY\Payment\Helper\DeviceFingerprint $rpDfpHelper,
+        \RatePAY\Payment\Helper\Data $rpDataHelper,
         \Magento\Checkout\Model\Session $checkoutSession
     ) {
         $this->escaper = $escaper;
         $this->paymentHelper = $paymentHelper;
         $this->rpDfpHelper = $rpDfpHelper;
+        $this->rpDataHelper = $rpDataHelper;
         $this->checkoutSession = $checkoutSession;
     }
 
@@ -88,19 +96,22 @@ class RechnungConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
     {
         $config = array_merge_recursive([], $this->getInstallmentConfig());
         $config = array_merge_recursive($config, $this->getB2BConfig());
+        $config = array_merge_recursive($config, $this->getSecciConfig());
         $config = array_merge_recursive($config, $this->getRatepaySandboxConfig());
-        $config = array_merge_recursive($config, $this->getDeviceFingerprintConfig());
+        $config = array_merge_recursive($config, $this->getGeneralConfig());
         
         return $config;
     }
 
-    protected function getDeviceFingerprintConfig()
+    protected function getGeneralConfig()
     {
         $tokenNeeded = ($this->checkoutSession->getRatepayDfpSent() !== true);
         return ($this->hasActivePaymentMethods()) ? ['payment' => [
                 'ratepay' => [
                     'token' => $tokenNeeded ? $this->rpDfpHelper->getToken() : false,
                     'snippetId' => $this->rpDfpHelper->getSnippetId(),
+                    'secciDesignVariant' => $this->rpDataHelper->getRpConfigDataByPath('ratepay/general/secci_design_variant'),
+                    'legalUrls' => $this->rpDataHelper->getLegalUrls(),
                 ],
             ],
         ] : [];
@@ -146,6 +157,37 @@ class RechnungConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
         $config = [];
         foreach ($this->allRatePayMethods as $paymentType) {
             $config = array_merge_recursive($config, $this->getSingleB2BConfig($paymentType));
+        }
+        return $config;
+    }
+
+    /**
+     * Add Secci config for given payment method
+     *
+     * @param  string $sMethodCode
+     * @return array
+     */
+    protected function getSingleSecciConfig($sMethodCode)
+    {
+        return ($this->isPaymentMethodActive($sMethodCode)) ? [
+            'payment' => [
+                $sMethodCode => [
+                    'secciActive' => (bool)$this->getMethod($sMethodCode)->getMatchingProfile()->getProductData("secci_enabled_?", $sMethodCode, true),
+                ],
+            ],
+        ] : [];
+    }
+
+    /**
+     * Add Secci config for all active payment methods
+     *
+     * @return array
+     */
+    protected function getSecciConfig()
+    {
+        $config = [];
+        foreach ($this->allRatePayMethods as $paymentType) {
+            $config = array_merge_recursive($config, $this->getSingleSecciConfig($paymentType));
         }
         return $config;
     }

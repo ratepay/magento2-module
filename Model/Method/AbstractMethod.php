@@ -192,6 +192,11 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
      * @var \Magento\Quote\Api\CartRepositoryInterface
      */
     protected $quoteRepository;
+    
+    /**
+     * @var \Magento\Quote\Api\CartRepositoryInterface
+     */
+    protected $backendSecciState;
 
     /**
      * AbstractMethod constructor.
@@ -218,6 +223,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
      * @param \Magento\Backend\Model\Session\Quote $backendCheckoutSession
      * @param \RatePAY\Payment\Service\V1\InstallmentPlan $installmentPlan
      * @param \Magento\Quote\Api\CartRepositoryInterface $quoteRepository
+     * @param \RatePAY\Payment\Model\BackendSecciState $backendSecciState
      * @param \Magento\Framework\Model\ResourceModel\AbstractResource|null $resource
      * @param \Magento\Framework\Data\Collection\AbstractDb|null $resourceCollection
      * @param array $data
@@ -246,6 +252,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         \Magento\Backend\Model\Session\Quote $backendCheckoutSession,
         \RatePAY\Payment\Service\V1\InstallmentPlan $installmentPlan,
         \Magento\Quote\Api\CartRepositoryInterface $quoteRepository,
+        \RatePAY\Payment\Model\BackendSecciState $backendSecciState,
         ?\Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
         ?\Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
         array $data = []
@@ -279,6 +286,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         $this->backendCheckoutSession = $backendCheckoutSession;
         $this->installmentPlan = $installmentPlan;
         $this->quoteRepository = $quoteRepository;
+        $this->backendSecciState = $backendSecciState;
     }
 
     /**
@@ -314,6 +322,8 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
             throw new PaymentException(__('ala not allowed'));
         }
 
+        $this->validateBackendSecci($order, $oProfileConfig);
+
         $resultInit = $this->libraryController->callPaymentInit($head, $order, $sandbox);
         if ($resultInit->isSuccessful()) {
             $payment->setAdditionalInformation('transactionId', $resultInit->getTransactionId());
@@ -329,7 +339,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
                     $this->handleError($resultRequest, $order);
 
                     $sMethodCode = $order->getPayment()->getMethod();
-                    $this->addPaymentMethodToDisabledMethods($sMethodCode);
+                    #$this->addPaymentMethodToDisabledMethods($sMethodCode);
                     throw new DisablePaymentMethodException(__($message), $sMethodCode); // RatePAY Error Message
                 } else {
                     $sReason = $resultRequest->getReasonMessage();
@@ -344,6 +354,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
             }
             $payment->setAdditionalInformation('descriptor', $resultRequest->getDescriptor());
             $this->clearDeviceFingerprintSession();
+            $this->clearBackendSecciSession();
             $order->setRatepaySandboxUsed((int)$sandbox);
             $order->setRatepayProfileId($oProfileConfig->getData('profile_id'));
             return $this;
@@ -362,6 +373,69 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
     {
         $this->customerSession->unsRatePayDeviceIdentToken();
         $this->checkoutSession->unsRatepayDfpSent();
+    }
+
+    /**
+     * Checks if the SECCI has to be provided for this payment method
+     *
+     * @param \Magento\Quote\Api\Data\CartInterface|null $oQuote
+     * @param \RatePAY\Payment\Model\Entities\ProfileConfiguration|null $oProfileConfig
+     * @return bool
+     */
+    public function isSecciEnabled(?\Magento\Quote\Api\Data\CartInterface $oQuote = null, $oProfileConfig = null)
+    {
+        if ($oProfileConfig === null) {
+            $oProfileConfig = $this->getMatchingProfile($oQuote);
+        }
+
+        if (!$oProfileConfig || !$oProfileConfig->getProductData("secci_enabled_?", $this->getCode(), true)) {
+            return false;
+        }
+
+        return $this->isSecciExcluded($oProfileConfig) === false;
+    }
+
+    /**
+     * Hook to exclude single payment methods from the SECCI, e.g. by a payment method specific profile config
+     *
+     * @param \RatePAY\Payment\Model\Entities\ProfileConfiguration $oProfileConfig
+     * @return bool
+     */
+    protected function isSecciExcluded($oProfileConfig)
+    {
+        // Currently SECCI is used for all payment methods
+        return false;
+    }
+
+    /**
+     * Backend orders can only be placed if the SECCI was sent for the current cart state
+     *
+     * @param \Magento\Sales\Model\Order $oOrder
+     * @param \RatePAY\Payment\Model\Entities\ProfileConfiguration $oProfileConfig
+     * @throws PaymentException
+     */
+    protected function validateBackendSecci(\Magento\Sales\Model\Order $oOrder, $oProfileConfig)
+    {
+        if ($this->isBackendMethod() === false || $this->isSecciEnabled(null, $oProfileConfig) === false) {
+            return;
+        }
+
+        if ($this->backendSecciState->isValidFor($oOrder, $this->getCode()) === false) {
+            throw new PaymentException(__('Please send the SECCI to the customer by email before submitting the order. If the cart was changed after sending, the SECCI has to be sent again.'));
+        }
+    }
+
+    /**
+     * Resets the SECCI state of the backend order, so it can't be reused for the next order
+     *
+     * @return void
+     */
+    protected function clearBackendSecciSession()
+    {
+        // The attestation token is removed by the observer CheckoutSubmitAllAfter
+        if ($this->isBackendMethod() === true) {
+            $this->backendSecciState->clear();
+        }
     }
 
     /**
@@ -681,11 +755,13 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
     }
 
     /**
+     * Public since it is also used for the backend SECCI request, which is sent before the order is submitted
+     *
      * @param  object $additionalData
      * @param  string $methodCode
      * @return void
      */
-    protected function handleInstallmentSessionParams($additionalData, $methodCode)
+    public function handleInstallmentSessionParams($additionalData, $methodCode)
     {
         if ($additionalData->getData('rp_'.$methodCode.'_totalamount')) {
             $this->checkoutSession->setData('ratepayPaymentAmount_'.$methodCode, $additionalData->getData('rp_'.$methodCode.'_totalamount'));
@@ -693,6 +769,9 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
             $this->checkoutSession->setData('ratepayInstallmentAmount_'.$methodCode, $additionalData->getData('rp_'.$methodCode.'_rate'));
             $this->checkoutSession->setData('ratepayLastInstallmentAmount_'.$methodCode, $additionalData->getData('rp_'.$methodCode.'_lastrate'));
             $this->checkoutSession->setData('ratepayInterestRate_'.$methodCode, $additionalData->getData('rp_'.$methodCode.'_interestrate'));
+            if ($additionalData->getData('rp_'.$methodCode.'_defaultpaymentfirstday')) { // needed for the SECCI request
+                $this->checkoutSession->setData('ratepayInstallmentDefaultPaymentFirstday_'.$methodCode, $additionalData->getData('rp_'.$methodCode.'_defaultpaymentfirstday'));
+            }
         }
     }
 

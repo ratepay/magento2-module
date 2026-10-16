@@ -221,11 +221,54 @@
     }
 }
 
-.ratepayagreement.required:after {
-    content: '*';
-    color: #e02b27;
-    font-size: 1.2rem;
-    margin: 0 0 0 5px;
+/* SEPA direct debit mandate accordion */
+.rp-sepa-mandate {
+    clear: both;
+    margin: 1.5rem 0 0 0;
+    border: 1px solid #757575;
+}
+
+.rp-sepa-mandate-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem;
+    color: #1a2a4f;
+    cursor: pointer;
+    list-style: none;
+}
+
+.rp-sepa-mandate-summary::-webkit-details-marker {
+    display: none;
+}
+
+.rp-sepa-mandate-summary::after {
+    content: '';
+    flex: 0 0 auto;
+    width: .7rem;
+    height: .7rem;
+    margin-top: -.4rem;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: rotate(45deg);
+}
+
+.rp-sepa-mandate[open] .rp-sepa-mandate-summary {
+    border-bottom: 1px solid #757575;
+}
+
+.rp-sepa-mandate[open] .rp-sepa-mandate-summary::after {
+    margin-top: .4rem;
+    transform: rotate(-135deg);
+}
+
+.rp-sepa-mandate-content {
+    padding: 1rem 1rem 0;
+}
+
+.rp-sepa-mandate-content p {
+    margin-bottom: 1rem;
 }
 
 .sp-methods select.ratepayday {width:154px ; margin-right: 7px;}
@@ -233,7 +276,6 @@
 .sp-methods select.ratepayyear {width: 154px ;}
 .sp-methods input.ratepayphone {width: 147px;}
 .sp-methods div.ratepaybirthdate {width: 476px;}
-.sp-methods .form-list .ratepayagreement {width: auto;float: none;}
 .ratepay-sandbox-notification {
     border: 2px dashed #000000;
     background-color: #ffff00;
@@ -347,6 +389,10 @@ div.ratepay-ContentSwitch {
     visibility: visible;
 }
 
+.rpFieldsetNoBottomMargin {
+    margin-bottom: 0!important;
+}
+
 .ratepay_overlay {
     position:absolute;
     width: 726px;
@@ -385,8 +431,165 @@ div.ratepay-ContentSwitch {
 
 .ratepay-profile-config tr:hover {background-color: #ddd;}
 
+.rpTerms {
+    margin-top: 2rem;
+}
+
 #ratepay_version_number {
     display: none;
     margin-top: 1em;
     color: #aaa;
+}
+
+.rp-icon { display: inline-flex; vertical-align: -2px; margin-right: 4px; }
+.rp-ccd2-heading { display: flex; align-items: center; gap: 4px; margin-top: 0; margin-bottom: 1rem; }
+.rp-ccd2-btn-row { display: flex; }
+.rp-ccd2-btn-row .btn-group { flex: 0 0 50%; max-width: 49%; margin-bottom: 1rem; }
+.rp-ccd2-btn-row .btn-group.first { margin-right: 1rem; }
+.rp-ccd2-btn-row .btn-group .btn { width: 100%; }
+.rp-ccd2-info-icon {
+    display: inline-flex;
+    flex: 0 0 auto;
+    color: #3f6fd1;
+}
+
+#rp-ccd2-container {
+    margin-top: 1rem;
+}
+
+.rp-ccd2-panel {
+    background: #eef1fb;
+    border: 1px solid #d9def5;
+    border-radius: 6px;
+}
+.rp-ccd2-panel.rp-ccd2-panel-error {
+    background: #fdf0f0;
+    border-color: #f1c9c9;
+}
+.rp-ccd2-error-icon { color: #c0392b; }
+.rp-ccd2-email-edit-row { margin-top: 10px; max-width: 420px; }
+.rp-ccd2-more { margin-bottom: 0; }
+.rp-ccd2-more .rp-icon { margin-left: 4px; margin-right: 0; }
+
+.rp-ccd2-panel .actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.rp-ccd2-panel button.action {
+    min-width: 10rem;
+    /* padding: 14px 17px; */
+    font-weight: 600;
+}
+
+.rp-ccd2-panel button.action.ratepay-secondary {
+    background: #fff;
+    border: 1px solid #c2c2c2;
+    color: #333;
+}
+
+.rp-ccd2-panel button.action.ratepay-secondary:hover {
+    background: #f2f2f2;
+}
+
+.rp-ccd2-pdf-link {
+    text-decoration: underline;
+}
+/* SECCI block in backend order creation */
+.rp-secci-backend {
+    margin: 1.5rem 0;
+    padding: 1.2rem 1.2rem 1.4rem;
+    background: #f5f6f8;
+    border: 1px solid #d6d6d6;
+}
+
+.rp-secci-backend-heading {
+    display: flex;
+    align-items: flex-start;
+    gap: .8rem;
+    margin-bottom: 1.5rem;
+}
+
+.rp-secci-backend-heading svg {
+    flex-shrink: 0;
+    margin-top: .2rem;
+}
+
+.rp-secci-backend-title {
+    display: block;
+    font-weight: 600;
+}
+
+.rp-secci-backend-subtitle {
+    display: block;
+    font-size: 1.2rem;
+    color: #666;
+}
+
+.rp-secci-backend-label {
+    display: block;
+    margin-bottom: .6rem;
+    font-weight: 600;
+}
+
+.rp-secci-backend input.admin__control-text {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.rp-secci-backend button.rp-secci-backend-send {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .8rem;
+    width: 100%;
+    background: #7a7d9c;
+    border-color: #7a7d9c;
+    color: #fff;
+    font-weight: 600;
+}
+
+.rp-secci-backend button.rp-secci-backend-send:hover {
+    background: #64678a;
+    border-color: #64678a;
+}
+
+.rp-secci-backend button.rp-secci-backend-send[disabled] {
+    opacity: .6;
+    cursor: wait;
+}
+
+.rp-secci-backend .message {
+    margin: 1rem 0 0;
+}
+
+.rp-secci-backend.rp-secci-backend-done {
+    padding: 1.2rem;
+    background: #f5f6f8;
+    border-color: #d6d6d6;
+}
+
+.rp-secci-backend-done .rp-secci-backend-heading {
+    margin-bottom: 0;
+}
+
+.rp-secci-backend-done .rp-secci-backend-title {
+    margin-bottom: 1rem;
+}
+
+.rp-secci-backend-done-email,
+.rp-secci-backend-done-text {
+    display: block;
+    margin-bottom: .4rem;
+}
+
+.rp-secci-backend-send-again {
+    display: inline-block;
+    margin-top: .8rem;
+    color: #333;
+    text-decoration: underline;
+}
+
+.rp-secci-backend-send-again:hover {
+    color: #000;
 }
