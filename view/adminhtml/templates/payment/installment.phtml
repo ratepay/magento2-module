@@ -190,6 +190,9 @@ $currency = $block->ratepayGetCurrentCurrencyCode();
         echo $block->getScriptHelper()->insertScript($scriptString);
         ?>
     </div>
+    <input type="hidden" id="<?php echo $code; ?>_directdebit" name="payment[rp_directdebit]" value="1">
+    <input type="submit" name="Submit" style="display: none;">
+    <?php echo $block->fetchView($block->getTemplateFile('RatePAY_Payment::payment/secci.phtml')); ?>
     <div class="rpTerms">
         <?php echo __('ratepay_terms_block_moto_1'); ?> "<?php echo __('Submit Order'); ?>" <?php echo __('ratepay_terms_block_moto_2'); ?>
         <a target="_blank" href="<?php echo $block->escapeUrl($block->getLegalUrls()['termsOfPayment']); ?>"><?php echo __('ratepay_terms_block_moto_3'); ?></a>
@@ -197,10 +200,7 @@ $currency = $block->ratepayGetCurrentCurrencyCode();
         <?php echo __('ratepay_terms_block_moto_4'); ?>
         <a target="_blank" href="<?php echo $block->escapeUrl($block->getLegalUrls()['dataPrivacy']); ?>"><?php echo __('ratepay_terms_block_moto_5'); ?></a>
         <?php echo __('ratepay_terms_block_moto_6'); ?>
-    </div>
-    <input type="hidden" id="<?php echo $code; ?>_directdebit" name="payment[rp_directdebit]" value="1">
-    <input type="submit" name="Submit" style="display: none;">
-    <?php echo $block->fetchView($block->getTemplateFile('RatePAY_Payment::payment/secci.phtml')); ?>
+    </div><br>
 </fieldset>
 <?php
 /**

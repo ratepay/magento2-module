@@ -66,7 +66,8 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
         }
 
         foreach ($aItemlist as $item) {
-            if (!($item->getProductType() === \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE && $item->getParentItem())) {
+            // Child items (e.g. virtual children of configurable products) are not contained in the quote (only visible items)
+            if (!$item->getParentItem()) {
                 $itemSku = $item->getSku();
                 if ($itemSku == $sSku) {
                     $iCount++;
@@ -88,28 +89,19 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
     public function setItems($quoteOrOrder)
     {
         $items = [];
-        $skuMap = [];
         $itemArray = $quoteOrOrder->getItems();
         $store = $quoteOrOrder->getStore();
         foreach ($itemArray as $item) {
-
-            $parentItem = false;
-
             if ($item instanceof \Magento\Sales\Model\Order\Invoice\Item || $item instanceof \Magento\Sales\Model\Order\Creditmemo\Item) { // backend after-sales processes
-                if ($item->getOrderItem()->getProductType() === \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE && $item->getOrderItem()->getParentItem()) {
-                    $sku = $item->getOrderItem()->getParentItem()->getSku();
-                    if (isset($skuMap[$item->getOrderItem()->getParentItem()->getQuoteItemId()])) {
-                        $sku = $skuMap[$item->getOrderItem()->getParentItem()->getQuoteItemId()];
-                    }
-                    $quantity = (int) $item->getOrderItem()->getParentItem()->getQty();
-                    $parentItem = true;
-                } else {
-                    $sku = $item->getSku();
-                    $quantity = (int) $item->getQty();
-                    if ($this->isSkuDuplicateInOrder($sku, $quoteOrOrder)) {
-                        $sku = $sku.'_'.$item->getOrderItem()->getQuoteItemId();
-                    }
-                    $skuMap[$item->getOrderItem()->getQuoteItemId()] = $sku;
+                // Child items are handled with their parent item, same as in the payment request
+                if ($item->getOrderItem()->getParentItem()) {
+                    continue;
+                }
+
+                $sku = $item->getSku();
+                $quantity = (int) $item->getQty();
+                if ($this->isSkuDuplicateInOrder($sku, $quoteOrOrder)) {
+                    $sku = $sku.'_'.$item->getOrderItem()->getQuoteItemId();
                 }
 
                 if ($quantity == 0) {
@@ -143,38 +135,45 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
                     $taxRate = $item->getOrderItem()->getTaxPercent();
                 }
             } else { // order generation
-                if ($item->getProductType() === \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE && $item->getParentItem()) {
-                    $sku = $item->getParentItem()->getSku();
-                    if (isset($skuMap[$item->getParentItem()->getQuoteItemId()])) {
-                        $sku = $skuMap[$item->getParentItem()->getQuoteItemId()];
-                    }
-                    $quantity = (int) $item->getParentItem()->getQtyOrdered();
-                    if ($item instanceof \Magento\Quote\Model\Quote\Item) {
-                        $quantity = (int) $item->getParentItem()->getQty();
-                    }
-                    $parentItem = true;
-                } else {
-                    $sku = $item->getSku();
-                    $quantity = (int) $item->getQtyOrdered();
-                    if ($item instanceof \Magento\Quote\Model\Quote\Item) {
-                        $quantity = (int) $item->getQty();
-                    }
-                    if ($this->isSkuDuplicateInOrder($sku, $quoteOrOrder)) {
-                        $sku = $sku.'_'.$item->getQuoteItemId();
-                    }
-                    $skuMap[$item->getQuoteItemId()] = $sku;
+                // Child items (configurable and bundle products) are contained in the order, but not in the quote (only visible items).
+                // They are handled with their parent item, otherwise the basket wouldn't match the one attested by the SECCI
+                if ($item->getParentItem()) {
+                    continue;
+                }
+
+                $sku = $item->getSku();
+                $quantity = (int) $item->getQtyOrdered();
+                if ($item instanceof \Magento\Quote\Model\Quote\Item) {
+                    $quantity = (int) $item->getQty();
+                }
+                if ($this->isSkuDuplicateInOrder($sku, $quoteOrOrder)) {
+                    // Quote items don't have a quote_item_id, their own id is the one referenced by the order item
+                    $quoteItemId = $item instanceof \Magento\Quote\Model\Quote\Item ? $item->getId() : $item->getQuoteItemId();
+                    $sku = $sku.'_'.$quoteItemId;
                 }
 
                 $discount = $item->getDiscountAmount();
                 $taxRate = $item->getTaxPercent();
+
+                // Bundles with dynamic price: discount and tax are calculated on the child items
+                if ($item->getProductType() === \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE && $item->isChildrenCalculated()) {
+                    $children = $this->getChildItems($item);
+                    if (!empty($children)) {
+                        $discount = 0.00;
+                        $taxRate = 0;
+                        foreach ($children as $ch) {
+                            $discount += $ch->getDiscountAmount();
+                            $taxRate += $ch->getTaxPercent();
+                        }
+                        $taxRate = $taxRate / count($children);
+                    }
+                }
             }
 
             if (!isset($items[$sku])) {
                 $items[$sku]['ArticleNumber'] = $sku;
             }
-            if ((!isset($items[$sku]['Description']) || strlen($items[$sku]['Description']) < $item->getName())) {
-                $items[$sku]['Description'] = $item->getName();
-            }
+            $items[$sku]['Description'] = $item->getName();
             if (!isset($items[$sku]['UnitPriceGross']) || $items[$sku]['UnitPriceGross'] < $item->getPriceInclTax()) {
                 $calcTaxRate = $taxRate;
                 if (empty($calcTaxRate) && $item->getProductType() === \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
@@ -185,7 +184,7 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
 
             if (!isset($items[$sku]['Quantity'])) {
                 $items[$sku]['Quantity'] = $quantity;
-            } elseif (!$parentItem) {
+            } else {
                 $items[$sku]['Quantity'] += $quantity;
             }
 
@@ -242,12 +241,29 @@ class Items extends \Magento\Framework\App\Helper\AbstractHelper
     {
         // get average tax rate for bundle elements
         $taxRate = 0;
-        $children = $item->getChildrenItems();
+        $children = $this->getChildItems($item);
+        if (empty($children)) {
+            return $taxRate;
+        }
         foreach ($children as $ch) {
             $taxRate += $ch->getTaxPercent();
         }
         $taxRate = $taxRate / count($children);
         return $taxRate;
+    }
+
+    /**
+     * Returns the child items of a quote or order item
+     *
+     * @param \Magento\Quote\Model\Quote\Item\AbstractItem|\Magento\Sales\Model\Order\Item $item
+     * @return array
+     */
+    protected function getChildItems($item)
+    {
+        if ($item instanceof \Magento\Quote\Model\Quote\Item\AbstractItem) {
+            return $item->getChildren() ?? [];
+        }
+        return $item->getChildrenItems() ?? [];
     }
 
     /**

@@ -91,6 +91,8 @@ if ($b2bEnabled === true) {
             <p><?php echo $block->escapeHtml(__('The mandate reference and creditor identifier will be communicated to you separately.')); ?></p>
         </div>
     </details>
+    <input type="submit" name="Submit" style="display: none;">
+    <?php echo $block->fetchView($block->getTemplateFile('RatePAY_Payment::payment/secci.phtml')); ?>
     <div class="rpTerms">
         <?php echo __('ratepay_terms_block_moto_1'); ?> "<?php echo __('Submit Order'); ?>" <?php echo __('ratepay_terms_block_moto_2'); ?>
         <a target="_blank" href="<?php echo $block->escapeUrl($block->getLegalUrls()['termsOfPayment']); ?>"><?php echo __('ratepay_terms_block_moto_3'); ?></a>,
@@ -98,9 +100,7 @@ if ($b2bEnabled === true) {
         <?php echo __('ratepay_terms_block_moto_4'); ?>
         <a target="_blank" href="<?php echo $block->escapeUrl($block->getLegalUrls()['dataPrivacy']); ?>"><?php echo __('ratepay_terms_block_moto_5'); ?></a>
         <?php echo __('ratepay_terms_block_moto_6'); ?>
-    </div>
-    <input type="submit" name="Submit" style="display: none;">
-    <?php echo $block->fetchView($block->getTemplateFile('RatePAY_Payment::payment/secci.phtml')); ?>
+    </div><br>
 </fieldset>
 <?php
 /**

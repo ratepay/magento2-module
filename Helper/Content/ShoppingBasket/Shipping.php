@@ -43,22 +43,15 @@ class Shipping extends \Magento\Framework\App\Helper\AbstractHelper
             $quoteOrOrder = $quoteOrOrder->getOrder();
         }
 
-        $tax_items = $this->taxItem->getTaxItemsByOrderId($quoteOrOrder->getId());
-        if (is_array($tax_items)) { // only works when order already is created
-            foreach ($tax_items as $item) {
-                if ($item['taxable_item_type'] === 'shipping') {
-                    return $item['tax_percent'];
-                }
-            }
-        }
-
         if ($quoteOrOrder instanceof \Magento\Quote\Model\Quote) {
             $shippingAddress = $quoteOrOrder->getShippingAddress();
-            $shippingAddress->setCollectShippingRates(true);
-            $quoteOrOrder->collectTotals();
-
-            $appliedTaxes = $shippingAddress->getAppliedTaxes();
             $itemsAppliedTaxes = $shippingAddress->getItemsAppliedTaxes();
+            if (empty($itemsAppliedTaxes)) {
+                // The applied taxes are not persisted, they are only available after the totals were collected
+                $shippingAddress->setCollectShippingRates(true);
+                $quoteOrOrder->collectTotals();
+                $itemsAppliedTaxes = $shippingAddress->getItemsAppliedTaxes();
+            }
 
             if (!empty($itemsAppliedTaxes['shipping'])) {
                 $shippingTaxes = $itemsAppliedTaxes['shipping'];
@@ -68,6 +61,16 @@ class Shipping extends \Magento\Framework\App\Helper\AbstractHelper
                 }
             }
             return 0;
+        }
+
+        // Only called for orders - the quote id would match the tax items of an unrelated order with the same id
+        $tax_items = $this->taxItem->getTaxItemsByOrderId($quoteOrOrder->getId());
+        if (is_array($tax_items)) { // only works when order already is created
+            foreach ($tax_items as $item) {
+                if ($item['taxable_item_type'] === 'shipping') {
+                    return $item['tax_percent'];
+                }
+            }
         }
 
         $extensionAttribute = $quoteOrOrder->getExtensionAttributes();
