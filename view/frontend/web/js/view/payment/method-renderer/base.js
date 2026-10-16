@@ -81,6 +81,7 @@ define(
                 // The SECCI state is reset when the billing country changes
                 secciState.resetVersion.subscribe(function () {
                     this.secciV2DoneMethod('');
+                    this.secciV1MailFailed(false);
                 }, this);
 
                 // The payment methods are reloaded after the billing address was saved. If the SECCI state was reset
@@ -105,7 +106,8 @@ define(
                 });
             },
             handleSecciBehaviour: function (forceResend) {
-                var code = this.getCode();
+                var self = this,
+                    code = this.getCode();
 
                 // Send a new SECCI email whenever a Ratepay payment method is selected the current SECCI wasn't created for
                 // forceResend also sends it again if the cart changed since the SECCI was created for this payment method
@@ -115,7 +117,11 @@ define(
                     && secciV1PendingMethod !== code
                 ) {
                     secciV1PendingMethod = code;
-                    this.sendSecciByEmail().always(function () {
+                    this.sendSecciByEmail().done(function () {
+                        self.secciV1MailFailed(false);
+                    }).fail(function () {
+                        self.secciV1MailFailed(true);
+                    }).always(function () {
                         // Allows a new attempt on the next payment method selection if the request failed
                         if (secciV1PendingMethod === code) {
                             secciV1PendingMethod = null;

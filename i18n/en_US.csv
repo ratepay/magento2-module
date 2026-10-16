@@ -81,6 +81,13 @@ ratepay_terms_block_sepa,"including the SEPA Direct Debit mandate",module,RatePA
 ratepay_terms_block_4, "and to a" ,module,RatePAY_Payment
 ratepay_terms_block_5, "risk check performed by Ratepay" ,module,RatePAY_Payment
 ratepay_terms_block_6, "." ,module,RatePAY_Payment
+ratepay_terms_block_moto_1, "By clicking" ,module,RatePAY_Payment
+ratepay_terms_block_moto_2, "you confirm the customer has agreed to the" ,module,RatePAY_Payment
+ratepay_terms_block_moto_3, "Ratepay Terms of Payment" ,module,RatePAY_Payment
+ratepay_terms_block_moto_sepa,"including the SEPA Direct Debit mandate",module,RatePAY_Payment
+ratepay_terms_block_moto_4, "and to a" ,module,RatePAY_Payment
+ratepay_terms_block_moto_5, "risk check performed by Ratepay" ,module,RatePAY_Payment
+ratepay_terms_block_moto_6, "." ,module,RatePAY_Payment
 "Maximum Oder Total","Maximum order total",module,RatePAY_Payment
 "Nur SEPA/IBAN Kontodaten","SEPA/IBAN account info only",module,RatePAY_Payment
 "rp_calculation_intro_part1","In the following you will be able to decide, how you want to shape your instalment payment. You can comfortable declare the amount of instalments and therefore ",module,RatePAY_Payment

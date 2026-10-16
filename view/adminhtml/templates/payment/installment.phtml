@@ -65,14 +65,6 @@ $currency = $block->ratepayGetCurrentCurrencyCode();
             <input type="hidden" id="<?php echo $code; ?>_company" name="payment[rp_company]" value="<?php echo $block->getInfoData('rp_company'); ?>">
         </div>
     </div>
-    <div>
-        <?php echo __('ratepay_terms_block_1'); ?> "<?php echo __('Submit Order'); ?>" <?php echo __('ratepay_terms_block_2'); ?>
-        <a target="_blank" href="<?php echo $block->escapeUrl($block->getLegalUrls()['termsOfPayment']); ?>"><?php echo __('ratepay_terms_block_3'); ?></a>
-        <span id="<?php echo $code; ?>_terms_block_sepa" <?php echo $block->getPaymentFirstday() == "2" ? '' : 'style="display:none;"'; ?>>, <?php echo __('ratepay_terms_block_sepa'); ?></span>,
-        <?php echo __('ratepay_terms_block_4'); ?>
-        <a target="_blank" href="<?php echo $block->escapeUrl($block->getLegalUrls()['dataPrivacy']); ?>"><?php echo __('ratepay_terms_block_5'); ?></a>
-        <?php echo __('ratepay_terms_block_6'); ?>
-    </div><br>
     <div class="rpContainer">
         <?php if ($block->hasAllowedMonths()): ?>
             <div class="admin__field">
@@ -197,6 +189,14 @@ $currency = $block->ratepayGetCurrentCurrencyCode();
         });";
         echo $block->getScriptHelper()->insertScript($scriptString);
         ?>
+    </div>
+    <div class="rpTerms">
+        <?php echo __('ratepay_terms_block_moto_1'); ?> "<?php echo __('Submit Order'); ?>" <?php echo __('ratepay_terms_block_moto_2'); ?>
+        <a target="_blank" href="<?php echo $block->escapeUrl($block->getLegalUrls()['termsOfPayment']); ?>"><?php echo __('ratepay_terms_block_moto_3'); ?></a>
+        <span id="<?php echo $code; ?>_terms_block_sepa" <?php echo $block->getPaymentFirstday() == "2" ? '' : 'style="display:none;"'; ?>>, <?php echo __('ratepay_terms_block_moto_sepa'); ?>,</span>
+        <?php echo __('ratepay_terms_block_moto_4'); ?>
+        <a target="_blank" href="<?php echo $block->escapeUrl($block->getLegalUrls()['dataPrivacy']); ?>"><?php echo __('ratepay_terms_block_moto_5'); ?></a>
+        <?php echo __('ratepay_terms_block_moto_6'); ?>
     </div>
     <input type="hidden" id="<?php echo $code; ?>_directdebit" name="payment[rp_directdebit]" value="1">
     <input type="submit" name="Submit" style="display: none;">

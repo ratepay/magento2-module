@@ -19,6 +19,10 @@ define([
             this._super();
 
             this.customerEmail = ko.pureComputed(function () {
+                // quote.guestEmail is not observable - depend on step visibility so the
+                // email is re-read when returning to the payment step after editing it
+                this.isPaymentStepActive();
+
                 if (quote.guestEmail) {
                     return quote.guestEmail;
                 }
@@ -27,7 +31,7 @@ define([
                     return window.checkoutConfig.customerData.email;
                 }
                 return '';
-            });
+            }, this);
 
             // SECCI is disabled in B2B context (company set in billing address), see base.js isSecciEnabled
             this.isCompanySet = ko.pureComputed(function () {

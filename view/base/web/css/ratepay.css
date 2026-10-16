@@ -431,6 +431,10 @@ div.ratepay-ContentSwitch {
 
 .ratepay-profile-config tr:hover {background-color: #ddd;}
 
+.rpTerms {
+    margin-top: 2rem;
+}
+
 #ratepay_version_number {
     display: none;
     margin-top: 1em;
@@ -458,6 +462,11 @@ div.ratepay-ContentSwitch {
     border: 1px solid #d9def5;
     border-radius: 6px;
 }
+.rp-ccd2-panel.rp-ccd2-panel-error {
+    background: #fdf0f0;
+    border-color: #f1c9c9;
+}
+.rp-ccd2-error-icon { color: #c0392b; }
 .rp-ccd2-email-edit-row { margin-top: 10px; max-width: 420px; }
 .rp-ccd2-more { margin-bottom: 0; }
 .rp-ccd2-more .rp-icon { margin-left: 4px; margin-right: 0; }

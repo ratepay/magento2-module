@@ -94,6 +94,13 @@ ratepay_terms_block_sepa,"einschließlich der Erteilung des SEPA-Lastschriftmand
 ratepay_terms_block_4, "sowie mit der Durchführung einer" ,module,RatePAY_Payment
 ratepay_terms_block_5, "Risikoprüfung durch Ratepay" ,module,RatePAY_Payment
 ratepay_terms_block_6, "einverstanden." ,module,RatePAY_Payment
+ratepay_terms_block_moto_1, "Mit Klicken auf" ,module,RatePAY_Payment
+ratepay_terms_block_moto_2, "bestätigen Sie, dass der Kunde mit den" ,module,RatePAY_Payment
+ratepay_terms_block_moto_3, "Ratepay Zahlungsbedingungen" ,module,RatePAY_Payment
+ratepay_terms_block_moto_sepa,"einschließlich der Erteilung des SEPA-Lastschriftmandats",module,RatePAY_Payment
+ratepay_terms_block_moto_4, "sowie mit der Durchführung einer" ,module,RatePAY_Payment
+ratepay_terms_block_moto_5, "Risikoprüfung durch Ratepay" ,module,RatePAY_Payment
+ratepay_terms_block_moto_6, "einverstanden ist." ,module,RatePAY_Payment
 "Maximum Oder Total","Maximum order total",module,RatePAY_Payment
 "Nur SEPA/IBAN Kontodaten","Nur SEPA/IBAN Kontodaten",module,RatePAY_Payment
 "rp_calculation_intro_part1","Im Folgenden können Sie entscheiden, wie Sie die Ratenzahlung gestalten möchten. Legen Sie bequem die Anzahl der Raten und somit ",module,RatePAY_Payment
@@ -215,6 +222,8 @@ ratepay_terms_block_6, "einverstanden." ,module,RatePAY_Payment
 "Get by email","Per E-Mail erhalten",module,RatePAY_Payment
 "Sent by email","Per E-Mail gesendet",module,RatePAY_Payment
 "We've sent the required Standard European Consumer Credit Information to %1.","Wir haben die erforderlichen Europäischen Standardinformationen für Verbraucherkredite an %1 gesendet.",module,RatePAY_Payment
+"Email could not be sent","E-Mail konnte nicht gesendet werden",module,RatePAY_Payment
+"The Standard European Consumer Credit Information could not be sent to %1. Please download the PDF version instead.","Die Europäischen Standardinformationen für Verbraucherkredite konnten nicht an %1 gesendet werden. Bitte laden Sie stattdessen die PDF-Version herunter.",module,RatePAY_Payment
 "Download PDF","PDF herunterladen",module,RatePAY_Payment
 "Download PDF version","PDF-Version herunterladen",module,RatePAY_Payment
 "Your Standard EU Consumer Credit Information was sent to %1.","Ihre EU-Standardinformationen für Verbraucherkredite wurden an %1 gesendet.",module,RatePAY_Payment

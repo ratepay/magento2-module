@@ -1,9 +1,19 @@
 <!-- ko if: isSecciV1Visible() || isSecciV2Visible() || isSecciV2DoneVisible() -->
 <div class="vendor-payment-info">
-    <div class="panel rp-ccd2-panel">
+    <div class="panel rp-ccd2-panel" data-bind="css: {'rp-ccd2-panel-error': isSecciV1Visible() && secciV1MailFailed()}">
         <!-- ko if: isSecciV1Visible() -->
         <div class="panel-body">
             <h4 class="rp-ccd2-heading">
+                <!-- ko if: secciV1MailFailed() -->
+                <span class="rp-icon rp-ccd2-info-icon rp-ccd2-error-icon" aria-hidden="true">
+                    <svg viewBox="0 0 16 16" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.3">
+                        <circle cx="8" cy="8" r="7"/>
+                        <line x1="8" y1="4.5" x2="8" y2="8.8"/>
+                        <circle cx="8" cy="11.4" r="0.9" fill="currentColor" stroke="none"/>
+                    </svg>
+                </span>
+                <!-- /ko -->
+                <!-- ko ifnot: secciV1MailFailed() -->
                 <span class="rp-icon rp-ccd2-info-icon" aria-hidden="true">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18" viewBox="0 0 24 24">
                         <defs>
@@ -12,7 +22,8 @@
                         <use xlink:href="#icons-default-checkmark-circle" fill="#758CA3" fill-rule="evenodd"></use>
                     </svg>
                 </span>
-                <!-- ko i18n: 'Sent by email'--><!-- /ko -->
+                <!-- /ko -->
+                <span data-bind="text: getV1Heading()"></span>
             </h4>
             <p data-bind="text: getV1MailSentMessage()"></p>
             <a href="#" class="rp-ccd2-pdf-link" data-bind="click: getByPdf">
