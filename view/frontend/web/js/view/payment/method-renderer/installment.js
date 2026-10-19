@@ -142,6 +142,7 @@ define(
                 $('#ratepay_rate_sepa_block_' + this.getCode()).hide();
                 $('#' + this.getCode() + '_terms_block_sepa').hide();
                 this.useDirectDebit = false;
+                this.handleSecciDebitPayTypeChange();
             },
             showDirectDebit: function () {
                 $('#' + this.getCode() + '_sepa_use_banktransfer').show();
@@ -149,6 +150,18 @@ define(
                 $('#ratepay_rate_sepa_block_' + this.getCode()).show();
                 $('#' + this.getCode() + '_terms_block_sepa').show();
                 this.useDirectDebit = true;
+                this.handleSecciDebitPayTypeChange();
+            },
+            handleSecciDebitPayTypeChange: function () {
+                // The SECCI depends on the debit pay type, so a new SECCI email (variant 1) is sent after switching
+                if (this.isChecked() === this.getCode()) {
+                    this.handleSecciBehaviour();
+                }
+            },
+            getSecciParams: function () {
+                return {
+                    useDirectDebit: this.useDirectDebit === true
+                };
             },
             getData: function() {
                 var parentReturn = this._super();

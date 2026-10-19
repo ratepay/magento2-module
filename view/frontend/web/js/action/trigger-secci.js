@@ -16,7 +16,7 @@ define([
     'RatePAY_Payment/js/model/secci-state'
 ], function ($, urlBuilder, storage, customer, quote, secciState) {
     'use strict';
-    return function (method) {
+    return function (method, params) {
         var serviceUrl;
         var deferred = $.Deferred();
         var paymentMethod = quote.paymentMethod();
@@ -25,7 +25,9 @@ define([
             method: method,
             paymentMethod: paymentMethod ? paymentMethod.method : ''
         };
-        var secciCartState = secciState.capture(request.paymentMethod);
+        // Additional params of the payment method, e.g. useDirectDebit for installments
+        $.extend(request, params || {});
+        var secciCartState = secciState.capture(request.paymentMethod, params);
         if (!customer.isLoggedIn()) {
             // The guest email may not be saved in the quote yet, because set-payment-information runs in parallel
             if (quote.guestEmail) {

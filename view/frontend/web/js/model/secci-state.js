@@ -45,7 +45,12 @@ define(['ko', 'Magento_Checkout/js/model/quote'], function (ko, quote) {
         return totals ? totals.grand_total : null;
     }
 
-    function getCurrentState(paymentMethod) {
+    // Additional SECCI request params of the payment method, e.g. useDirectDebit for installments
+    function serializeParams(params) {
+        return JSON.stringify(params || {});
+    }
+
+    function getCurrentState(paymentMethod, params) {
         var totals = quote.totals(),
             grandTotal = getGrandTotal(totals);
 
@@ -53,6 +58,7 @@ define(['ko', 'Magento_Checkout/js/model/quote'], function (ko, quote) {
             grandTotal: grandTotal !== null && grandTotal !== undefined ? Math.round(parseFloat(grandTotal) * 100) : null,
             currency: totals ? totals.quote_currency_code : null,
             paymentMethod: paymentMethod || null,
+            params: serializeParams(params),
             billingCountry: getBillingCountry()
         };
     }
@@ -62,8 +68,8 @@ define(['ko', 'Magento_Checkout/js/model/quote'], function (ko, quote) {
         resetVersion: resetVersion,
 
         // Returns the current cart state, to be committed once the SECCI was created successfully
-        capture: function (paymentMethod) {
-            return getCurrentState(paymentMethod);
+        capture: function (paymentMethod, params) {
+            return getCurrentState(paymentMethod, params);
         },
 
         commit: function (state) {
@@ -74,20 +80,23 @@ define(['ko', 'Magento_Checkout/js/model/quote'], function (ko, quote) {
             return snapshot !== null;
         },
 
-        // Checks if the SECCI was created for the given payment method, regardless of later cart changes
-        isCreatedFor: function (paymentMethod) {
-            return snapshot !== null && snapshot.paymentMethod === paymentMethod;
+        // Checks if the SECCI was created for the given payment method and params, regardless of later cart changes
+        isCreatedFor: function (paymentMethod, params) {
+            return snapshot !== null
+                && snapshot.paymentMethod === paymentMethod
+                && snapshot.params === serializeParams(params);
         },
 
         // Checks if the current cart state still matches the state at the time of the SECCI creation
-        isValidFor: function (paymentMethod) {
-            var current = getCurrentState(paymentMethod);
+        isValidFor: function (paymentMethod, params) {
+            var current = getCurrentState(paymentMethod, params);
 
             return snapshot !== null
                 && snapshot.grandTotal !== null
                 && snapshot.grandTotal === current.grandTotal
                 && snapshot.currency === current.currency
                 && snapshot.paymentMethod === current.paymentMethod
+                && snapshot.params === current.params
                 && snapshot.billingCountry === current.billingCountry;
         }
     };

@@ -16,6 +16,11 @@ use RatePAY\Payment\Helper\Secci as SecciHelper;
 class Secci implements SecciInterface
 {
     /**
+     * Payment methods using the useDirectDebit param
+     */
+    const INSTALLMENT_METHODS = ['ratepay_installment', 'ratepay_installment0'];
+
+    /**
      * @var CartRepositoryInterface
      */
     protected $cartRepository;
@@ -77,9 +82,10 @@ class Secci implements SecciInterface
      * @param string $cartId
      * @param string $method
      * @param string $paymentMethod
+     * @param bool $useDirectDebit Only used for installments, settlement by direct debit or bank transfer
      * @return \RatePAY\Payment\Service\V1\Data\SecciResponse
      */
-    public function triggerSecci($cartId, $method, $paymentMethod)
+    public function triggerSecci($cartId, $method, $paymentMethod, $useDirectDebit = null)
     {
         $quote = $this->cartRepository->getActive((int)$cartId);
 
@@ -87,7 +93,7 @@ class Secci implements SecciInterface
             throw new AuthorizationException(__('Not allowed.'));
         }
 
-        return $this->process($quote, (string)$method, (string)$paymentMethod);
+        return $this->process($quote, (string)$method, (string)$paymentMethod, null, $useDirectDebit);
     }
 
     /**
@@ -97,9 +103,10 @@ class Secci implements SecciInterface
      * @param string $method
      * @param string $paymentMethod
      * @param string $email Guest email, the guest email isn't reliably saved in the quote yet
+     * @param bool $useDirectDebit Only used for installments, settlement by direct debit or bank transfer
      * @return \RatePAY\Payment\Service\V1\Data\SecciResponse
      */
-    public function triggerGuestSecci($cartId, $method, $paymentMethod, $email = null)
+    public function triggerGuestSecci($cartId, $method, $paymentMethod, $email = null, $useDirectDebit = null)
     {
         try {
             $quoteId = $this->maskedQuoteIdToQuoteId->execute((string)$cartId);
@@ -118,13 +125,19 @@ class Secci implements SecciInterface
             $email = null;
         }
 
-        return $this->process($quote, (string)$method, (string)$paymentMethod, !empty($email) ? (string)$email : null);
+        return $this->process($quote, (string)$method, (string)$paymentMethod, !empty($email) ? (string)$email : null, $useDirectDebit);
     }
 
-    private function process(CartInterface $quote, string $deliveryMethod, string $paymentMethod, ?string $email = null)
+    private function process(CartInterface $quote, string $deliveryMethod, string $paymentMethod, ?string $email = null, $useDirectDebit = null)
     {
         if (empty($paymentMethod)) {
             $paymentMethod = !empty($quote->getPayment()->getMethod()) ? $quote->getPayment()->getMethod() : null;
+        }
+
+        // The DebitPayType of the SECCI request is taken from the payment, see Helper\Content\Payment\Payment::setPayment()
+        // The payment isn't saved here, the value is assigned again with the payment data when the order is placed
+        if ($useDirectDebit !== null && in_array($paymentMethod, self::INSTALLMENT_METHODS)) {
+            $quote->getPayment()->setAdditionalInformation('rp_directdebit', filter_var($useDirectDebit, FILTER_VALIDATE_BOOLEAN));
         }
 
         $response = $this->responseFactory->create();

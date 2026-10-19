@@ -94,11 +94,15 @@ define(
 
                 return parentReturn;
             },
+            // Additional params sent with the SECCI request, the SECCI has to be created again if they change
+            getSecciParams: function () {
+                return {};
+            },
             sendSecciByEmail: function () {
-                return triggerSecci('email').fail(this.showSecciError.bind(this));
+                return triggerSecci('email', this.getSecciParams()).fail(this.showSecciError.bind(this));
             },
             getSecciByPdf: function () {
-                return triggerSecci('pdf').fail(this.showSecciError.bind(this));
+                return triggerSecci('pdf', this.getSecciParams()).fail(this.showSecciError.bind(this));
             },
             showSecciError: function (errorMessage) {
                 this.messageContainer.addErrorMessage({
@@ -113,7 +117,7 @@ define(
                 // forceResend also sends it again if the cart changed since the SECCI was created for this payment method
                 if (this.isSecciEnabled() === true
                     && window.checkoutConfig?.payment?.ratepay?.triggerSecciOnMethodSelect === true
-                    && (forceResend === true || secciState.isCreatedFor(code) === false)
+                    && (forceResend === true || secciState.isCreatedFor(code, this.getSecciParams()) === false)
                     && secciV1PendingMethod !== code
                 ) {
                     secciV1PendingMethod = code;
@@ -149,10 +153,10 @@ define(
                     return blParentReturn;
                 }
 
-                if (this.isSecciV1Active() === true && secciState.isValidFor(this.getCode()) === false) {
+                if (this.isSecciV1Active() === true && secciState.isValidFor(this.getCode(), this.getSecciParams()) === false) {
                     if (secciV1PendingMethod === this.getCode()) {
                         this.messageContainer.addErrorMessage({'message': $t('The SECCI is currently being sent to your email address. Please try again in a moment.')});
-                    } else if (secciState.isCreatedFor(this.getCode()) === false) {
+                    } else if (secciState.isCreatedFor(this.getCode(), this.getSecciParams()) === false) {
                         this.messageContainer.addErrorMessage({'message': $t('The SECCI could not be sent to your email address yet. It is being sent again now. Please try again in a moment.')});
                     } else {
                         this.messageContainer.addErrorMessage({'message': $t('Your cart has changed since the SECCI was sent. The SECCI is being sent to your email address again. Please try again in a moment.')});
@@ -166,7 +170,7 @@ define(
                         this.messageContainer.addErrorMessage({'message': $t('Please download or request the SECCI document by email before completing your purchase.')});
                         return false;
                     }
-                    if (secciState.isValidFor(this.getCode()) === false) {
+                    if (secciState.isValidFor(this.getCode(), this.getSecciParams()) === false) {
                         this.messageContainer.addErrorMessage({'message': $t('Your cart has changed since the SECCI was created. Please request the SECCI again.')});
                         return false;
                     }
