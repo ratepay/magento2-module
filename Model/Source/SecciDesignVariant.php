@@ -23,11 +23,11 @@ class SecciDesignVariant implements ArrayInterface
         return [
             [
                 'value' => 1,
-                'label' => __('Variant 1 - Email on payment method selection'),
+                'label' => __('Automatic email delivery'),
             ],
             [
                 'value' => 2,
-                'label' => __('Variant 2 - Customer chooses email or PDF after payment method selection'),
+                'label' => __('Explicit SECCI interaction'),
             ],
         ];
     }

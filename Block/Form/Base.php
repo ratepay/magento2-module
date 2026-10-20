@@ -216,6 +216,16 @@ class Base extends \Magento\Payment\Block\Form
     }
 
     /**
+     * Returns the debit pay type of the SECCI already sent for the current cart state, only used for installments
+     *
+     * @return bool|null
+     */
+    public function getSecciSentDirectDebit()
+    {
+        return $this->backendSecciState->getSentDirectDebit($this->getCreateOrderModel()->getQuote(), $this->getMethodCode());
+    }
+
+    /**
      * Returns the email address to prefill the SECCI recipient with
      *
      * @return string

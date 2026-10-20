@@ -19,6 +19,11 @@ class Send extends \Magento\Backend\App\Action implements HttpPostActionInterfac
     const ADMIN_RESOURCE = 'Magento_Sales::create';
 
     /**
+     * Payment methods using the useDirectDebit param
+     */
+    const INSTALLMENT_METHODS = ['ratepay_installment_backend', 'ratepay_installment0_backend'];
+
+    /**
      * @var \Magento\Framework\Controller\Result\JsonFactory
      */
     protected $resultJsonFactory;
@@ -91,6 +96,26 @@ class Send extends \Magento\Backend\App\Action implements HttpPostActionInterfac
     }
 
     /**
+     * The DebitPayType of the SECCI request is taken from the payment, see Helper\Content\Payment\Payment::setPayment()
+     * The payment isn't saved here, the value is assigned again with the payment data when the order is placed
+     *
+     * @param  \Magento\Quote\Model\Quote $oQuote
+     * @param  string                     $sPaymentMethod
+     * @return bool|null
+     */
+    protected function handleDirectDebitParam($oQuote, $sPaymentMethod)
+    {
+        $sUseDirectDebit = $this->getRequest()->getParam('useDirectDebit');
+        if ($sUseDirectDebit === null || !in_array($sPaymentMethod, self::INSTALLMENT_METHODS)) {
+            return null;
+        }
+
+        $blUseDirectDebit = filter_var($sUseDirectDebit, FILTER_VALIDATE_BOOLEAN);
+        $oQuote->getPayment()->setAdditionalInformation('rp_directdebit', $blUseDirectDebit);
+        return $blUseDirectDebit;
+    }
+
+    /**
      * Sends the SECCI for the current backend order quote by email
      *
      * @return \Magento\Framework\Controller\Result\Json
@@ -128,6 +153,7 @@ class Send extends \Magento\Backend\App\Action implements HttpPostActionInterfac
 
             try {
                 $this->handleInstallmentParams($sPaymentMethod);
+                $blUseDirectDebit = $this->handleDirectDebitParam($oQuote, $sPaymentMethod);
 
                 $oSecciRequest = $this->secciHelper->sendSecciRequest(
                     $oQuote,
@@ -137,7 +163,7 @@ class Send extends \Magento\Backend\App\Action implements HttpPostActionInterfac
                 );
 
                 if ($oSecciRequest->isSuccessful() === true) {
-                    $this->backendSecciState->commit($oQuote, $sPaymentMethod, $sEmail, $oSecciRequest->getDocumentId());
+                    $this->backendSecciState->commit($oQuote, $sPaymentMethod, $sEmail, $oSecciRequest->getDocumentId(), $blUseDirectDebit);
                     $aData['success'] = true;
                     $aData['documentId'] = $oSecciRequest->getDocumentId();
                 } else {

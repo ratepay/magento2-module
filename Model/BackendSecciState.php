@@ -63,13 +63,15 @@ class BackendSecciState
      * @param  string        $paymentMethod
      * @param  string        $email
      * @param  string|null   $documentId
+     * @param  bool|null     $directDebit Only used for installments, settlement by direct debit or bank transfer
      * @return void
      */
-    public function commit(CartInterface $quote, $paymentMethod, $email, $documentId = null)
+    public function commit(CartInterface $quote, $paymentMethod, $email, $documentId = null, $directDebit = null)
     {
         $state = $this->getCurrentState($quote, $paymentMethod);
         $state['email'] = $email;
         $state['documentId'] = $documentId;
+        $state['directDebit'] = $directDebit === null ? null : (bool)$directDebit;
 
         $this->backendCheckoutSession->setData(self::SESSION_KEY, $state);
     }
@@ -79,16 +81,23 @@ class BackendSecciState
      *
      * @param  CartInterface|\Magento\Sales\Model\Order $quoteOrOrder
      * @param  string                                   $paymentMethod
+     * @param  bool|null                                $directDebit Debit pay type of installments, not checked if null
      * @return bool
      */
-    public function isValidFor($quoteOrOrder, $paymentMethod)
+    public function isValidFor($quoteOrOrder, $paymentMethod, $directDebit = null)
     {
         $state = $this->backendCheckoutSession->getData(self::SESSION_KEY);
         if (!is_array($state)) {
             return false;
         }
 
-        unset($state['email'], $state['documentId']);
+        // The SECCI depends on the debit pay type, so it has to be sent again after switching between direct debit and bank transfer
+        $sentDirectDebit = $state['directDebit'] ?? null;
+        if ($directDebit !== null && $sentDirectDebit !== null && (bool)$directDebit !== $sentDirectDebit) {
+            return false;
+        }
+
+        unset($state['email'], $state['documentId'], $state['directDebit']);
         return $state === $this->getCurrentState($quoteOrOrder, $paymentMethod);
     }
 
@@ -120,6 +129,21 @@ class BackendSecciState
             return null;
         }
         return $this->backendCheckoutSession->getData(self::SESSION_KEY)['documentId'] ?? null;
+    }
+
+    /**
+     * Returns the debit pay type of the sent SECCI if the SECCI is still valid for the given cart state
+     *
+     * @param  CartInterface $quote
+     * @param  string        $paymentMethod
+     * @return bool|null
+     */
+    public function getSentDirectDebit(CartInterface $quote, $paymentMethod)
+    {
+        if ($this->isValidFor($quote, $paymentMethod) === false) {
+            return null;
+        }
+        return $this->backendCheckoutSession->getData(self::SESSION_KEY)['directDebit'] ?? null;
     }
 
     /**

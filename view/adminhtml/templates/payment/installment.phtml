@@ -190,7 +190,7 @@ $currency = $block->ratepayGetCurrentCurrencyCode();
         echo $block->getScriptHelper()->insertScript($scriptString);
         ?>
     </div>
-    <input type="hidden" id="<?php echo $code; ?>_directdebit" name="payment[rp_directdebit]" value="1">
+    <input type="hidden" id="<?php echo $code; ?>_directdebit" name="payment[rp_directdebit]" value="<?php echo $block->getPaymentFirstday() == "28" ? '0' : '1'; ?>">
     <input type="submit" name="Submit" style="display: none;">
     <?php echo $block->fetchView($block->getTemplateFile('RatePAY_Payment::payment/secci.phtml')); ?>
     <div class="rpTerms">
