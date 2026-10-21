@@ -66,6 +66,9 @@ define(['jquery', 'mage/translate'], function ($, $t) {
                 dataType: 'json',
                 data: $.param(data)
             }).done(function (response) {
+                // Only one SECCI is stored in the admin session, it is replaced on success and cleared on failure,
+                // so the done block of all other payment methods is reset
+                $(document).trigger('ratepaySecciSent', [config.code]);
                 if (response.success === true) {
                     showDone(email, response.documentId, directDebit);
                 } else {
@@ -96,6 +99,12 @@ define(['jquery', 'mage/translate'], function ($, $t) {
         }
         directDebitInput.off('change.ratepaySecci').on('change.ratepaySecci', function () {
             if (isSentForCurrentDebitPayType() === false) {
+                showForm();
+            }
+        });
+
+        $(document).off('ratepaySecciSent.' + config.code).on('ratepaySecciSent.' + config.code, function (event, sentCode) {
+            if (sentCode !== config.code) {
                 showForm();
             }
         });

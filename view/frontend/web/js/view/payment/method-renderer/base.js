@@ -84,6 +84,14 @@ define(
                     this.secciV1MailFailed(false);
                 }, this);
 
+                // Only one SECCI is valid at a time, so the done block (variant 2) of all other payment methods is reset
+                // when a SECCI is created for another payment method or other params
+                secciState.commitVersion.subscribe(function () {
+                    if (this.secciV2DoneMethod() !== '' && secciState.isCreatedFor(this.getCode(), this.getSecciParams()) === false) {
+                        this.secciV2DoneMethod('');
+                    }
+                }, this);
+
                 // The payment methods are reloaded after the billing address was saved. If the SECCI state was reset
                 // in the meantime, the SECCI email (variant 1) is sent again for the currently selected payment method
                 methodList.subscribe(function () {

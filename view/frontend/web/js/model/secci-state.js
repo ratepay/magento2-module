@@ -9,7 +9,8 @@ define(['ko', 'Magento_Checkout/js/model/quote'], function (ko, quote) {
     'use strict';
 
     var snapshot = null,
-        resetVersion = ko.observable(0);
+        resetVersion = ko.observable(0),
+        commitVersion = ko.observable(0);
 
     function getBillingCountry() {
         var billingAddress = quote.billingAddress();
@@ -67,6 +68,9 @@ define(['ko', 'Magento_Checkout/js/model/quote'], function (ko, quote) {
         // Incremented every time the SECCI state is reset, e.g. because the billing country changed
         resetVersion: resetVersion,
 
+        // Incremented every time a new SECCI was created, which replaces the SECCI of the previous payment method
+        commitVersion: commitVersion,
+
         // Returns the current cart state, to be committed once the SECCI was created successfully
         capture: function (paymentMethod, params) {
             return getCurrentState(paymentMethod, params);
@@ -74,6 +78,7 @@ define(['ko', 'Magento_Checkout/js/model/quote'], function (ko, quote) {
 
         commit: function (state) {
             snapshot = state;
+            commitVersion(commitVersion() + 1);
         },
 
         isCreated: function () {

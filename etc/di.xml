@@ -147,6 +147,7 @@
     <type name="RatePAY\Payment\Helper\Secci">
         <arguments>
             <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
+            <argument name="installmentPlan" xsi:type="object">RatePAY\Payment\Service\V1\InstallmentPlan\Proxy</argument>
         </arguments>
     </type>
 
