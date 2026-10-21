@@ -154,6 +154,8 @@ define(
             },
             handleSecciDebitPayTypeChange: function () {
                 // The SECCI depends on the debit pay type, so a new SECCI email (variant 1) is sent after switching
+                // and the selection (variant 2) is shown again to request a new SECCI
+                this.resetInvalidSecciV2Done();
                 if (this.isChecked() === this.getCode()) {
                     this.handleSecciBehaviour();
                 }
