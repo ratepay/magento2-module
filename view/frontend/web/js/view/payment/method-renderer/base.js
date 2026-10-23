@@ -20,9 +20,10 @@ define(
         'RatePAY_Payment/js/model/config-state',
         'RatePAY_Payment/js/model/secci-state',
         'RatePAY_Payment/js/view/payment/secci-inmethod-info-block-mixin',
+        'RatePAY_Payment/js/model/profile-country',
         'mage/translate'
     ],
-    function (Component, $, quote, customer, urlBuilder, checkoutData, methodList, updateCheckoutConfig, markDfpAsSent, triggerSecci, configState, secciState, secciInmethodMixin, $t) {
+    function (Component, $, quote, customer, urlBuilder, checkoutData, methodList, updateCheckoutConfig, markDfpAsSent, triggerSecci, configState, secciState, secciInmethodMixin, profileCountry, $t) {
         'use strict';
 
         // Payment method for which a SECCI email (variant 1) is currently being requested
@@ -272,22 +273,9 @@ define(
 
                 var config = this.getPaymentConfig();
                 if (config) {
-                    return config.secciActive === true && this.isAddressCountryAllowed(config) === true;
+                    return config.secciActive === true && profileCountry.isAddressCountryAllowed(config) === true;
                 }
                 return false;
-            },
-            // Checks the billing and delivery country against the countries of the matching profile, like ProfileConfiguration::isProfileMatching
-            // Reads the quote address observables, so the SECCI blocks are updated when the address is changed in the checkout
-            isAddressCountryAllowed: function (config) {
-                var isCountryInList = function (address, countries) {
-                    if (!address || !address.countryId || countries === undefined || countries === null) {
-                        return true;
-                    }
-                    return String(countries).split(',').indexOf(address.countryId) !== -1;
-                };
-
-                return isCountryInList(quote.billingAddress(), config.countriesBilling)
-                    && (quote.isVirtual() || isCountryInList(quote.shippingAddress(), config.countriesDelivery));
             },
             getLegalUrl: function (type) {
                 // Fallback to the english URLs if the config isn't available

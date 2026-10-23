@@ -6,8 +6,9 @@ define([
     'Magento_Checkout/js/model/payment/method-list',
     'Magento_Checkout/js/model/step-navigator',
     'RatePAY_Payment/js/model/config-state',
+    'RatePAY_Payment/js/model/profile-country',
     'mage/translate'
-], function (Component, $, ko, quote, methodList, stepNavigator, configState, $t) {
+], function (Component, $, ko, quote, methodList, stepNavigator, configState, profileCountry, $t) {
     'use strict';
 
     return Component.extend({
@@ -44,14 +45,19 @@ define([
                 var methods = methodList();
                 configState.version();
                 var isCompanySet = this.isCompanySet();
+                quote.shippingAddress();
 
                 if (isCompanySet) {
                     return [];
                 }
 
+                // Same check as base.js isSecciEnabled, including the countries of the matching profile
                 return methods.filter(function (item) {
+                    var config = window.checkoutConfig?.payment?.[item.method];
+
                     return item.method.indexOf('ratepay_') === 0
-                        && window.checkoutConfig?.payment?.[item.method]?.secciActive === true;
+                        && config?.secciActive === true
+                        && profileCountry.isAddressCountryAllowed(config) === true;
                 });
             }, this);
 
