@@ -14,22 +14,22 @@ use Magento\Framework\App\Helper\Context;
 class AttestationToken extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
-     * @var \Magento\Checkout\Model\Session
+     * @var \RatePAY\Payment\Model\SecciAttestationState
      */
-    protected $checkoutSession;
+    protected $secciAttestationState;
 
     /**
      * External constructor.
      *
      * @param Context $context
-     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \RatePAY\Payment\Model\SecciAttestationState $secciAttestationState
      */
     public function __construct(
         Context $context,
-        \Magento\Checkout\Model\Session $checkoutSession
+        \RatePAY\Payment\Model\SecciAttestationState $secciAttestationState
     ) {
         parent::__construct($context);
-        $this->checkoutSession = $checkoutSession;
+        $this->secciAttestationState = $secciAttestationState;
     }
 
     /**
@@ -41,7 +41,7 @@ class AttestationToken extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function setHeadAttestationToken($quoteOrOrder, $headModel)
     {
-        $token = $this->checkoutSession->getRatepayAttestationToken();
+        $token = $this->secciAttestationState->getToken();
 
         if (!empty($token)) {
             $headModel->setArray([

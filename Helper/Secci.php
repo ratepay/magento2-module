@@ -56,6 +56,11 @@ class Secci extends \Magento\Framework\App\Helper\AbstractHelper
     protected $paymentHelper;
 
     /**
+     * @var \RatePAY\Payment\Model\SecciAttestationState
+     */
+    protected $secciAttestationState;
+
+    /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \RatePAY\Payment\Controller\LibraryController $libraryController
      * @param \RatePAY\Payment\Model\LibraryModel $libraryModel
@@ -64,6 +69,7 @@ class Secci extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \RatePAY\Payment\Service\V1\InstallmentPlan $installmentPlan
      * @param \Magento\Payment\Helper\Data $paymentHelper
+     * @param \RatePAY\Payment\Model\SecciAttestationState $secciAttestationState
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -73,7 +79,8 @@ class Secci extends \Magento\Framework\App\Helper\AbstractHelper
         \RatePAY\Payment\Helper\ProfileConfig $profileConfigHelper,
         \Magento\Checkout\Model\Session $checkoutSession,
         \RatePAY\Payment\Service\V1\InstallmentPlan $installmentPlan,
-        \Magento\Payment\Helper\Data $paymentHelper
+        \Magento\Payment\Helper\Data $paymentHelper,
+        \RatePAY\Payment\Model\SecciAttestationState $secciAttestationState
     ) {
         parent::__construct($context);
         $this->libraryController = $libraryController;
@@ -83,6 +90,7 @@ class Secci extends \Magento\Framework\App\Helper\AbstractHelper
         $this->checkoutSession = $checkoutSession;
         $this->installmentPlan = $installmentPlan;
         $this->paymentHelper = $paymentHelper;
+        $this->secciAttestationState = $secciAttestationState;
     }
 
     /**
@@ -139,6 +147,9 @@ class Secci extends \Magento\Framework\App\Helper\AbstractHelper
 
     public function sendSecciRequest($quote, $deliveryMethod, $paymentMethod, $email = null)
     {
+        // Only one SECCI is valid at a time, so a failed request (or exception) also invalidates the SECCI of the previous payment method
+        $this->secciAttestationState->clear();
+
         $this->ensureInstallmentSessionParams($quote, $paymentMethod);
 
         $aSecciParams['Secci'] = $this->rpContentSecciHelper->setSecci($quote, $deliveryMethod, $email);
@@ -147,9 +158,12 @@ class Secci extends \Magento\Framework\App\Helper\AbstractHelper
         $oContent = $this->libraryModel->getRequestContent($quote, 'SECCI_REQUEST', null, null, $paymentMethod, null, $aSecciParams);
 
         $blSandbox = $this->profileConfigHelper->getSandboxModeForProfileId($oHead->getCredential()->getProfileId());
+
         $oSecciRequest = $this->libraryController->callSecciRequest($oHead, $oContent, (bool)$blSandbox);
 
-        $this->checkoutSession->setRatepayAttestationToken($oSecciRequest->getAttestationToken());
+        if ($oSecciRequest->isSuccessful() === true) {
+            $this->secciAttestationState->commit($quote, $paymentMethod, $oSecciRequest->getAttestationToken());
+        }
 
         return $oSecciRequest;
     }

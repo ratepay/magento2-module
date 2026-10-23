@@ -111,7 +111,7 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
                 'LastName' => $quoteOrOrder->getBillingAddress()->getLastname(),
                 //'NameSuffix' => "Sen.",
                 'DateOfBirth' => $dob,
-                'Language' => $this->rpDataHelper->getLocale(),
+                'Language' => $this->rpDataHelper->getLocale($quoteOrOrder),
                 //'Nationality' => "DE",
                 'IpAddress' => $this->getRemoteAddress(),
                 'Addresses'=> $this->rpContentCustomerAddressesHelper->setAddresses($quoteOrOrder),

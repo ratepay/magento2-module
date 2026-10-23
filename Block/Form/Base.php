@@ -196,6 +196,21 @@ class Base extends \Magento\Payment\Block\Form
     }
 
     /**
+     * Checks if the order is placed in B2B context, where the SECCI is not used
+     * The company can be changed in the billing address form without reloading this block, see secci-backend.js
+     *
+     * @return bool
+     */
+    public function isSecciB2BContext()
+    {
+        $oMethod = $this->getMethod();
+        if ($oMethod instanceof \RatePAY\Payment\Model\Method\AbstractMethod) {
+            return $oMethod->isSecciB2BContext($this->getCreateOrderModel()->getQuote()->getBillingAddress());
+        }
+        return false;
+    }
+
+    /**
      * Returns the email address of the SECCI already sent for the current cart state
      *
      * @return string|null

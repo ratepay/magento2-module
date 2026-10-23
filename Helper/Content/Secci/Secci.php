@@ -24,7 +24,7 @@ class Secci extends Data
             'CountryCode' => $quote->getBillingAddress()->getCountryId(),
         ];
 
-        $language = strtoupper($this->getLocale());
+        $language = strtoupper($this->getLocale($quote));
         if (in_array($language, ['DE', 'EN', 'NL'])) {
             $content['Language'] = $language;
         }

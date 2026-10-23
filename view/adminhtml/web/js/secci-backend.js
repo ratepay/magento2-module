@@ -9,7 +9,8 @@ define(['jquery', 'mage/translate'], function ($, $t) {
     'use strict';
 
     return function (config) {
-        var formBlock = $('#' + config.code + '_secci'),
+        var container = $('#' + config.code + '_secci_container'),
+            formBlock = $('#' + config.code + '_secci'),
             doneBlock = $('#' + config.code + '_secci_done'),
             emailInput = $('#' + config.code + '_secci_email'),
             sendButton = $('#' + config.code + '_secci_send'),
@@ -108,6 +109,20 @@ define(['jquery', 'mage/translate'], function ($, $t) {
                 showForm();
             }
         });
+
+        // SECCI is not used in B2B context (company in billing address), same check as isCompanySet in the frontend base.js
+        // Changing the company doesn't reload the payment form, so the container is toggled here
+        function toggleB2BContext() {
+            var companyInput = $('#order-billing_address_company');
+
+            if (companyInput.length) {
+                container.toggle(String(companyInput.val() || '').length <= 1);
+            }
+        }
+
+        toggleB2BContext();
+        $(document).off('input.ratepaySecci' + config.code + ' change.ratepaySecci' + config.code)
+            .on('input.ratepaySecci' + config.code + ' change.ratepaySecci' + config.code, '#order-billing_address_company', toggleB2BContext);
 
         sendButton.off('click.ratepaySecci').on('click.ratepaySecci', sendSecci);
         sendAgainLink.off('click.ratepaySecci').on('click.ratepaySecci', function (event) {

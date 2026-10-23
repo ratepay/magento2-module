@@ -81,6 +81,9 @@ define(['ko', 'Magento_Checkout/js/model/quote'], function (ko, quote) {
             commitVersion(commitVersion() + 1);
         },
 
+        // The backend invalidates the current SECCI on every failed SECCI request, regardless of the payment method
+        reset: reset,
+
         isCreated: function () {
             return snapshot !== null;
         },

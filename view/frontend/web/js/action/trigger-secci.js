@@ -68,12 +68,14 @@ define([
                     deferred.resolve(response);
                 } else {
                     console.log("ERROR", response);
+                    secciState.reset();
                     deferred.reject(response.errormessage || '');
                 }
             }
         ).fail(
             function (response) {
                 console.log("ERROR", response);
+                secciState.reset();
                 deferred.reject(response.responseJSON && response.responseJSON.message ? response.responseJSON.message : '');
             }
         );

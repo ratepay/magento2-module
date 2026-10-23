@@ -185,9 +185,29 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         return $edition;
     }
 
-    public function getLocale()
+    /**
+     * Returns the 2-letter language of the buyer
+     * In the admin area the locale resolver returns the interface locale of the admin user,
+     * so the locale of the store view the quote or order belongs to is used if given
+     *
+     * @param  \Magento\Quote\Api\Data\CartInterface|\Magento\Sales\Model\Order|null $quoteOrOrder
+     * @return string
+     */
+    public function getLocale($quoteOrOrder = null)
     {
-        $locale = substr($this->localeResolver->getLocale(), 0, 2);
+        $locale = null;
+        if ($quoteOrOrder !== null && $quoteOrOrder->getStoreId()) {
+            $locale = $this->scopeConfig->getValue(
+                \Magento\Directory\Helper\Data::XML_PATH_DEFAULT_LOCALE,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $quoteOrOrder->getStoreId()
+            );
+        }
+        if (empty($locale)) {
+            $locale = $this->localeResolver->getLocale();
+        }
+
+        $locale = substr((string)$locale, 0, 2);
         if (empty($locale)) {
             $locale = substr($this->localeResolver->getDefaultLocale(), 0, 2);
         }

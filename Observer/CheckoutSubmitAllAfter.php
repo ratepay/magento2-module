@@ -15,19 +15,19 @@ use Magento\Framework\Event\Observer;
 class CheckoutSubmitAllAfter implements ObserverInterface
 {
     /**
-     * @var \Magento\Checkout\Model\Session
+     * @var \RatePAY\Payment\Model\SecciAttestationState
      */
-    protected $checkoutSession;
+    protected $secciAttestationState;
 
     /**
      * Constructor.
      *
-     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \RatePAY\Payment\Model\SecciAttestationState $secciAttestationState
      */
     public function __construct(
-        \Magento\Checkout\Model\Session $checkoutSession
+        \RatePAY\Payment\Model\SecciAttestationState $secciAttestationState
     ) {
-        $this->checkoutSession = $checkoutSession;
+        $this->secciAttestationState = $secciAttestationState;
     }
 
     /**
@@ -40,6 +40,6 @@ class CheckoutSubmitAllAfter implements ObserverInterface
      */
     public function execute(Observer $observer)
     {
-        $this->checkoutSession->unsRatepayAttestationToken();
+        $this->secciAttestationState->clear();
     }
 }

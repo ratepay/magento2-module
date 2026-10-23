@@ -199,6 +199,11 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
     protected $backendSecciState;
 
     /**
+     * @var \RatePAY\Payment\Model\SecciAttestationState
+     */
+    protected $secciAttestationState;
+
+    /**
      * AbstractMethod constructor.
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
@@ -224,6 +229,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
      * @param \RatePAY\Payment\Service\V1\InstallmentPlan $installmentPlan
      * @param \Magento\Quote\Api\CartRepositoryInterface $quoteRepository
      * @param \RatePAY\Payment\Model\BackendSecciState $backendSecciState
+     * @param \RatePAY\Payment\Model\SecciAttestationState $secciAttestationState
      * @param \Magento\Framework\Model\ResourceModel\AbstractResource|null $resource
      * @param \Magento\Framework\Data\Collection\AbstractDb|null $resourceCollection
      * @param array $data
@@ -253,6 +259,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         \RatePAY\Payment\Service\V1\InstallmentPlan $installmentPlan,
         \Magento\Quote\Api\CartRepositoryInterface $quoteRepository,
         \RatePAY\Payment\Model\BackendSecciState $backendSecciState,
+        \RatePAY\Payment\Model\SecciAttestationState $secciAttestationState,
         ?\Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
         ?\Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
         array $data = []
@@ -287,6 +294,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         $this->installmentPlan = $installmentPlan;
         $this->quoteRepository = $quoteRepository;
         $this->backendSecciState = $backendSecciState;
+        $this->secciAttestationState = $secciAttestationState;
     }
 
     /**
@@ -323,6 +331,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         }
 
         $this->validateBackendSecci($order, $oProfileConfig);
+        $this->validateFrontendSecci($order, $oProfileConfig);
 
         $resultInit = $this->libraryController->callPaymentInit($head, $order, $sandbox);
         if ($resultInit->isSuccessful()) {
@@ -408,6 +417,18 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
     }
 
     /**
+     * SECCI is not used in B2B context, which is given if the billing address contains a company name
+     * Same check as isCompanySet in base.js (frontend) and secci-backend.js (backend)
+     *
+     * @param \Magento\Quote\Model\Quote\Address|\Magento\Sales\Model\Order\Address|null $oBillingAddress
+     * @return bool
+     */
+    public function isSecciB2BContext($oBillingAddress)
+    {
+        return $oBillingAddress && strlen((string)$oBillingAddress->getCompany()) > 1;
+    }
+
+    /**
      * Backend orders can only be placed if the SECCI was sent for the current cart state
      *
      * @param \Magento\Sales\Model\Order $oOrder
@@ -420,10 +441,44 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
             return;
         }
 
+        // SECCI is disabled in B2B context
+        if ($this->isSecciB2BContext($oOrder->getBillingAddress()) === true) {
+            return;
+        }
+
         // rp_directdebit is only set for installments, the SECCI has to be sent again after switching the debit pay type
         $blDirectDebit = $oOrder->getPayment()->getAdditionalInformation('rp_directdebit');
         if ($this->backendSecciState->isValidFor($oOrder, $this->getCode(), $blDirectDebit) === false) {
             throw new PaymentException(__('Please send the SECCI to the customer by email before submitting the order. If the cart was changed after sending, the SECCI has to be sent again.'));
+        }
+    }
+
+    /**
+     * Frontend orders can only be placed if the SECCI was created for the payment method and debit pay type of the order,
+     * otherwise the payment request would be sent without or with the attestation token of another payment method
+     *
+     * @param \Magento\Sales\Model\Order $oOrder
+     * @param \RatePAY\Payment\Model\Entities\ProfileConfiguration $oProfileConfig
+     * @throws PaymentException
+     */
+    protected function validateFrontendSecci(\Magento\Sales\Model\Order $oOrder, $oProfileConfig)
+    {
+        if ($this->isBackendMethod() === true || $this->isSecciEnabled(null, $oProfileConfig) === false) {
+            return;
+        }
+
+        // SECCI is disabled in B2B context in the frontend, see base.js isSecciEnabled
+        if ($this->isSecciB2BContext($oOrder->getBillingAddress()) === true) {
+            return;
+        }
+
+        // The multishipping checkout doesn't provide the SECCI
+        if ($this->checkoutSession->getQuote()->getIsMultiShipping()) {
+            return;
+        }
+
+        if ($this->secciAttestationState->isValidFor($oOrder, $this->getCode()) === false) {
+            throw new PaymentException(__('The Standard European Consumer Credit Information (SECCI) could not be provided for this payment method. Please request the SECCI again before placing your order.'));
         }
     }
 

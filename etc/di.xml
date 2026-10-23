@@ -80,9 +80,15 @@
             <argument name="backendCheckoutSession" xsi:type="object">Magento\Backend\Model\Session\Quote\Proxy</argument>
             <argument name="installmentPlan" xsi:type="object">RatePAY\Payment\Service\V1\InstallmentPlan\Proxy</argument>
             <argument name="backendSecciState" xsi:type="object">RatePAY\Payment\Model\BackendSecciState\Proxy</argument>
+            <argument name="secciAttestationState" xsi:type="object">RatePAY\Payment\Model\SecciAttestationState\Proxy</argument>
         </arguments>
     </type>
     <type name="RatePAY\Payment\Observer\CheckoutSubmitAllAfter">
+        <arguments>
+            <argument name="secciAttestationState" xsi:type="object">RatePAY\Payment\Model\SecciAttestationState\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="RatePAY\Payment\Model\SecciAttestationState">
         <arguments>
             <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
         </arguments>

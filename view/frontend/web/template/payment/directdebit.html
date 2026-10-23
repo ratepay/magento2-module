@@ -151,7 +151,7 @@
                         <div class="rp-sepa-mandate-content">
                             <p><!-- ko i18n: 'By agreeing to the SEPA Direct Debit Mandate, you authorise Ratepay GmbH to collect payments from your account by direct debit. At the same time, you instruct your bank to debit your account in accordance with the instructions from Ratepay GmbH.'--><!-- /ko --></p>
                             <p><strong><!-- ko i18n: 'ratepay_directdebit_sepa_notice_block_1'--><!-- /ko --></strong> <!-- ko i18n: 'As part of your rights, you are entitled to a refund from your bank. A refund must be claimed within 8 weeks, starting from the date on which your account was debited. The terms and conditions of your bank apply.'--><!-- /ko --></p>
-                            <p><!-- ko i18n: 'The mandate reference and creditor identifier will be communicated to you separately.'--><!-- /ko --></p>
+                            <p><!-- ko i18n: 'The mandate reference and creditor identification number will be communicated to you separately.'--><!-- /ko --></p>
                         </div>
                     </details>
                 </fieldset>
@@ -159,7 +159,7 @@
         </div>
         <!-- ko template: 'RatePAY_Payment/payment/secci-inmethod-info-block' --><!-- /ko -->
         <div class="legalText">
-            <!-- ko i18n: 'ratepay_terms_block_1'--><!-- /ko --> "<!-- ko i18n: 'Place Order'--><!-- /ko -->" <!-- ko i18n: 'ratepay_terms_block_2'--><!-- /ko -->
+            <!-- ko i18n: 'ratepay_terms_block_1'--><!-- /ko --> "<!-- ko i18n: 'Place order with obligation to pay'--><!-- /ko -->" <!-- ko i18n: 'ratepay_terms_block_2'--><!-- /ko -->
             <a target="_blank" data-bind="attr: {href: getTermsOfPaymentUrl()}"><!-- ko i18n: 'ratepay_terms_block_3'--><!-- /ko --></a>,
             <!-- ko i18n: 'ratepay_terms_block_sepa'--><!-- /ko -->,
             <!-- ko i18n: 'ratepay_terms_block_4'--><!-- /ko -->
@@ -178,12 +178,12 @@
                         type="submit"
                         data-bind="
                         click: placeOrder,
-                        attr: {title: $t('Place Order')},
+                        attr: {title: $t('Place order with obligation to pay')},
                         css: {disabled: !isPlaceOrderActionAllowedRatePay() && !isPlaceOrderActionAllowedRatePay()},
                         enable: (getCode() == isChecked())
                         "
                         disabled>
-                    <span data-bind="i18n: 'Place Order'"></span>
+                    <span data-bind="i18n: 'Place order with obligation to pay'"></span>
                 </button>
             </div>
         </div>

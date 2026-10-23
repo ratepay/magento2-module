@@ -86,9 +86,9 @@ if ($b2bEnabled === true) {
     <details class="rp-sepa-mandate" id="<?php echo $code; ?>_sepa_agreement">
         <summary class="rp-sepa-mandate-summary"><?php echo $block->escapeHtml(__('SEPA Direct Debit Mandate — declaration')); ?></summary>
         <div class="rp-sepa-mandate-content">
-            <p><?php echo $block->escapeHtml(__('By agreeing to the SEPA Direct Debit Mandate, you authorise Ratepay GmbH to collect payments from your account by direct debit. At the same time, you instruct your bank to honour the direct debits drawn on your account by Ratepay GmbH.')); ?></p>
-            <p><strong><?php echo $block->escapeHtml(__('ratepay_directdebit_sepa_notice_block_1')); ?></strong> <?php echo $block->escapeHtml(__('You can request a refund of the debited amount within eight weeks, starting from the date of debit. The terms agreed with your bank apply.')); ?></p>
-            <p><?php echo $block->escapeHtml(__('The mandate reference and creditor identifier will be communicated to you separately.')); ?></p>
+            <p><?php echo $block->escapeHtml(__('By agreeing to the SEPA Direct Debit Mandate, you authorise Ratepay GmbH to collect payments from your account by direct debit. At the same time, you instruct your bank to debit your account in accordance with the instructions from Ratepay GmbH.')); ?></p>
+            <p><strong><?php echo $block->escapeHtml(__('ratepay_directdebit_sepa_notice_block_1')); ?></strong> <?php echo $block->escapeHtml(__('As part of your rights, you are entitled to a refund from your bank. A refund must be claimed within 8 weeks, starting from the date on which your account was debited. The terms and conditions of your bank apply.')); ?></p>
+            <p><?php echo $block->escapeHtml(__('The mandate reference and creditor identification number will be communicated to you separately.')); ?></p>
         </div>
     </details>
     <input type="submit" name="Submit" style="display: none;">

@@ -118,7 +118,7 @@
         </div>
         <!-- ko template: 'RatePAY_Payment/payment/secci-inmethod-info-block' --><!-- /ko -->
         <div class="legalText">
-            <!-- ko i18n: 'ratepay_terms_block_1'--><!-- /ko --> "<!-- ko i18n: 'Place Order'--><!-- /ko -->" <!-- ko i18n: 'ratepay_terms_block_2'--><!-- /ko -->
+            <!-- ko i18n: 'ratepay_terms_block_1'--><!-- /ko --> "<!-- ko i18n: 'Place order with obligation to pay'--><!-- /ko -->" <!-- ko i18n: 'ratepay_terms_block_2'--><!-- /ko -->
             <a target="_blank" data-bind="attr: {href: getTermsOfPaymentUrl()}"><!-- ko i18n: 'ratepay_terms_block_3'--><!-- /ko --></a>
             <!-- ko i18n: 'ratepay_terms_block_4'--><!-- /ko -->
             <a target="_blank" data-bind="attr: {href: getDataPrivacyUrl()}"><!-- ko i18n: 'ratepay_terms_block_5'--><!-- /ko --></a>
@@ -137,12 +137,12 @@
                         type="submit"
                         data-bind="
                         click: placeOrder,
-                        attr: {title: $t('Place Order')},
+                        attr: {title: $t('Place order with obligation to pay')},
                         css: {disabled: !isPlaceOrderActionAllowedRatePay() && !isPlaceOrderActionAllowedRatePay()},
                         enable: (getCode() == isChecked())
                         "
                         disabled>
-                    <span data-bind="i18n: 'Place Order'"></span>
+                    <span data-bind="i18n: 'Place order with obligation to pay'"></span>
                 </button>
             </div>
         </div>

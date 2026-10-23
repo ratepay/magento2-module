@@ -97,7 +97,7 @@
                 </fieldset>
                 <!-- /ko -->
                 <div class="legalText">
-                    <!-- ko i18n: 'ratepay_terms_block_1'--><!-- /ko --> "<!-- ko i18n: 'Place Order'--><!-- /ko -->" <!-- ko i18n: 'ratepay_terms_block_2'--><!-- /ko -->
+                    <!-- ko i18n: 'ratepay_terms_block_1'--><!-- /ko --> "<!-- ko i18n: 'Place order with obligation to pay'--><!-- /ko -->" <!-- ko i18n: 'ratepay_terms_block_2'--><!-- /ko -->
                     <a target="_blank" data-bind="attr: {href: getTermsOfPaymentUrl()}"><!-- ko i18n: 'ratepay_terms_block_3'--><!-- /ko --></a>,
                     <!-- ko i18n: 'ratepay_terms_block_sepa'--><!-- /ko -->,
                     <!-- ko i18n: 'ratepay_terms_block_4'--><!-- /ko -->
@@ -203,9 +203,9 @@
                     <details class="rp-sepa-mandate" data-bind="attr: {id: getCode() + '_sepa_agreement'}">
                         <summary class="rp-sepa-mandate-summary"><!-- ko i18n: 'SEPA Direct Debit Mandate — declaration'--><!-- /ko --></summary>
                         <div class="rp-sepa-mandate-content">
-                            <p><!-- ko i18n: 'By agreeing to the SEPA Direct Debit Mandate, you authorise Ratepay GmbH to collect payments from your account by direct debit. At the same time, you instruct your bank to honour the direct debits drawn on your account by Ratepay GmbH.'--><!-- /ko --></p>
-                            <p><strong><!-- ko i18n: 'ratepay_directdebit_sepa_notice_block_1'--><!-- /ko --></strong> <!-- ko i18n: 'You can request a refund of the debited amount within eight weeks, starting from the date of debit. The terms agreed with your bank apply.'--><!-- /ko --></p>
-                            <p><!-- ko i18n: 'The mandate reference and creditor identifier will be communicated to you separately.'--><!-- /ko --></p>
+                            <p><!-- ko i18n: 'By agreeing to the SEPA Direct Debit Mandate, you authorise Ratepay GmbH to collect payments from your account by direct debit. At the same time, you instruct your bank to debit your account in accordance with the instructions from Ratepay GmbH.'--><!-- /ko --></p>
+                            <p><strong><!-- ko i18n: 'ratepay_directdebit_sepa_notice_block_1'--><!-- /ko --></strong> <!-- ko i18n: 'As part of your rights, you are entitled to a refund from your bank. A refund must be claimed within 8 weeks, starting from the date on which your account was debited. The terms and conditions of your bank apply.'--><!-- /ko --></p>
+                            <p><!-- ko i18n: 'The mandate reference and creditor identification number will be communicated to you separately.'--><!-- /ko --></p>
                         </div>
                     </details>
                 </fieldset>
@@ -224,7 +224,7 @@
                             type="submit"
                             data-bind="{click: addDataMultishipping}"
                             class="action primary checkout">
-                        <span data-bind="i18n: 'Place Order'"></span>
+                        <span data-bind="i18n: 'Place order with obligation to pay'"></span>
                     </button>
                 </div>
             </div>
