@@ -141,6 +141,8 @@ class RechnungConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
             'payment' => [
                 $sMethodCode => [
                     'b2bActive' => (bool)$this->getMethod($sMethodCode)->getMatchingProfile()->getProductData("b2b_?", $sMethodCode, true),
+                    'countriesBilling' => $this->getMethod($sMethodCode)->getMatchingProfile()->getProductData("country_code_billing", $sMethodCode, true),
+                    'countriesDelivery' => $this->getMethod($sMethodCode)->getMatchingProfile()->getProductData("country_code_delivery", $sMethodCode, true),
                     'differentShippingAddressAllowed' => $this->getIsDifferentShippingAddressAllowed($sMethodCode),
                 ],
             ],
