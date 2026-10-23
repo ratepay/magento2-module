@@ -87,14 +87,14 @@ Active,Aktiv,module,RatePAY_Payment
 Inactive,Inaktiv,module,RatePAY_Payment
 Phased Out,Abgelaufen,module,RatePAY_Payment
 "Automated Data Procedure Error","Leider ist eine Bezahlung mit Ratepay nicht möglich. Diese Entscheidung ist auf Grundlage einer automatisierten Datenverarbeitung getroffen worden. Einzelheiten finden sie in den zusätzlichen Allgemeinen Geschäftsbedingungen und dem Datenschutzhinweis für Ratepay-Zahlungsarten.",module,RatePAY_Payment
-ratepay_terms_block_1, "Mit Klicke auf" ,module,RatePAY_Payment
+ratepay_terms_block_1, "Mit Klick auf" ,module,RatePAY_Payment
 ratepay_terms_block_2, "erklären Sie sich mit den" ,module,RatePAY_Payment
 ratepay_terms_block_3, "Ratepay Zahlungsbedingungen" ,module,RatePAY_Payment
 ratepay_terms_block_sepa,"einschließlich der Erteilung des SEPA-Lastschriftmandats",module,RatePAY_Payment
 ratepay_terms_block_4, "sowie mit der Durchführung einer" ,module,RatePAY_Payment
 ratepay_terms_block_5, "Risikoprüfung durch Ratepay" ,module,RatePAY_Payment
 ratepay_terms_block_6, "einverstanden." ,module,RatePAY_Payment
-ratepay_terms_block_moto_1, "Mit Klicke auf" ,module,RatePAY_Payment
+ratepay_terms_block_moto_1, "Mit Klick auf" ,module,RatePAY_Payment
 ratepay_terms_block_moto_2, "bestätigen Sie, dass der Kunde mit den" ,module,RatePAY_Payment
 ratepay_terms_block_moto_3, "Ratepay Zahlungsbedingungen" ,module,RatePAY_Payment
 ratepay_terms_block_moto_sepa,"einschließlich der Erteilung des SEPA-Lastschriftmandats",module,RatePAY_Payment
