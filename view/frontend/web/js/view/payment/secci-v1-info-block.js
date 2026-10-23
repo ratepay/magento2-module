@@ -71,7 +71,7 @@ define([
                 }
 
                 var lastTitle = activeTitles.pop();
-                return activeTitles.join(', ') + " " + $t('or') + " " + lastTitle;
+                return activeTitles.join(', ') + " " + $t('and') + " " + lastTitle;
             }, this);
 
             this.secciV1InfoText = ko.pureComputed(function () {

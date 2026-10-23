@@ -66,7 +66,7 @@ $currency = $block->ratepayGetCurrentCurrencyCode();
         </div>
     </div>
     <div class="rpContainer">
-        <?php if ($block->hasAllowedMonths()): ?>
+        <?php if ($block->hasAllowedMonths() && !$block->hasSingleAllowedMonth()): ?>
             <div class="admin__field">
                 <?php echo __('rp_calculation_intro_part1'); ?>
                 <b><?php echo __('rp_calculation_intro_part2'); ?></b>

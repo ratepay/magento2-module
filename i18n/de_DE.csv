@@ -231,6 +231,7 @@ ratepay_terms_block_moto_6, "einverstanden ist." ,module,RatePAY_Payment
 "will automatically send this information to","wählen, werden diese Informationen automatisch an",module,RatePAY_Payment
 "sent.","gesendet.",module,RatePAY_Payment
 "or","oder",module,RatePAY_Payment
+"and","und",module,RatePAY_Payment
 "Your cart has changed since the SECCI was created. Please request the SECCI again.","Ihr Warenkorb hat sich seit der Erstellung der SECCI geändert. Bitte fordern Sie die SECCI erneut an.",module,RatePAY_Payment
 "Please download or request the SECCI document by email before completing your purchase.","Bitte laden Sie das SECCI-Dokument herunter oder fordern Sie es per E-Mail an, bevor Sie den Kauf abschließen.",module,RatePAY_Payment
 "The Standard EU Consumer Credit Information could not be created. Please try again.","Die Europäischen Standardinformationen für Verbraucherkredite konnten nicht erstellt werden. Bitte versuchen Sie es erneut.",module,RatePAY_Payment
