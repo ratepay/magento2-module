@@ -31,7 +31,6 @@ define(
                 rp_iban: '',
                 isInstallmentPlanSet: false,
                 useDirectDebit: true,
-                sepaAccepted: false,
                 b2b_accountholder: ''
             },
 
@@ -69,11 +68,6 @@ define(
 
                 if (this.showSepaBlock() === true && this.useDirectDebit === true && this.rp_iban == '') {
                     this.messageContainer.addErrorMessage({'message': $t('Please enter a valid IBAN.')});
-                    return false;
-                }
-
-                if (this.showSepaBlock() === true && this.useDirectDebit === true && this.sepaAccepted === false) {
-                    this.messageContainer.addErrorMessage({'message': $t('Please confirm the transmission of the necessary data to Ratepay.')});
                     return false;
                 }
 
@@ -142,21 +136,34 @@ define(
             updateInstallmentPlanRuntime: function (data, event) {
                 this.updateInstallmentPlan('time', event.target.value, this.getCode(), true);
             },
-            showAgreement: function() {
-                $('#' + this.getCode() + '_sepa_agreement').show();
-                $('#' + this.getCode() + '_sepa_agreement_link').hide();
-            },
             showBankTransfer: function () {
                 $('#' + this.getCode() + '_sepa_use_directdebit').show();
                 $('#' + this.getCode() + '_sepa_use_banktransfer').hide();
                 $('#ratepay_rate_sepa_block_' + this.getCode()).hide();
+                $('#' + this.getCode() + '_terms_block_sepa').hide();
                 this.useDirectDebit = false;
+                this.handleSecciDebitPayTypeChange();
             },
             showDirectDebit: function () {
                 $('#' + this.getCode() + '_sepa_use_banktransfer').show();
                 $('#' + this.getCode() + '_sepa_use_directdebit').hide();
                 $('#ratepay_rate_sepa_block_' + this.getCode()).show();
+                $('#' + this.getCode() + '_terms_block_sepa').show();
                 this.useDirectDebit = true;
+                this.handleSecciDebitPayTypeChange();
+            },
+            handleSecciDebitPayTypeChange: function () {
+                // The SECCI depends on the debit pay type, so a new SECCI email (variant 1) is sent after switching
+                // and the selection (variant 2) is shown again to request a new SECCI
+                this.resetInvalidSecciV2Done();
+                if (this.isChecked() === this.getCode()) {
+                    this.handleSecciBehaviour();
+                }
+            },
+            getSecciParams: function () {
+                return {
+                    useDirectDebit: this.useDirectDebit === true
+                };
             },
             getData: function() {
                 var parentReturn = this._super();

@@ -14,4 +14,7 @@
     <event name="sales_order_save_after">
         <observer name="ratepay_sales_order_save_after" instance="RatePAY\Payment\Observer\OrderSaveAfter"/>
     </event>
+    <event name="checkout_submit_all_after">
+        <observer name="ratepay_checkout_submit_all_after" instance="RatePAY\Payment\Observer\CheckoutSubmitAllAfter"/>
+    </event>
 </config>

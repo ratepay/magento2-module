@@ -24,19 +24,22 @@ function changeDetails(paymentMethod) {
     }
 }
 
-function showAgreement(code) {
+function setDirectDebit(code, value) {
     require(['jquery'], function($) {
-        $('#' + code + '_sepa_agreement').show();
-        $('#' + code + '_sepa_agreement_link').hide();
+        var input = $('#' + code + '_directdebit');
+        // The SECCI depends on the debit pay type, the change event triggers the SECCI reset in secci-backend.js
+        if (input.val() !== value) {
+            input.val(value).trigger('change');
+        }
     });
 }
-
 function showBankTransfer(code) {
     require(['jquery'], function($) {
         $('#' + code + '_sepa_use_directdebit').show();
         $('#' + code + '_sepa_use_banktransfer').hide();
         $('#ratepay_rate_sepa_block_' + code).hide();
-        $('#' + code + '_directdebit').val('0');
+        $('#' + code + '_terms_block_sepa').hide();
+        setDirectDebit(code, '0');
     });
 }
 function showDirectDebit(code) {
@@ -44,7 +47,8 @@ function showDirectDebit(code) {
         $('#' + code + '_sepa_use_banktransfer').show();
         $('#' + code + '_sepa_use_directdebit').hide();
         $('#ratepay_rate_sepa_block_' + code).show();
-        $('#' + code + '_directdebit').val('1');
+        $('#' + code + '_terms_block_sepa').show();
+        setDirectDebit(code, '1');
     });
 }
 
@@ -121,14 +125,11 @@ function updateInstallmentPlan(restUrl, calcType, calcValue, grandTotal, methodC
                         } else {
                             $('#' + methodCode + "_payment_type_selector").hide();
                         }
+                        // Also sets the rp_directdebit value, so it matches the displayed debit pay type
                         if (installmentPlan.defaultPaymentFirstday == "2") {
-                            $('#ratepay_rate_sepa_block_' + methodCode).show();
-                            $('#' + methodCode + '_sepa_use_banktransfer').show();
-                            $('#' + methodCode + '_sepa_use_directdebit').hide();
+                            showDirectDebit(methodCode);
                         } else if (installmentPlan.defaultPaymentFirstday == "28") {
-                            $('#ratepay_rate_sepa_block_' + methodCode).hide();
-                            $('#' + methodCode + '_sepa_use_banktransfer').hide();
-                            $('#' + methodCode + '_sepa_use_directdebit').show();
+                            showBankTransfer(methodCode);
                         }
                     }
 

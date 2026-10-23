@@ -50,4 +50,21 @@
             <resource ref="anonymous" />
         </resources>
     </route>
+
+    <route url="/V1/guest-carts/:cartId/ratepay-triggerSecci" method="POST">
+        <service class="RatePAY\Payment\Api\SecciInterface" method="triggerGuestSecci"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+
+    <route url="/V1/carts/mine/ratepay-triggerSecci" method="POST">
+        <service class="RatePAY\Payment\Api\SecciInterface" method="triggerSecci"/>
+        <resources>
+            <resource ref="self" />
+        </resources>
+        <data>
+            <parameter name="cartId" force="true">%cart_id%</parameter>
+        </data>
+    </route>
 </routes>

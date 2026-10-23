@@ -51,10 +51,10 @@ class Payment extends \Magento\Framework\App\Helper\AbstractHelper
      * @param $quoteOrOrder
      * @return array
      */
-    public function setPayment($quoteOrOrder, $fixedPaymentMethod = null)
+    public function setPayment($quoteOrOrder, $fixedPaymentMethod = null, $isSecciCall = false)
     {
-        $methodCode = $quoteOrOrder->getPayment()->getMethod();
-        $id = (is_null($fixedPaymentMethod) ? $methodCode : $fixedPaymentMethod);
+        $id = (is_null($fixedPaymentMethod) ? $quoteOrOrder->getPayment()->getMethod() : $fixedPaymentMethod);
+        $methodCode = $id; // session params are stored per payment method, so use the requested one
         $content = [
             'Method' => $this->_rpPaymentHelper->convertMethodToProduct($id), // "installment", "elv", "prepayment"
             'Amount' => round($quoteOrOrder->getGrandTotal(), 2)
@@ -65,8 +65,9 @@ class Payment extends \Magento\Framework\App\Helper\AbstractHelper
                 'InstallmentNumber' => $this->checkoutSession->getData('ratepayInstallmentNumber_'.$methodCode),
                 'InstallmentAmount' => $this->checkoutSession->getData('ratepayInstallmentAmount_'.$methodCode),
                 'LastInstallmentAmount' => $this->checkoutSession->getData('ratepayLastInstallmentAmount_'.$methodCode),
-                'InterestRate' => $this->checkoutSession->getData('ratepayInterestRate_'.$methodCode)
+                'InterestRate' => $this->checkoutSession->getData('ratepayInterestRate_'.$methodCode),
             ];
+            $content['InstallmentDetails']['PaymentFirstday'] = $this->checkoutSession->getData('ratepayInstallmentDefaultPaymentFirstday_'.$methodCode);
             if ($quoteOrOrder->getPayment()->getAdditionalInformation('rp_directdebit') === true) {
                 $content['DebitPayType'] = 'DIRECT-DEBIT';
             } else {

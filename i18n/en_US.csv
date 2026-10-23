@@ -29,15 +29,8 @@ YYYY,YYYY,module,RatePAY_Payment
 IBAN,IBAN,module,RatePAY_Payment
 "Mandate","Mandate reference number: ",module,RatePAY_Payment
 "Mandate Ref","(provided after purchase)",module,RatePAY_Payment
-ratepay_directdebit_sepa_link,Read agreement to the SEPA mandate,module,RatePAY_Payment
-ratepay_directdebit_sepa_terms_block_1,I hereby agree to the forwarding of my data to ,module,RatePAY_Payment
-"Ratepay address","Ratepay GmbH, Ritterstraße 12-14, 10969 Berlin",module,RatePAY_Payment
-ratepay_directdebit_sepa_terms_block_2, "according to" ,module,RatePAY_Payment
-ratepay_directdebit_sepa_terms_block_3, "and allow this company to withdraw all costs associated with this contract of purchase, by means of direct debit, from the account entered above. I also instruct my credit institute to honour the direct debit requests made by Ratepay GmbH on my account.",module,RatePAY_Payment
 ratepay_directdebit_sepa_notice_block_1,Note:,module,RatePAY_Payment
-ratepay_directdebit_sepa_notice_block_2,After the contract has been created, I will be informed of of Ratepay's mandate reference number.,module,RatePAY_Payment
-ratepay_directdebit_sepa_notice_block_3,"Within eight weeks of the debit I may request the reimbursement of my payment. The conditions of my credit institute apply.",module,RatePAY_Payment
-"Place Order","Place order",module,RatePAY_Payment
+"Place order with obligation to pay","Place order",module,RatePAY_Payment
 "Vat ID","Vat ID",module,RatePAY_Payment
 "Please enter your Vat ID","Please enter your Vat ID",module,RatePAY_Payment
 "Phone Number","Phone number",module,RatePAY_Payment
@@ -81,15 +74,20 @@ Active,active,module,RatePAY_Payment
 Inactive,deactivated,module,RatePAY_Payment
 "Phased Out","phased out",module,RatePAY_Payment
 "Automated Data Procedure Error","Unfortunately, you cannot use Ratepay to make your payment. This decision has been made through automated data processing. For details, see the additional general terms and conditions and privacy policy for Ratepay payment methods.",module,RatePAY_Payment
-ratepay_terms_block_1, "For this payment method" ,module,RatePAY_Payment
-ratepay_terms_block_2, "additional GTC and data protection notices" ,module,RatePAY_Payment
-ratepay_terms_block_3, "apply.",module,RatePAY_Payment
-ratepay_terms_block_1, "With clicking on" ,module,RatePAY_Payment
+ratepay_terms_block_1, "By clicking" ,module,RatePAY_Payment
 ratepay_terms_block_2, "you agree to the" ,module,RatePAY_Payment
-ratepay_terms_block_3, "terms of payment of our payment partner" ,module,RatePAY_Payment
-ratepay_terms_block_4, "as well as to the performance of a" ,module,RatePAY_Payment
-ratepay_terms_block_5, "risk check by our payment partner" ,module,RatePAY_Payment
+ratepay_terms_block_3, "Ratepay Terms of Payment" ,module,RatePAY_Payment
+ratepay_terms_block_sepa,"including the SEPA Direct Debit mandate",module,RatePAY_Payment
+ratepay_terms_block_4, "and to a" ,module,RatePAY_Payment
+ratepay_terms_block_5, "risk check performed by Ratepay" ,module,RatePAY_Payment
 ratepay_terms_block_6, "." ,module,RatePAY_Payment
+ratepay_terms_block_moto_1, "By clicking" ,module,RatePAY_Payment
+ratepay_terms_block_moto_2, "you confirm the customer has agreed to the" ,module,RatePAY_Payment
+ratepay_terms_block_moto_3, "Ratepay Terms of Payment" ,module,RatePAY_Payment
+ratepay_terms_block_moto_sepa,"including the SEPA Direct Debit mandate",module,RatePAY_Payment
+ratepay_terms_block_moto_4, "and to a" ,module,RatePAY_Payment
+ratepay_terms_block_moto_5, "risk check performed by Ratepay" ,module,RatePAY_Payment
+ratepay_terms_block_moto_6, "." ,module,RatePAY_Payment
 "Maximum Oder Total","Maximum order total",module,RatePAY_Payment
 "Nur SEPA/IBAN Kontodaten","SEPA/IBAN account info only",module,RatePAY_Payment
 "rp_calculation_intro_part1","In the following you will be able to decide, how you want to shape your instalment payment. You can comfortable declare the amount of instalments and therefore ",module,RatePAY_Payment
@@ -150,3 +148,8 @@ ratepay_terms_block_6, "." ,module,RatePAY_Payment
 "Ratepay_1","Yes",module,RatePAY_Payment
 "Ratepay Default","Default",module,RatePAY_Payment
 "Only applicable when 2 or more street lines are configured in customer configuration. House number: The second street line will be interpreted as the house number, 3rd and 4th street input will be interpreted as additional information. Additional info: Street lines 2 - 4 will be interpreted as additional information","Only applicable when 2 or more street lines are configured in customer configuration.<br><br><b>House number:</b> The second street line will be interpreted as the house number, 3rd and 4th street input will be interpreted as additional information.<br><br><b>Additional info:</b> Street lines 2 - 4 will be interpreted as additional information",module,RatePAY_Payment
+"Please request the SECCI information by email or as PDF.","Please request the SECCI information by email or as PDF.",module,RatePAY_Payment
+"You can request a refund of the debited amount within eight weeks, starting from the date of debit. The terms agreed with your bank apply.","You can request a refund of the debited amount within eight weeks, starting from the date of debit. The terms agreed with your bank apply.",module,RatePAY_Payment
+"The SECCI is currently being sent to your email address. Please try again in a moment.","The SECCI is currently being sent to your email address. Please try again in a moment.",module,RatePAY_Payment
+"The SECCI could not be sent to your email address yet. It is being sent again now. Please try again in a moment.","The SECCI could not be sent to your email address yet. It is being sent again now. Please try again in a moment.",module,RatePAY_Payment
+"Your cart has changed since the SECCI was sent. The SECCI is being sent to your email address again. Please try again in a moment.","Your cart has changed since the SECCI was sent. The SECCI is being sent to your email address again. Please try again in a moment.",module,RatePAY_Payment

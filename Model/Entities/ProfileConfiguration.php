@@ -189,6 +189,20 @@ class ProfileConfiguration extends AbstractModel
     /**
      * @return array
      */
+    public function getSecciValues()
+    {
+        $aActiveProducts = $this->getActiveProducts();
+
+        $aSecciValues = [];
+        foreach ($aActiveProducts as $sProduct) {
+            $aSecciValues[$sProduct] = $this->getProductData("secci_enabled_?", $sProduct);
+        }
+        return $aSecciValues;
+    }
+
+    /**
+     * @return array
+     */
     public function getB2bMaxOrderTotals()
     {
         $aActiveProducts = $this->getActiveProducts();

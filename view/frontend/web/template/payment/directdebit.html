@@ -22,7 +22,7 @@
             <!-- ko foreach: $parent.getRegion(getBillingAddressFormName()) -->
             <!-- ko template: getTemplate() --><!-- /ko -->
             <!--/ko-->
-            <fieldset data-bind="attr: {class: 'fieldset payment items ' + getCode(), id: 'additionalInformation_' + getCode()}">
+            <fieldset data-bind="attr: {class: 'fieldset payment rpFieldsetNoBottomMargin items ' + getCode(), id: 'additionalInformation_' + getCode()}">
                 <!-- ko if: isPhoneVisible() -->
                     <div class="field _required">
                         <label data-bind="attr: {for: getCode() + '_phone'}" class="label">
@@ -57,7 +57,7 @@
                         </span>
                     </label>
                     <!-- ko if: !isDobSet() && !isB2BModeUsable() -->
-                        <fieldset id="ratepay_dob-form" class="fieldset">
+                        <fieldset id="ratepay_dob-form" class="fieldset rpFieldsetNoBottomMargin">
                             <div class="field _required" style="float:left; position: relative; width:60px; margin: 0 0 5px;">
                                 <div class="control">
                                     <input type="text" name="payment[rp_dob_day]" class="input-text required-entry" value=""
@@ -100,7 +100,7 @@
                         </fieldset>
                     <!-- /ko -->
                     <!-- ko if: isB2BModeUsable() -->
-                        <fieldset id="ratepay_vat-form" class="fieldset">
+                        <fieldset id="ratepay_vat-form" class="fieldset rpFieldsetNoBottomMargin">
                             <div class="field">
                                 <label data-bind="attr: {for: getCode() + 'vatid'}" class="label">
                                     <span><!-- ko i18n: 'Vat ID'--><!-- /ko --></span>
@@ -114,17 +114,9 @@
                             </div>
                         </fieldset>
                     <!-- /ko -->
-                    <div class="legalText">
-                        <!-- ko i18n: 'ratepay_terms_block_1'--><!-- /ko --> "<!-- ko i18n: 'Place Order'--><!-- /ko -->" <!-- ko i18n: 'ratepay_terms_block_2'--><!-- /ko -->
-                        <a target="_blank" href="https://www.ratepay.com/legal-payment-terms"><!-- ko i18n: 'ratepay_terms_block_3'--><!-- /ko --></a>
-                        <!-- ko i18n: 'ratepay_terms_block_4'--><!-- /ko -->
-                        <a target="_blank" href="https://www.ratepay.com/legal-payment-dataprivacy"><!-- ko i18n: 'ratepay_terms_block_5'--><!-- /ko --></a>
-                        <!-- ko i18n: 'ratepay_terms_block_6'--><!-- /ko -->
-                    </div>
                 </fieldset>
-                <fieldset id="ratepay_bankdata" class="fieldset">
+                <fieldset id="ratepay_bankdata" class="fieldset rpFieldsetNoBottomMargin">
                     <ul style="list-style: none; margin-left: -40px;">
-                        <li style="margin-bottom: 15px;"><label><!-- ko i18n: 'The mandate reference and creditor identifier will be communicated to you separately.'--><!-- /ko --></label></li>
                         <li style="margin-bottom: 15px;"><label><b><!-- ko i18n: 'insert bankdata'--><!-- /ko --></b></label></li>
                         <li><label><b><!-- ko i18n: 'Account holder'--><!-- /ko --></b></label></li>
                         <li>
@@ -141,7 +133,7 @@
                             <!-- /ko -->
                         </li>
                     </ul>
-                    <div class="field _required" style="float:left; position: relative; margin: 0 0 5px;">
+                    <div class="field _required" style="float:left; position: relative; margin: 0 0 20px;">
                         <label data-bind="attr: {for: getCode() + '_iban'}" class="label">
                             <span><!-- ko i18n: 'IBAN'--><!-- /ko -->: </span>
                         </label>
@@ -153,36 +145,27 @@
                                                 title: $t('IBAN')},
                                                 value: rp_iban">
                         </div>
-                        <table>
-                            <tbody id="ratepay_directdebit_sepa_agreement">
-                            <tr>
-                                <td style="padding:10px;">
-                                    <input type="checkbox" data-bind="attr: {id: getCode() + '_save_sepa_accepted'}, checked: sepaAccepted">
-                                </td>
-                                <td style="padding:10px;">
-                                    <span class="required ratepayagreement">
-                                        <!-- ko i18n: 'ratepay_directdebit_sepa_terms_block_1'--><!-- /ko -->
-                                        <!-- ko i18n: 'Ratepay address'--><!-- /ko -->
-                                        <!-- ko i18n: 'ratepay_directdebit_sepa_terms_block_2'--><!-- /ko -->
-                                        <a target="_blank" href="https://www.ratepay.com/legal"><!-- ko i18n: 'Ratepay Data Privacy Policy'--><!-- /ko --></a>
-                                        <!-- ko i18n: 'ratepay_directdebit_sepa_terms_block_3'--><!-- /ko -->
-                                    </span>
-                                </td>
-                            </tr><tr>
-                                <td style="padding:10px 0;" colspan="2">
-                                    <br>
-                                    <span style="font-weight:bold;"><!-- ko i18n: 'ratepay_directdebit_sepa_notice_block_1'--><!-- /ko --></span>
-                                    <br>
-                                    <!-- ko i18n: 'ratepay_directdebit_sepa_notice_block_2'--><!-- /ko -->
-                                    <br>
-                                    <!-- ko i18n: 'ratepay_directdebit_sepa_notice_block_3'--><!-- /ko -->
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div><br>
+                    </div>
+                    <details class="rp-sepa-mandate" data-bind="attr: {id: getCode() + '_sepa_agreement'}">
+                        <summary class="rp-sepa-mandate-summary"><!-- ko i18n: 'SEPA Direct Debit Mandate — declaration'--><!-- /ko --></summary>
+                        <div class="rp-sepa-mandate-content">
+                            <p><!-- ko i18n: 'By agreeing to the SEPA Direct Debit Mandate, you authorise Ratepay GmbH to collect payments from your account by direct debit. At the same time, you instruct your bank to debit your account in accordance with the instructions from Ratepay GmbH.'--><!-- /ko --></p>
+                            <p><strong><!-- ko i18n: 'ratepay_directdebit_sepa_notice_block_1'--><!-- /ko --></strong> <!-- ko i18n: 'As part of your rights, you are entitled to a refund from your bank. A refund must be claimed within 8 weeks, starting from the date on which your account was debited. The terms and conditions of your bank apply.'--><!-- /ko --></p>
+                            <p><!-- ko i18n: 'The mandate reference and creditor identification number will be communicated to you separately.'--><!-- /ko --></p>
+                        </div>
+                    </details>
                 </fieldset>
             </fieldset>
+        </div>
+        <!-- ko template: 'RatePAY_Payment/payment/secci-inmethod-info-block' --><!-- /ko -->
+        <div class="legalText">
+            <!-- ko i18n: 'ratepay_terms_block_1'--><!-- /ko --> "<!-- ko i18n: 'Place order with obligation to pay'--><!-- /ko -->" <!-- ko i18n: 'ratepay_terms_block_2'--><!-- /ko -->
+            <a target="_blank" data-bind="attr: {href: getTermsOfPaymentUrl()}"><!-- ko i18n: 'ratepay_terms_block_3'--><!-- /ko --></a>,
+            <!-- ko i18n: 'ratepay_terms_block_sepa'--><!-- /ko -->,
+            <!-- ko i18n: 'ratepay_terms_block_4'--><!-- /ko -->
+            <a target="_blank" data-bind="attr: {href: getDataPrivacyUrl()}"><!-- ko i18n: 'ratepay_terms_block_5'--><!-- /ko --></a>
+            <!-- ko i18n: 'ratepay_terms_block_6'--><!-- /ko -->
+            <br><br>
         </div>
         <div class="checkout-agreements-block">
             <!-- ko foreach: $parent.getRegion('before-place-order') -->
@@ -195,12 +178,12 @@
                         type="submit"
                         data-bind="
                         click: placeOrder,
-                        attr: {title: $t('Place Order')},
+                        attr: {title: $t('Place order with obligation to pay')},
                         css: {disabled: !isPlaceOrderActionAllowedRatePay() && !isPlaceOrderActionAllowedRatePay()},
                         enable: (getCode() == isChecked())
                         "
                         disabled>
-                    <span data-bind="i18n: 'Place Order'"></span>
+                    <span data-bind="i18n: 'Place order with obligation to pay'"></span>
                 </button>
             </div>
         </div>

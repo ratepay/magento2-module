@@ -65,15 +65,8 @@ $currency = $block->ratepayGetCurrentCurrencyCode();
             <input type="hidden" id="<?php echo $code; ?>_company" name="payment[rp_company]" value="<?php echo $block->getInfoData('rp_company'); ?>">
         </div>
     </div>
-    <div>
-        <?php echo __('ratepay_terms_block_1'); ?> "<?php echo __('Place Order'); ?>" <?php echo __('ratepay_terms_block_2'); ?>
-        <a target="_blank" href="https://www.ratepay.com/legal-payment-terms"><?php echo __('ratepay_terms_block_3'); ?></a>
-        <?php echo __('ratepay_terms_block_4'); ?>
-        <a target="_blank" href="https://www.ratepay.com/legal-payment-dataprivacy"><?php echo __('ratepay_terms_block_5'); ?></a>
-        <?php echo __('ratepay_terms_block_6'); ?>
-    </div><br>
     <div class="rpContainer">
-        <?php if ($block->hasAllowedMonths()): ?>
+        <?php if ($block->hasAllowedMonths() && !$block->hasSingleAllowedMonth()): ?>
             <div class="admin__field">
                 <?php echo __('rp_calculation_intro_part1'); ?>
                 <b><?php echo __('rp_calculation_intro_part2'); ?></b>
@@ -146,7 +139,6 @@ $currency = $block->ratepayGetCurrentCurrencyCode();
     </div>
     <div id="ratepay_rate_sepa_block_<?php echo $code; ?>" <?php echo $block->getPaymentFirstday() == "2" ? '' : 'style="display:none;"'; ?>>
         <ul style="list-style: none;">
-            <li style="margin-bottom: 15px;"><label><span><?php echo __('The mandate reference and creditor identifier will be communicated to you separately.'); ?></span></label></li>
             <li style="margin-bottom: 15px;"><label><b><span><?php echo __('insert bankdata'); ?></span></b></label></li>
             <li><label><span><?php echo __('Account holder'); ?></span></label></li>
             <li>
@@ -170,42 +162,14 @@ $currency = $block->ratepayGetCurrentCurrencyCode();
                 <input type="text" size="35" id="<?php /* @noEscape */ echo $code; ?>_iban" name="payment[rp_iban]" value="<?php echo $block->getInfoData('rp_iban'); ?>">
             </div>
         </div>
-        <br>
-        <a id="<?php echo $code; ?>_sepa_agreement_link"><?php echo __('ratepay_directdebit_sepa_link'); ?></a>
-        <?php
-            $scriptString = "
-            require([
-                'jquery'
-            ], function ($) {
-                $('#".$code."_sepa_agreement_link').on( 'click', function() {
-                    showAgreement('".$code."');
-                }); // doing it this way since Mage 2.4.7 doesnt allow this inline anymore
-            });";
-            echo $block->getScriptHelper()->insertScript($scriptString);
-        ?>
-        <table>
-            <tbody style="display:none;" id="<?php echo $code; ?>_sepa_agreement">
-                <tr>
-                    <td style="padding:10px 0;">
-                        <span class="required ratepayagreement">
-                            <?php echo __('ratepay_directdebit_sepa_terms_block_1'); ?>
-                            <?php echo __('Ratepay address'); ?>
-                            <?php echo __('ratepay_directdebit_sepa_terms_block_2'); ?>
-                            <a target="_blank" href="https://www.ratepay.com/legal"><?php echo __('Ratepay Data Privacy Policy'); ?></a>
-                            <?php echo __('ratepay_directdebit_sepa_terms_block_3'); ?>
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="padding:10px 0;">
-                        <br>
-                        <span style="font-weight:bold;"><?php echo __('ratepay_directdebit_sepa_notice_block_1'); ?></span><br>
-                        <?php echo __('ratepay_directdebit_sepa_notice_block_2'); ?><br>
-                        <?php echo __('ratepay_directdebit_sepa_notice_block_3'); ?>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <details class="rp-sepa-mandate" id="<?php echo $code; ?>_sepa_agreement">
+            <summary class="rp-sepa-mandate-summary"><?php echo $block->escapeHtml(__('SEPA Direct Debit Mandate — declaration')); ?></summary>
+            <div class="rp-sepa-mandate-content">
+                <p><?php echo $block->escapeHtml(__('By agreeing to the SEPA Direct Debit Mandate, you authorise Ratepay GmbH to collect payments from your account by direct debit. At the same time, you instruct your bank to debit your account in accordance with the instructions from Ratepay GmbH.')); ?></p>
+                <p><strong><?php echo $block->escapeHtml(__('ratepay_directdebit_sepa_notice_block_1')); ?></strong> <?php echo $block->escapeHtml(__('As part of your rights, you are entitled to a refund from your bank. A refund must be claimed within 8 weeks, starting from the date on which your account was debited. The terms and conditions of your bank apply.')); ?></p>
+                <p><?php echo $block->escapeHtml(__('The mandate reference and creditor identification number will be communicated to you separately.')); ?></p>
+            </div>
+        </details>
     </div>
     <div id="<?php echo $code; ?>_payment_type_selector" <?php echo is_array($block->getValidPaymentFirstdays()) ? '' : 'style="display:none;"'; ?>>
         <hr>
@@ -226,8 +190,17 @@ $currency = $block->ratepayGetCurrentCurrencyCode();
         echo $block->getScriptHelper()->insertScript($scriptString);
         ?>
     </div>
-    <input type="hidden" id="<?php echo $code; ?>_directdebit" name="payment[rp_directdebit]" value="1">
+    <input type="hidden" id="<?php echo $code; ?>_directdebit" name="payment[rp_directdebit]" value="<?php echo $block->getPaymentFirstday() == "28" ? '0' : '1'; ?>">
     <input type="submit" name="Submit" style="display: none;">
+    <?php echo $block->fetchView($block->getTemplateFile('RatePAY_Payment::payment/secci.phtml')); ?>
+    <div class="rpTerms">
+        <?php echo __('ratepay_terms_block_moto_1'); ?> "<?php echo __('Submit Order'); ?>" <?php echo __('ratepay_terms_block_moto_2'); ?>
+        <a target="_blank" href="<?php echo $block->escapeUrl($block->getLegalUrls()['termsOfPayment']); ?>"><?php echo __('ratepay_terms_block_moto_3'); ?></a>
+        <span id="<?php echo $code; ?>_terms_block_sepa" <?php echo $block->getPaymentFirstday() == "2" ? '' : 'style="display:none;"'; ?>>, <?php echo __('ratepay_terms_block_moto_sepa'); ?>,</span>
+        <?php echo __('ratepay_terms_block_moto_4'); ?>
+        <a target="_blank" href="<?php echo $block->escapeUrl($block->getLegalUrls()['dataPrivacy']); ?>"><?php echo __('ratepay_terms_block_moto_5'); ?></a>
+        <?php echo __('ratepay_terms_block_moto_6'); ?>
+    </div><br>
 </fieldset>
 <?php
 /**
