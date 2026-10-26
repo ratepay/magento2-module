@@ -75,7 +75,7 @@ Inactive,deactivated,module,RatePAY_Payment
 "Phased Out","phased out",module,RatePAY_Payment
 "Automated Data Procedure Error","Unfortunately, you cannot use Ratepay to make your payment. This decision has been made through automated data processing. For details, see the additional general terms and conditions and privacy policy for Ratepay payment methods.",module,RatePAY_Payment
 ratepay_terms_block_1, "By clicking" ,module,RatePAY_Payment
-ratepay_terms_block_2, "you agree to the" ,module,RatePAY_Payment
+ratepay_terms_block_2, ", you agree to the" ,module,RatePAY_Payment
 ratepay_terms_block_3, "Ratepay Terms of Payment" ,module,RatePAY_Payment
 ratepay_terms_block_sepa,"including the SEPA Direct Debit mandate",module,RatePAY_Payment
 ratepay_terms_block_4, "and to a" ,module,RatePAY_Payment
