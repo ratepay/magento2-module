@@ -61,7 +61,7 @@ define([
                 });
             }, this);
 
-            this.secciMethods = ko.pureComputed(function () {
+            this.secciMethods = function (conjunction) {
                 var activeTitles = [];
 
                 this.activeSecciMethods().forEach(function (item) {
@@ -77,11 +77,17 @@ define([
                 }
 
                 var lastTitle = activeTitles.pop();
-                return activeTitles.join(', ') + " " + $t('and') + " " + lastTitle;
+                return activeTitles.join(', ') + " " + conjunction + " " + lastTitle;
+            }.bind(this);
+
+            this.secciSendText = ko.pureComputed(function () {
+                return $t('Selecting %1 will automatically send this information to %2.')
+                    .replace('%1', this.secciMethods($t('or')))
+                    .replace('%2', this.customerEmail());
             }, this);
 
             this.secciV1InfoText = ko.pureComputed(function () {
-                return $t("EU consumer credit rules have changed and now require additional information for %1 purchases. This information helps you understand the key credit terms before completing your purchase. Our payment partner Ratepay will use your email address solely to send it, using a third-party email delivery provider.").replace('%1', this.secciMethods());
+                return $t("EU consumer credit rules have changed and now require additional information for %1 purchases. This information helps you understand the key credit terms before completing your purchase. Our payment partner Ratepay will use your email address solely to send it, using a third-party email delivery provider.").replace('%1', this.secciMethods($t('and')));
             }, this);
 
             this.isPaymentStepActive = ko.pureComputed(function () {

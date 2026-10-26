@@ -449,7 +449,7 @@ abstract class AbstractMethod extends \Magento\Payment\Model\Method\AbstractMeth
         // rp_directdebit is only set for installments, the SECCI has to be sent again after switching the debit pay type
         $blDirectDebit = $oOrder->getPayment()->getAdditionalInformation('rp_directdebit');
         if ($this->backendSecciState->isValidFor($oOrder, $this->getCode(), $blDirectDebit) === false) {
-            throw new PaymentException(__('Please send the SECCI to the customer by email before submitting the order. If the cart was changed after sending, the SECCI has to be sent again.'));
+            throw new PaymentException(__('Please send the SECCI to the customer by email before submitting the order. If the cart or the billing country was changed after sending, the SECCI has to be sent again.'));
         }
     }
 

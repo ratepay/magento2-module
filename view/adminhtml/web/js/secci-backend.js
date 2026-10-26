@@ -124,6 +124,10 @@ define(['jquery', 'mage/translate'], function ($, $t) {
         $(document).off('input.ratepaySecci' + config.code + ' change.ratepaySecci' + config.code)
             .on('input.ratepaySecci' + config.code + ' change.ratepaySecci' + config.code, '#order-billing_address_company', toggleB2BContext);
 
+        // The SECCI depends on the billing country, so a new SECCI has to be sent after changing it
+        $(document).off('change.ratepaySecciCountry' + config.code)
+            .on('change.ratepaySecciCountry' + config.code, '#order-billing_address_country_id', showForm);
+
         sendButton.off('click.ratepaySecci').on('click.ratepaySecci', sendSecci);
         sendAgainLink.off('click.ratepaySecci').on('click.ratepaySecci', function (event) {
             event.preventDefault();

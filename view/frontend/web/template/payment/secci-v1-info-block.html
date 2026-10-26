@@ -12,10 +12,7 @@
                 <!-- ko i18n: 'Standard EU Consumer Credit Information'--><!-- /ko -->
             </h4>
 
-            <p id="rp-ccd2-text">
-                <!-- ko i18n: 'Selecting'--><!-- /ko --> <span data-bind="text: secciMethods()"></span> <!-- ko i18n: 'will automatically send this information to'--><!-- /ko -->
-                <span data-bind="text: customerEmail()"></span> <!-- ko i18n: 'sent.'--><!-- /ko -->
-            </p>
+            <p id="rp-ccd2-text" data-bind="text: secciSendText()"></p>
 
             <p class="rp-ccd2-more">
                 <a href="#" id="rp-ccd2-learn-more" data-bind="click: toggleDetails">

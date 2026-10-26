@@ -13,7 +13,7 @@ use Magento\Quote\Api\Data\CartInterface;
 
 /**
  * Remembers the SECCI sent for a backend order in the admin session,
- * so the order can only be placed if the cart didn't change since the SECCI was sent
+ * so the order can only be placed if the cart or the billing country didn't change since the SECCI was sent
  */
 class BackendSecciState
 {
@@ -48,8 +48,11 @@ class BackendSecciState
             $currency = $quoteOrOrder->getQuoteCurrencyCode();
         }
 
+        $billingAddress = $quoteOrOrder->getBillingAddress();
+
         return [
             'quoteId' => (int)$quoteId,
+            'billingCountry' => $billingAddress ? (string)$billingAddress->getCountryId() : '',
             'grandTotal' => (int)round((float)$quoteOrOrder->getGrandTotal() * 100),
             'currency' => (string)$currency,
             'paymentMethod' => (string)$paymentMethod,

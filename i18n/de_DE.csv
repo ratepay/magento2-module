@@ -227,9 +227,7 @@ ratepay_terms_block_moto_6, "einverstanden ist." ,module,RatePAY_Payment
 "Download PDF","PDF herunterladen",module,RatePAY_Payment
 "Download PDF version","PDF-Version herunterladen",module,RatePAY_Payment
 "Your Standard EU Consumer Credit Information was sent to %1.","Ihre EU-Standardinformationen für Verbraucherkredite wurden an %1 gesendet.",module,RatePAY_Payment
-"Selecting","Wenn Sie",module,RatePAY_Payment
-"will automatically send this information to","wählen, werden diese Informationen automatisch an",module,RatePAY_Payment
-"sent.","gesendet.",module,RatePAY_Payment
+"Selecting %1 will automatically send this information to %2.","Wenn Sie %1 wählen, werden diese Informationen automatisch an %2 gesendet.",module,RatePAY_Payment
 "or","oder",module,RatePAY_Payment
 "and","und",module,RatePAY_Payment
 "Your cart has changed since the SECCI was created. Please request the SECCI again.","Ihr Warenkorb hat sich seit der Erstellung der SECCI geändert. Bitte fordern Sie die SECCI erneut an.",module,RatePAY_Payment
@@ -252,7 +250,7 @@ ratepay_terms_block_moto_6, "einverstanden ist." ,module,RatePAY_Payment
 "Standard European Consumer Credit Information (SECCI) is temporarily unavailable. Please try again.","Europäische Standardinformationen für Verbraucherkredite (SECCI) sind vorübergehend nicht verfügbar. Bitte versuche es noch einmal.",module,RatePAY_Payment
 "Your Standard EU Consumer Credit Information was downloaded to your device.","Ihre EU-Standardinformationen für Verbraucherkredite wurden auf Ihr Gerät heruntergeladen.",module,RatePAY_Payment
 "Your Standard EU Consumer Credit Information was downloaded as a PDF.","Ihre EU-Standardinformationen für Verbraucherkredite wurden als PDF heruntergeladen.",module,RatePAY_Payment
-"Please send the SECCI to the customer by email before submitting the order. If the cart was changed after sending, the SECCI has to be sent again.","Bitte senden Sie die SECCI per E-Mail an den Kunden, bevor Sie die Bestellung absenden. Wurde der Warenkorb nach dem Versand geändert, muss die SECCI erneut gesendet werden.",module,RatePAY_Payment
+"Please send the SECCI to the customer by email before submitting the order. If the cart or the billing country was changed after sending, the SECCI has to be sent again.","Bitte senden Sie die SECCI per E-Mail an den Kunden, bevor Sie die Bestellung absenden. Wurden der Warenkorb oder das Rechnungsland nach dem Versand geändert, muss die SECCI erneut gesendet werden.",module,RatePAY_Payment
 "The Standard European Consumer Credit Information (SECCI) could not be provided for this payment method. Please request the SECCI again before placing your order.","Die Europäischen Standardinformationen für Verbraucherkredite (SECCI) konnten für diese Zahlart nicht bereitgestellt werden. Bitte fordern Sie die SECCI erneut an, bevor Sie Ihre Bestellung absenden.",module,RatePAY_Payment
 "<b>Automatic email delivery:</b> A notice is shown before the payment method selection. When a Ratepay payment method is selected, the SECCI is automatically sent to the email address entered in the checkout. <br><br><b>Explicit SECCI interaction:</b> After selecting a Ratepay payment method, the customer chooses whether to receive the SECCI by email or as a PDF download. The order can only be placed after that.","<b>Automatischer E-Mail-Versand:</b> Vor der Zahlartauswahl wird ein Hinweis angezeigt. Bei Auswahl einer Ratepay-Zahlart wird die SECCI automatisch an die im Checkout angegebene E-Mail-Adresse gesendet. <br><br><b>Explizite SECCI-Interaktion:</b> Nach Auswahl einer Ratepay-Zahlart wählt der Kunde, ob er die SECCI per E-Mail oder als PDF-Download erhalten möchte. Erst danach kann die Bestellung abgeschlossen werden.",module,RatePAY_Payment
 "Automatic email delivery","Automatischer E-Mail-Versand",module,RatePAY_Payment
