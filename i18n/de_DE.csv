@@ -95,7 +95,7 @@ ratepay_terms_block_4, "sowie mit der Durchführung einer" ,module,RatePAY_Payme
 ratepay_terms_block_5, "Risikoprüfung durch Ratepay" ,module,RatePAY_Payment
 ratepay_terms_block_6, "einverstanden." ,module,RatePAY_Payment
 ratepay_terms_block_moto_1, "Mit Klick auf" ,module,RatePAY_Payment
-ratepay_terms_block_moto_2, "bestätigen Sie, dass der Kunde mit den" ,module,RatePAY_Payment
+ratepay_terms_block_moto_2, " bestätigen Sie, dass der Kunde mit den" ,module,RatePAY_Payment
 ratepay_terms_block_moto_3, "Ratepay Zahlungsbedingungen" ,module,RatePAY_Payment
 ratepay_terms_block_moto_sepa,"einschließlich der Erteilung des SEPA-Lastschriftmandats",module,RatePAY_Payment
 ratepay_terms_block_moto_4, "sowie mit der Durchführung einer" ,module,RatePAY_Payment

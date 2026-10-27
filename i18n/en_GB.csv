@@ -82,7 +82,7 @@ ratepay_terms_block_4, "and to a" ,module,RatePAY_Payment
 ratepay_terms_block_5, "risk check performed by Ratepay" ,module,RatePAY_Payment
 ratepay_terms_block_6, "." ,module,RatePAY_Payment
 ratepay_terms_block_moto_1, "By clicking" ,module,RatePAY_Payment
-ratepay_terms_block_moto_2, "you confirm the customer has agreed to the" ,module,RatePAY_Payment
+ratepay_terms_block_moto_2, ", you confirm the customer has agreed to the" ,module,RatePAY_Payment
 ratepay_terms_block_moto_3, "Ratepay Terms of Payment" ,module,RatePAY_Payment
 ratepay_terms_block_moto_sepa,"including the SEPA Direct Debit mandate",module,RatePAY_Payment
 ratepay_terms_block_moto_4, "and to a" ,module,RatePAY_Payment
