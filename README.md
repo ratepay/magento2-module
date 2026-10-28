@@ -23,8 +23,8 @@ php bin/magento cache:flush
 
 ## Changelog
 
-### Version 3.0.0 - Released TODO!
-* Added CCD2 handling
+### Version 3.0.0 - Released 2026-10-29
+* Added CCD2 compliance
 
 ### Version 2.1.17 - Released 2026-06-11
 * Added compatibility to Magento 2.4.9 and PHP 8.5
