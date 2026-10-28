@@ -34,12 +34,18 @@ class Base extends \Magento\Payment\Block\Form
     protected $scriptHelper;
 
     /**
+     * @var \RatePAY\Payment\Model\BackendSecciState
+     */
+    protected $backendSecciState;
+
+    /**
      * Dfp constructor.
      * @param Template\Context $context
      * @param \RatePAY\Payment\Helper\Data $rpDataHelper
      * @param \RatePAY\Payment\Controller\LibraryController $rpLibraryController
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
      * @param \RatePAY\Payment\Helper\Script $scriptHelper
+     * @param \RatePAY\Payment\Model\BackendSecciState $backendSecciState
      * @param array $data
      */
     public function __construct(
@@ -48,6 +54,7 @@ class Base extends \Magento\Payment\Block\Form
         \RatePAY\Payment\Controller\LibraryController $rpLibraryController,
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
         \RatePAY\Payment\Helper\Script $scriptHelper,
+        \RatePAY\Payment\Model\BackendSecciState $backendSecciState,
         array $data = []
     ) {
         parent::__construct($context, $data);
@@ -55,6 +62,7 @@ class Base extends \Magento\Payment\Block\Form
         $this->rpLibraryController = $rpLibraryController;
         $this->orderCreate = $orderCreate;
         $this->scriptHelper = $scriptHelper;
+        $this->backendSecciState = $backendSecciState;
     }
 
     /**
@@ -171,5 +179,98 @@ class Base extends \Magento\Payment\Block\Form
             return $this->getMethod()->getIsB2BModeEnabled($this->getCreateOrderModel()->getQuote());
         }
         return false;
+    }
+
+    /**
+     * Checks if the SECCI has to be provided for the payment method
+     *
+     * @return bool
+     */
+    public function isSecciEnabled()
+    {
+        $oMethod = $this->getMethod();
+        if ($oMethod instanceof \RatePAY\Payment\Model\Method\AbstractMethod) {
+            return $oMethod->isSecciEnabled($this->getCreateOrderModel()->getQuote());
+        }
+        return false;
+    }
+
+    /**
+     * Checks if the order is placed in B2B context, where the SECCI is not used
+     * The company can be changed in the billing address form without reloading this block, see secci-backend.js
+     *
+     * @return bool
+     */
+    public function isSecciB2BContext()
+    {
+        $oMethod = $this->getMethod();
+        if ($oMethod instanceof \RatePAY\Payment\Model\Method\AbstractMethod) {
+            return $oMethod->isSecciB2BContext($this->getCreateOrderModel()->getQuote()->getBillingAddress());
+        }
+        return false;
+    }
+
+    /**
+     * Returns the email address of the SECCI already sent for the current cart state
+     *
+     * @return string|null
+     */
+    public function getSecciSentEmail()
+    {
+        return $this->backendSecciState->getSentEmail($this->getCreateOrderModel()->getQuote(), $this->getMethodCode());
+    }
+
+    /**
+     * Returns the document id of the SECCI already sent for the current cart state
+     *
+     * @return string|null
+     */
+    public function getSecciSentDocumentId()
+    {
+        return $this->backendSecciState->getSentDocumentId($this->getCreateOrderModel()->getQuote(), $this->getMethodCode());
+    }
+
+    /**
+     * Returns the debit pay type of the SECCI already sent for the current cart state, only used for installments
+     *
+     * @return bool|null
+     */
+    public function getSecciSentDirectDebit()
+    {
+        return $this->backendSecciState->getSentDirectDebit($this->getCreateOrderModel()->getQuote(), $this->getMethodCode());
+    }
+
+    /**
+     * Returns the email address to prefill the SECCI recipient with
+     *
+     * @return string
+     */
+    public function getSecciDefaultEmail()
+    {
+        $sSentEmail = $this->getSecciSentEmail();
+        if (!empty($sSentEmail)) {
+            return $sSentEmail;
+        }
+
+        $oQuote = $this->getCreateOrderModel()->getQuote();
+        return (string)($oQuote->getCustomerEmail() ?: $oQuote->getBillingAddress()->getEmail());
+    }
+
+    /**
+     * Returns the Ratepay legal text URLs for the current language
+     *
+     * @return array
+     */
+    public function getLegalUrls()
+    {
+        return $this->rpDataHelper->getLegalUrls();
+    }
+
+    /**
+     * @return string
+     */
+    public function getSecciSendUrl()
+    {
+        return $this->getUrl('ratepay/secci/send');
     }
 }

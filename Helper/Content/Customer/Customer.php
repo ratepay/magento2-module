@@ -45,11 +45,6 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
     protected $customerSession;
 
     /**
-     * @var \Magento\Store\Api\Data\StoreInterface
-     */
-    protected $store;
-
-    /**
      * @var \RatePAY\Payment\Helper\Data
      */
     protected $rpDataHelper;
@@ -68,7 +63,6 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Checkout\Model\Session                       $checkoutSession,
      * @param CustomerRepositoryInterface                           $customerRepository,
      * @param \Magento\Customer\Model\Session                       $customerSession,
-     * @param \Magento\Framework\Locale\Resolver                    $resolver
      * @param \Magento\Framework\App\RequestInterface               $request
      * @param \RatePAY\Payment\Helper\Data                          $rpDataHelper
      */
@@ -80,7 +74,6 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Checkout\Model\Session $checkoutSession,
         CustomerRepositoryInterface $customerRepository,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Framework\Locale\Resolver $resolver,
         \Magento\Framework\App\RequestInterface $request,
         \RatePAY\Payment\Helper\Data $rpDataHelper
     ) {
@@ -91,7 +84,6 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
         $this->checkoutSession = $checkoutSession;
         $this->customerRepository = $customerRepository;
         $this->customerSession = $customerSession;
-        $this->store = $resolver;
         $this->request = $request;
         $this->rpDataHelper = $rpDataHelper;
     }
@@ -110,11 +102,6 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
             $dob = $this->checkoutSession->getRatepayDob();
         }
 
-        $locale = substr($this->store->getLocale(), 0, 2);
-        if (empty($locale)) {
-            $locale = substr($this->store->getDefaultLocale(), 0, 2);
-        }
-
         $content = [
                 'Gender' => "U",
                 //'Salutation' => "Mrs.",
@@ -124,7 +111,7 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
                 'LastName' => $quoteOrOrder->getBillingAddress()->getLastname(),
                 //'NameSuffix' => "Sen.",
                 'DateOfBirth' => $dob,
-                'Language' => $locale,
+                'Language' => $this->rpDataHelper->getLocale($quoteOrOrder),
                 //'Nationality' => "DE",
                 'IpAddress' => $this->getRemoteAddress(),
                 'Addresses'=> $this->rpContentCustomerAddressesHelper->setAddresses($quoteOrOrder),

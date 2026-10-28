@@ -47,6 +47,12 @@
                             <field id="customer/address/street_lines" separator=",">2,3,4</field>
                         </depends>
                     </field>
+                    <field id="secci_design_variant" translate="label tooltip" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>SECCI (CCD2) experience pattern</label>
+                        <source_model>RatePAY\Payment\Model\Source\SecciDesignVariant</source_model>
+                        <config_path>ratepay/general/secci_design_variant</config_path>
+                        <tooltip><![CDATA[<b>Automatic email delivery:</b> A notice is shown before the payment method selection. When a Ratepay payment method is selected, the SECCI is automatically sent to the email address entered in the checkout. <br><br><b>Explicit SECCI interaction:</b> After selecting a Ratepay payment method, the customer chooses whether to receive the SECCI by email or as a PDF download. The order can only be placed after that.]]></tooltip>
+                    </field>
                     <field id="profile_config" translate="label" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Profiles</label>
                         <frontend_model>RatePAY\Payment\Block\Adminhtml\Config\Form\Field\ProfileConfig</frontend_model>

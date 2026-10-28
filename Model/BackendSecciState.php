@@ -1,0 +1,159 @@
+<?php
+
+/**
+ * Copyright (c) Ratepay GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace RatePAY\Payment\Model;
+
+use Magento\Quote\Api\Data\CartInterface;
+
+/**
+ * Remembers the SECCI sent for a backend order in the admin session,
+ * so the order can only be placed if the cart or the billing country didn't change since the SECCI was sent
+ */
+class BackendSecciState
+{
+    const SESSION_KEY = 'ratepay_backend_secci_state';
+
+    /**
+     * @var \Magento\Backend\Model\Session\Quote
+     */
+    protected $backendCheckoutSession;
+
+    /**
+     * @param \Magento\Backend\Model\Session\Quote $backendCheckoutSession
+     */
+    public function __construct(
+        \Magento\Backend\Model\Session\Quote $backendCheckoutSession
+    ) {
+        $this->backendCheckoutSession = $backendCheckoutSession;
+    }
+
+    /**
+     * @param  CartInterface|\Magento\Sales\Model\Order $quoteOrOrder
+     * @param  string                                   $paymentMethod
+     * @return array
+     */
+    protected function getCurrentState($quoteOrOrder, $paymentMethod)
+    {
+        if ($quoteOrOrder instanceof \Magento\Sales\Model\Order) {
+            $quoteId = $quoteOrOrder->getQuoteId();
+            $currency = $quoteOrOrder->getOrderCurrencyCode();
+        } else {
+            $quoteId = $quoteOrOrder->getId();
+            $currency = $quoteOrOrder->getQuoteCurrencyCode();
+        }
+
+        $billingAddress = $quoteOrOrder->getBillingAddress();
+
+        return [
+            'quoteId' => (int)$quoteId,
+            'billingCountry' => $billingAddress ? (string)$billingAddress->getCountryId() : '',
+            'grandTotal' => (int)round((float)$quoteOrOrder->getGrandTotal() * 100),
+            'currency' => (string)$currency,
+            'paymentMethod' => (string)$paymentMethod,
+        ];
+    }
+
+    /**
+     * Saves the current cart state after the SECCI was sent successfully
+     *
+     * @param  CartInterface $quote
+     * @param  string        $paymentMethod
+     * @param  string        $email
+     * @param  string|null   $documentId
+     * @param  bool|null     $directDebit Only used for installments, settlement by direct debit or bank transfer
+     * @return void
+     */
+    public function commit(CartInterface $quote, $paymentMethod, $email, $documentId = null, $directDebit = null)
+    {
+        $state = $this->getCurrentState($quote, $paymentMethod);
+        $state['email'] = $email;
+        $state['documentId'] = $documentId;
+        $state['directDebit'] = $directDebit === null ? null : (bool)$directDebit;
+
+        $this->backendCheckoutSession->setData(self::SESSION_KEY, $state);
+    }
+
+    /**
+     * Checks if the current cart state still matches the state at the time the SECCI was sent
+     *
+     * @param  CartInterface|\Magento\Sales\Model\Order $quoteOrOrder
+     * @param  string                                   $paymentMethod
+     * @param  bool|null                                $directDebit Debit pay type of installments, not checked if null
+     * @return bool
+     */
+    public function isValidFor($quoteOrOrder, $paymentMethod, $directDebit = null)
+    {
+        $state = $this->backendCheckoutSession->getData(self::SESSION_KEY);
+        if (!is_array($state)) {
+            return false;
+        }
+
+        // The SECCI depends on the debit pay type, so it has to be sent again after switching between direct debit and bank transfer
+        $sentDirectDebit = $state['directDebit'] ?? null;
+        if ($directDebit !== null && $sentDirectDebit !== null && (bool)$directDebit !== $sentDirectDebit) {
+            return false;
+        }
+
+        unset($state['email'], $state['documentId'], $state['directDebit']);
+        return $state === $this->getCurrentState($quoteOrOrder, $paymentMethod);
+    }
+
+    /**
+     * Returns the recipient email if the SECCI is still valid for the given cart state
+     *
+     * @param  CartInterface $quote
+     * @param  string        $paymentMethod
+     * @return string|null
+     */
+    public function getSentEmail(CartInterface $quote, $paymentMethod)
+    {
+        if ($this->isValidFor($quote, $paymentMethod) === false) {
+            return null;
+        }
+        return $this->backendCheckoutSession->getData(self::SESSION_KEY)['email'] ?? null;
+    }
+
+    /**
+     * Returns the document id of the sent SECCI if the SECCI is still valid for the given cart state
+     *
+     * @param  CartInterface $quote
+     * @param  string        $paymentMethod
+     * @return string|null
+     */
+    public function getSentDocumentId(CartInterface $quote, $paymentMethod)
+    {
+        if ($this->isValidFor($quote, $paymentMethod) === false) {
+            return null;
+        }
+        return $this->backendCheckoutSession->getData(self::SESSION_KEY)['documentId'] ?? null;
+    }
+
+    /**
+     * Returns the debit pay type of the sent SECCI if the SECCI is still valid for the given cart state
+     *
+     * @param  CartInterface $quote
+     * @param  string        $paymentMethod
+     * @return bool|null
+     */
+    public function getSentDirectDebit(CartInterface $quote, $paymentMethod)
+    {
+        if ($this->isValidFor($quote, $paymentMethod) === false) {
+            return null;
+        }
+        return $this->backendCheckoutSession->getData(self::SESSION_KEY)['directDebit'] ?? null;
+    }
+
+    /**
+     * @return void
+     */
+    public function clear()
+    {
+        $this->backendCheckoutSession->unsetData(self::SESSION_KEY);
+    }
+}

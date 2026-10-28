@@ -82,6 +82,19 @@ class Installment extends Base
     }
 
     /**
+     * The runtime selection is hidden if only one runtime is available, see hasSingleAllowedMonth in the frontend installment.js
+     *
+     * @return bool
+     */
+    public function hasSingleAllowedMonth()
+    {
+        if (count($this->getAllowedMonths()) === 1) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * @return string
      */
     public function getRestUrl()

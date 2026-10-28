@@ -89,6 +89,9 @@ class ProfileConfiguration extends \Magento\Framework\Model\ResourceModel\Db\Abs
         $aReturnData['delivery_address_elv']                = $this->getDataFromResponse($aProfileConfigResponse, 'delivery-address-elv', 'merchantConfig', '', true);
         $aReturnData['delivery_address_prepayment']         = $this->getDataFromResponse($aProfileConfigResponse, 'delivery-address-prepayment', 'merchantConfig', '', true);
         $aReturnData['delivery_address_PQ_full']            = $this->getDataFromResponse($aProfileConfigResponse, 'delivery-address-PQ-full', 'merchantConfig', '', true);
+        $aReturnData['secci_enabled_invoice']               = $this->getDataFromResponse($aProfileConfigResponse, 'secci-enabled-invoice', 'merchantConfig', '', true);
+        $aReturnData['secci_enabled_installment']           = $this->getDataFromResponse($aProfileConfigResponse, 'secci-enabled-installment', 'merchantConfig', '', true);
+        $aReturnData['secci_enabled_elv']                   = $this->getDataFromResponse($aProfileConfigResponse, 'secci-enabled-directdebit', 'merchantConfig', '', true);
         $aReturnData['country_code_billing']                = $this->getDataFromResponse($aProfileConfigResponse, 'country-code-billing', 'merchantConfig');
         $aReturnData['country_code_delivery']               = $this->getDataFromResponse($aProfileConfigResponse, 'country-code-delivery', 'merchantConfig');
         $aReturnData['interestrate_min']                    = $this->getDataFromResponse($aProfileConfigResponse, 'interestrate-min', 'installmentConfig');

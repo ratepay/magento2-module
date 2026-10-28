@@ -23,6 +23,9 @@ var config = {
             'Magento_Ui/js/view/messages': {
                 'RatePAY_Payment/js/view/messages-mixin': true
             },
+            'Magento_Checkout/js/model/checkout-data-resolver': {
+                'RatePAY_Payment/js/view/checkout-data-resolver-mixin': true
+            }
         }
     }
 };
