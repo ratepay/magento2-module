@@ -16,10 +16,33 @@ define([
     'RatePAY_Payment/js/model/secci-state'
 ], function ($, urlBuilder, storage, customer, quote, secciState) {
     'use strict';
+
+    // Only Safari on iOS / iPadOS, other iOS browsers (Chrome, Firefox, Edge, Opera) download the PDF correctly
+    // iPadOS reports itself as MacIntel, but has touch points
+    function isIosSafari() {
+        var userAgent = navigator.userAgent;
+        var isIos = /iPad|iPhone|iPod/.test(userAgent)
+            || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+        return isIos
+            && /Version\/[\d.]+.*Safari\//.test(userAgent)
+            && !/CriOS|FxiOS|EdgiOS|OPiOS|OPT\//.test(userAgent);
+    }
+
     return function (method, params) {
         var serviceUrl;
         var deferred = $.Deferred();
         var paymentMethod = quote.paymentMethod();
+        // Safari on iOS ignores the download attribute and opens the PDF in the current tab, which leaves the checkout.
+        // The new tab has to be opened directly in the click handler, otherwise it is blocked as a popup
+        var pdfWindow = (method === 'pdf' && isIosSafari()) ? window.open('', '_blank') : null;
+        // Closes the previously opened tab if no PDF was received
+        var closePdfWindow = function () {
+            if (pdfWindow) {
+                pdfWindow.close();
+                pdfWindow = null;
+            }
+        };
 
         var request = {
             method: method,
@@ -57,17 +80,25 @@ define([
                         }
 
                         url = URL.createObjectURL(new Blob([bytes], {type: 'application/pdf'}));
-                        link = document.createElement('a');
-                        link.href = url;
-                        link.download = response.filename + '.pdf';
-                        document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
-                        setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+                        if (pdfWindow) {
+                            // Not revoked, the PDF tab still needs the URL (e.g. for sharing / saving), it is released when the checkout is left
+                            pdfWindow.location.href = url;
+                            pdfWindow = null;
+                        } else {
+                            link = document.createElement('a');
+                            link.href = url;
+                            link.download = response.filename + '.pdf';
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                            setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+                        }
                     }
+                    closePdfWindow();
                     deferred.resolve(response);
                 } else {
                     console.log("ERROR", response);
+                    closePdfWindow();
                     secciState.reset();
                     deferred.reject(response.errormessage || '');
                 }
@@ -75,6 +106,7 @@ define([
         ).fail(
             function (response) {
                 console.log("ERROR", response);
+                closePdfWindow();
                 secciState.reset();
                 deferred.reject(response.responseJSON && response.responseJSON.message ? response.responseJSON.message : '');
             }
