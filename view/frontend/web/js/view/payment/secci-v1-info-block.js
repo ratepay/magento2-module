@@ -53,7 +53,7 @@ define([
 
                 // Same check as base.js isSecciEnabled, including the countries of the matching profile
                 return methods.filter(function (item) {
-                    var config = window.checkoutConfig?.payment?.[item.method];
+                    var config = configState.getMethodConfig(item.method);
 
                     return item.method.indexOf('ratepay_') === 0
                         && config?.secciActive === true

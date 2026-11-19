@@ -14,7 +14,6 @@ define(
         'Magento_Checkout/js/model/url-builder',
         'Magento_Checkout/js/checkout-data',
         'Magento_Checkout/js/model/payment/method-list',
-        'RatePAY_Payment/js/action/update-checkout-config',
         'RatePAY_Payment/js/action/dfp-sent',
         'RatePAY_Payment/js/action/trigger-secci',
         'RatePAY_Payment/js/model/config-state',
@@ -23,7 +22,7 @@ define(
         'RatePAY_Payment/js/model/profile-country',
         'mage/translate'
     ],
-    function (Component, $, quote, customer, urlBuilder, checkoutData, methodList, updateCheckoutConfig, markDfpAsSent, triggerSecci, configState, secciState, secciInmethodMixin, profileCountry, $t) {
+    function (Component, $, quote, customer, urlBuilder, checkoutData, methodList, markDfpAsSent, triggerSecci, configState, secciState, secciInmethodMixin, profileCountry, $t) {
         'use strict';
 
         // Payment method for which a SECCI email (variant 1) is currently being requested
@@ -35,23 +34,10 @@ define(
 
 
             getPaymentConfig: function () {
-                if (window.checkoutConfig.payment[this.getCode()] !== undefined) {
-                    return window.checkoutConfig.payment[this.getCode()];
-                }
-                if (window.checkoutConfig.payment.ratepayConfigRefreshed === undefined) {
-                    var data = updateCheckoutConfig(quote.getQuoteId());
-                    window.checkoutConfig.payment.ratepayConfigRefreshed = true;
-                    if (data.responseJSON !== undefined) {
-                        data = data.responseJSON;
-                    }
-                    if (data.success !== undefined && data.success === true && data.checkout_config !== undefined) {
-                        try {
-                            this.updatePaymentConfig(JSON.parse(data.checkout_config));
-                            return this.getPaymentConfig();
-                        } catch (e) {
-                            // response stays false
-                        }
-                    }
+                var config = configState.getMethodConfig(this.getCode());
+
+                if (config !== undefined) {
+                    return config;
                 }
                 return false;
             },
@@ -149,14 +135,6 @@ define(
                 let parentReturn = this._super();
                 this.handleSecciBehaviour();
                 return parentReturn;
-            },
-            updatePaymentConfig: function (newPaymentConfig) {
-                $.each(newPaymentConfig, function( index, value ) {
-                    if (window.checkoutConfig.payment[index] === undefined) {
-                        window.checkoutConfig.payment[index] = value;
-                    }
-                });
-                configState.notifyUpdated();
             },
             validate: function () {
                 var blParentReturn = this._super();
