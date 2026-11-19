@@ -150,6 +150,14 @@ class Secci extends \Magento\Framework\App\Helper\AbstractHelper
         // Only one SECCI is valid at a time, so a failed request (or exception) also invalidates the SECCI of the previous payment method
         $this->secciAttestationState->clear();
 
+        // The shipping rates and totals are collected again when the order is placed (see PaymentMethodManagement::set()
+        // and QuoteManagement::placeOrder()), so the basket of the payment request contains e.g. the shipping description
+        // of the current shipping rates. They are collected the same way here, otherwise the SECCI basket would contain
+        // the values last saved in the quote and wouldn't match the basket of the payment request
+        $quote->getShippingAddress()->setCollectShippingRates(true);
+        $quote->setTotalsCollectedFlag(false);
+        $quote->collectTotals();
+
         $this->ensureInstallmentSessionParams($quote, $paymentMethod);
 
         $aSecciParams['Secci'] = $this->rpContentSecciHelper->setSecci($quote, $deliveryMethod, $email);
