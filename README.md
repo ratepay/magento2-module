@@ -4,7 +4,7 @@
 |Repository | Ratepay Module for Magento 2
 |------|----------
 |Author | Robert Müller
-|Module-Version | `3.0.0`
+|Module-Version | `3.0.1`
 |Compatibility | Magento 2.3.0 - 2.4.x
 |Link | http://www.ratepay.com
 |Mail | integration@ratepay.com
@@ -22,6 +22,9 @@ php bin/magento cache:flush
 ````
 
 ## Changelog
+
+### Version 3.0.1 - Released 2026-11-19
+* Fixed CCD2 handling after address change and SECCI basket mismatch
 
 ### Version 3.0.0 - Released 2026-10-29
 * Added CCD2 compliance
