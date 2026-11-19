@@ -14,7 +14,7 @@ define(
         'Magento_Checkout/js/model/url-builder',
         'Magento_Checkout/js/checkout-data',
         'Magento_Checkout/js/model/payment/method-list',
-        'RatePAY_Payment/js/action/update-checkout-config',
+        'Magento_Checkout/js/action/select-payment-method',
         'RatePAY_Payment/js/action/dfp-sent',
         'RatePAY_Payment/js/action/trigger-secci',
         'RatePAY_Payment/js/model/config-state',
@@ -23,7 +23,7 @@ define(
         'RatePAY_Payment/js/model/profile-country',
         'mage/translate'
     ],
-    function (Component, $, quote, customer, urlBuilder, checkoutData, methodList, updateCheckoutConfig, markDfpAsSent, triggerSecci, configState, secciState, secciInmethodMixin, profileCountry, $t) {
+    function (Component, $, quote, customer, urlBuilder, checkoutData, methodList, selectPaymentMethodAction, markDfpAsSent, triggerSecci, configState, secciState, secciInmethodMixin, profileCountry, $t) {
         'use strict';
 
         // Payment method for which a SECCI email (variant 1) is currently being requested
@@ -35,23 +35,10 @@ define(
 
 
             getPaymentConfig: function () {
-                if (window.checkoutConfig.payment[this.getCode()] !== undefined) {
-                    return window.checkoutConfig.payment[this.getCode()];
-                }
-                if (window.checkoutConfig.payment.ratepayConfigRefreshed === undefined) {
-                    var data = updateCheckoutConfig(quote.getQuoteId());
-                    window.checkoutConfig.payment.ratepayConfigRefreshed = true;
-                    if (data.responseJSON !== undefined) {
-                        data = data.responseJSON;
-                    }
-                    if (data.success !== undefined && data.success === true && data.checkout_config !== undefined) {
-                        try {
-                            this.updatePaymentConfig(JSON.parse(data.checkout_config));
-                            return this.getPaymentConfig();
-                        } catch (e) {
-                            // response stays false
-                        }
-                    }
+                var config = configState.getMethodConfig(this.getCode());
+
+                if (config !== undefined) {
+                    return config;
                 }
                 return false;
             },
@@ -89,11 +76,17 @@ define(
                 // when a SECCI is created for another payment method or other params
                 secciState.commitVersion.subscribe(this.resetInvalidSecciV2Done, this);
 
-                // The payment methods are reloaded after the billing address was saved. If the SECCI state was reset
-                // in the meantime, the SECCI email (variant 1) is sent again for the currently selected payment method
+                // The payment methods are reloaded after the addresses were saved. The matching profile may require a
+                // SECCI (variant 1) now that wasn't created yet, e.g. after changing the billing country. The SECCI email
+                // is only sent when the customer selects the payment method, so the preselected payment method is
+                // deselected, like on loading the checkout (see checkout-data-resolver-mixin)
                 methodList.subscribe(function () {
-                    if (this.isChecked() === this.getCode()) {
-                        this.handleSecciBehaviour();
+                    if (this.isChecked() === this.getCode()
+                        && this.isSecciV1Active() === true
+                        && secciState.isCreatedFor(this.getCode(), this.getSecciParams()) === false
+                    ) {
+                        selectPaymentMethodAction(null);
+                        checkoutData.setSelectedPaymentMethod(null);
                     }
                 }, this);
 
@@ -149,14 +142,6 @@ define(
                 let parentReturn = this._super();
                 this.handleSecciBehaviour();
                 return parentReturn;
-            },
-            updatePaymentConfig: function (newPaymentConfig) {
-                $.each(newPaymentConfig, function( index, value ) {
-                    if (window.checkoutConfig.payment[index] === undefined) {
-                        window.checkoutConfig.payment[index] = value;
-                    }
-                });
-                configState.notifyUpdated();
             },
             validate: function () {
                 var blParentReturn = this._super();
