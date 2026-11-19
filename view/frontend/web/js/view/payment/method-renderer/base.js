@@ -14,6 +14,7 @@ define(
         'Magento_Checkout/js/model/url-builder',
         'Magento_Checkout/js/checkout-data',
         'Magento_Checkout/js/model/payment/method-list',
+        'Magento_Checkout/js/action/select-payment-method',
         'RatePAY_Payment/js/action/dfp-sent',
         'RatePAY_Payment/js/action/trigger-secci',
         'RatePAY_Payment/js/model/config-state',
@@ -22,7 +23,7 @@ define(
         'RatePAY_Payment/js/model/profile-country',
         'mage/translate'
     ],
-    function (Component, $, quote, customer, urlBuilder, checkoutData, methodList, markDfpAsSent, triggerSecci, configState, secciState, secciInmethodMixin, profileCountry, $t) {
+    function (Component, $, quote, customer, urlBuilder, checkoutData, methodList, selectPaymentMethodAction, markDfpAsSent, triggerSecci, configState, secciState, secciInmethodMixin, profileCountry, $t) {
         'use strict';
 
         // Payment method for which a SECCI email (variant 1) is currently being requested
@@ -75,11 +76,17 @@ define(
                 // when a SECCI is created for another payment method or other params
                 secciState.commitVersion.subscribe(this.resetInvalidSecciV2Done, this);
 
-                // The payment methods are reloaded after the billing address was saved. If the SECCI state was reset
-                // in the meantime, the SECCI email (variant 1) is sent again for the currently selected payment method
+                // The payment methods are reloaded after the addresses were saved. The matching profile may require a
+                // SECCI (variant 1) now that wasn't created yet, e.g. after changing the billing country. The SECCI email
+                // is only sent when the customer selects the payment method, so the preselected payment method is
+                // deselected, like on loading the checkout (see checkout-data-resolver-mixin)
                 methodList.subscribe(function () {
-                    if (this.isChecked() === this.getCode()) {
-                        this.handleSecciBehaviour();
+                    if (this.isChecked() === this.getCode()
+                        && this.isSecciV1Active() === true
+                        && secciState.isCreatedFor(this.getCode(), this.getSecciParams()) === false
+                    ) {
+                        selectPaymentMethodAction(null);
+                        checkoutData.setSelectedPaymentMethod(null);
                     }
                 }, this);
 
