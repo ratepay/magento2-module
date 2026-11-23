@@ -81,6 +81,7 @@ class AddOrderStatusColumns implements SchemaPatchInterface
         }
 
         $this->schemaSetup->endSetup();
+        return $this;
     }
 
     /**

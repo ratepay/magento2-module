@@ -74,6 +74,7 @@ class UpdateOldOrderPaymentMethods implements DataPatchInterface
         $this->updateOldOrderPaymentMethods();
 
         $this->moduleDataSetup->getConnection()->endSetup();
+        return $this;
     }
 
     /**
