@@ -70,12 +70,9 @@ class SerializableRequest extends DataObject
     protected function getFormattedXml(\SimpleXMLElement $xml)
     {
         $dom = dom_import_simplexml($xml);
-        if (!empty($dom)) {
-            $dom = $dom->ownerDocument;
-            $dom->formatOutput = true;
-            return $dom->saveXML();
-        }
-        return 'XML error';
+        $dom = $dom->ownerDocument;
+        $dom->formatOutput = true;
+        return $dom->saveXML();
     }
 
     /**
