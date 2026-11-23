@@ -14,3 +14,15 @@ parameters:
         -
             message: '#^Attribute class PHPUnit\\Framework\\Attributes\\\w+ does not exist\.$#'
             path: Test/*
+        -
+            message: '#^Variable \$installmentConfiguration might not be defined\.$#'
+            path: Controller/LibraryController.php
+        -
+            message: '#^Variable \$(text|color) might not be defined\.$#'
+            path: Block/System/Config/Label/Active.php
+        -
+            message: '#^Constructor of class RatePAY\\Payment\\Model\\Session has an unused parameter \$httpContext\.$#'
+            path: Model/Session.php
+        -
+            message: '#^Constructor of class RatePAY\\Payment\\Model\\Session\\Storage has an unused parameter \$storeManager\.$#'
+            path: Model/Session/Storage.php
