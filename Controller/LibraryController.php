@@ -129,7 +129,7 @@ class LibraryController
      * @param $sandbox
      * @param $orderAmount
      * @param null $template
-     * @return string
+     * @return string|null
      */
     public static function getInstallmentConfiguration($profileId, $securityCode, $sandbox, $orderAmount, $template = null)
     {
@@ -137,6 +137,7 @@ class LibraryController
         $ib->setProfileId($profileId);
         $ib->setSecuritycode($securityCode);
 
+        $installmentConfiguration = null;
         try {
             if (is_null($template)) {
                 $installmentConfiguration = $ib->getInstallmentConfigAsJson($orderAmount);
