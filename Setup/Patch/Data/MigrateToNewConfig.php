@@ -218,6 +218,7 @@ class MigrateToNewConfig implements DataPatchInterface
         $this->migrateToNewConfig();
 
         $this->moduleDataSetup->getConnection()->endSetup();
+        return $this;
     }
 
     /**

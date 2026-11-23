@@ -9,6 +9,9 @@
 
 namespace RatePAY\Payment\Block\Adminhtml\Protocol\ApiLog;
 
+use Magento\Framework\App\ObjectManager;
+use RatePAY\Payment\Model\ResourceModel\ApiLog as ApiLogResource;
+
 class View extends \Magento\Backend\Block\Widget\Container
 {
     /**
@@ -26,6 +29,11 @@ class View extends \Magento\Backend\Block\Widget\Container
     protected $apiLogFactory;
 
     /**
+     * @var ApiLogResource
+     */
+    protected $apiLogResource;
+
+    /**
      * @var \RatePAY\Payment\Helper\Script
      */
     protected $scriptHelper;
@@ -37,15 +45,18 @@ class View extends \Magento\Backend\Block\Widget\Container
      * @param \RatePAY\Payment\Model\Entities\ApiLogFactory $apiLogFactory
      * @param \RatePAY\Payment\Helper\Script $scriptHelper
      * @param array $data
+     * @param ApiLogResource|null $apiLogResource
      */
     public function __construct(
         \Magento\Backend\Block\Widget\Context $context,
         \RatePAY\Payment\Model\Entities\ApiLogFactory $apiLogFactory,
         \RatePAY\Payment\Helper\Script $scriptHelper,
-        array $data = []
+        array $data = [],
+        ?ApiLogResource $apiLogResource = null
     ) {
         parent::__construct($context, $data);
         $this->apiLogFactory = $apiLogFactory;
+        $this->apiLogResource = $apiLogResource ?: ObjectManager::getInstance()->get(ApiLogResource::class);
         $this->scriptHelper = $scriptHelper;
     }
 
@@ -66,7 +77,7 @@ class View extends \Magento\Backend\Block\Widget\Container
     {
         if ($this->apiLog === null) {
             $apiLog = $this->apiLogFactory->create();
-            $apiLog->load($this->getRequest()->getParam('id'));
+            $this->apiLogResource->load($apiLog, $this->getRequest()->getParam('id'));
             $this->apiLog = $apiLog;
         }
         return $this->apiLog;
