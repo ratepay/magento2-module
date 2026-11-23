@@ -9,6 +9,7 @@
 
 namespace RatePAY\Payment\Block\Adminhtml\Protocol\ApiLog;
 
+use Magento\Framework\App\ObjectManager;
 use RatePAY\Payment\Model\ResourceModel\ApiLog as ApiLogResource;
 
 class View extends \Magento\Backend\Block\Widget\Container
@@ -43,19 +44,19 @@ class View extends \Magento\Backend\Block\Widget\Container
      * @param \Magento\Backend\Block\Widget\Context $context
      * @param \RatePAY\Payment\Model\Entities\ApiLogFactory $apiLogFactory
      * @param \RatePAY\Payment\Helper\Script $scriptHelper
-     * @param ApiLogResource $apiLogResource
      * @param array $data
+     * @param ApiLogResource|null $apiLogResource
      */
     public function __construct(
         \Magento\Backend\Block\Widget\Context $context,
         \RatePAY\Payment\Model\Entities\ApiLogFactory $apiLogFactory,
         \RatePAY\Payment\Helper\Script $scriptHelper,
-        ApiLogResource $apiLogResource,
-        array $data = []
+        array $data = [],
+        ?ApiLogResource $apiLogResource = null
     ) {
         parent::__construct($context, $data);
         $this->apiLogFactory = $apiLogFactory;
-        $this->apiLogResource = $apiLogResource;
+        $this->apiLogResource = $apiLogResource ?: ObjectManager::getInstance()->get(ApiLogResource::class);
         $this->scriptHelper = $scriptHelper;
     }
 
