@@ -50,7 +50,7 @@ class Active extends Field
                 $text = 'Phased out';
                 $color = 'Orange';
                 break;
-            case null:
+            default:
                 $text = '';
                 $color = 'White';
                 break;
