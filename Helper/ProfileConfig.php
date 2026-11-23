@@ -177,7 +177,7 @@ class ProfileConfig extends \Magento\Framework\App\Helper\AbstractHelper
         $aProfiles = [];
         foreach ($aProfileData as $aProfile) {
             $oProfileConfig = $this->profileConfigFactory->create();
-            $oProfileConfig->load($aProfile['profileId']);
+            $this->profileConfigResource->load($oProfileConfig, $aProfile['profileId']);
             if (!empty($oProfileConfig->getData('profile_id'))) {
                 $aProfiles[] = $oProfileConfig;
             }
@@ -203,7 +203,7 @@ class ProfileConfig extends \Magento\Framework\App\Helper\AbstractHelper
         foreach ($aProfileData as $aProfile) {
             /** @var ProfileConfiguration $oProfileConfig */
             $oProfileConfig = $this->profileConfigFactory->create();
-            $oProfileConfig->load($aProfile['profileId']);
+            $this->profileConfigResource->load($oProfileConfig, $aProfile['profileId']);
             $oProfileConfig->setSandboxMode((bool)$aProfile['sandbox']);
             $oProfileConfig->setSecurityCode($aProfile['securityCode']);
             if ($oProfileConfig->isApplicableForQuote($oQuote, $sMethodCode, $dGrandTotal, $sBillingCountryId, $sShippingCountryId, $sCurrency) === true) {
@@ -233,7 +233,7 @@ class ProfileConfig extends \Magento\Framework\App\Helper\AbstractHelper
         foreach ($aProfileData as $aProfile) {
             /** @var ProfileConfiguration $oProfileConfig */
             $oProfileConfig = $this->profileConfigFactory->create();
-            $oProfileConfig->load($aProfile['profileId']);
+            $this->profileConfigResource->load($oProfileConfig, $aProfile['profileId']);
             $oProfileConfig->setSandboxMode((bool)$aProfile['sandbox']);
             $oProfileConfig->setSecurityCode($aProfile['securityCode']);
             if ($oProfileConfig->isApplicableForQuote($oQuote, $sMethodCode, $dGrandTotal, $sBillingCountryId, $sShippingCountryId, $sCurrency) === true) {
