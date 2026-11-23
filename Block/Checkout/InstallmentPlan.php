@@ -30,9 +30,9 @@ class InstallmentPlan extends \Magento\Framework\View\Element\Template
         \Magento\Framework\View\Asset\Repository $assetRepo,
         array $data = []
     ) {
+        $data['template'] = 'checkout/installment_plan.phtml';
         parent::__construct($context, $data);
         $this->assetRepo = $assetRepo;
-        $this->setTemplate('checkout/installment_plan.phtml');
     }
 
     /**
